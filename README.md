@@ -34,7 +34,7 @@ A modern, opinionated blog starter with Gatsby, TypeScript, and Chakra UI. Featu
 1. **Clone the repository**
 
    ```shell
-   git clone https://github.com/yourusername/gatsby-typescript-chakraui.git
+   git clone https://github.com/cloudy-native/gatsby-typescript-chakraui.git
    ```
 
 2. **Install dependencies**
