@@ -13,7 +13,13 @@ import {
   Avatar,
   Flex,
 } from "@chakra-ui/react";
-import { HeadFC, PageProps, Link as GatsbyLink, graphql, useStaticQuery } from "gatsby";
+import {
+  HeadFC,
+  PageProps,
+  Link as GatsbyLink,
+  graphql,
+  useStaticQuery,
+} from "gatsby";
 import * as React from "react";
 
 const BlogHero = () => {
@@ -52,7 +58,8 @@ const BlogHero = () => {
           mx="auto"
           lineHeight="1.8"
         >
-          Articles, tutorials, and updates about Gatsby, TypeScript, and Chakra UI development.
+          Articles, tutorials, and updates about Gatsby, TypeScript, and Chakra
+          UI development.
         </Text>
       </Stack>
     </Box>
@@ -85,7 +92,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const textColor = useColorModeValue("gray.700", "gray.300");
   const tagBg = useColorModeValue("blue.50", "blue.900");
-  
+
   return (
     <Box
       as={GatsbyLink}
@@ -120,16 +127,16 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
             Featured
           </Tag>
         )}
-        
+
         <VStack align="start" spacing={4}>
           <Heading as="h3" fontSize="xl" lineHeight="tight">
             {title}
           </Heading>
-          
+
           <Text color={textColor} noOfLines={3}>
             {excerpt}
           </Text>
-          
+
           <HStack spacing={2} mt={2} wrap="wrap">
             {tags.map((tag) => (
               <Tag key={tag} size="sm" bg={tagBg} my={1}>
@@ -137,13 +144,18 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
               </Tag>
             ))}
           </HStack>
-          
+
           <Flex justify="space-between" align="center" w="full" mt={2}>
             <HStack>
               <Avatar name={author.name} src={author.avatar} size="xs" />
-              <Text fontSize="sm" fontWeight="medium">{author.name}</Text>
+              <Text fontSize="sm" fontWeight="medium">
+                {author.name}
+              </Text>
             </HStack>
-            <Text fontSize="sm" color={useColorModeValue("gray.500", "gray.400")}>
+            <Text
+              fontSize="sm"
+              color={useColorModeValue("gray.500", "gray.400")}
+            >
               {date}
             </Text>
           </Flex>
@@ -158,7 +170,7 @@ const BlogPage: React.FC<PageProps> = () => {
   const data = useStaticQuery(graphql`
     query BlogPostsQuery {
       allMarkdownRemark(
-        sort: { fields: [frontmatter___date], order: DESC }
+        sort: { frontmatter: { date: DESC } }
         filter: { fileAbsolutePath: { regex: "/content/blog/" } }
       ) {
         nodes {
@@ -179,7 +191,7 @@ const BlogPage: React.FC<PageProps> = () => {
     }
   `);
 
-  const posts = data.allMarkdownRemark.nodes.map(node => ({
+  const posts = data.allMarkdownRemark.nodes.map((node) => ({
     title: node.frontmatter.title,
     excerpt: node.frontmatter.description || node.excerpt,
     date: new Date(node.frontmatter.date).toLocaleDateString("en-US", {
@@ -195,15 +207,17 @@ const BlogPage: React.FC<PageProps> = () => {
     // You could determine featured posts based on some criteria
     isFeatured: node.frontmatter.tags?.includes("Tutorial") || false,
   }));
-  
+
   return (
     <>
       <BlogHero />
-      
+
       <Container maxW="6xl" py={12}>
         <VStack spacing={10} align="stretch">
           {posts.length === 0 ? (
-            <Text textAlign="center" fontSize="lg">No blog posts found. Check back soon!</Text>
+            <Text textAlign="center" fontSize="lg">
+              No blog posts found. Check back soon!
+            </Text>
           ) : (
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
               {posts.map((post) => (
@@ -219,4 +233,6 @@ const BlogPage: React.FC<PageProps> = () => {
 
 export default BlogPage;
 
-export const Head: HeadFC = () => <title>Blog | Gatsby TypeScript ChakraUI</title>;
+export const Head: HeadFC = () => (
+  <title>Blog | Gatsby TypeScript ChakraUI</title>
+);

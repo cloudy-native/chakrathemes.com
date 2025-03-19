@@ -24,7 +24,6 @@ A modern, opinionated blog starter with Gatsby, TypeScript, and Chakra UI. Featu
 - **Chakra UI** — Beautiful, accessible components with dark mode support
 - **Blog-Focused** — Optimized for beautiful article presentation
 - **Responsive Design** — Mobile-first design that works on all devices
-- **Opinionated Theme** — Clean, elegant typography with Source Sans Pro
 - **System-Aware Dark Mode** — Automatically switches based on user preference
 - **"Buy Me Coffee" Integration** — Support monetization for your content
 - **SEO Optimized** — Meta tags, sitemaps, and robots.txt included
@@ -90,7 +89,6 @@ A modern, opinionated blog starter with Gatsby, TypeScript, and Chakra UI. Featu
 
 This starter uses an opinionated theme with:
 
-- **Typography**: Source Sans Pro for both headings and body text
 - **Color Mode**: System-aware dark mode that respects user preferences
 - **Responsive Design**: Mobile-first approach with adaptive layouts
 
@@ -106,8 +104,6 @@ const theme = extendTheme({
     useSystemColorMode: true,
   },
   fonts: {
-    heading: "'Source Sans Pro', sans-serif",
-    body: "'Source Sans Pro', sans-serif",
   },
   // Add custom colors, spacing, etc.
 });

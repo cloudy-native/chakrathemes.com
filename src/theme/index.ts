@@ -9,10 +9,6 @@ const config: ThemeConfig = {
 // Custom theme definition with jewel tones
 const theme = extendTheme({
   config,
-  fonts: {
-    heading: "'Source Sans Pro', sans-serif",
-    body: "'Source Sans Pro', sans-serif",
-  },
   components: {},
   styles: {},
 });
