@@ -1,4 +1,15 @@
 import type { GatsbyConfig } from "gatsby";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
+
+Object.entries(process.env).forEach(([key, value]) => {
+  console.log(`${key}: ${value}`);
+});
+
+// For client-side access, prefix environment variables with GATSBY_
+process.env.GATSBY_GOOGLE_FONTS_API_KEY = process.env.GOOGLE_FONTS_API_KEY;
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -12,13 +23,7 @@ const config: GatsbyConfig = {
     "gatsby-plugin-sitemap",
     "gatsby-plugin-robots-txt",
     "gatsby-plugin-catch-links",
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `blog`,
-        path: `${__dirname}/content/blog`,
-      },
-    },
+    "gatsby-plugin-tsconfig-paths",
     {
       resolve: `gatsby-source-filesystem`,
       options: {

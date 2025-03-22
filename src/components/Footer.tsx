@@ -106,9 +106,6 @@ const Footer = () => {
 
           <Stack align={"flex-start"}>
             <ListHeader>Resources</ListHeader>
-            <Link as={GatsbyLink} to="/blog">
-              Blog
-            </Link>
             <Link href="https://www.gatsbyjs.com/docs/" isExternal>
               Gatsby Docs
             </Link>
@@ -124,9 +121,6 @@ const Footer = () => {
             <ListHeader>Site</ListHeader>
             <Link as={GatsbyLink} to="/about">
               About
-            </Link>
-            <Link as={GatsbyLink} to="/blog">
-              Blog
             </Link>
             <Link as={GatsbyLink} to="/">
               Home

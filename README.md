@@ -91,6 +91,7 @@ This starter uses an opinionated theme with:
 
 - **Color Mode**: System-aware dark mode that respects user preferences
 - **Responsive Design**: Mobile-first approach with adaptive layouts
+- **Theme Editor**: Interactive tool to customize your theme
 
 ### Customize the Theme
 
@@ -108,6 +109,35 @@ const theme = extendTheme({
   // Add custom colors, spacing, etc.
 });
 ```
+
+### Using the Theme Editor
+
+The theme editor provides an interactive way to customize your Chakra UI theme, including colors, typography, spacing, and more.
+
+1. Access the editor at `/theme-editor`
+2. Use the color pickers or extract colors from images
+3. Customize typography, spacing, and border radius
+4. Preview components with your custom theme
+5. Export the theme configuration code
+
+#### Google Fonts Integration
+
+The theme editor supports Google Fonts integration. To use this feature:
+
+1. Create a `.env` file in the project root (it's already in `.gitignore`)
+2. Add your Google Fonts API key with both variable names:
+   ```
+   # Server-side variable
+   GOOGLE_FONTS_API_KEY=your_api_key_here
+   # Browser-accessible variable (GATSBY_ prefix is required)
+   GATSBY_GOOGLE_FONTS_API_KEY=your_api_key_here
+   ```
+3. Restart the development server
+4. The fonts will automatically load in the Typography tab
+
+> **Note**: You can get a Google Fonts API key from the [Google Cloud Console](https://console.cloud.google.com/apis/credentials). Enable the "Fonts API" in your Google Cloud project.
+>
+> **Important**: In Gatsby, environment variables that need to be accessible in the browser must be prefixed with `GATSBY_`. This is why we need both variables.
 
 ## 📝 Blog Content
 

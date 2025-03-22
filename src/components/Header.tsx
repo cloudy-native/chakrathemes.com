@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import React from "react";
-import BuyMeCoffeeButton from "./BuyMeCoffeeButton";
 
 interface NavItem {
   label: string;
@@ -29,16 +28,8 @@ const NAV_ITEMS: NavItem[] = [
     href: "/",
   },
   {
-    label: "Blog",
-    href: "/blog",
-  },
-  {
     label: "About",
     href: "/about",
-  },
-  {
-    label: "Theme Editor",
-    href: "/theme-editor",
   },
 ];
 

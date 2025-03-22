@@ -3,3 +3,8 @@ node_modules/
 public
 src/gatsby-types.d.ts
 .DS_Store
+
+# Environment variables
+.env
+.env.*
+!.env.example
