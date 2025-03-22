@@ -36,6 +36,10 @@ const NAV_ITEMS: NavItem[] = [
     label: "About",
     href: "/about",
   },
+  {
+    label: "Theme Editor",
+    href: "/theme-editor",
+  },
 ];
 
 const Header = () => {
