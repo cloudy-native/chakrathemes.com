@@ -36,7 +36,7 @@ export const ColorInput: React.FC<ColorInputProps> = ({
         />
         <Popover>
           <PopoverTrigger>
-            <Box w="40px" h="40px" cursor="pointer">
+            <Box w="45px" h="40px" cursor="pointer">
               <ColorTooltip
                 color={value}
                 label={label}
@@ -51,7 +51,7 @@ export const ColorInput: React.FC<ColorInputProps> = ({
                 type="color"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                style={{ width: "100%", height: "40px" }}
+                style={{ width: "100%", height: "30px" }}
               />
             </PopoverBody>
           </PopoverContent>

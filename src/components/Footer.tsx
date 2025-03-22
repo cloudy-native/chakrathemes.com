@@ -59,13 +59,11 @@ const ListHeader = ({ children }: { children: React.ReactNode }) => {
 const Footer = () => {
   const bgColor = useColorModeValue("neutral.50", "neutral.900");
   const borderColor = useColorModeValue("neutral.200", "neutral.700");
-  const textColor = useColorModeValue("neutral.700", "neutral.300");
 
   return (
     <Box
       as="footer"
       bg={bgColor}
-      color={textColor}
       borderTop="1px"
       borderColor={borderColor}
     >
@@ -84,12 +82,11 @@ const Footer = () => {
                 fontSize="xl"
                 color="primary.500"
               >
-                Gatsby TypeScript ChakraUI
+                ChakraUI Themes Editor
               </Text>
             </Box>
             <Text fontSize={"sm"}>
-              A modern Gatsby starter template featuring TypeScript and Chakra UI
-              for building fast, responsive websites with a great developer experience.
+              A simple ChakraUI Themes Editor. 
             </Text>
             <Stack direction={"row"} spacing={4}>
               <SocialButton label={"Twitter"} href={"https://twitter.com"}>
@@ -119,9 +116,6 @@ const Footer = () => {
 
           <Stack align={"flex-start"}>
             <ListHeader>Site</ListHeader>
-            <Link as={GatsbyLink} to="/about">
-              About
-            </Link>
             <Link as={GatsbyLink} to="/">
               Home
             </Link>
@@ -142,7 +136,7 @@ const Footer = () => {
 
       <Box py={4}>
         <Text pt={2} fontSize={"sm"} textAlign={"center"}>
-          © {new Date().getFullYear()} Gatsby TypeScript ChakraUI Starter. All rights reserved.
+          © {new Date().getFullYear()} ChakraUI Themes Editor. All rights reserved.
         </Text>
       </Box>
     </Box>

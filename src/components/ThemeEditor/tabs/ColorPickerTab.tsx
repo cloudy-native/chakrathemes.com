@@ -11,7 +11,7 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ColorInput from "../components/ColorInput";
 import ColorSwatch from "../components/ColorSwatch";
 import PaletteGenerator from "../components/PaletteGenerator";
@@ -53,6 +53,30 @@ export const ColorPickerTab: React.FC<ColorPickerTabProps> = ({
     }
     return {};
   });
+
+  // Track the current input values
+  const [inputValues, setInputValues] = useState<{
+    [key: string]: string;
+  }>(() => {
+    // Initialize with current 500 colors
+    const initialValues: { [key: string]: string } = {};
+    colors.forEach(colorSwatch => {
+      initialValues[colorSwatch.colorKey] = colorSwatch.colorShades["500"] || "#000000";
+    });
+    return initialValues;
+  });
+
+  // Effect to update inputValues when colors change
+  useEffect(() => {
+    const newValues: { [key: string]: string } = {};
+    colors.forEach(colorSwatch => {
+      newValues[colorSwatch.colorKey] = colorSwatch.colorShades["500"] || "#000000";
+    });
+    setInputValues(prevValues => ({
+      ...prevValues,
+      ...newValues
+    }));
+  }, [colors]);
 
   const toggleColorSwatch = (colorKey: string) => {
     setOpenColorSwatches((prev) => ({
@@ -119,36 +143,52 @@ export const ColorPickerTab: React.FC<ColorPickerTabProps> = ({
                   <Input
                     type="text"
                     placeholder="Base color (hex)"
-                    defaultValue={colorSwatch.colorShades["500"] || "#000000"}
-                    id={`base-color-${colorSwatch.colorKey}`}
+                    value={inputValues[colorSwatch.colorKey] || colorSwatch.colorShades["500"] || "#000000"}
+                    onChange={(e) => {
+                      // Update input state
+                      const newColor = e.target.value;
+                      setInputValues(prev => ({
+                        ...prev,
+                        [colorSwatch.colorKey]: newColor
+                      }));
+                      
+                      // Only update the palette if it's a valid hex color
+                      if (newColor.match(/^#([0-9A-F]{3}){1,2}$/i)) {
+                        updateColorPalette(colorSwatch.colorKey, newColor);
+                      }
+                    }}
                   />
-                  <InputRightElement width="2.5rem">
+                  <InputRightElement width="3.5rem">
                     <input
                       type="color"
-                      value={colorSwatch.colorShades["500"] || "#000000"}
+                      value={inputValues[colorSwatch.colorKey] || colorSwatch.colorShades["500"] || "#000000"}
                       onChange={(e) => {
-                        const input = document.getElementById(
-                          `base-color-${colorSwatch.colorKey}`
-                        ) as HTMLInputElement;
-                        if (input) input.value = e.target.value;
+                        const newColor = e.target.value;
+                        
+                        // Update the state with the new color
+                        setInputValues(prev => ({
+                          ...prev,
+                          [colorSwatch.colorKey]: newColor
+                        }));
+                        
+                        // Immediately update the palette with the new color
+                        updateColorPalette(colorSwatch.colorKey, newColor);
                       }}
-                      style={{ width: "20px", height: "20px" }}
+                      style={{ width: "30px", height: "30px" }}
                     />
                   </InputRightElement>
                 </InputGroup>
-                <Button
+                {/* <Button
                   size="sm"
                   colorScheme="blue"
                   onClick={() => {
-                    const input = document.getElementById(
-                      `base-color-${colorSwatch.colorKey}`
-                    ) as HTMLInputElement;
-                    if (input)
-                      updateColorPalette(colorSwatch.colorKey, input.value);
+                    const colorValue = inputValues[colorSwatch.colorKey] || colorSwatch.colorShades["500"] || "#000000";
+                    updateColorPalette(colorSwatch.colorKey, colorValue);
                   }}
+                  title="Generate a palette from the base color"
                 >
-                  Generate
-                </Button>
+                  Apply Color
+                </Button> */}
               </HStack>
             </Box>
 

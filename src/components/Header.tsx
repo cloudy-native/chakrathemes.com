@@ -5,6 +5,7 @@ import {
   Collapse,
   Container,
   Flex,
+  HStack,
   IconButton,
   Link,
   Stack,
@@ -26,10 +27,6 @@ const NAV_ITEMS: NavItem[] = [
   {
     label: "Home",
     href: "/",
-  },
-  {
-    label: "About",
-    href: "/about",
   },
 ];
 
@@ -53,20 +50,56 @@ const Header = () => {
       borderBottom="1px"
       borderColor={borderColor}
       boxShadow="sm"
-      backdropFilter="none"
     >
       <Container maxW="container.xl" px={4}>
-        <Flex
-          minH={"60px"}
-          py={{ base: 2 }}
-          align={"center"}
-          justify="space-between"
-        >
-          <Flex
-            flex={{ base: 1, md: "auto" }}
-            ml={{ base: -2 }}
-            display={{ base: "flex", md: "none" }}
+        <Flex h="16" alignItems="center" justifyContent="space-between">
+          {/* Logo */}
+          <Text
+            as={GatsbyLink}
+            to="/"
+            fontFamily="heading"
+            fontWeight="bold"
+            fontSize="xl"
+            color="primary.500"
+            _hover={{
+              textDecoration: "none",
+              color: "primary.600",
+            }}
           >
+            chakratheme.com
+          </Text>
+
+          {/* Desktop Navigation */}
+          <HStack spacing={8} display={{ base: "none", md: "flex" }}>
+            <HStack as="nav" spacing={6}>
+              {NAV_ITEMS.map((navItem) => (
+                <Link
+                  key={navItem.label}
+                  as={!navItem.isExternal ? GatsbyLink : undefined}
+                  to={!navItem.isExternal ? navItem.href : undefined}
+                  href={navItem.isExternal ? navItem.href : undefined}
+                  fontSize="md"
+                  fontWeight={500}
+                  color={textColor}
+                  _hover={{
+                    textDecoration: "none",
+                    color: "primary.500",
+                  }}
+                >
+                  {navItem.label}
+                </Link>
+              ))}
+            </HStack>
+            <IconButton
+              aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
+              variant="ghost"
+              icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+              onClick={toggleColorMode}
+            />
+          </HStack>
+
+          {/* Mobile Navigation Toggle */}
+          <Flex display={{ base: "flex", md: "none" }}>
             <IconButton
               onClick={onToggle}
               icon={
@@ -76,69 +109,16 @@ const Header = () => {
                   <HamburgerIcon w={5} h={5} />
                 )
               }
-              variant={"ghost"}
-              aria-label={"Toggle Navigation"}
-            />
-          </Flex>
-
-          <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-            <Text
-              as={GatsbyLink}
-              to="/"
-              textAlign={{ base: "center", md: "left" }}
-              fontFamily={"heading"}
-              fontWeight="bold"
-              fontSize="xl"
-              color="primary.500"
-              _hover={{
-                textDecoration: "none",
-                color: "primary.600",
-              }}
-            >
-              Gatsby TypeScript ChakraUI
-            </Text>
-
-            <Flex display={{ base: "none", md: "flex" }} ml={10}>
-              <Stack direction={"row"} spacing={6} align="center">
-                {NAV_ITEMS.map((navItem) => (
-                  <Link
-                    key={navItem.label}
-                    as={!navItem.isExternal ? GatsbyLink : undefined}
-                    to={!navItem.isExternal ? navItem.href : undefined}
-                    href={navItem.isExternal ? navItem.href : undefined}
-                    fontSize={"md"}
-                    fontWeight={500}
-                    color={textColor}
-                    _hover={{
-                      textDecoration: "none",
-                      color: "primary.500",
-                    }}
-                  >
-                    {navItem.label}
-                  </Link>
-                ))}
-              </Stack>
-            </Flex>
-          </Flex>
-
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={"flex-end"}
-            direction={"row"}
-            spacing={6}
-          >
-            <IconButton
-              aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
               variant="ghost"
-              icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-              onClick={toggleColorMode}
+              aria-label="Toggle Navigation"
             />
-          </Stack>
+          </Flex>
         </Flex>
 
+        {/* Mobile Navigation Menu */}
         <Collapse in={isOpen} animateOpacity>
           <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
+            <Stack as="nav" spacing={4} pt={2}>
               {NAV_ITEMS.map((navItem) => (
                 <Link
                   key={navItem.label}
@@ -157,15 +137,14 @@ const Header = () => {
                 </Link>
               ))}
               <Button
-                as={GatsbyLink}
-                to="/contact"
-                w="full"
-                fontSize={"sm"}
-                fontWeight={600}
-                colorScheme="primary"
-                variant="solid"
+                size="sm"
+                leftIcon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                onClick={toggleColorMode}
+                variant="outline"
+                justifyContent="flex-start"
+                width="fit-content"
               >
-                Get Started
+                Switch to {colorMode === "light" ? "Dark" : "Light"} Mode
               </Button>
             </Stack>
           </Box>

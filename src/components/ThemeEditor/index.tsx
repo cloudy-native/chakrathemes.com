@@ -22,7 +22,6 @@ import TypographyTab from './tabs/TypographyTab';
 import SpacingTab from './tabs/SpacingTab';
 import BorderRadiusTab from './tabs/BorderRadiusTab';
 import ComponentsPreviewTab from './tabs/ComponentsPreviewTab';
-import ThemeCodeTab from './tabs/ThemeCodeTab';
 
 // Default theme structure
 const defaultTheme: ThemeValues = {
@@ -169,6 +168,8 @@ export const ThemeEditor: React.FC = () => {
     handleFontChange,
     handleFontSizeChange,
     handleFontWeightChange,
+    handleLetterSpacingChange,
+    handleLineHeightChange,
     fetchGoogleFonts,
     selectGoogleFont,
     googleFonts,
@@ -189,10 +190,8 @@ export const ThemeEditor: React.FC = () => {
     <Box
       p={5}
       borderWidth="1px"
-      borderRadius="lg"
       bg={bgColor}
       borderColor={borderColor}
-      boxShadow="md"
     >
       <Tabs 
         isFitted 
@@ -206,8 +205,7 @@ export const ThemeEditor: React.FC = () => {
           <Tab>Typography</Tab>
           <Tab>Spacing</Tab>
           <Tab>Border Radius</Tab>
-          <Tab>Components Preview</Tab>
-          <Tab>Theme Code</Tab>
+          <Tab>Your Theme</Tab>
         </TabList>
 
         <TabPanels>
@@ -252,6 +250,8 @@ export const ThemeEditor: React.FC = () => {
               handleFontChange={handleFontChange}
               handleFontSizeChange={handleFontSizeChange}
               handleFontWeightChange={handleFontWeightChange}
+              handleLetterSpacingChange={handleLetterSpacingChange}
+              handleLineHeightChange={handleLineHeightChange}
               fetchGoogleFonts={fetchGoogleFonts}
               selectGoogleFont={selectGoogleFont}
               googleFonts={googleFonts}
@@ -282,12 +282,7 @@ export const ThemeEditor: React.FC = () => {
 
           {/* Components Preview Tab */}
           <TabPanel>
-            <ComponentsPreviewTab themeValues={themeValues} />
-          </TabPanel>
-
-          {/* Theme Code Tab */}
-          <TabPanel>
-            <ThemeCodeTab
+            <ComponentsPreviewTab 
               themeValues={themeValues}
               themeString={themeString}
               setThemeString={setThemeString}

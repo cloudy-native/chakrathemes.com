@@ -43,7 +43,7 @@ export const ColorSwatch: React.FC<ColorSwatchProps> = ({
               colorKey={colorSwatch.colorKey}
               colorShades={colorSwatch.colorShades}
               isCompact={true}
-              size="sm"
+              size="lg"
             />
           </Box>
         </HStack>

@@ -4,19 +4,15 @@ import dotenv from "dotenv";
 // Load environment variables
 dotenv.config();
 
-Object.entries(process.env).forEach(([key, value]) => {
-  console.log(`${key}: ${value}`);
-});
-
 // For client-side access, prefix environment variables with GATSBY_
 process.env.GATSBY_GOOGLE_FONTS_API_KEY = process.env.GOOGLE_FONTS_API_KEY;
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    title: `Gatsby TypeScript ChakraUI`,
-    description: `A Gatsby starter template with TypeScript and Chakra UI`,
-    author: `@yourusername`,
-    siteUrl: `https://yoursite.com`,
+    title: `ChakraUI Themes Editor`,
+    description: `A Chakra UI Themes Editor`,
+    author: `@chakrathemes`,
+    siteUrl: `https://chakrathemes.com`,
   },
   graphqlTypegen: true,
   plugins: [

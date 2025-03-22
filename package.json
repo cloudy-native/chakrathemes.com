@@ -1,8 +1,8 @@
 {
-  "name": "gatsby-typescript-chakraui",
+  "name": "chakrathemes.com",
   "version": "1.0.0",
   "private": true,
-  "description": "A Gatsby starter template with TypeScript and Chakra UI",
+  "description": "A Chakra UI Themes Editor",
   "author": "",
   "keywords": [
     "gatsby"
@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@chakra-ui/cli": "^2.3.0",
+    "@faker-js/faker": "^9.6.0",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",

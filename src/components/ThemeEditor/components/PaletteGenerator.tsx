@@ -77,7 +77,7 @@ export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({
         onClick={onGenerate}
         leftIcon={<span>🎨</span>}
       >
-        Generate Palette
+        Add Palette
       </Button>
       
       {/* Preview of the generated palette */}
@@ -85,7 +85,7 @@ export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({
         <ThemeColorSwatch
           colorKey={colorName || "preview"}
           colorShades={generateColorPalette(baseColor)}
-          size="sm"
+          size="lg"
         />
       </Box>
     </Box>

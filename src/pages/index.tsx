@@ -1,5 +1,7 @@
 import { ThemeEditor } from "@/components";
 import {
+  Alert,
+  AlertIcon,
   Box,
   Container,
   Heading,
@@ -31,6 +33,10 @@ const IndexPage: React.FC<PageProps> = () => {
           </VStack>
 
           <ThemeEditor />
+          <Alert status="warning">
+            <AlertIcon /> This is v0.0.1-alpha of the editor. Is is full of bugs
+            and UX issues. Apologies. It is actively being worked on.
+          </Alert>
         </VStack>
       </Container>
     </Box>
@@ -39,6 +45,4 @@ const IndexPage: React.FC<PageProps> = () => {
 
 export default IndexPage;
 
-export const Head: HeadFC = () => (
-  <title>Home | Gatsby TypeScript ChakraUI Starter</title>
-);
+export const Head: HeadFC = () => <title>Home | ChakraUI Themes Editor</title>;

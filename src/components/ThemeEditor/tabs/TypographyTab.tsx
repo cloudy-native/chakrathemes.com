@@ -15,13 +15,19 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  HStack,
   Input,
   Select,
   SimpleGrid,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
   Spinner,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { faker } from "@faker-js/faker";
 import React from "react";
 import { ThemeValues } from "../hooks/useColorManagement";
 
@@ -30,6 +36,11 @@ interface TypographyTabProps {
   handleFontChange: (fontType: string, value: string) => void;
   handleFontSizeChange: (sizeKey: string, value: string) => void;
   handleFontWeightChange: (weightKey: string, value: number) => void;
+  handleLetterSpacingChange: (spacingKey: string, value: string) => void;
+  handleLineHeightChange: (
+    lineHeightKey: string,
+    value: string | number
+  ) => void;
   // Added props from useTypographyManagement
   fetchGoogleFonts?: (apiKey: string) => Promise<void>;
   selectGoogleFont?: (fontFamily: string) => void;
@@ -46,11 +57,71 @@ interface TypographyTabProps {
   FONT_WEIGHT_VARIANTS?: { name: string; value: number }[];
 }
 
+// Default font sizes for reset functionality
+const DEFAULT_FONT_SIZES = {
+  xs: "0.75rem",
+  sm: "0.875rem",
+  md: "1rem",
+  lg: "1.125rem",
+  xl: "1.25rem",
+  "2xl": "1.5rem",
+  "3xl": "1.875rem",
+  "4xl": "2.25rem",
+  "5xl": "3rem",
+  "6xl": "3.75rem",
+  "7xl": "4.5rem",
+  "8xl": "6rem",
+  "9xl": "8rem",
+};
+
+// Default font weights for reset functionality
+const DEFAULT_FONT_WEIGHTS = {
+  hairline: 100,
+  thin: 200,
+  light: 300,
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+  extrabold: 800,
+  black: 900,
+};
+
+// Default font families
+const DEFAULT_FONT_FAMILIES = {
+  body: "sans-serif",
+  heading: "sans-serif",
+  mono: "monospace",
+};
+
+// Default letter spacing values
+const DEFAULT_LETTER_SPACINGS = {
+  tighter: "-0.05em",
+  tight: "-0.025em",
+  normal: "0",
+  wide: "0.025em",
+  wider: "0.05em",
+  widest: "0.1em",
+};
+
+// Default line height values
+const DEFAULT_LINE_HEIGHTS = {
+  normal: "normal",
+  none: 1,
+  shorter: 1.25,
+  short: 1.375,
+  base: 1.5,
+  tall: 1.625,
+  taller: 2,
+};
+
 export const TypographyTab: React.FC<TypographyTabProps> = ({
   themeValues,
   handleFontChange,
   handleFontSizeChange,
   handleFontWeightChange,
+  handleLetterSpacingChange,
+  handleLineHeightChange,
   fetchGoogleFonts,
   selectGoogleFont,
   googleFonts = [],
@@ -64,7 +135,7 @@ export const TypographyTab: React.FC<TypographyTabProps> = ({
   // Sample text to preview fonts
   const sampleText = "The quick brown fox jumps over the lazy dog";
   const sampleParagraph =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
   // Font sizes for preview
   const previewSizes = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl"];
@@ -211,24 +282,67 @@ export const TypographyTab: React.FC<TypographyTabProps> = ({
                       </CardBody>
                     </Card>
 
-                    {/* Apply to Theme button */}
-                    <Button
-                      colorScheme="blue"
-                      onClick={() => {
-                        // Apply to both body and heading fonts
-                        const fontValue = `"${selectedFont.family}", ${
-                          selectedFont.category === "serif"
-                            ? "serif"
-                            : selectedFont.category === "monospace"
-                              ? "monospace"
-                              : "sans-serif"
-                        }`;
-                        handleFontChange("body", fontValue);
-                        handleFontChange("heading", fontValue);
-                      }}
-                    >
-                      Apply to All Theme Fonts
-                    </Button>
+                    {/* Apply to Theme buttons */}
+                    <Box mt={4}>
+                      <Heading size="sm" mb={3}>
+                        Apply Font to Theme
+                      </Heading>
+                      <HStack spacing={3} flexWrap="wrap">
+                        <Button
+                          colorScheme="blue"
+                          onClick={() => {
+                            // Apply to body font only
+                            const fontValue = `"${selectedFont.family}", ${
+                              selectedFont.category === "serif"
+                                ? "serif"
+                                : selectedFont.category === "monospace"
+                                  ? "monospace"
+                                  : "sans-serif"
+                            }`;
+                            handleFontChange("body", fontValue);
+                          }}
+                        >
+                          Set as Body Font
+                        </Button>
+                        <Button
+                          colorScheme="purple"
+                          onClick={() => {
+                            // Apply to heading font only
+                            const fontValue = `"${selectedFont.family}", ${
+                              selectedFont.category === "serif"
+                                ? "serif"
+                                : selectedFont.category === "monospace"
+                                  ? "monospace"
+                                  : "sans-serif"
+                            }`;
+                            handleFontChange("heading", fontValue);
+                          }}
+                        >
+                          Set as Heading Font
+                        </Button>
+                        <Button
+                          colorScheme="teal"
+                          onClick={() => {
+                            // Apply to mono font
+                            const fontValue = `"${selectedFont.family}", ${
+                              selectedFont.category === "monospace"
+                                ? "monospace"
+                                : "monospace"
+                            }`;
+                            handleFontChange("mono", fontValue);
+                          }}
+                          // Highlight if this is a monospace font
+                          variant={
+                            selectedFont.category === "monospace"
+                              ? "solid"
+                              : "outline"
+                          }
+                        >
+                          Set as Mono Font{" "}
+                          {selectedFont.category === "monospace" && "✓"}
+                        </Button>
+                      </HStack>
+                    </Box>
                   </Box>
                 )}
               </>
@@ -263,16 +377,69 @@ export const TypographyTab: React.FC<TypographyTabProps> = ({
           </AccordionButton>
         </h2>
         <AccordionPanel pb={4}>
-          <VStack spacing={4} align="stretch">
+          <Box mb={4}>
+            <Button
+              colorScheme="blue"
+              size="sm"
+              onClick={() => {
+                Object.entries(DEFAULT_FONT_FAMILIES).forEach(
+                  ([fontType, fontValue]) => {
+                    handleFontChange(fontType, fontValue);
+                  }
+                );
+              }}
+            >
+              Reset to Default Fonts
+            </Button>
+          </Box>
+
+          <VStack spacing={5} align="stretch">
             {Object.entries(themeValues.fonts || {}).map(
               ([fontType, fontValue]) => (
-                <FormControl key={fontType}>
-                  <FormLabel>{fontType}</FormLabel>
-                  <Input
-                    value={fontValue as string}
-                    onChange={(e) => handleFontChange(fontType, e.target.value)}
-                  />
-                </FormControl>
+                <Box
+                  key={fontType}
+                  p={3}
+                  borderWidth="1px"
+                  borderRadius="md"
+                  boxShadow="sm"
+                >
+                  <FormControl>
+                    <FormLabel fontWeight="bold">{fontType} Font</FormLabel>
+                    <Input
+                      value={fontValue as string}
+                      onChange={(e) =>
+                        handleFontChange(fontType, e.target.value)
+                      }
+                      mb={3}
+                    />
+                    <Box p={3}>
+                      {fontType === "mono" ? (
+                        <Text fontFamily={fontValue as string} fontSize="md">
+                          console.log("My theme", JSON.stringify(theme, null,
+                          2));
+                        </Text>
+                      ) : (
+                        <> </>
+                      )}
+                      {fontType === "body" ? (
+                        <Text fontFamily={fontValue as string} fontSize="md">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit, sed do eiusmod tempor incididunt ut labore et
+                          dolore magna aliqua.
+                        </Text>
+                      ) : (
+                        <> </>
+                      )}
+                      {fontType === "heading" ? (
+                        <Heading fontFamily={fontValue as string} fontSize="md">
+                          This is a Preview Heading
+                        </Heading>
+                      ) : (
+                        <> </>
+                      )}
+                    </Box>
+                  </FormControl>
+                </Box>
               )
             )}
           </VStack>
@@ -289,21 +456,105 @@ export const TypographyTab: React.FC<TypographyTabProps> = ({
           </AccordionButton>
         </h2>
         <AccordionPanel pb={4}>
-          <SimpleGrid columns={[1, 2, 3]} spacing={4}>
-            {Object.entries(themeValues.fontSizes || {}).map(
-              ([sizeKey, sizeValue]) => (
-                <FormControl key={sizeKey}>
-                  <FormLabel>{sizeKey}</FormLabel>
-                  <Input
-                    value={sizeValue as string}
-                    onChange={(e) =>
-                      handleFontSizeChange(sizeKey, e.target.value)
-                    }
-                  />
-                </FormControl>
-              )
-            )}
-          </SimpleGrid>
+          <Box mb={4}>
+            <Button
+              colorScheme="blue"
+              size="sm"
+              onClick={() => {
+                Object.entries(DEFAULT_FONT_SIZES).forEach(
+                  ([sizeKey, sizeValue]) => {
+                    handleFontSizeChange(sizeKey, sizeValue);
+                  }
+                );
+              }}
+            >
+              Reset to Default Sizes
+            </Button>
+          </Box>
+
+          <VStack spacing={6} align="stretch">
+            {Object.entries(themeValues.fontSizes || {})
+              .sort(([aKey], [bKey]) => {
+                // Custom sort function to order font sizes properly (xs, sm, md, etc.)
+                const sizes = [
+                  "xs",
+                  "sm",
+                  "md",
+                  "lg",
+                  "xl",
+                  "2xl",
+                  "3xl",
+                  "4xl",
+                  "5xl",
+                  "6xl",
+                  "7xl",
+                  "8xl",
+                  "9xl",
+                ];
+                return sizes.indexOf(aKey) - sizes.indexOf(bKey);
+              })
+              .map(([sizeKey, sizeValue]) => {
+                // Parse rem value for slider
+                let remValue = 1;
+                if (typeof sizeValue === "string") {
+                  const match = sizeValue.toString().match(/([0-9.]+)rem/);
+                  if (match && match[1]) {
+                    remValue = parseFloat(match[1]);
+                  }
+                }
+
+                return (
+                  <Box
+                    key={sizeKey}
+                    p={3}
+                    borderWidth="1px"
+                    borderRadius="md"
+                    boxShadow="sm"
+                  >
+                    <HStack justify="space-between" mb={2}>
+                      <FormLabel mb={0} fontSize="sm" fontWeight="bold">
+                        {sizeKey}
+                      </FormLabel>
+                      <Input
+                        value={sizeValue as string}
+                        onChange={(e) =>
+                          handleFontSizeChange(sizeKey, e.target.value)
+                        }
+                        size="sm"
+                        width="100px"
+                      />
+                    </HStack>
+
+                    <Slider
+                      min={0.5}
+                      max={8}
+                      step={0.125}
+                      value={remValue}
+                      onChange={(val) =>
+                        handleFontSizeChange(sizeKey, `${val}rem`)
+                      }
+                      mb={3}
+                    >
+                      <SliderTrack>
+                        <SliderFilledTrack />
+                      </SliderTrack>
+                      <SliderThumb />
+                    </Slider>
+
+                    <Box
+                      p={2}
+                      borderWidth="1px"
+                      borderRadius="md"
+                      mt={2}
+                    >
+                      <Text fontSize={sizeValue as string}>
+                        Sample text ({sizeKey})
+                      </Text>
+                    </Box>
+                  </Box>
+                );
+              })}
+          </VStack>
         </AccordionPanel>
       </AccordionItem>
 
@@ -317,25 +568,313 @@ export const TypographyTab: React.FC<TypographyTabProps> = ({
           </AccordionButton>
         </h2>
         <AccordionPanel pb={4}>
+          <Box mb={4}>
+            <Button
+              colorScheme="blue"
+              size="sm"
+              onClick={() => {
+                Object.entries(DEFAULT_FONT_WEIGHTS).forEach(
+                  ([weightKey, weightValue]) => {
+                    handleFontWeightChange(weightKey, weightValue);
+                  }
+                );
+              }}
+            >
+              Reset to Default Weights
+            </Button>
+          </Box>
+
           <SimpleGrid columns={[1, 2, 3]} spacing={4}>
-            {Object.entries(themeValues.fontWeights || {}).map(
-              ([weightKey, weightValue]) => (
-                <FormControl key={weightKey}>
-                  <FormLabel>{weightKey}</FormLabel>
-                  <Input
-                    type="number"
-                    value={weightValue as number}
-                    onChange={(e) =>
-                      handleFontWeightChange(
-                        weightKey,
-                        parseInt(e.target.value)
-                      )
-                    }
-                  />
-                </FormControl>
-              )
-            )}
+            {Object.entries(themeValues.fontWeights || {})
+              .sort(([aKey], [bKey]) => {
+                const weights = [
+                  "hairline",
+                  "thin",
+                  "light",
+                  "normal",
+                  "medium",
+                  "semibold",
+                  "bold",
+                  "extrabold",
+                  "black",
+                ];
+                return weights.indexOf(aKey) - weights.indexOf(bKey);
+              })
+              .map(([weightKey, weightValue]) => (
+                <Box
+                  key={weightKey}
+                  p={3}
+                  borderWidth="1px"
+                  borderRadius="md"
+                  boxShadow="sm"
+                >
+                  <FormControl>
+                    <HStack justify="space-between" mb={2}>
+                      <FormLabel mb={0} fontSize="sm" fontWeight="bold">
+                        {weightKey}
+                      </FormLabel>
+                      <Input
+                        type="number"
+                        value={weightValue as number}
+                        onChange={(e) =>
+                          handleFontWeightChange(
+                            weightKey,
+                            parseInt(e.target.value)
+                          )
+                        }
+                        size="sm"
+                        width="80px"
+                      />
+                    </HStack>
+                    <Box
+                      p={2}
+                      borderWidth="1px"
+                      borderRadius="md"
+                      borderStyle="dashed"
+                      borderColor="gray.300"
+                      mt={2}
+                      bg="gray.50"
+                    >
+                      <Text fontWeight={weightValue as number}>
+                        Sample text ({weightKey})
+                      </Text>
+                    </Box>
+                  </FormControl>
+                </Box>
+              ))}
           </SimpleGrid>
+        </AccordionPanel>
+      </AccordionItem>
+
+      <AccordionItem>
+        <h2>
+          <AccordionButton>
+            <Box flex="1" textAlign="left">
+              Letter Spacing
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+        </h2>
+        <AccordionPanel pb={4}>
+          <Box mb={4}>
+            <Button
+              colorScheme="blue"
+              size="sm"
+              onClick={() => {
+                Object.entries(DEFAULT_LETTER_SPACINGS).forEach(
+                  ([spacingKey, spacingValue]) => {
+                    handleLetterSpacingChange(spacingKey, spacingValue);
+                  }
+                );
+              }}
+            >
+              Reset to Default Letter Spacing
+            </Button>
+          </Box>
+
+          <VStack spacing={6} align="stretch">
+            {Object.entries(
+              themeValues.letterSpacings || DEFAULT_LETTER_SPACINGS
+            )
+              .sort(([aKey], [bKey]) => {
+                const order = [
+                  "tighter",
+                  "tight",
+                  "normal",
+                  "wide",
+                  "wider",
+                  "widest",
+                ];
+                return order.indexOf(aKey) - order.indexOf(bKey);
+              })
+              .map(([spacingKey, spacingValue]) => {
+                // Parse em value for slider (convert from string like "-0.05em" to number like -0.05)
+                let emValue = 0;
+                if (typeof spacingValue === "string") {
+                  const match = spacingValue
+                    .toString()
+                    .match(/([+-]?[0-9.]+)em/);
+                  if (match && match[1]) {
+                    emValue = parseFloat(match[1]);
+                  }
+                }
+
+                return (
+                  <Box
+                    key={spacingKey}
+                    p={3}
+                    borderWidth="1px"
+                    borderRadius="md"
+                    boxShadow="sm"
+                  >
+                    <HStack justify="space-between" mb={2}>
+                      <FormLabel mb={0} fontSize="sm" fontWeight="bold">
+                        {spacingKey}
+                      </FormLabel>
+                      <Input
+                        value={spacingValue as string}
+                        onChange={(e) =>
+                          handleLetterSpacingChange(spacingKey, e.target.value)
+                        }
+                        size="sm"
+                        width="100px"
+                      />
+                    </HStack>
+
+                    <Slider
+                      min={-0.1}
+                      max={0.2}
+                      step={0.005}
+                      value={emValue}
+                      onChange={(val) =>
+                        handleLetterSpacingChange(spacingKey, `${val}em`)
+                      }
+                      mb={3}
+                    >
+                      <SliderTrack>
+                        <SliderFilledTrack />
+                      </SliderTrack>
+                      <SliderThumb />
+                    </Slider>
+
+                    <Box
+                      p={2}
+                      borderWidth="1px"
+                      borderRadius="md"
+                      borderStyle="dashed"
+                      borderColor="gray.300"
+                      mt={2}
+                    >
+                      <Text letterSpacing={spacingValue as string}>
+                        {sampleText} ({spacingKey})
+                      </Text>
+                    </Box>
+                  </Box>
+                );
+              })}
+          </VStack>
+        </AccordionPanel>
+      </AccordionItem>
+
+      <AccordionItem>
+        <h2>
+          <AccordionButton>
+            <Box flex="1" textAlign="left">
+              Line Heights
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+        </h2>
+        <AccordionPanel pb={4}>
+          <Box mb={4}>
+            <Button
+              colorScheme="blue"
+              size="sm"
+              onClick={() => {
+                Object.entries(DEFAULT_LINE_HEIGHTS).forEach(
+                  ([lineHeightKey, lineHeightValue]) => {
+                    handleLineHeightChange(lineHeightKey, lineHeightValue);
+                  }
+                );
+              }}
+            >
+              Reset to Default Line Heights
+            </Button>
+          </Box>
+
+          <VStack spacing={6} align="stretch">
+            {Object.entries(themeValues.lineHeights || DEFAULT_LINE_HEIGHTS)
+              .sort(([aKey], [bKey]) => {
+                const order = [
+                  "none",
+                  "normal",
+                  "shorter",
+                  "short",
+                  "base",
+                  "tall",
+                  "taller",
+                ];
+                return order.indexOf(aKey) - order.indexOf(bKey);
+              })
+              .map(([lineHeightKey, lineHeightValue]) => {
+                // Parse numeric value for slider
+                let numValue =
+                  typeof lineHeightValue === "number"
+                    ? lineHeightValue
+                    : lineHeightValue === "normal"
+                      ? 1.5
+                      : 1.5; // Default value for slider
+
+                return (
+                  <Box
+                    key={lineHeightKey}
+                    p={3}
+                    borderWidth="1px"
+                    borderRadius="md"
+                    boxShadow="sm"
+                  >
+                    <HStack justify="space-between" mb={2}>
+                      <FormLabel mb={0} fontSize="sm" fontWeight="bold">
+                        {lineHeightKey}
+                      </FormLabel>
+                      <Input
+                        value={lineHeightValue as string | number}
+                        onChange={(e) => {
+                          const newValue = e.target.value;
+                          handleLineHeightChange(
+                            lineHeightKey,
+                            newValue === "normal"
+                              ? "normal"
+                              : parseFloat(newValue)
+                          );
+                        }}
+                        size="sm"
+                        width="100px"
+                      />
+                    </HStack>
+
+                    {lineHeightKey !== "normal" && (
+                      <Slider
+                        min={1}
+                        max={3}
+                        step={0.05}
+                        value={numValue}
+                        onChange={(val) =>
+                          handleLineHeightChange(lineHeightKey, val)
+                        }
+                        mb={3}
+                      >
+                        <SliderTrack>
+                          <SliderFilledTrack />
+                        </SliderTrack>
+                        <SliderThumb />
+                      </Slider>
+                    )}
+
+                    <Box
+                      p={2}
+                      borderWidth="1px"
+                      borderRadius="md"
+                      borderStyle="dashed"
+                      borderColor="gray.300"
+                      mt={2}
+                      bg="gray.50"
+                    >
+                      <Text lineHeight={lineHeightValue as string | number}>
+                        {sampleText}
+                        <br />
+                        {sampleText}
+                        <br />
+                        {sampleText}
+                        <Text fontSize="sm" mt={1} color="gray.600">
+                          ({lineHeightKey})
+                        </Text>
+                      </Text>
+                    </Box>
+                  </Box>
+                );
+              })}
+          </VStack>
         </AccordionPanel>
       </AccordionItem>
     </Accordion>

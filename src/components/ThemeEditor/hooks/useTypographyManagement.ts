@@ -56,6 +56,16 @@ export const useTypographyManagement = (
     updateThemeValue(['fontWeights', weightKey], value);
   };
 
+  // Handle letter spacing change
+  const handleLetterSpacingChange = (spacingKey: string, value: string) => {
+    updateThemeValue(['letterSpacings', spacingKey], value);
+  };
+
+  // Handle line height change
+  const handleLineHeightChange = (lineHeightKey: string, value: string | number) => {
+    updateThemeValue(['lineHeights', lineHeightKey], value);
+  };
+
   // Fetch Google Fonts with optional key parameter
   const fetchGoogleFonts = async (providedApiKey?: string) => {
     // Use provided API key or the one from environment variables
@@ -98,12 +108,11 @@ export const useTypographyManagement = (
       setSelectedFont(font);
       setAvailableVariants(font.variants);
       
-      // Load the font
+      // Load the font for preview only
       loadGoogleFont(font.family, font.variants);
       
-      // Update the theme with this font
-      handleFontChange('body', `"${font.family}", ${getDefaultFallback(font.category)}`);
-      handleFontChange('heading', `"${font.family}", ${getDefaultFallback(font.category)}`);
+      // No longer automatically update the theme
+      // Users will need to click the "Set as..." buttons
     }
   };
 
@@ -156,6 +165,8 @@ export const useTypographyManagement = (
     handleFontChange,
     handleFontSizeChange,
     handleFontWeightChange,
+    handleLetterSpacingChange,
+    handleLineHeightChange,
     fetchGoogleFonts,
     selectGoogleFont,
     googleFonts,

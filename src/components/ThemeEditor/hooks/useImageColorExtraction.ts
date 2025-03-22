@@ -1,16 +1,21 @@
-import { useState, useRef } from 'react';
-import { useToast } from '@chakra-ui/react';
-import {Vibrant} from 'node-vibrant/browser';
-import { ExtractedColor, generateColorPalette } from '../utils/colorUtils';
-import { ThemeValues } from './useColorManagement';
+import { useState, useRef } from "react";
+import { useToast } from "@chakra-ui/react";
+import { Vibrant } from "node-vibrant/browser";
+import { ExtractedColor, generateColorPalette } from "../utils/colorUtils";
+import { ThemeValues } from "./useColorManagement";
 
-export const useImageColorExtraction = (themeValues: ThemeValues, setThemeValues: React.Dispatch<React.SetStateAction<ThemeValues>>) => {
-  const [imageUrl, setImageUrl] = useState('');
+export const useImageColorExtraction = (
+  themeValues: ThemeValues,
+  setThemeValues: React.Dispatch<React.SetStateAction<ThemeValues>>
+) => {
+  const [imageUrl, setImageUrl] = useState("");
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [extractedColors, setExtractedColors] = useState<ExtractedColor[]>([]);
   const [extractionLoading, setExtractionLoading] = useState(false);
-  const [selectedColorFromImage, setSelectedColorFromImage] = useState<string | null>(null);
-  const [newPaletteNameFromImage, setNewPaletteNameFromImage] = useState('');
+  const [selectedColorFromImage, setSelectedColorFromImage] = useState<
+    string | null
+  >(null);
+  const [newPaletteNameFromImage, setNewPaletteNameFromImage] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const toast = useToast();
 
@@ -65,7 +70,7 @@ export const useImageColorExtraction = (themeValues: ThemeValues, setThemeValues
     // Use a CORS proxy to avoid cross-origin issues
     const corsProxyUrl = "https://api.allorigins.win/raw?url=";
     const proxiedUrl = corsProxyUrl + encodeURIComponent(imageUrl);
-    
+
     // Show loading toast
     toast({
       title: "Loading image",
@@ -74,9 +79,9 @@ export const useImageColorExtraction = (themeValues: ThemeValues, setThemeValues
       duration: 3000,
       isClosable: true,
     });
-    
+
     // Load the image via proxy
-    const testImg = document.createElement('img');
+    const testImg = document.createElement("img");
     testImg.crossOrigin = "anonymous";
     testImg.onload = () => {
       setUploadedImage(proxiedUrl);
@@ -84,7 +89,8 @@ export const useImageColorExtraction = (themeValues: ThemeValues, setThemeValues
     testImg.onerror = () => {
       toast({
         title: "Error loading image",
-        description: "There was an error loading the image. This may be due to CORS restrictions. Try downloading the image and uploading it directly instead.",
+        description:
+          "There was an error loading the image. This may be due to CORS restrictions. Try downloading the image and uploading it directly instead.",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -110,24 +116,31 @@ export const useImageColorExtraction = (themeValues: ThemeValues, setThemeValues
 
     try {
       // Create a new image with cross-origin attributes for handling the uploaded image
-      const img = document.createElement('img');
+      const img = document.createElement("img");
       img.crossOrigin = "Anonymous";
-      
+
       // Use a promise to handle the image loading
       const imageLoaded = new Promise<void>((resolve, reject) => {
         img.onload = () => resolve();
         img.onerror = () => reject(new Error("Failed to load image"));
         img.src = uploadedImage;
       });
-      
+
       // Wait for the image to load
       await imageLoaded;
-      
+
       // Create a new Vibrant instance with the loaded image and get the palette
       const vibrant = Vibrant.from(img);
       const palette = await vibrant.getPalette();
 
       const extractedColorsArray: ExtractedColor[] = [];
+
+      if (palette.LightVibrant) {
+        extractedColorsArray.push({
+          name: "Light Vibrant",
+          color: palette.LightVibrant.hex,
+        });
+      }
 
       if (palette.Vibrant) {
         extractedColorsArray.push({
@@ -143,10 +156,10 @@ export const useImageColorExtraction = (themeValues: ThemeValues, setThemeValues
         });
       }
 
-      if (palette.LightVibrant) {
+      if (palette.LightMuted) {
         extractedColorsArray.push({
-          name: "Light Vibrant",
-          color: palette.LightVibrant.hex,
+          name: "Light Muted",
+          color: palette.LightMuted.hex,
         });
       }
 
@@ -164,17 +177,11 @@ export const useImageColorExtraction = (themeValues: ThemeValues, setThemeValues
         });
       }
 
-      if (palette.LightMuted) {
-        extractedColorsArray.push({
-          name: "Light Muted",
-          color: palette.LightMuted.hex,
-        });
-      }
-
       setExtractedColors(extractedColorsArray);
 
-      if (extractedColorsArray.length > 0) {
-        setSelectedColorFromImage(extractedColorsArray[0].color);
+      if (extractedColorsArray.length > 1) {
+        // Vibrant
+        setSelectedColorFromImage(extractedColorsArray[1].color);
       }
 
       toast({
@@ -245,7 +252,7 @@ export const useImageColorExtraction = (themeValues: ThemeValues, setThemeValues
     });
 
     // Reset inputs
-    setNewPaletteNameFromImage('');
+    setNewPaletteNameFromImage("");
   };
 
   return {
