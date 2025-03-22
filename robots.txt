@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://chakrathemes.com/sitemap-index.xml
+Host: https://chakrathemes.com
