@@ -1,46 +1,47 @@
-import React from "react";
+import { ThemeValues } from "@/types";
+import { unsplashCollections } from "@/utils/unsplashCollections";
 import {
+  Avatar,
+  Badge,
   Box,
+  Button,
+  ButtonGroup,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
-  Heading,
-  Text,
-  Button,
-  Image,
-  Stack,
+  CardHeader,
   Divider,
-  ButtonGroup,
   Flex,
-  Badge,
-  Avatar,
-  Link,
-  Icon,
+  Heading,
   HStack,
-  VStack,
+  Icon,
+  IconButton,
+  Image,
+  Link,
   SimpleGrid,
+  Spacer,
+  Stack,
+  Text,
+  useColorModeValue,
+  VStack,
   Wrap,
   WrapItem,
-  Spacer,
-  IconButton,
-  useColorModeValue,
 } from "@chakra-ui/react";
-import { ThemeValues } from "@/types";
-import {
-  FaRegBookmark,
-  FaHeart,
-  FaComment,
-  FaShare,
-  FaChevronRight,
-  FaRegCalendarAlt,
-  FaMapMarkerAlt,
-  FaRegThumbsUp,
-  FaStar,
-  FaRegStar,
-} from "react-icons/fa";
 import { faker } from "@faker-js/faker";
-import { unsplashCollections } from "@/utils/unsplashCollections";
+import { formatRFC7231 } from "date-fns";
+import React from "react";
+import {
+  FaChevronRight,
+  FaComment,
+  FaHeart,
+  FaMapMarkerAlt,
+  FaRegBookmark,
+  FaRegCalendarAlt,
+  FaRegStar,
+  FaRegThumbsUp,
+  FaShare,
+  FaStar,
+} from "react-icons/fa";
 
 interface CardLayoutsProps {
   colorKey: string;
@@ -80,25 +81,6 @@ const getPrimaryShade = (
   return `${colorKey}.500`;
 };
 
-// Sample placeholder images
-const PLACEHOLDER_IMAGES = {
-  landscape:
-    "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-  food: "https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1536&q=80",
-  person:
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-  event:
-    "https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-  travel:
-    "https://images.unsplash.com/photo-1530789253388-582c481c54b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-  nature:
-    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1574&q=80",
-  avatarM:
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  avatarF:
-    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-};
-
 const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
   const lightBgColor = getLightShade(themeValues, colorKey);
   const primaryColor = getPrimaryShade(themeValues, colorKey);
@@ -110,6 +92,11 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
   const landscape = faker.helpers.arrayElement(
     unsplashCollections.landscape.images
   );
+  const conference = faker.helpers.arrayElement(
+    unsplashCollections.conference.images
+  );
+  const food = faker.helpers.arrayElement(unsplashCollections.food.images);
+  const travel = faker.helpers.arrayElement(unsplashCollections.travel.images);
 
   return (
     <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={8}>
@@ -246,7 +233,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         boxShadow={themeValues.shadows?.md || "md"}
       >
         <Image
-          src={PLACEHOLDER_IMAGES.event}
+          src={conference.url}
           alt="Event Image"
           height="140px"
           objectFit="cover"
@@ -254,7 +241,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         <CardBody pt={4}>
           <Flex justifyContent="space-between" alignItems="center" mb={2}>
             <Badge colorScheme={colorKey} variant="solid">
-              WORKSHOP
+              {faker.company.buzzAdjective()}
             </Badge>
             <Text fontSize="sm" color={secondaryTextColor}>
               <Icon as={FaRegCalendarAlt} mr={1} />
@@ -262,15 +249,16 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
             </Text>
           </Flex>
           <Heading size="md" mb={2}>
-            Design Thinking Workshop
+            {faker.company.name()}
           </Heading>
           <Text fontSize="sm" color={textColor} mb={3}>
-            Learn design thinking methodology and apply it to solve real-world
-            problems.
+            {faker.word.words({ count: 25 })}
           </Text>
           <HStack mb={4} color={secondaryTextColor} fontSize="xs">
             <Icon as={FaMapMarkerAlt} />
-            <Text>Creative Hub, San Francisco</Text>
+            <Text>
+              {faker.location.city()}, {faker.location.country()}
+            </Text>
           </HStack>
         </CardBody>
         <CardFooter
@@ -280,7 +268,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           justifyContent="space-between"
         >
           <Text fontWeight="bold" fontSize="lg">
-            $149.00
+            ${faker.commerce.price()}
           </Text>
           <Button
             colorScheme={colorKey}
@@ -299,15 +287,10 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         backgroundColor={bgColor}
         overflow="hidden"
       >
-        <Image
-          src={PLACEHOLDER_IMAGES.food}
-          alt="Food Image"
-          height="160px"
-          objectFit="cover"
-        />
+        <Image src={food.url} alt={food.alt} height="160px" objectFit="cover" />
         <CardBody>
           <Flex justify="space-between" align="center" mb={2}>
-            <Heading size="md">Avocado Salad Bowl</Heading>
+            <Heading size="md">{faker.food.dish()}</Heading>
             <HStack>
               {[1, 2, 3, 4, 5].map((_, i) => (
                 <Icon
@@ -320,29 +303,28 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
             </HStack>
           </Flex>
           <Text fontSize="sm" color={secondaryTextColor} mb={3}>
-            A fresh and nutritious salad bowl with avocado, cherry tomatoes, and
-            our special dressing.
+            {faker.food.description()}
           </Text>
           <Wrap spacing={2} mb={3}>
             <WrapItem>
               <Badge colorScheme="green" variant="subtle">
-                Vegan
+                {faker.food.ethnicCategory()}
               </Badge>
             </WrapItem>
             <WrapItem>
               <Badge colorScheme="purple" variant="subtle">
-                Gluten-free
+                {faker.food.spice()}
               </Badge>
             </WrapItem>
             <WrapItem>
               <Badge colorScheme="orange" variant="subtle">
-                High Protein
+                {faker.food.ingredient()}
               </Badge>
             </WrapItem>
           </Wrap>
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontWeight="bold" fontSize="xl">
-              $12.99
+              ${faker.commerce.price({ min: 5, max: 10 })}
             </Text>
             <Button size="sm" colorScheme={colorKey} variant="outline">
               Order Now
@@ -360,8 +342,8 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
       >
         <Box position="relative">
           <Image
-            src={PLACEHOLDER_IMAGES.travel}
-            alt="Travel Image"
+            src={travel.url}
+            alt={travel.alt}
             height="180px"
             objectFit="cover"
           />
@@ -377,28 +359,24 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
             <Badge colorScheme={colorKey} mb={2}>
               Travel
             </Badge>
-            <Heading
-              size="md"
-              color="white"
-              textShadow="0px 2px 4px rgba(0,0,0,0.4)"
-            >
-              10 Hidden Gems in Southeast Asia
+            <Heading size="md">
+              10 Hidden Gems in {faker.location.country()}
             </Heading>
           </Box>
         </Box>
         <CardBody>
           <Text fontSize="sm" color={secondaryTextColor} mb={3}>
-            Discover these lesser-known destinations that offer authentic
-            experiences away from the tourist crowds.
+            {faker.word.words({ count: 25 })}
           </Text>
           <Flex alignItems="center" mb={4}>
-            <Avatar size="sm" src={PLACEHOLDER_IMAGES.avatarM} mr={2} />
+            <Avatar size="sm" src={faker.image.avatar()} mr={2} />
             <Box>
               <Text fontSize="xs" fontWeight="bold">
-                By Michael Rodriguez
+                By {faker.name.fullName()}
               </Text>
               <Text fontSize="xs" color={secondaryTextColor}>
-                Travel Writer • April 15, 2023
+                {faker.person.jobTitle()} •{" "}
+                {formatRFC7231(faker.date.recent({ days: 30 }))}
               </Text>
             </Box>
             <Spacer />
@@ -423,7 +401,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           height="100px"
         >
           <Avatar
-            src={PLACEHOLDER_IMAGES.avatarM}
+            src={faker.image.avatar()}
             size="xl"
             border="4px solid"
             borderColor={bgColor}
@@ -435,7 +413,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         </CardHeader>
         <CardBody pt={12} textAlign="center">
           <Heading size="md" mb={1}>
-            Robert Chen
+            {faker.name.fullName()}
           </Heading>
           <Text
             fontSize="sm"
@@ -443,14 +421,13 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
             color={`${colorKey}.500`}
             mb={1}
           >
-            UX/UI Designer
+            {faker.person.jobTitle()}
           </Text>
           <Text fontSize="sm" color={secondaryTextColor} mb={3}>
-            San Francisco, CA
+            {faker.location.city()}, {faker.location.state()}
           </Text>
           <Text fontSize="sm" mb={4} maxW="280px" mx="auto">
-            Passionate about creating intuitive and beautiful user experiences
-            that solve real problems.
+            {faker.person.bio()}
           </Text>
           <HStack justify="center" spacing={4} mb={3}>
             <VStack alignItems="center">

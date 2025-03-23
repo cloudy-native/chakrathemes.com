@@ -110,7 +110,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
       email: faker.internet.email({ firstName, lastName }),
       role: faker.helpers.arrayElement(["Administrator", "Editor", "Viewer"]),
       status: faker.helpers.arrayElement(["Active", "Inactive"]),
-      lastActive: faker.date.recent().toLocaleDateString(),
+      lastActive: faker.date.recent({ days: 10 }).toLocaleDateString(),
       avatarUrl: faker.image.avatar(),
     };
   }
@@ -142,7 +142,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
       category: faker.commerce.department(),
       price: faker.commerce.price(),
       stock: faker.number.int({ min: 0, max: 100 }),
-      rating: faker.number.float({ min: 1, max: 5 }),
+      rating: faker.number.float({ min: 1, max: 5, fractionDigits: 1 }),
     };
   }
 
@@ -177,7 +177,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
         faker.number.int({ min: 1, max: 1000 }).toString() +
         " " +
         faker.helpers.arrayElement(["KB", "MB", "GB"]),
-      modified: faker.date.recent().toLocaleDateString(),
+      modified: faker.date.recent({ days: 10 }).toLocaleDateString(),
       status: faker.helpers.arrayElement(["Public", "Shared", "Private"]),
     };
   }
