@@ -7,4 +7,8 @@ export { default as InputElements } from './InputElements';
 export { default as TagElements } from './TagElements';
 export { default as AlertElements } from './AlertElements';
 export { default as AvatarElements } from './AvatarElements';
+export { default as BorderShadowElements } from './BorderShadowElements';
+export { default as CombinedStylesPreview } from './CombinedStylesPreview';
+export { default as CardLayouts } from './CardLayouts';
+export { default as TableLayouts } from './TableLayouts';
 export { default as ComponentPreview } from './ComponentPreview';

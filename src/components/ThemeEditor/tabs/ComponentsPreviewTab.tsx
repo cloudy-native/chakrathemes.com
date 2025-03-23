@@ -1,4 +1,5 @@
-import { ArrowForwardIcon, CopyIcon } from "@chakra-ui/icons";
+import { useThemeContext } from "@/context/ThemeContext";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -14,8 +15,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { ColorPalette, ComponentPreview } from "../components/preview";
-import { useThemeContext } from "@/context/ThemeContext";
+import { ColorPalette, ComponentPreview, CardLayouts, TableLayouts } from "../components/preview";
 
 export const ComponentsPreviewTab: React.FC = () => {
   const { themeValues } = useThemeContext();
@@ -25,7 +25,7 @@ export const ComponentsPreviewTab: React.FC = () => {
 
   // Use the first color palette as the primary color
   const colorKeys = Object.keys(themeValues.colors || {});
-  
+
   // Clipboard functionality
   const [copiedValue, setCopiedValue] = useState<string | null>(null);
   const toast = useToast();
@@ -127,20 +127,34 @@ export default theme;`;
                     <TabList>
                       <Tab>Color Palette</Tab>
                       <Tab>Components</Tab>
+                      <Tab>Cards</Tab>
+                      <Tab>Tables</Tab>
                     </TabList>
                     <TabPanels>
                       <TabPanel>
-                        <ColorPalette 
-                          colorKey={colorKey} 
-                          themeValues={themeValues} 
+                        <ColorPalette
+                          colorKey={colorKey}
+                          themeValues={themeValues}
                           copiedValue={copiedValue}
                           onCopy={handleCopyToClipboard}
                         />
                       </TabPanel>
                       <TabPanel>
-                        <ComponentPreview 
-                          colorKey={colorKey} 
-                          themeValues={themeValues} 
+                        <ComponentPreview
+                          colorKey={colorKey}
+                          themeValues={themeValues}
+                        />
+                      </TabPanel>
+                      <TabPanel>
+                        <CardLayouts
+                          colorKey={colorKey}
+                          themeValues={themeValues}
+                        />
+                      </TabPanel>
+                      <TabPanel>
+                        <TableLayouts
+                          colorKey={colorKey}
+                          themeValues={themeValues}
                         />
                       </TabPanel>
                     </TabPanels>

@@ -264,7 +264,7 @@ export const SpacingTab: React.FC = () => {
 
       <Divider mb={6} />
 
-      <Tabs variant="enclosed" isLazy>
+      <Tabs variant="line" isLazy>
         <TabList>
           <Tab>Small Numeric (0-12)</Tab>
           <Tab>Large Numeric (14+)</Tab>

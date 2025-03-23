@@ -21,7 +21,6 @@ import {
   IconButton,
   Tooltip,
   Code,
-  useToast,
 } from '@chakra-ui/react';
 import { CopyIcon } from '@chakra-ui/icons';
 import { useThemeContext } from '@/context/ThemeContext';
@@ -63,21 +62,15 @@ const ShadowControl: React.FC<{
   shadowKey: string;
   shadowValue: string;
   onChange: (shadowKey: string, value: string) => void;
-}> = ({ shadowKey, shadowValue, onChange }) => {
+  copiedValue: string | null;
+  onCopy: (value: string) => void;
+}> = ({ shadowKey, shadowValue, onChange, copiedValue, onCopy }) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const codeBg = useColorModeValue('gray.100', 'gray.700');
-  const toast = useToast();
+  const copyValue = `boxShadow="${shadowKey}"`;
   
   const handleCopy = () => {
-    navigator.clipboard.writeText(`boxShadow="${shadowKey}"`);
-    toast({
-      title: "Copied to clipboard",
-      description: `boxShadow="${shadowKey}"`,
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-      position: "bottom-right",
-    });
+    onCopy(copyValue);
   };
   
   return (
@@ -98,16 +91,16 @@ const ShadowControl: React.FC<{
         p={2} 
         borderRadius="md"
       >
-        <Code colorScheme="blue" children={`boxShadow="${shadowKey}"`} />
-        <Tooltip label="Copy to clipboard" placement="top">
-          <IconButton
-            aria-label="Copy to clipboard"
-            icon={<CopyIcon />}
-            size="sm"
-            variant="ghost"
-            onClick={handleCopy}
-          />
-        </Tooltip>
+        <Code colorScheme="blue" children={copyValue} />
+        <Button
+          size="xs"
+          variant="ghost"
+          onClick={handleCopy}
+          aria-label="Copy to clipboard"
+          leftIcon={<CopyIcon />}
+        >
+          {copiedValue === copyValue ? "Copied!" : ""}
+        </Button>
       </Flex>
       
       <Box 
@@ -144,9 +137,11 @@ const BorderRadiusControl: React.FC<{
   radiusKey: string;
   radiusValue: string;
   onChange: (radiusKey: string, value: string) => void;
-}> = ({ radiusKey, radiusValue, onChange }) => {
+  copiedValue: string | null;
+  onCopy: (value: string) => void;
+}> = ({ radiusKey, radiusValue, onChange, copiedValue, onCopy }) => {
   const codeBg = useColorModeValue('gray.100', 'gray.700');
-  const toast = useToast();
+  const copyValue = `borderRadius="${radiusKey}"`;
   
   // Parse rem value for slider
   const parseRemValue = (value: string): number => {
@@ -181,15 +176,7 @@ const BorderRadiusControl: React.FC<{
   const remValue = parseRemValue(radiusValue);
   
   const handleCopy = () => {
-    navigator.clipboard.writeText(`borderRadius="${radiusKey}"`);
-    toast({
-      title: "Copied to clipboard",
-      description: `borderRadius="${radiusKey}"`,
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-      position: "bottom-right",
-    });
+    onCopy(copyValue);
   };
 
   return (
@@ -210,16 +197,16 @@ const BorderRadiusControl: React.FC<{
         p={2} 
         borderRadius="md"
       >
-        <Code colorScheme="blue" children={`borderRadius="${radiusKey}"`} />
-        <Tooltip label="Copy to clipboard" placement="top">
-          <IconButton
-            aria-label="Copy to clipboard"
-            icon={<CopyIcon />}
-            size="sm"
-            variant="ghost"
-            onClick={handleCopy}
-          />
-        </Tooltip>
+        <Code colorScheme="blue" children={copyValue} />
+        <Button
+          size="xs"
+          variant="ghost"
+          onClick={handleCopy}
+          aria-label="Copy to clipboard"
+          leftIcon={<CopyIcon />}
+        >
+          {copiedValue === copyValue ? "Copied!" : ""}
+        </Button>
       </Flex>
       
       <Flex 
@@ -278,6 +265,18 @@ const BorderRadiusControl: React.FC<{
 export const BordersAndShadowsTab: React.FC = () => {
   const { themeValues, updateThemeValue } = useThemeContext();
   const [tabIndex, setTabIndex] = useState(0);
+  const [copiedValue, setCopiedValue] = useState<string | null>(null);
+  
+  // Copy to clipboard handler
+  const handleCopyToClipboard = (value: string) => {
+    navigator.clipboard.writeText(value);
+    setCopiedValue(value);
+    
+    // Reset after 2 seconds
+    setTimeout(() => {
+      setCopiedValue(null);
+    }, 2000);
+  };
   
   // Handler for radius value changes
   const handleRadiiChange = (radiusKey: string, value: string) => {
@@ -388,6 +387,8 @@ export const BordersAndShadowsTab: React.FC = () => {
                     radiusKey={radiusKey}
                     radiusValue={radiusValue as string}
                     onChange={handleRadiiChange}
+                    copiedValue={copiedValue}
+                    onCopy={handleCopyToClipboard}
                   />
                 ))}
             </SimpleGrid>
@@ -437,6 +438,8 @@ export const BordersAndShadowsTab: React.FC = () => {
                     shadowKey={shadowKey}
                     shadowValue={shadowValue as string}
                     onChange={handleShadowChange}
+                    copiedValue={copiedValue}
+                    onCopy={handleCopyToClipboard}
                   />
                 ))}
             </SimpleGrid>

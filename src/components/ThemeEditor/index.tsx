@@ -10,8 +10,7 @@ import {
 } from '@chakra-ui/react';
 
 // Import tabs
-import ColorPickerTab from './tabs/ColorPickerTab';
-import ImageColorTab from './tabs/ImageColorTab';
+import ColorManagementTab from './tabs/ColorManagementTab';
 import TypographyTab from './tabs/TypographyTab';
 import SpacingTab from './tabs/SpacingTab';
 import BordersAndShadowsTab from './tabs/BordersAndShadowsTab';
@@ -43,8 +42,7 @@ export const ThemeEditor: React.FC = () => {
           onChange={setActiveTabIndex}
         >
           <TabList mb="1em">
-            <Tab>Colors from Picker</Tab>
-            <Tab>Colors from Image</Tab>
+            <Tab>Colors</Tab>
             <Tab>Typography</Tab>
             <Tab>Spacing</Tab>
             <Tab>Borders & Shadows</Tab>
@@ -52,14 +50,9 @@ export const ThemeEditor: React.FC = () => {
           </TabList>
 
           <TabPanels>
-            {/* Colors from Picker Tab */}
+            {/* Unified Color Management Tab */}
             <TabPanel>
-              <ColorPickerTab />
-            </TabPanel>
-
-            {/* Colors from Image Tab */}
-            <TabPanel>
-              <ImageColorTab />
+              <ColorManagementTab />
             </TabPanel>
 
             {/* Typography Tab */}

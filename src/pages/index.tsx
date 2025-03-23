@@ -30,6 +30,15 @@ const IndexPage: React.FC<PageProps> = () => {
               Modify colors, typography, spacing, and more, then export your
               theme file.
             </Text>
+            <Text
+              fontSize="md"
+              color={useColorModeValue("gray.600", "gray.400")}
+              maxW="3xl"
+            >
+              There are great starter color palettes for inspiration. We have
+              created reusable UI components in your colors like cards and
+              tables that you can use in your site as-is.
+            </Text>
           </VStack>
 
           <ThemeEditor />

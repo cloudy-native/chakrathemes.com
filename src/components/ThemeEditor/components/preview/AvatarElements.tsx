@@ -42,8 +42,6 @@ const AvatarElements: React.FC<AvatarElementsProps> = ({ colorKey }) => {
           <HStack spacing={4}>
             {[
               `${colorKey}.200`,
-              "green.500",
-              "red.500",
             ].map((badgeBg, index) => (
               <Avatar
                 key={index}

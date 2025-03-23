@@ -9,6 +9,8 @@ import InputElements from "./InputElements";
 import TagElements from "./TagElements";
 import AlertElements from "./AlertElements";
 import AvatarElements from "./AvatarElements";
+import BorderShadowElements from "./BorderShadowElements";
+import CombinedStylesPreview from "./CombinedStylesPreview";
 
 interface ComponentPreviewProps {
   colorKey: string;
@@ -25,6 +27,10 @@ const ComponentPreview: React.FC<ComponentPreviewProps> = ({
 
   return (
     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
+      {/* Add the Border/Shadow components at the top for better visibility */}
+      <BorderShadowElements themeValues={themeValues} colorKey={colorKey} />
+      <CombinedStylesPreview colorKey={colorKey} themeValues={themeValues} />
+      
       <BasicElements colorKey={colorKey} />
       <ButtonStyles colorKey={colorKey} />
       <ProgressElements colorKey={colorKey} />
