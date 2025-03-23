@@ -102,7 +102,7 @@ Edit the theme in `src/theme/index.ts`:
 const theme = extendTheme({
   config: {
     initialColorMode: "system",
-    useSystemColorMode: true,
+    useSystemColorMode: false,
   },
   fonts: {
   },

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text, Flex, HStack, useColorModeValue } from "@chakra-ui/react";
-import { ColorSwatch as ColorSwatchType } from "../utils/colorUtils";
+import { ColorSwatch as ColorSwatchType } from "../../../types";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import ThemeColorSwatch from "./ThemeColorSwatch";
 

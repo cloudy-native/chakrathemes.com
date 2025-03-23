@@ -1,12 +1,12 @@
-import { ThemeValues } from './useColorManagement';
+import { ThemeValues } from '../types';
 
 export const useSpacingAndRadius = (
   themeValues: ThemeValues,
   updateThemeValue: (path: string[], value: any) => void
 ) => {
   // Handle spacing change
-  const handleSpacingChange = (spaceKey: string, value: string) => {
-    updateThemeValue(['space', spaceKey], value);
+  const handleSpacingChange = (spacingKey: string, value: string) => {
+    updateThemeValue(['space', spacingKey], value);
   };
 
   // Handle border radius change

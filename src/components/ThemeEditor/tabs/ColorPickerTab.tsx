@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Divider,
   FormLabel,
   HStack,
@@ -15,34 +14,23 @@ import React, { useState, useEffect } from "react";
 import ColorInput from "../components/ColorInput";
 import ColorSwatch from "../components/ColorSwatch";
 import PaletteGenerator from "../components/PaletteGenerator";
-import { ColorSwatch as ColorSwatchType } from "../utils/colorUtils";
+import { useThemeContext } from "../../../context/ThemeContext";
 
-interface ColorPickerTabProps {
-  newColorName: string;
-  setNewColorName: (name: string) => void;
-  baseColor: string;
-  setBaseColor: (color: string) => void;
-  addNewColorPalette: () => void;
-  updateColorPalette: (colorKey: string, newBaseColor: string) => void;
-  updateColorValue: (
-    colorCategory: string,
-    shade: string,
-    value: string
-  ) => void;
-  colors: ColorSwatchType[];
-}
+export const ColorPickerTab: React.FC = () => {
+  const {
+    newColorName,
+    setNewColorName,
+    baseColor,
+    setBaseColor,
+    addNewColorPalette,
+    updateColorPalette,
+    updateColorValue,
+    getColors,
+  } = useThemeContext();
 
-export const ColorPickerTab: React.FC<ColorPickerTabProps> = ({
-  newColorName,
-  setNewColorName,
-  baseColor,
-  setBaseColor,
-  addNewColorPalette,
-  updateColorPalette,
-  updateColorValue,
-  colors,
-}) => {
+  const colors = getColors();
   const borderColor = useColorModeValue("gray.200", "gray.700");
+  
   // Initialize with first color swatch open
   const [openColorSwatches, setOpenColorSwatches] = useState<{
     [key: string]: boolean;
@@ -178,17 +166,6 @@ export const ColorPickerTab: React.FC<ColorPickerTabProps> = ({
                     />
                   </InputRightElement>
                 </InputGroup>
-                {/* <Button
-                  size="sm"
-                  colorScheme="blue"
-                  onClick={() => {
-                    const colorValue = inputValues[colorSwatch.colorKey] || colorSwatch.colorShades["500"] || "#000000";
-                    updateColorPalette(colorSwatch.colorKey, colorValue);
-                  }}
-                  title="Generate a palette from the base color"
-                >
-                  Apply Color
-                </Button> */}
               </HStack>
             </Box>
 

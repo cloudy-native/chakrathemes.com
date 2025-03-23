@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import { useToast } from "@chakra-ui/react";
 import { Vibrant } from "node-vibrant/browser";
-import { ExtractedColor, generateColorPalette } from "../utils/colorUtils";
-import { ThemeValues } from "./useColorManagement";
+import { generateColorPalette } from "../utils/colorUtils";
+import { ExtractedColor, ThemeValues } from "../types";
 
 export const useImageColorExtraction = (
   themeValues: ThemeValues,
@@ -12,9 +12,7 @@ export const useImageColorExtraction = (
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [extractedColors, setExtractedColors] = useState<ExtractedColor[]>([]);
   const [extractionLoading, setExtractionLoading] = useState(false);
-  const [selectedColorFromImage, setSelectedColorFromImage] = useState<
-    string | null
-  >(null);
+  const [selectedColorFromImage, setSelectedColorFromImage] = useState<string | null>(null);
   const [newPaletteNameFromImage, setNewPaletteNameFromImage] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const toast = useToast();

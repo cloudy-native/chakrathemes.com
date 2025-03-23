@@ -13,12 +13,7 @@ import {
   SliderTrack,
   Text,
 } from '@chakra-ui/react';
-import { ThemeValues } from '../hooks/useColorManagement';
-
-interface BorderRadiusTabProps {
-  themeValues: ThemeValues;
-  handleRadiiChange: (radiusKey: string, value: string) => void;
-}
+import { useThemeContext } from '../../../context/ThemeContext';
 
 // Chakra UI default border radius values - used for reset
 const DEFAULT_RADII = {
@@ -40,8 +35,8 @@ const SIZE_RADII = ['none', 'sm', 'base', 'md', 'lg', 'xl', '2xl', '3xl', 'full'
 const BorderRadiusControl: React.FC<{
   radiusKey: string;
   radiusValue: string;
-  handleRadiiChange: (radiusKey: string, value: string) => void;
-}> = ({ radiusKey, radiusValue, handleRadiiChange }) => {
+  onChange: (radiusKey: string, value: string) => void;
+}> = ({ radiusKey, radiusValue, onChange }) => {
   // Parse rem value for slider
   const parseRemValue = (value: string): number => {
     if (value === '0') return 0;
@@ -89,7 +84,7 @@ const BorderRadiusControl: React.FC<{
         {showInput && (
           <Input
             value={radiusValue}
-            onChange={(e) => handleRadiiChange(radiusKey, e.target.value)}
+            onChange={(e) => onChange(radiusKey, e.target.value)}
             size="sm"
             width="120px"
           />
@@ -119,13 +114,13 @@ const BorderRadiusControl: React.FC<{
           value={remValue}
           onChange={(val) => {
             if (val === 0) {
-              handleRadiiChange(radiusKey, "0");
+              onChange(radiusKey, "0");
             } else if (radiusValue.includes('px')) {
               // Keep px values in px
-              handleRadiiChange(radiusKey, `${Math.round(val * 16)}px`);
+              onChange(radiusKey, `${Math.round(val * 16)}px`);
             } else {
               // Default to rem for other values
-              handleRadiiChange(radiusKey, `${val}rem`);
+              onChange(radiusKey, `${val}rem`);
             }
           }}
         >
@@ -141,10 +136,14 @@ const BorderRadiusControl: React.FC<{
   );
 };
 
-export const BorderRadiusTab: React.FC<BorderRadiusTabProps> = ({
-  themeValues,
-  handleRadiiChange,
-}) => {
+export const BorderRadiusTab: React.FC = () => {
+  const { themeValues, updateThemeValue } = useThemeContext();
+  
+  // Handler for radius value changes
+  const handleRadiiChange = (radiusKey: string, value: string) => {
+    updateThemeValue(['radii', radiusKey], value);
+  };
+  
   // Reset border radius to defaults
   const handleResetRadii = () => {
     Object.entries(DEFAULT_RADII).forEach(([radiusKey, radiusValue]) => {
@@ -211,7 +210,7 @@ export const BorderRadiusTab: React.FC<BorderRadiusTabProps> = ({
               key={radiusKey}
               radiusKey={radiusKey}
               radiusValue={radiusValue as string}
-              handleRadiiChange={handleRadiiChange}
+              onChange={handleRadiiChange}
             />
           ))}
       </SimpleGrid>

@@ -22,12 +22,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ThemeValues } from "../hooks/useColorManagement";
-
-interface SpacingTabProps {
-  themeValues: ThemeValues;
-  handleSpacingChange: (spaceKey: string, value: string) => void;
-}
+import { useThemeContext } from "../../../context/ThemeContext";
 
 // Chakra UI default spacing values - used for reset
 const DEFAULT_SPACING = {
@@ -202,10 +197,14 @@ const SpacingControl: React.FC<{
   );
 };
 
-export const SpacingTab: React.FC<SpacingTabProps> = ({
-  themeValues,
-  handleSpacingChange,
-}) => {
+export const SpacingTab: React.FC = () => {
+  const { themeValues, updateThemeValue } = useThemeContext();
+  
+  // Handle spacing value changes
+  const handleSpacingChange = (spaceKey: string, value: string) => {
+    updateThemeValue(['space', spaceKey], value);
+  };
+
   // Reset spacing to defaults
   const handleResetSpacing = () => {
     Object.entries(DEFAULT_SPACING).forEach(([spaceKey, spaceValue]) => {
