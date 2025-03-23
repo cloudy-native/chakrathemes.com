@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { ColorPalette, ComponentPreview } from "../components/preview";
-import { useThemeContext } from "../../../context/ThemeContext";
+import { useThemeContext } from "@/context/ThemeContext";
 
 export const ComponentsPreviewTab: React.FC = () => {
   const { themeValues } = useThemeContext();

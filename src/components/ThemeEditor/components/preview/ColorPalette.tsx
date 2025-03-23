@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
-import { ThemeValues } from "../../../../types";
+import { ThemeValues } from "@/types";
 
 interface ColorPaletteProps {
   colorKey: string;

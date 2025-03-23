@@ -11,7 +11,7 @@ import {
   InputRightElement,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { generateColorPalette } from '../../../utils/colorUtils';
+import { generateColorPalette } from '@/utils/colorUtils';
 import ThemeColorSwatch from './ThemeColorSwatch';
 
 interface PaletteGeneratorProps {

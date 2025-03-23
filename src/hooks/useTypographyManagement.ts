@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GoogleFont, GoogleFontsResponse } from '../types';
+import { GoogleFont, GoogleFontsResponse } from '@/types';
 
 // Font weight mapping for preview
 export const FONT_WEIGHT_VARIANTS = [

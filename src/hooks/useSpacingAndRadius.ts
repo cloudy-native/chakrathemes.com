@@ -1,4 +1,4 @@
-import { ThemeValues } from '../types';
+import { ThemeValues } from '@/types';
 
 export const useSpacingAndRadius = (
   themeValues: ThemeValues,

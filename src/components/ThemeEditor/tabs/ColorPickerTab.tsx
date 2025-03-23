@@ -1,3 +1,4 @@
+import { useThemeContext } from "@/context/ThemeContext";
 import {
   Box,
   Divider,
@@ -10,11 +11,10 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ColorInput from "../components/ColorInput";
 import ColorSwatch from "../components/ColorSwatch";
 import PaletteGenerator from "../components/PaletteGenerator";
-import { useThemeContext } from "../../../context/ThemeContext";
 
 export const ColorPickerTab: React.FC = () => {
   const {
@@ -30,7 +30,7 @@ export const ColorPickerTab: React.FC = () => {
 
   const colors = getColors();
   const borderColor = useColorModeValue("gray.200", "gray.700");
-  
+
   // Initialize with first color swatch open
   const [openColorSwatches, setOpenColorSwatches] = useState<{
     [key: string]: boolean;
@@ -48,8 +48,9 @@ export const ColorPickerTab: React.FC = () => {
   }>(() => {
     // Initialize with current 500 colors
     const initialValues: { [key: string]: string } = {};
-    colors.forEach(colorSwatch => {
-      initialValues[colorSwatch.colorKey] = colorSwatch.colorShades["500"] || "#000000";
+    colors.forEach((colorSwatch) => {
+      initialValues[colorSwatch.colorKey] =
+        colorSwatch.colorShades["500"] || "#000000";
     });
     return initialValues;
   });
@@ -57,12 +58,13 @@ export const ColorPickerTab: React.FC = () => {
   // Effect to update inputValues when colors change
   useEffect(() => {
     const newValues: { [key: string]: string } = {};
-    colors.forEach(colorSwatch => {
-      newValues[colorSwatch.colorKey] = colorSwatch.colorShades["500"] || "#000000";
+    colors.forEach((colorSwatch) => {
+      newValues[colorSwatch.colorKey] =
+        colorSwatch.colorShades["500"] || "#000000";
     });
-    setInputValues(prevValues => ({
+    setInputValues((prevValues) => ({
       ...prevValues,
-      ...newValues
+      ...newValues,
     }));
   }, [colors]);
 
@@ -131,15 +133,19 @@ export const ColorPickerTab: React.FC = () => {
                   <Input
                     type="text"
                     placeholder="Base color (hex)"
-                    value={inputValues[colorSwatch.colorKey] || colorSwatch.colorShades["500"] || "#000000"}
+                    value={
+                      inputValues[colorSwatch.colorKey] ||
+                      colorSwatch.colorShades["500"] ||
+                      "#000000"
+                    }
                     onChange={(e) => {
                       // Update input state
                       const newColor = e.target.value;
-                      setInputValues(prev => ({
+                      setInputValues((prev) => ({
                         ...prev,
-                        [colorSwatch.colorKey]: newColor
+                        [colorSwatch.colorKey]: newColor,
                       }));
-                      
+
                       // Only update the palette if it's a valid hex color
                       if (newColor.match(/^#([0-9A-F]{3}){1,2}$/i)) {
                         updateColorPalette(colorSwatch.colorKey, newColor);
@@ -149,16 +155,20 @@ export const ColorPickerTab: React.FC = () => {
                   <InputRightElement width="3.5rem">
                     <input
                       type="color"
-                      value={inputValues[colorSwatch.colorKey] || colorSwatch.colorShades["500"] || "#000000"}
+                      value={
+                        inputValues[colorSwatch.colorKey] ||
+                        colorSwatch.colorShades["500"] ||
+                        "#000000"
+                      }
                       onChange={(e) => {
                         const newColor = e.target.value;
-                        
+
                         // Update the state with the new color
-                        setInputValues(prev => ({
+                        setInputValues((prev) => ({
                           ...prev,
-                          [colorSwatch.colorKey]: newColor
+                          [colorSwatch.colorKey]: newColor,
                         }));
-                        
+
                         // Immediately update the palette with the new color
                         updateColorPalette(colorSwatch.colorKey, newColor);
                       }}

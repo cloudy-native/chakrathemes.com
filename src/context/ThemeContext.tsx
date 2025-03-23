@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
-import { ThemeValues } from '../types';
-import { defaultTheme } from '../hooks/useThemeValues';
-import { generateColorPalette } from '../utils/colorUtils';
+import { ThemeValues } from '@/types';
+import { defaultTheme } from '@/hooks/useThemeValues';
+import { generateColorPalette } from '@/utils/colorUtils';
 import { useToast } from '@chakra-ui/react';
 
 interface ThemeContextType {

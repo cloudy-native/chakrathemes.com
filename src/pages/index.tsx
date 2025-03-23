@@ -34,7 +34,7 @@ const IndexPage: React.FC<PageProps> = () => {
 
           <ThemeEditor />
           <Alert status="warning">
-            <AlertIcon /> This is v0.0.1-alpha of the editor. Is is full of bugs
+            <AlertIcon /> This is v0.0.1-beta of the editor. Is is full of bugs
             and UX issues. Apologies. It is actively being worked on.
           </Alert>
         </VStack>

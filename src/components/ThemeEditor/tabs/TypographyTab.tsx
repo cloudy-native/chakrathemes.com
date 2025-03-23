@@ -29,9 +29,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
-import { useThemeContext } from "../../../context/ThemeContext";
-import { FONT_WEIGHT_VARIANTS } from "../../../hooks/useTypographyManagement";
-import { GoogleFont, GoogleFontsResponse } from "../../../types";
+import { useThemeContext } from "@/context/ThemeContext";
+import { FONT_WEIGHT_VARIANTS } from "@/hooks/useTypographyManagement";
+import { GoogleFont, GoogleFontsResponse } from "@/types";
 
 // Default font sizes for reset functionality
 const DEFAULT_FONT_SIZES = {

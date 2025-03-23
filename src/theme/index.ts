@@ -3,7 +3,7 @@ import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 // Color configuration for light/dark mode
 const config: ThemeConfig = {
   initialColorMode: "light",
-  useSystemColorMode: true,
+  useSystemColorMode: false,
 };
 
 // Custom theme definition with jewel tones

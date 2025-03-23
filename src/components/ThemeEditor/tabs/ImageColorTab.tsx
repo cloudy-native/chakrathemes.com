@@ -15,10 +15,10 @@ import {
   Image as ChakraImage,
   useToast,
 } from "@chakra-ui/react";
-import { generateColorPalette } from "../../../utils/colorUtils";
+import { generateColorPalette } from "@/utils/colorUtils";
 import PalettePreview from "../components/PalettePreview";
-import { ExtractedColor } from "../../../types";
-import { useThemeContext } from "../../../context/ThemeContext";
+import { ExtractedColor } from "@/types";
+import { useThemeContext } from "@/context/ThemeContext";
 import { Vibrant } from "node-vibrant/browser";
 
 export const ImageColorTab: React.FC = () => {

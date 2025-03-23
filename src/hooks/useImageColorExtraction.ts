@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import { useToast } from "@chakra-ui/react";
 import { Vibrant } from "node-vibrant/browser";
-import { generateColorPalette } from "../utils/colorUtils";
-import { ExtractedColor, ThemeValues } from "../types";
+import { generateColorPalette } from "@/utils/colorUtils";
+import { ExtractedColor, ThemeValues } from "@/types";
 
 export const useImageColorExtraction = (
   themeValues: ThemeValues,

@@ -1,6 +1,6 @@
 import React from "react";
 import { SimpleGrid } from "@chakra-ui/react";
-import { ThemeValues } from "../../../../types";
+import { ThemeValues } from "@/types";
 import BasicElements from "./BasicElements";
 import ButtonStyles from "./ButtonStyles";
 import ProgressElements from "./ProgressElements";

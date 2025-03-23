@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useToast } from '@chakra-ui/react';
-import { generateColorPalette } from '../utils/colorUtils';
-import { ColorSwatch, ThemeValues } from '../types';
+import { generateColorPalette } from '@/utils/colorUtils';
+import { ColorSwatch, ThemeValues } from '@/types';
 
 export const useColorManagement = (
   themeValues: ThemeValues, 

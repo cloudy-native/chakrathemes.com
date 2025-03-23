@@ -25,6 +25,9 @@ export interface ThemeValues {
   radii: {
     [key: string]: string;
   };
+  shadows: {
+    [key: string]: string;
+  };
   letterSpacings?: {
     [key: string]: string;
   };

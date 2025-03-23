@@ -14,11 +14,11 @@ import ColorPickerTab from './tabs/ColorPickerTab';
 import ImageColorTab from './tabs/ImageColorTab';
 import TypographyTab from './tabs/TypographyTab';
 import SpacingTab from './tabs/SpacingTab';
-import BorderRadiusTab from './tabs/BorderRadiusTab';
+import BordersAndShadowsTab from './tabs/BordersAndShadowsTab';
 import ComponentsPreviewTab from './tabs/ComponentsPreviewTab';
 
 // Import context provider
-import { ThemeProvider } from '../../context/ThemeContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 export const ThemeEditor: React.FC = () => {
   // UI state
@@ -47,7 +47,7 @@ export const ThemeEditor: React.FC = () => {
             <Tab>Colors from Image</Tab>
             <Tab>Typography</Tab>
             <Tab>Spacing</Tab>
-            <Tab>Border Radius</Tab>
+            <Tab>Borders & Shadows</Tab>
             <Tab>Your Theme</Tab>
           </TabList>
 
@@ -72,9 +72,9 @@ export const ThemeEditor: React.FC = () => {
               <SpacingTab />
             </TabPanel>
 
-            {/* Border Radius Tab */}
+            {/* Borders & Shadows Tab */}
             <TabPanel>
-              <BorderRadiusTab />
+              <BordersAndShadowsTab />
             </TabPanel>
 
             {/* Components Preview Tab */}
