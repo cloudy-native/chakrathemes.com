@@ -22,12 +22,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ThemeValues } from "../hooks/useColorManagement";
-
-interface SpacingTabProps {
-  themeValues: ThemeValues;
-  handleSpacingChange: (spaceKey: string, value: string) => void;
-}
+import { useThemeContext } from "@/context/ThemeContext";
 
 // Chakra UI default spacing values - used for reset
 const DEFAULT_SPACING = {
@@ -202,10 +197,14 @@ const SpacingControl: React.FC<{
   );
 };
 
-export const SpacingTab: React.FC<SpacingTabProps> = ({
-  themeValues,
-  handleSpacingChange,
-}) => {
+export const SpacingTab: React.FC = () => {
+  const { themeValues, updateThemeValue } = useThemeContext();
+  
+  // Handle spacing value changes
+  const handleSpacingChange = (spaceKey: string, value: string) => {
+    updateThemeValue(['space', spaceKey], value);
+  };
+
   // Reset spacing to defaults
   const handleResetSpacing = () => {
     Object.entries(DEFAULT_SPACING).forEach(([spaceKey, spaceValue]) => {
@@ -216,8 +215,30 @@ export const SpacingTab: React.FC<SpacingTabProps> = ({
   // Add t-shirt sizes
   const handleAddTshirtSizes = () => {
     T_SHIRT_SIZES.forEach((sizeKey) => {
+      // Look up in DEFAULT_SPACING
       if (DEFAULT_SPACING[sizeKey]) {
         handleSpacingChange(sizeKey, DEFAULT_SPACING[sizeKey]);
+      } else {
+        // Fallback values in case they're not in DEFAULT_SPACING
+        const fallbackSizes = {
+          'xs': '0.75rem',
+          'sm': '0.875rem',
+          'md': '1rem',
+          'lg': '1.125rem',
+          'xl': '1.25rem',
+          '2xl': '1.5rem',
+          '3xl': '1.875rem',
+          '4xl': '2.25rem',
+          '5xl': '3rem',
+          '6xl': '3.75rem',
+          '7xl': '4.5rem',
+          '8xl': '6rem',
+          '9xl': '8rem',
+        };
+        
+        if (fallbackSizes[sizeKey]) {
+          handleSpacingChange(sizeKey, fallbackSizes[sizeKey]);
+        }
       }
     });
   };
@@ -243,7 +264,7 @@ export const SpacingTab: React.FC<SpacingTabProps> = ({
 
       <Divider mb={6} />
 
-      <Tabs variant="enclosed" isLazy>
+      <Tabs variant="line" isLazy>
         <TabList>
           <Tab>Small Numeric (0-12)</Tab>
           <Tab>Large Numeric (14+)</Tab>

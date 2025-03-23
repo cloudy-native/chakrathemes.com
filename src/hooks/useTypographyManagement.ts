@@ -1,19 +1,8 @@
 import { useState, useEffect } from 'react';
-import { ThemeValues } from './useColorManagement';
-
-// Define interface for Google Font data
-interface GoogleFont {
-  family: string;
-  variants: string[];
-  category: string;
-}
-
-interface GoogleFontsResponse {
-  items: GoogleFont[];
-}
+import { GoogleFont, GoogleFontsResponse } from '@/types';
 
 // Font weight mapping for preview
-const FONT_WEIGHT_VARIANTS = [
+export const FONT_WEIGHT_VARIANTS = [
   { name: 'Thin', value: 100 },
   { name: 'Light', value: 300 },
   { name: 'Regular', value: 400 },
@@ -25,7 +14,6 @@ const FONT_WEIGHT_VARIANTS = [
 ];
 
 export const useTypographyManagement = (
-  themeValues: ThemeValues,
   updateThemeValue: (path: string[], value: any) => void
 ) => {
   const [googleFonts, setGoogleFonts] = useState<GoogleFont[]>([]);
@@ -116,7 +104,6 @@ export const useTypographyManagement = (
     }
   };
 
-  // Load Google Font (scoped to ThemeEditor)
   // Load Google Font
   const loadGoogleFont = (family: string, variants: string[]) => {
     const variantsStr = variants.join(',');
@@ -175,6 +162,6 @@ export const useTypographyManagement = (
     availableVariants,
     getNumericWeight,
     error,
-    FONT_WEIGHT_VARIANTS
+    getDefaultFallback
   };
 };

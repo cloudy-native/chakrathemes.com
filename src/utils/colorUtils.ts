@@ -60,16 +60,3 @@ export const generateColorPalette = (baseColor: string): { [key: string]: string
     900: darken(baseColor, 0.6),   // Very dark
   };
 };
-
-/**
- * Common color-related types
- */
-export interface ColorSwatch {
-  colorKey: string;
-  colorShades: { [key: string]: string };
-}
-
-export interface ExtractedColor {
-  name: string;
-  color: string;
-}

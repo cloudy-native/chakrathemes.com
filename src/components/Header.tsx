@@ -1,4 +1,5 @@
 import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { FaGithub } from "react-icons/fa";
 import {
   Box,
   Button,
@@ -13,6 +14,7 @@ import {
   useColorMode,
   useColorModeValue,
   useDisclosure,
+  Tooltip,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import React from "react";
@@ -24,10 +26,10 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  {
-    label: "Home",
-    href: "/",
-  },
+  // {
+  //   label: "Home",
+  //   href: "/",
+  // },
 ];
 
 const Header = () => {
@@ -66,7 +68,7 @@ const Header = () => {
               color: "primary.600",
             }}
           >
-            chakratheme.com
+            chakrathemes.com
           </Text>
 
           {/* Desktop Navigation */}
@@ -90,12 +92,25 @@ const Header = () => {
                 </Link>
               ))}
             </HStack>
-            <IconButton
-              aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
-              variant="ghost"
-              icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-              onClick={toggleColorMode}
-            />
+
+            <HStack spacing={4}>
+              <IconButton
+                aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
+                variant="ghost"
+                icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                onClick={toggleColorMode}
+              />
+              <Button
+                as="a"
+                href="https://github.com/cloudy-native/chakrathemes.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                rightIcon={<FaGithub />}
+                variant="outline"
+              >
+                Fork me on GitHub
+              </Button>
+            </HStack>
           </HStack>
 
           {/* Mobile Navigation Toggle */}
@@ -143,8 +158,24 @@ const Header = () => {
                 variant="outline"
                 justifyContent="flex-start"
                 width="fit-content"
+                mb={2}
               >
                 Switch to {colorMode === "light" ? "Dark" : "Light"} Mode
+              </Button>
+
+              <Button
+                as="a"
+                href="https://github.com/ChakraThemes/chakrathemes.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                size="sm"
+                leftIcon={<FaGithub />}
+                variant="outline"
+                colorScheme="gray"
+                justifyContent="flex-start"
+                width="fit-content"
+              >
+                Fork me on GitHub
               </Button>
             </Stack>
           </Box>

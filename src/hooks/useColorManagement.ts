@@ -1,40 +1,13 @@
 import { useState } from 'react';
 import { useToast } from '@chakra-ui/react';
-import { generateColorPalette, ColorSwatch } from '../utils/colorUtils';
+import { generateColorPalette } from '@/utils/colorUtils';
+import { ColorSwatch, ThemeValues } from '@/types';
 
-export interface ColorManagementState {
-  newColorName: string;
-  baseColor: string;
-}
-
-export interface ThemeValues {
-  config: {
-    initialColorMode: string;
-    useSystemColorMode: boolean;
-  };
-  colors: {
-    [key: string]: {
-      [key: string]: string;
-    };
-  };
-  fonts: {
-    [key: string]: string;
-  };
-  fontSizes: {
-    [key: string]: string;
-  };
-  fontWeights: {
-    [key: string]: number;
-  };
-  space: {
-    [key: string]: string;
-  };
-  radii: {
-    [key: string]: string;
-  };
-}
-
-export const useColorManagement = (themeValues: ThemeValues, setThemeValues: React.Dispatch<React.SetStateAction<ThemeValues>>) => {
+export const useColorManagement = (
+  themeValues: ThemeValues, 
+  setThemeValues: React.Dispatch<React.SetStateAction<ThemeValues>>,
+  updateThemeValue: (path: string[], value: any) => void
+) => {
   const [newColorName, setNewColorName] = useState('');
   const [baseColor, setBaseColor] = useState('#3182CE'); // Default blue color
   const toast = useToast();
@@ -97,24 +70,6 @@ export const useColorManagement = (themeValues: ThemeValues, setThemeValues: Rea
     });
   };
 
-  // Update a deep nested property in themeValues
-  const updateThemeValue = (path: string[], value: any) => {
-    setThemeValues((prev) => {
-      const newTheme = JSON.parse(JSON.stringify(prev));
-      let current = newTheme;
-      
-      for (let i = 0; i < path.length - 1; i++) {
-        if (!current[path[i]]) {
-          current[path[i]] = {};
-        }
-        current = current[path[i]];
-      }
-      
-      current[path[path.length - 1]] = value;
-      return newTheme;
-    });
-  };
-
   // Update a specific color value
   const updateColorValue = (colorCategory: string, shade: string, value: string) => {
     updateThemeValue(['colors', colorCategory, shade], value);
@@ -136,7 +91,6 @@ export const useColorManagement = (themeValues: ThemeValues, setThemeValues: Rea
     setBaseColor,
     addNewColorPalette,
     updateColorPalette,
-    updateThemeValue,
     updateColorValue,
     getColors,
   };
