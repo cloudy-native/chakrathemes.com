@@ -1,6 +1,6 @@
+import { useThemeContext } from "@/context/ThemeContext";
 import {
   Box,
-  Button,
   Divider,
   FormLabel,
   HStack,
@@ -11,38 +11,26 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ColorInput from "../components/ColorInput";
 import ColorSwatch from "../components/ColorSwatch";
 import PaletteGenerator from "../components/PaletteGenerator";
-import { ColorSwatch as ColorSwatchType } from "../utils/colorUtils";
 
-interface ColorPickerTabProps {
-  newColorName: string;
-  setNewColorName: (name: string) => void;
-  baseColor: string;
-  setBaseColor: (color: string) => void;
-  addNewColorPalette: () => void;
-  updateColorPalette: (colorKey: string, newBaseColor: string) => void;
-  updateColorValue: (
-    colorCategory: string,
-    shade: string,
-    value: string
-  ) => void;
-  colors: ColorSwatchType[];
-}
+export const ColorPickerTab: React.FC = () => {
+  const {
+    newColorName,
+    setNewColorName,
+    baseColor,
+    setBaseColor,
+    addNewColorPalette,
+    updateColorPalette,
+    updateColorValue,
+    getColors,
+  } = useThemeContext();
 
-export const ColorPickerTab: React.FC<ColorPickerTabProps> = ({
-  newColorName,
-  setNewColorName,
-  baseColor,
-  setBaseColor,
-  addNewColorPalette,
-  updateColorPalette,
-  updateColorValue,
-  colors,
-}) => {
+  const colors = getColors();
   const borderColor = useColorModeValue("gray.200", "gray.700");
+
   // Initialize with first color swatch open
   const [openColorSwatches, setOpenColorSwatches] = useState<{
     [key: string]: boolean;
@@ -60,8 +48,9 @@ export const ColorPickerTab: React.FC<ColorPickerTabProps> = ({
   }>(() => {
     // Initialize with current 500 colors
     const initialValues: { [key: string]: string } = {};
-    colors.forEach(colorSwatch => {
-      initialValues[colorSwatch.colorKey] = colorSwatch.colorShades["500"] || "#000000";
+    colors.forEach((colorSwatch) => {
+      initialValues[colorSwatch.colorKey] =
+        colorSwatch.colorShades["500"] || "#000000";
     });
     return initialValues;
   });
@@ -69,12 +58,13 @@ export const ColorPickerTab: React.FC<ColorPickerTabProps> = ({
   // Effect to update inputValues when colors change
   useEffect(() => {
     const newValues: { [key: string]: string } = {};
-    colors.forEach(colorSwatch => {
-      newValues[colorSwatch.colorKey] = colorSwatch.colorShades["500"] || "#000000";
+    colors.forEach((colorSwatch) => {
+      newValues[colorSwatch.colorKey] =
+        colorSwatch.colorShades["500"] || "#000000";
     });
-    setInputValues(prevValues => ({
+    setInputValues((prevValues) => ({
       ...prevValues,
-      ...newValues
+      ...newValues,
     }));
   }, [colors]);
 
@@ -143,15 +133,19 @@ export const ColorPickerTab: React.FC<ColorPickerTabProps> = ({
                   <Input
                     type="text"
                     placeholder="Base color (hex)"
-                    value={inputValues[colorSwatch.colorKey] || colorSwatch.colorShades["500"] || "#000000"}
+                    value={
+                      inputValues[colorSwatch.colorKey] ||
+                      colorSwatch.colorShades["500"] ||
+                      "#000000"
+                    }
                     onChange={(e) => {
                       // Update input state
                       const newColor = e.target.value;
-                      setInputValues(prev => ({
+                      setInputValues((prev) => ({
                         ...prev,
-                        [colorSwatch.colorKey]: newColor
+                        [colorSwatch.colorKey]: newColor,
                       }));
-                      
+
                       // Only update the palette if it's a valid hex color
                       if (newColor.match(/^#([0-9A-F]{3}){1,2}$/i)) {
                         updateColorPalette(colorSwatch.colorKey, newColor);
@@ -161,16 +155,20 @@ export const ColorPickerTab: React.FC<ColorPickerTabProps> = ({
                   <InputRightElement width="3.5rem">
                     <input
                       type="color"
-                      value={inputValues[colorSwatch.colorKey] || colorSwatch.colorShades["500"] || "#000000"}
+                      value={
+                        inputValues[colorSwatch.colorKey] ||
+                        colorSwatch.colorShades["500"] ||
+                        "#000000"
+                      }
                       onChange={(e) => {
                         const newColor = e.target.value;
-                        
+
                         // Update the state with the new color
-                        setInputValues(prev => ({
+                        setInputValues((prev) => ({
                           ...prev,
-                          [colorSwatch.colorKey]: newColor
+                          [colorSwatch.colorKey]: newColor,
                         }));
-                        
+
                         // Immediately update the palette with the new color
                         updateColorPalette(colorSwatch.colorKey, newColor);
                       }}
@@ -178,17 +176,6 @@ export const ColorPickerTab: React.FC<ColorPickerTabProps> = ({
                     />
                   </InputRightElement>
                 </InputGroup>
-                {/* <Button
-                  size="sm"
-                  colorScheme="blue"
-                  onClick={() => {
-                    const colorValue = inputValues[colorSwatch.colorKey] || colorSwatch.colorShades["500"] || "#000000";
-                    updateColorPalette(colorSwatch.colorKey, colorValue);
-                  }}
-                  title="Generate a palette from the base color"
-                >
-                  Apply Color
-                </Button> */}
               </HStack>
             </Box>
 

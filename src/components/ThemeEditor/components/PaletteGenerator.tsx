@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Box,
-  Button,
   FormControl,
   FormLabel,
   Input,
@@ -11,23 +10,17 @@ import {
   InputRightElement,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { generateColorPalette } from '../utils/colorUtils';
+import { generateColorPalette } from '@/utils/colorUtils';
 import ThemeColorSwatch from './ThemeColorSwatch';
 
 interface PaletteGeneratorProps {
-  colorName: string;
-  setColorName: (name: string) => void;
   baseColor: string;
   setBaseColor: (color: string) => void;
-  onGenerate: () => void;
 }
 
 export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({
-  colorName,
-  setColorName,
   baseColor,
   setBaseColor,
-  onGenerate,
 }) => {
   return (
     <Box 
@@ -38,52 +31,35 @@ export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({
     >
       <Text fontWeight="bold" mb={4}>Generate New Color Palette</Text>
       
-      <HStack spacing={4} mb={4}>
-        <FormControl>
-          <FormLabel>Color Name</FormLabel>
+      <FormControl mb={4}>
+        <FormLabel>Base Color (500)</FormLabel>
+        <InputGroup>
           <Input 
-            placeholder="e.g. primary, accent, etc." 
-            value={colorName}
-            onChange={(e) => setColorName(e.target.value)}
+            value={baseColor}
+            onChange={(e) => setBaseColor(e.target.value)}
+            placeholder="#3182CE"
           />
-        </FormControl>
-        
-        <FormControl>
-          <FormLabel>Base Color (500)</FormLabel>
-          <InputGroup>
-            <Input 
+          <InputRightElement width="3.5rem">
+            <input
+              type="color"
               value={baseColor}
               onChange={(e) => setBaseColor(e.target.value)}
+              style={{ 
+                width: "30px", 
+                height: "30px", 
+                padding: 0,
+                border: "none" 
+              }}
             />
-            <InputRightElement width="3.5rem">
-              <input
-                type="color"
-                value={baseColor}
-                onChange={(e) => setBaseColor(e.target.value)}
-                style={{ 
-                  width: "30px", 
-                  height: "30px", 
-                  padding: 0,
-                  border: "none" 
-                }}
-              />
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
-      </HStack>
-      
-      <Button 
-        colorScheme="blue" 
-        onClick={onGenerate}
-        leftIcon={<span>🎨</span>}
-      >
-        Add Palette
-      </Button>
+          </InputRightElement>
+        </InputGroup>
+      </FormControl>
       
       {/* Preview of the generated palette */}
       <Box mt={4}>
+        <Text fontSize="sm" mb={2}>Preview:</Text>
         <ThemeColorSwatch
-          colorKey={colorName || "preview"}
+          colorKey="preview"
           colorShades={generateColorPalette(baseColor)}
           size="lg"
         />
