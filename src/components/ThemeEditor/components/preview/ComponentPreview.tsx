@@ -31,7 +31,7 @@ const ComponentPreview: React.FC<ComponentPreviewProps> = ({
 }) => {
   return (
     <Box>
-      <Accordion defaultIndex={[0]} allowMultiple>
+      <Accordion allowMultiple>
         <AccordionItem>
           <AccordionButton>
             <Heading size="sm" as="span" flex="1" textAlign="left">

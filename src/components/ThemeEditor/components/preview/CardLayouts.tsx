@@ -55,13 +55,110 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
   const food = faker.helpers.arrayElement(unsplashCollections.food.images);
   const travel = faker.helpers.arrayElement(unsplashCollections.travel.images);
 
+  // For the interactive mood board card
+  const moodEmojis = ['😀', '😊', '🙂', '😐', '😕', '😣', '😢'];
+  const moodColors = ['green.400', 'green.300', 'blue.300', 'gray.400', 'yellow.300', 'orange.300', 'red.300'];
+  
   return (
     <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={8}>
+      {/* Card Layout 0: Interactive Daily Mood Tracker */}
+      <Card variant="elevated" boxShadow="lg">
+        <CardHeader borderBottomWidth="1px">
+          <Flex justifyContent="space-between" alignItems="center">
+            <Box>
+              <Heading size="md">Daily Mood Tracker</Heading>
+              <Text fontSize="sm">How are you feeling today?</Text>
+            </Box>
+            <Badge colorScheme={colorKey} fontSize="sm" variant="solid">
+              {faker.date.weekday()}
+            </Badge>
+          </Flex>
+        </CardHeader>
+        
+        <CardBody>
+          <VStack spacing={4} align="stretch">
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text fontWeight="bold">{faker.date.recent().toLocaleDateString()}</Text>
+              <Text fontWeight="bold">{faker.date.recent().toLocaleTimeString()}</Text>
+              <Text fontSize="sm" >Track your emotional wellbeing</Text>
+            </Flex>
+            
+            {/* Interactive mood selector */}
+            <Flex 
+              justifyContent="space-between" 
+              bg={`${colorKey}.50`} 
+              p={3} 
+              borderRadius="md"
+              borderWidth="1px"
+            >
+              {moodEmojis.map((emoji, idx) => (
+                <Box 
+                  key={idx}
+                  fontSize="2xl" 
+                  p={2} 
+                  borderRadius="full" 
+                  bg={idx === 2 ? moodColors[idx] : "transparent"}
+                  cursor="pointer"
+                  transform={idx === 2 ? "scale(1.2)" : "scale(1)"}
+                  _hover={{ transform: "scale(1.1)" }}
+                  transition="all 0.2s"
+                >
+                  {emoji}
+                </Box>
+              ))}
+            </Flex>
+            
+            {/* Journal entry */}
+            <Box borderWidth="1px" borderRadius="md" p={3} >
+              <Text fontSize="sm" fontStyle="italic" >
+                {faker.word.words({ count: 25 })}
+              </Text>
+            </Box>
+            
+            {/* Progress visualization */}
+            <Box>
+              <Text fontSize="sm" mb={1}>Weekly mood pattern</Text>
+              <Flex height="30px" borderRadius="md" overflow="hidden">
+                {[...Array(7)].map((_, idx) => (
+                  <Box 
+                    key={idx}
+                    flex="1"
+                    bg={faker.helpers.arrayElement(moodColors)}
+                    opacity={0.8}
+                  />
+                ))}
+              </Flex>
+            </Box>
+          </VStack>
+        </CardBody>
+        
+        <CardFooter borderTopWidth="1px" justifyContent="space-between">
+          <Button
+            size="sm"
+            variant="ghost"
+            leftIcon={<FaRegCalendarAlt />}
+            colorScheme={colorKey}
+          >
+            History
+          </Button>
+          <Button
+            size="sm"
+            colorScheme={colorKey}
+          >
+            Save Today's Mood
+          </Button>
+        </CardFooter>
+      </Card>
+      
       {/* Card Layout 1: Horizontal product card with image, details and action buttons */}
       <Card
         direction={{ base: "column", sm: "row" }}
         overflow="hidden"
         variant="outline"
+        borderRadius="lg"
+        borderWidth="2px"
+        borderColor={`${colorKey}.200`}
+        boxShadow="md"
       >
         <Image
           objectFit="cover"
@@ -98,7 +195,13 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
       </Card>
 
       {/* Card Layout 2: Social media post with avatar, content, and interaction buttons */}
-      <Card variant="outline">
+      <Card 
+        variant="outline"
+        borderRadius="sm"
+        boxShadow="2xl"
+        borderColor="gray.300"
+        _hover={{ transform: "translateY(-5px)", transition: "transform 0.3s ease" }}
+      >
         <CardHeader pb={0}>
           <Flex>
             <Flex flex="1" gap="4" alignItems="center">
@@ -167,7 +270,14 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
       </Card>
 
       {/* Card Layout 3: Event/Booking card with background color */}
-      <Card overflow="hidden">
+      <Card 
+        overflow="hidden"
+        borderRadius="3xl" 
+        borderBottomWidth="4px"
+        borderBottomColor={`${colorKey}.500`}
+        boxShadow="lg"
+        bg={`${colorKey}.50`}
+      >
         <Image
           src={conference.url}
           alt="Event Image"
@@ -212,7 +322,14 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
       </Card>
 
       {/* Card Layout 4: Restaurant/Recipe card */}
-      <Card variant="outline" overflow="hidden">
+      <Card 
+        variant="elevated" 
+        overflow="hidden"
+        borderRadius="md" 
+        boxShadow="dark-lg"
+        _hover={{ boxShadow: "2xl" }}
+        transition="box-shadow 0.3s"
+      >
         <Image src={food.url} alt={food.alt} height="160px" objectFit="cover" />
         <CardBody>
           <Flex justify="space-between" align="center" mb={2}>
@@ -260,7 +377,25 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
       </Card>
 
       {/* Card Layout 6: Profile/Contact card */}
-      <Card variant="filled" overflow="hidden">
+      <Card 
+        variant="filled" 
+        overflow="hidden"
+        borderRadius="none"
+        boxShadow="inner"
+        border="1px solid"
+        borderColor={`${colorKey}.300`}
+        position="relative"
+        _after={{
+          content: '""',
+          position: 'absolute',
+          top: '0',
+          right: '0',
+          width: '30px',
+          height: '30px',
+          bg: `${colorKey}.500`,
+          clipPath: 'polygon(0 0, 100% 0, 100% 100%)'
+        }}
+      >
         <CardHeader
           pb={0}
           textAlign="center"
