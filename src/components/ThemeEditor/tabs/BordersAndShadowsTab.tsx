@@ -1,29 +1,27 @@
-import React, { useState } from "react";
+import { useThemeContext } from "@/context/ThemeContext";
+import { CopyIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
+  Code,
   Flex,
-  Heading,
-  HStack,
+  Grid,
+  GridItem,
   Input,
   SimpleGrid,
   Slider,
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
-  Text,
-  Tabs,
-  TabList,
-  TabPanels,
   Tab,
+  TabList,
   TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
   useColorModeValue,
-  IconButton,
-  Tooltip,
-  Code,
 } from "@chakra-ui/react";
-import { CopyIcon } from "@chakra-ui/icons";
-import { useThemeContext } from "@/context/ThemeContext";
+import React, { useState } from "react";
 
 // Chakra UI default border radius values - used for reset
 const DEFAULT_RADII = {
@@ -330,17 +328,25 @@ export const BordersAndShadowsTab: React.FC = () => {
         <TabPanels>
           {/* Border Radius Panel */}
           <TabPanel p={0} pt={5}>
-            <Flex justify="space-between" mb={5} align="center">
-              <Heading size="md">Border Radius</Heading>
-              <Button size="sm" colorScheme="blue" onClick={handleResetRadii}>
-                Reset All Radii
-              </Button>
-            </Flex>
-
-            <Text mb={6} fontSize="sm">
-              Border radius values define the roundness of corners across your
-              components.
-            </Text>
+            <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+              <GridItem rowSpan={2} colSpan={4}>
+                <Text mb={6} fontSize={"sm"}>
+                  Border radius values define the roundness of corners across
+                  your components.
+                </Text>
+              </GridItem>
+              <GridItem>
+                <Flex justify="right" mb={2}>
+                  <Button
+                    colorScheme="blue"
+                    size="sm"
+                    onClick={handleResetRadii}
+                  >
+                    Reset All Radii
+                  </Button>
+                </Flex>
+              </GridItem>
+            </Grid>
 
             <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} mb={8}>
               {Object.entries(themeValues.radii || {})
@@ -375,18 +381,25 @@ export const BordersAndShadowsTab: React.FC = () => {
 
           {/* Shadow Panel */}
           <TabPanel p={0} pt={5}>
-            <Flex justify="space-between" mb={5} align="center">
-              <Heading size="md">Shadows</Heading>
-
-              <Button size="sm" colorScheme="blue" onClick={handleResetShadows}>
-                Reset All Shadows
-              </Button>
-            </Flex>
-
-            <Text mb={6} fontSize="sm">
-              Shadow values define the appearance of shadows across your
-              components.
-            </Text>
+            <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+              <GridItem rowSpan={2} colSpan={4}>
+                <Text mb={6} fontSize={"sm"}>
+                  Shadow values define the appearance of shadows across your
+                  components.
+                </Text>
+              </GridItem>
+              <GridItem>
+                <Flex justify="right" mb={2}>
+                  <Button
+                    colorScheme="blue"
+                    size="sm"
+                    onClick={handleResetShadows}
+                  >
+                    Reset All Shadows
+                  </Button>
+                </Flex>
+              </GridItem>
+            </Grid>
 
             <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} mb={8}>
               {Object.entries(themeValues.shadows || {})

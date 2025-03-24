@@ -1,65 +1,95 @@
-import React, { useState } from "react";
+import { useThemeContext } from "@/context/ThemeContext";
+import { AddIcon } from "@chakra-ui/icons";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
-  Heading,
-  Text,
-  Flex,
-  useDisclosure,
-  SimpleGrid,
   Divider,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  SimpleGrid,
+  Text,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
-import { useThemeContext } from "@/context/ThemeContext";
-import ColorSwatch from "../components/ColorSwatch";
+import React, { useState } from "react";
+import ColorSwatch, { PaintChip } from "../components/ColorSwatch";
 import NewColorModal from "../components/NewColorModal";
+import ThemeColorSwatch from "../components/ThemeColorSwatch";
 
 export const ColorManagementTab: React.FC = () => {
   const { getColors } = useThemeContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const colors = getColors();
 
-  // Track which color swatches are expanded
-  const [openColorSwatches, setOpenColorSwatches] = useState<{
-    [key: string]: boolean;
-  }>({});
-
-  // Toggle a color swatch expansion
-  const toggleColorSwatch = (colorKey: string) => {
-    setOpenColorSwatches((prev) => ({
-      ...prev,
-      [colorKey]: !prev[colorKey],
-    }));
-  };
+  // We'll use the Accordion's built-in state management instead of this
+  // No need to track expanded state manually anymore
 
   return (
     <Box>
-      <Text mb={6} fontSize="sm">
-        Create and manage color palettes for your theme. Add colors manually,
-        extract from images, or check out the curated Inspiration tab! You can
-        always copy or tweak the color values., but be careful because it's easy
-        to get messed up.
-      </Text>
-      <Flex justify="right" mb={2}>
-        <Button leftIcon={<AddIcon />} colorScheme="blue" onClick={onOpen}>
-          New Color
-        </Button>
-      </Flex>
+      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+        <GridItem rowSpan={2} colSpan={4}>
+          <Text mb={6} fontSize="sm">
+            Create and manage color palettes for your theme. Add colors
+            manually, extract from images, or check out the curated Inspiration
+            tab! You can always copy or tweak the color values., but be careful
+            because it's easy to get messed up.
+          </Text>
+        </GridItem>
+        <GridItem>
+          {" "}
+          <Flex justify="right" mb={2}>
+            <Button leftIcon={<AddIcon />} colorScheme="blue" onClick={onOpen}>
+              New Color
+            </Button>
+          </Flex>
+        </GridItem>
+      </Grid>
 
-      {/* Color Swatches */}
-      <Box mb={8}>
+      <Accordion allowMultiple defaultIndex={[]}>
         {colors.map((colorSwatch, index) => (
-          <Box key={colorSwatch.colorKey} mb={4}>
-            <ColorSwatch
-              colorSwatch={colorSwatch}
-              isOpen={!!openColorSwatches[colorSwatch.colorKey]}
-              toggleOpen={() => toggleColorSwatch(colorSwatch.colorKey)}
-            />
-            {index < colors.length - 1 && <Divider mt={4} />}
-          </Box>
+          <AccordionItem key={colorSwatch.colorKey}>
+            <AccordionButton>
+              <Box flex="1" textAlign="left">
+                <Text fontWeight="medium">{colorSwatch.colorKey}</Text>
+                <Box mt={2}>
+                  <ThemeColorSwatch 
+                    colorKey={colorSwatch.colorKey}
+                    colorShades={colorSwatch.colorShades}
+                    isCompact={true}
+                    size="lg"
+                  />
+                </Box>
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel pb={4}>
+              <Box mb={4}>
+                <SimpleGrid columns={{ base: 2, sm: 5 }} spacing={4} maxWidth="100%">
+                  {Object.entries(colorSwatch.colorShades)
+                    .sort(([a], [b]) => parseInt(a) - parseInt(b))
+                    .map(([shade, color]) => (
+                      <PaintChip 
+                        key={shade}
+                        colorKey={colorSwatch.colorKey}
+                        shade={shade}
+                        color={color as string}
+                      />
+                    ))
+                  }
+                </SimpleGrid>
+                {index < colors.length - 1 && <Divider mt={4} />}
+              </Box>
+            </AccordionPanel>
+          </AccordionItem>
         ))}
-      </Box>
+      </Accordion>
 
       {/* Empty state */}
       {colors.length === 0 && (

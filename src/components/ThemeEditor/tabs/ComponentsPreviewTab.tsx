@@ -6,6 +6,8 @@ import {
   Button,
   ChakraProvider,
   Flex,
+  Grid,
+  GridItem,
   Link,
   Spacer,
   Tab,
@@ -92,38 +94,47 @@ export default theme;`;
 
   return (
     <Box>
-      <Text mb={4} fontSize="sm">
-        Select names of color palettes below that you defined in the Colors tab
-        above. If you haven't been there yet, give it a shot. Explore
-        Typography, Spacing, and Borders & Shadows too if you're adventurous.
-        But we think you'll find the defaults perfectly reasonable.
-      </Text>
-      <Text mb={4} fontSize="sm">
-        To preview how the theme will look in your application, click Color
-        Palette, Basics, Cards, and Tables below to see samples. Make sure to
-        drill down and explore all the variations, especially Cards and Tables.
-        When you're ready, download the theme and add it to your project. Review{" "}
-        <Link
-          href="https://v2.chakra-ui.com/docs/styled-system/customize-theme"
-          isExternal
-        >
-          Customize Theme <ExternalLinkIcon />
-        </Link>{" "}
-        in the ChakraUI documentation for details.
-      </Text>
+      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+        <GridItem rowSpan={2} colSpan={4}>
+          <Text mb={4} fontSize="sm">
+            Select names of color palettes below that you defined in the Colors
+            tab above. If you haven't been there yet, give it a shot. Explore
+            Typography, Spacing, and Borders & Shadows too if you're
+            adventurous. But we think you'll find the defaults perfectly
+            reasonable.
+          </Text>
+          <Text mb={4} fontSize="sm">
+            To preview how the theme will look in your application, click Color
+            Palette, Basics, Cards, and Tables below to see samples. Make sure
+            to drill down and explore all the variations, especially Cards and
+            Tables. When you're ready, download the theme and add it to your
+            project. Review{" "}
+            <Link
+              href="https://v2.chakra-ui.com/docs/styled-system/customize-theme"
+              isExternal
+            >
+              Customize Theme <ExternalLinkIcon />
+            </Link>{" "}
+            in the ChakraUI documentation for details.
+          </Text>
+        </GridItem>
+        <GridItem>
+          <Flex align="flex-end">
+            <Spacer />
+            <Button
+              colorScheme="green"
+              onClick={downloadTheme}
+              leftIcon={<ArrowForwardIcon />}
+              mb={4}
+            >
+              Download Theme
+            </Button>
+          </Flex>
+        </GridItem>
+      </Grid>
+
       <ChakraProvider theme={previewTheme}>
         {/* Theme Code Buttons */}
-        <Flex align="flex-end">
-          <Spacer />
-          <Button
-            colorScheme="green"
-            onClick={downloadTheme}
-            leftIcon={<ArrowForwardIcon />}
-            mb={4}
-          >
-            Download Theme
-          </Button>
-        </Flex>
 
         {/* Full-width Color Palette Cards Section */}
         <Box

@@ -6,6 +6,8 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Grid,
+  GridItem,
   Heading,
   HStack,
   Input,
@@ -214,18 +216,21 @@ export const SpacingTab: React.FC = () => {
 
   return (
     <Box>
-      <Flex justify="space-between" mb={5} align="center">
-        <HStack>
-          <Button size="sm" colorScheme="blue" onClick={handleResetSpacing}>
-            Reset All Spacing
-          </Button>
-        </HStack>
-      </Flex>
-
-      <Text mb={4} fontSize="sm">
-        Spacing values are used for margins, padding, and layout sizing across
-        your theme.
-      </Text>
+      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+        <GridItem rowSpan={2} colSpan={4}>
+          <Text mb={6} fontSize="sm">
+            Spacing values are used for margins, padding, and layout sizing
+            across your theme.
+          </Text>
+        </GridItem>
+        <GridItem>
+          <Flex justify="right" mb={2}>
+            <Button size="sm" colorScheme="blue" onClick={handleResetSpacing}>
+              Reset All Spacing
+            </Button>
+          </Flex>
+        </GridItem>
+      </Grid>
 
       <Divider mb={6} />
 

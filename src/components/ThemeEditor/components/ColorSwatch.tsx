@@ -17,7 +17,7 @@ import ThemeColorSwatch from "./ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
 
 // Paint chip style color component with editable hex value
-const PaintChip: React.FC<{
+export const PaintChip: React.FC<{
   colorKey: string;
   shade: string;
   color: string;

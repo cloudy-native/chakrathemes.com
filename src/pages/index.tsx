@@ -96,19 +96,20 @@ const IndexPage: React.FC<PageProps> = () => {
           {/* Feature Cards */}
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
             <FeatureCard
-              title="Free Forever"
-              description="This tool is completely free to use. No sign-up, no limits, no pro paid license. Ever."
+              title="Genuinely Free Forever"
+              description="No catches here—completely free to use whenever you need it. No sign-ups, no usage limits, no attribution requirements, and definitely no surprise premium tiers. Just straightforward theme creation tools available to everyone.
+"
               icon={StarIcon}
               badge="Free"
             />
             <FeatureCard
-              title="Constantly Updated"
-              description="We're continuously adding new features and improvements based on community feedback to make theme creation even easier."
+              title="Constantly Improving"
+              description="We're actively developing new features based on what our users actually want. Your feedback directly shapes our roadmap, helping us make theme creation smoother and more powerful with each update."
               icon={RepeatIcon}
             />
             <FeatureCard
-              title="Production Ready"
-              description="Generate clean, optimized theme files that work perfectly with Chakra UI and can be used directly in your production applications."
+              title="Production-Ready Output"
+              description="Generate clean, optimized theme files that integrate perfectly with Chakra UI. These aren't just demo-quality exports—they're refined, efficient code you can confidently use in your professional projects right away."
               icon={CheckIcon}
             />
           </SimpleGrid>
