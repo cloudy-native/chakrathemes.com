@@ -150,7 +150,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         </CardFooter>
       </Card>
       
-      {/* Card Layout 1: Horizontal product card with image, details and action buttons */}
+      {/* Horizontal product card with image, details and action buttons */}
       <Card
         direction={{ base: "column", sm: "row" }}
         overflow="hidden"
@@ -194,7 +194,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         </Stack>
       </Card>
 
-      {/* Card Layout 2: Social media post with avatar, content, and interaction buttons */}
+      {/* Social media post with avatar, content, and interaction buttons */}
       <Card 
         variant="outline"
         borderRadius="sm"
@@ -269,14 +269,13 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         </CardFooter>
       </Card>
 
-      {/* Card Layout 3: Event/Booking card with background color */}
+      {/* Event/Booking card with background color */}
       <Card 
         overflow="hidden"
         borderRadius="3xl" 
         borderBottomWidth="4px"
         borderBottomColor={`${colorKey}.500`}
         boxShadow="lg"
-        bg={`${colorKey}.50`}
       >
         <Image
           src={conference.url}
@@ -321,7 +320,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         </CardFooter>
       </Card>
 
-      {/* Card Layout 4: Restaurant/Recipe card */}
+      {/* Restaurant/Recipe card */}
       <Card 
         variant="elevated" 
         overflow="hidden"
@@ -376,7 +375,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         </CardBody>
       </Card>
 
-      {/* Card Layout 6: Profile/Contact card */}
+      {/* Profile/Contact card */}
       <Card 
         variant="filled" 
         overflow="hidden"

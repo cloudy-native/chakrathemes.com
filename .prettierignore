@@ -1,0 +1,7 @@
+.cache
+node_modules
+public
+.github
+.vscode
+*.min.js
+package-lock.json
