@@ -165,7 +165,7 @@ const Header = () => {
 
               <Button
                 as="a"
-                href="https://github.com/ChakraThemes/chakrathemes.com"
+                href="https://github.com/cloudy-native/chakrathemes.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 size="sm"

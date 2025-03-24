@@ -34,7 +34,7 @@ export const CardLayoutsTab: React.FC = () => {
       </Text>
       
       <ChakraProvider theme={previewTheme}>
-        <Tabs variant="line" isLazy>
+        <Tabs isLazy isFitted>
           <TabList flexWrap="wrap">
             {colorKeys.map((colorKey) => (
               <Tab

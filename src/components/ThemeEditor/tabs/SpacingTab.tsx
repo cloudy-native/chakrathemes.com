@@ -199,10 +199,10 @@ const SpacingControl: React.FC<{
 
 export const SpacingTab: React.FC = () => {
   const { themeValues, updateThemeValue } = useThemeContext();
-  
+
   // Handle spacing value changes
   const handleSpacingChange = (spaceKey: string, value: string) => {
-    updateThemeValue(['space', spaceKey], value);
+    updateThemeValue(["space", spaceKey], value);
   };
 
   // Reset spacing to defaults
@@ -212,59 +212,24 @@ export const SpacingTab: React.FC = () => {
     });
   };
 
-  // Add t-shirt sizes
-  const handleAddTshirtSizes = () => {
-    T_SHIRT_SIZES.forEach((sizeKey) => {
-      // Look up in DEFAULT_SPACING
-      if (DEFAULT_SPACING[sizeKey]) {
-        handleSpacingChange(sizeKey, DEFAULT_SPACING[sizeKey]);
-      } else {
-        // Fallback values in case they're not in DEFAULT_SPACING
-        const fallbackSizes = {
-          'xs': '0.75rem',
-          'sm': '0.875rem',
-          'md': '1rem',
-          'lg': '1.125rem',
-          'xl': '1.25rem',
-          '2xl': '1.5rem',
-          '3xl': '1.875rem',
-          '4xl': '2.25rem',
-          '5xl': '3rem',
-          '6xl': '3.75rem',
-          '7xl': '4.5rem',
-          '8xl': '6rem',
-          '9xl': '8rem',
-        };
-        
-        if (fallbackSizes[sizeKey]) {
-          handleSpacingChange(sizeKey, fallbackSizes[sizeKey]);
-        }
-      }
-    });
-  };
-
   return (
     <Box>
       <Flex justify="space-between" mb={5} align="center">
-        <Heading size="md">Spacing Scale</Heading>
         <HStack>
-          <Button size="sm" colorScheme="purple" onClick={handleAddTshirtSizes}>
-            Add T-shirt Sizes
-          </Button>
           <Button size="sm" colorScheme="blue" onClick={handleResetSpacing}>
             Reset All Spacing
           </Button>
         </HStack>
       </Flex>
 
-      <Text mb={4} fontSize="sm" >
+      <Text mb={4} fontSize="sm">
         Spacing values are used for margins, padding, and layout sizing across
         your theme.
       </Text>
 
       <Divider mb={6} />
 
-      <Tabs variant="line" isLazy>
+      <Tabs isLazy isFitted>
         <TabList>
           <Tab>Small Numeric (0-12)</Tab>
           <Tab>Large Numeric (14+)</Tab>
@@ -332,18 +297,6 @@ export const SpacingTab: React.FC = () => {
                     handleSpacingChange={handleSpacingChange}
                   />
                 ))}
-              {T_SHIRT_SIZES.filter(
-                (size) => !themeValues.space || !themeValues.space[size]
-              ).length > 0 && (
-                <Box p={4} borderWidth="1px" borderRadius="md">
-                  <Text fontSize="sm" mb={2}>
-                    Some t-shirt sizes are missing
-                  </Text>
-                  <Button size="sm" onClick={handleAddTshirtSizes}>
-                    Add Missing Sizes
-                  </Button>
-                </Box>
-              )}
             </SimpleGrid>
           </TabPanel>
         </TabPanels>

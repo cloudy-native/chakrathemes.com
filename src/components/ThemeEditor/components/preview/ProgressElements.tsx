@@ -29,7 +29,7 @@ const ProgressElements: React.FC<ProgressElementsProps> = ({ colorKey }) => {
       </CardHeader>
       <CardBody>
         <VStack align="flex-start" spacing={4} width="100%">
-          <Text fontSize="sm">Progress</Text>
+          <Text fontWeight="medium" fontSize="sm">Progress</Text>
           <Progress colorScheme={colorKey} value={45} width="100%" />
           <Progress colorScheme={colorKey} hasStripe value={65} width="100%" />
           <Progress
@@ -39,15 +39,20 @@ const ProgressElements: React.FC<ProgressElementsProps> = ({ colorKey }) => {
             value={85}
             width="100%"
           />
+          
+          <Divider my={2} />
+          
+          <Text fontWeight="medium" fontSize="sm">Spinner</Text>
           <HStack spacing={4}>
-            <Text fontSize="sm">Spinner</Text>
             <Spinner color={`${colorKey}.500`} size="xs" />
             <Spinner color={`${colorKey}.500`} size="sm" />
             <Spinner color={`${colorKey}.500`} size="md" />
             <Spinner color={`${colorKey}.500`} size="lg" />
           </HStack>
-          <Divider />
-          <Text fontSize="sm">Skeleton</Text>
+          
+          <Divider my={2} />
+          
+          <Text fontWeight="medium" fontSize="sm">Skeleton</Text>
           <Box width="100%">
             <Stack>
               <Skeleton

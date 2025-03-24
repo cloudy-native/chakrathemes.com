@@ -1,13 +1,14 @@
-import React from "react";
 import {
   Card,
   CardBody,
   CardHeader,
   Heading,
+  Tag,
   VStack,
   Wrap,
-  Tag
+  WrapItem,
 } from "@chakra-ui/react";
+import React from "react";
 
 interface TagElementsProps {
   colorKey: string;
@@ -22,26 +23,38 @@ const TagElements: React.FC<TagElementsProps> = ({ colorKey }) => {
       <CardBody>
         <VStack align="flex-start" spacing={4}>
           <Wrap spacing={2}>
-            <Tag colorScheme={colorKey} size="sm">
-              Small
-            </Tag>
-            <Tag colorScheme={colorKey} size="md">
-              Medium
-            </Tag>
-            <Tag colorScheme={colorKey} size="lg">
-              Large
-            </Tag>
+            <WrapItem>
+              <Tag colorScheme={colorKey} size="sm">
+                Small
+              </Tag>
+            </WrapItem>
+            <WrapItem>
+              <Tag colorScheme={colorKey} size="md">
+                Medium
+              </Tag>
+            </WrapItem>
+            <WrapItem>
+              <Tag colorScheme={colorKey} size="lg">
+                Large
+              </Tag>
+            </WrapItem>
           </Wrap>
           <Wrap spacing={2}>
-            <Tag colorScheme={colorKey} variant="solid">
-              Solid
-            </Tag>
-            <Tag colorScheme={colorKey} variant="subtle">
-              Subtle
-            </Tag>
-            <Tag colorScheme={colorKey} variant="outline">
-              Outline
-            </Tag>
+            <WrapItem>
+              <Tag colorScheme={colorKey} variant="solid">
+                Solid
+              </Tag>
+            </WrapItem>
+            <WrapItem>
+              <Tag colorScheme={colorKey} variant="subtle">
+                Subtle
+              </Tag>
+            </WrapItem>
+            <WrapItem>
+              <Tag colorScheme={colorKey} variant="outline">
+                Outline
+              </Tag>
+            </WrapItem>
           </Wrap>
         </VStack>
       </CardBody>

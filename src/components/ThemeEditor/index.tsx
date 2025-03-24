@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Tabs,
@@ -7,49 +7,58 @@ import {
   Tab,
   TabPanel,
   useColorModeValue,
-} from '@chakra-ui/react';
+  useBreakpointValue,
+  TabProps,
+} from "@chakra-ui/react";
 
 // Import tabs
-import ColorManagementTab from './tabs/ColorManagementTab';
-import TypographyTab from './tabs/TypographyTab';
-import SpacingTab from './tabs/SpacingTab';
-import BordersAndShadowsTab from './tabs/BordersAndShadowsTab';
-import ComponentsPreviewTab from './tabs/ComponentsPreviewTab';
+import ColorManagementTab from "./tabs/ColorManagementTab";
+import TypographyTab from "./tabs/TypographyTab";
+import SpacingTab from "./tabs/SpacingTab";
+import BordersAndShadowsTab from "./tabs/BordersAndShadowsTab";
+import ComponentsPreviewTab from "./tabs/ComponentsPreviewTab";
 
 // Import context provider
-import { ThemeProvider } from '@/context/ThemeContext';
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export const ThemeEditor: React.FC = () => {
   // UI state
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  
+
   // Setup UI styling
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  // Get primary color from ThemeContext for tabs and container
+  const primaryColor = "primary";
+  const bgColor = useColorModeValue("white", "gray.900");
+  const borderColor = useColorModeValue(`${primaryColor}.50`, `${primaryColor}.900`);
+  const tabOrientation = useBreakpointValue({
+    base: "vertical",
+    md: "horizontal",
+  }) as "horizontal" | "vertical" | undefined;
 
   return (
     <ThemeProvider>
-      <Box
-        p={5}
-        borderWidth="1px"
-        bg={bgColor}
-        borderColor={borderColor}
-      >
-        <Tabs 
-          isFitted 
-          variant="line" 
-          index={activeTabIndex} 
+      <Box p={5} borderWidth="1px" bg={bgColor} borderColor={borderColor}>
+        <Tabs
+          isLazy
+          orientation={tabOrientation}
+          isFitted
+          index={activeTabIndex}
           onChange={setActiveTabIndex}
         >
           <TabList mb="1em">
+            <Tab>Theme Preview</Tab>
             <Tab>Colors</Tab>
             <Tab>Typography</Tab>
             <Tab>Spacing</Tab>
             <Tab>Borders & Shadows</Tab>
-            <Tab>Your Theme</Tab>
           </TabList>
 
           <TabPanels>
+            {/* Components Preview Tab */}
+            <TabPanel>
+              <ComponentsPreviewTab />
+            </TabPanel>
+
             {/* Unified Color Management Tab */}
             <TabPanel>
               <ColorManagementTab />
@@ -68,11 +77,6 @@ export const ThemeEditor: React.FC = () => {
             {/* Borders & Shadows Tab */}
             <TabPanel>
               <BordersAndShadowsTab />
-            </TabPanel>
-
-            {/* Components Preview Tab */}
-            <TabPanel>
-              <ComponentsPreviewTab />
             </TabPanel>
           </TabPanels>
         </Tabs>

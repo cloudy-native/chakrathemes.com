@@ -261,5 +261,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [ ] Create theme comparison view to see before/after changes
 - [ ] Enable theme sharing and collaboration features
 - [ ] Implement advanced animation and transition customization
+- [ ] Add theme upload and compare
 - [ ] Add semantic token support and management
 - [ ] Create a CLI tool to apply themes directly to existing projects

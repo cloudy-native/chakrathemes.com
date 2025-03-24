@@ -20,7 +20,9 @@ import {
   SliderFilledTrack,
   SliderThumb,
   Box,
-  Input
+  Input,
+  Divider,
+  Text
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
@@ -36,6 +38,17 @@ const InputElements: React.FC<InputElementsProps> = ({ colorKey }) => {
       </CardHeader>
       <CardBody>
         <VStack align="flex-start" spacing={4} width="100%">
+          {/* Text Inputs */}
+          <Text fontWeight="medium" fontSize="sm">Text Inputs</Text>
+          <FormControl>
+            <FormLabel>Regular Input</FormLabel>
+            <Input placeholder="Focus me" focusBorderColor={`${colorKey}.500`} />
+          </FormControl>
+          
+          <Divider my={2} />
+          
+          {/* Numeric Inputs */}
+          <Text fontWeight="medium" fontSize="sm">Numeric Inputs</Text>
           <FormControl>
             <FormLabel>Number Input</FormLabel>
             <NumberInput focusBorderColor={`${colorKey}.500`} max={10} min={0}>
@@ -46,6 +59,7 @@ const InputElements: React.FC<InputElementsProps> = ({ colorKey }) => {
               </NumberInputStepper>
             </NumberInput>
           </FormControl>
+          
           <FormControl>
             <FormLabel>Pin Input</FormLabel>
             <HStack>
@@ -57,6 +71,11 @@ const InputElements: React.FC<InputElementsProps> = ({ colorKey }) => {
               </PinInput>
             </HStack>
           </FormControl>
+          
+          <Divider my={2} />
+          
+          {/* Range Input */}
+          <Text fontWeight="medium" fontSize="sm">Range Input</Text>
           <FormControl>
             <FormLabel>Slider</FormLabel>
             <Slider
@@ -72,10 +91,6 @@ const InputElements: React.FC<InputElementsProps> = ({ colorKey }) => {
                 <Box color={`${colorKey}.500`} as={ArrowForwardIcon} />
               </SliderThumb>
             </Slider>
-          </FormControl>
-          <FormControl>
-            <FormLabel>Regular Input</FormLabel>
-            <Input placeholder="Focus me" focusBorderColor={`${colorKey}.500`} />
           </FormControl>
         </VStack>
       </CardBody>

@@ -1,16 +1,24 @@
-import React from "react";
-import { SimpleGrid } from "@chakra-ui/react";
 import { ThemeValues } from "@/types";
-import BasicElements from "./BasicElements";
-import ButtonStyles from "./ButtonStyles";
-import ProgressElements from "./ProgressElements";
-import InteractiveElements from "./InteractiveElements";
-import InputElements from "./InputElements";
-import TagElements from "./TagElements";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Heading,
+  SimpleGrid,
+} from "@chakra-ui/react";
+import React from "react";
 import AlertElements from "./AlertElements";
 import AvatarElements from "./AvatarElements";
-import BorderShadowElements from "./BorderShadowElements";
-import CombinedStylesPreview from "./CombinedStylesPreview";
+import BasicElements from "./BasicElements";
+import BorderElements from "./BorderElements";
+import ButtonStyles from "./ButtonStyles";
+import InputElements from "./InputElements";
+import InteractiveElements from "./InteractiveElements";
+import ProgressElements from "./ProgressElements";
+import ShadowElements from "./ShadowElements";
 
 interface ComponentPreviewProps {
   colorKey: string;
@@ -21,25 +29,59 @@ const ComponentPreview: React.FC<ComponentPreviewProps> = ({
   colorKey,
   themeValues,
 }) => {
-  // Use the first color palette as the primary color
-  const colorKeys = Object.keys(themeValues.colors || {});
-  const primaryColor = colorKeys.length > 0 ? colorKeys[0] : "blue";
-
   return (
-    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
-      {/* Add the Border/Shadow components at the top for better visibility */}
-      <BorderShadowElements themeValues={themeValues} colorKey={colorKey} />
-      <CombinedStylesPreview colorKey={colorKey} themeValues={themeValues} />
-      
-      <BasicElements colorKey={colorKey} />
-      <ButtonStyles colorKey={colorKey} />
-      <ProgressElements colorKey={colorKey} />
-      <InteractiveElements colorKey={colorKey} />
-      <InputElements colorKey={colorKey} />
-      <TagElements colorKey={colorKey} />
-      <AlertElements colorKey={colorKey} />
-      <AvatarElements colorKey={colorKey} />
-    </SimpleGrid>
+    <Box>
+      <Accordion defaultIndex={[0]} allowMultiple>
+        <AccordionItem>
+          <AccordionButton>
+            <Heading size="sm" as="span" flex="1" textAlign="left">
+              Visual Elements
+            </Heading>
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pb={4}>
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={6}>
+              {/* <BuiltInSchemas colorKey={colorKey} /> */}
+              <ButtonStyles colorKey={colorKey} />
+              <BorderElements themeValues={themeValues} colorKey={colorKey} />
+              <ShadowElements themeValues={themeValues} colorKey={colorKey} />
+            </SimpleGrid>
+          </AccordionPanel>
+        </AccordionItem>
+
+        <AccordionItem>
+          <AccordionButton>
+            <Heading size="sm" as="span" flex="1" textAlign="left">
+              User Controls
+            </Heading>
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pb={4}>
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={6}>
+              <BasicElements colorKey={colorKey} />
+              <InputElements colorKey={colorKey} />
+              <InteractiveElements colorKey={colorKey} />
+            </SimpleGrid>
+          </AccordionPanel>
+        </AccordionItem>
+
+        <AccordionItem>
+          <AccordionButton>
+            <Heading size="sm" as="span" flex="1" textAlign="left">
+              Feedback & Display{" "}
+            </Heading>
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pb={4}>
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+              <AlertElements colorKey={colorKey} />
+              <ProgressElements colorKey={colorKey} />
+              <AvatarElements colorKey={colorKey} />
+            </SimpleGrid>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+    </Box>
   );
 };
 

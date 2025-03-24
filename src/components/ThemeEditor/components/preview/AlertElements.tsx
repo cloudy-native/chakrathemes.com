@@ -6,7 +6,12 @@ import {
   Heading,
   VStack,
   Alert,
-  AlertIcon
+  AlertIcon,
+  Divider,
+  Text,
+  Grid,
+  GridItem,
+  Box,
 } from "@chakra-ui/react";
 
 interface AlertElementsProps {
@@ -23,19 +28,43 @@ const AlertElements: React.FC<AlertElementsProps> = ({ colorKey }) => {
         <VStack align="flex-start" spacing={4} width="100%">
           <Alert status="info" colorScheme={colorKey} variant="subtle">
             <AlertIcon />
-            This is an info alert
+            Info alert
           </Alert>
-          <Alert status="success" colorScheme={colorKey} variant="solid">
+          <Alert status="success" colorScheme={colorKey} variant="subtle">
             <AlertIcon />
-            This is a success alert
+            Success alert
           </Alert>
-          <Alert status="warning" colorScheme={colorKey} variant="left-accent">
+          <Alert status="warning" colorScheme={colorKey} variant="subtle">
             <AlertIcon />
-            This is a warning alert
+            Warning alert
           </Alert>
-          <Alert status="error" colorScheme={colorKey} variant="top-accent">
+          <Alert status="error" colorScheme={colorKey} variant="subtle">
             <AlertIcon />
-            This is an error alert
+            Error alert
+          </Alert>
+          <Alert status="loading" colorScheme={colorKey} variant="subtle">
+            <AlertIcon />
+            Loading alert
+          </Alert>
+
+          <Divider my={2} />
+
+          {/* Visual Variants */}
+          <Alert status="info" colorScheme={colorKey} variant="subtle">
+            <AlertIcon />
+            Subtle
+          </Alert>
+          <Alert status="info" colorScheme={colorKey} variant="solid">
+            <AlertIcon />
+            Solid
+          </Alert>
+          <Alert status="info" colorScheme={colorKey} variant="left-accent">
+            <AlertIcon />
+            Left Accent
+          </Alert>
+          <Alert status="info" colorScheme={colorKey} variant="top-accent">
+            <AlertIcon />
+            Top Accent
           </Alert>
         </VStack>
       </CardBody>

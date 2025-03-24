@@ -14,6 +14,7 @@ import { Link as GatsbyLink } from "gatsby";
 import React from "react";
 import { FaFacebook, FaLinkedin, FaTwitter } from "react-icons/fa";
 import BuyMeCoffeeButton from "./BuyMeCoffeeButton";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const SocialButton = ({
   children,
@@ -61,12 +62,7 @@ const Footer = () => {
   const borderColor = useColorModeValue("neutral.200", "neutral.700");
 
   return (
-    <Box
-      as="footer"
-      bg={bgColor}
-      borderTop="1px"
-      borderColor={borderColor}
-    >
+    <Box as="footer" bg={bgColor} borderTop="1px" borderColor={borderColor}>
       <Container as={Stack} maxW={"container.xl"} py={10}>
         <SimpleGrid
           templateColumns={{ sm: "1fr 1fr", md: "2fr 1fr 1fr 2fr" }}
@@ -85,9 +81,7 @@ const Footer = () => {
                 ChakraUI Themes Editor
               </Text>
             </Box>
-            <Text fontSize={"sm"}>
-              A simple ChakraUI Themes Editor. 
-            </Text>
+            <Text fontSize={"sm"}>A simple ChakraUI Themes Editor.</Text>
             <Stack direction={"row"} spacing={4}>
               <SocialButton label={"Twitter"} href={"https://twitter.com"}>
                 <FaTwitter />
@@ -136,7 +130,11 @@ const Footer = () => {
 
       <Box py={4}>
         <Text pt={2} fontSize={"sm"} textAlign={"center"}>
-          © {new Date().getFullYear()} ChakraUI Themes Editor. All rights reserved.
+          © {new Date().getFullYear()} ChakraUI Themes Editor. All rights
+          reserved. Make with ❤️ by{" "}
+          <Link href="https://www.linkedin.com/in/stephenharrison/" isExternal>
+            Stephen Harrison <ExternalLinkIcon />
+          </Link>
         </Text>
       </Box>
     </Box>

@@ -17,9 +17,7 @@ import {
   Icon,
   IconButton,
   Image,
-  Link,
   SimpleGrid,
-  Spacer,
   Stack,
   Text,
   useColorModeValue,
@@ -28,7 +26,6 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 import { faker } from "@faker-js/faker";
-import { formatRFC7231 } from "date-fns";
 import React from "react";
 import {
   FaChevronRight,
@@ -38,7 +35,6 @@ import {
   FaRegBookmark,
   FaRegCalendarAlt,
   FaRegStar,
-  FaRegThumbsUp,
   FaShare,
   FaStar,
 } from "react-icons/fa";
@@ -48,46 +44,7 @@ interface CardLayoutsProps {
   themeValues: ThemeValues;
 }
 
-// Helper function to get a lighter shade of the theme color
-const getLightShade = (themeValues: ThemeValues, colorKey: string): string => {
-  // Try to get a light shade (50, 100, or 200)
-  if (themeValues.colors && themeValues.colors[colorKey]) {
-    if (themeValues.colors[colorKey]["50"]) {
-      return `${colorKey}.50`;
-    } else if (themeValues.colors[colorKey]["100"]) {
-      return `${colorKey}.100`;
-    } else if (themeValues.colors[colorKey]["200"]) {
-      return `${colorKey}.200`;
-    }
-  }
-  return `${colorKey}.100`;
-};
-
-// Helper function to get a primary shade of the theme color
-const getPrimaryShade = (
-  themeValues: ThemeValues,
-  colorKey: string
-): string => {
-  // Try to get a medium shade (500)
-  if (themeValues.colors && themeValues.colors[colorKey]) {
-    if (themeValues.colors[colorKey]["500"]) {
-      return `${colorKey}.500`;
-    } else if (themeValues.colors[colorKey]["400"]) {
-      return `${colorKey}.400`;
-    } else if (themeValues.colors[colorKey]["600"]) {
-      return `${colorKey}.600`;
-    }
-  }
-  return `${colorKey}.500`;
-};
-
 const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
-  const lightBgColor = getLightShade(themeValues, colorKey);
-  const primaryColor = getPrimaryShade(themeValues, colorKey);
-  const bgColor = useColorModeValue("white", "gray.800");
-  const textColor = useColorModeValue("gray.700", "gray.200");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-  const secondaryTextColor = useColorModeValue("gray.600", "gray.400");
   const sofa = faker.helpers.arrayElement(unsplashCollections.sofas.images);
   const landscape = faker.helpers.arrayElement(
     unsplashCollections.landscape.images
@@ -105,8 +62,6 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         direction={{ base: "column", sm: "row" }}
         overflow="hidden"
         variant="outline"
-        borderColor={borderColor}
-        backgroundColor={bgColor}
       >
         <Image
           objectFit="cover"
@@ -121,49 +76,36 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
               {sofa.alt}
             </Heading>
             <Badge colorScheme={colorKey} mb={2}>
-              New Arrival
+              {faker.company.buzzAdjective()}
             </Badge>
-            <Text fontSize="sm" color={secondaryTextColor} mb={2}>
+            <Text fontSize="sm" mb={2}>
               {faker.commerce.productDescription()}
             </Text>
-            <Text fontWeight="bold" fontSize="xl" color={primaryColor}>
+            <Text fontWeight="bold" fontSize="xl">
               ${faker.commerce.price()}
             </Text>
           </CardBody>
 
           <CardFooter pt={0}>
             <ButtonGroup spacing={2}>
-              <Button variant="solid" size="sm" colorScheme={colorKey}>
+              <Button size="sm" colorScheme={colorKey}>
                 Add to Cart
               </Button>
-              <Button variant="ghost" size="sm" colorScheme={colorKey}>
-                Details
-              </Button>
+              <Button size="sm">Details</Button>
             </ButtonGroup>
           </CardFooter>
         </Stack>
       </Card>
 
       {/* Card Layout 2: Social media post with avatar, content, and interaction buttons */}
-      <Card
-        variant="outline"
-        borderColor={borderColor}
-        backgroundColor={bgColor}
-      >
+      <Card variant="outline">
         <CardHeader pb={0}>
           <Flex>
             <Flex flex="1" gap="4" alignItems="center">
-              <Avatar
-                src={faker.image.avatar()}
-                size="md"
-                borderColor={primaryColor}
-                borderWidth="2px"
-              />
+              <Avatar src={faker.image.avatar()} size="md" borderWidth="2px" />
               <Box>
                 <Heading size="sm">{landscape.credit}</Heading>
-                <Text fontSize="xs" color={secondaryTextColor}>
-                  Posted 2 hours ago
-                </Text>
+                <Text fontSize="xs">Posted 2 hours ago</Text>
               </Box>
             </Flex>
             <IconButton
@@ -180,10 +122,10 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
             <Text>{faker.word.words({ count: 25 })}</Text>
             <Box>
               <HStack>
-                {<Text color={primaryColor}>#{faker.word.adjective()}</Text>}
-                {<Text color={primaryColor}>#{faker.word.adjective()}</Text>}
-                {<Text color={primaryColor}>#{faker.word.adjective()}</Text>}
-                {<Text color={primaryColor}>#{faker.word.adjective()}</Text>}
+                {<Text>#{faker.word.adjective()}</Text>}
+                {<Text>#{faker.word.adjective()}</Text>}
+                {<Text>#{faker.word.adjective()}</Text>}
+                {<Text>#{faker.word.adjective()}</Text>}
               </HStack>
             </Box>
           </VStack>
@@ -193,7 +135,6 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           justify="space-between"
           flexWrap="wrap"
           borderTop="1px solid"
-          borderColor={borderColor}
         >
           <Button
             flex="1"
@@ -226,12 +167,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
       </Card>
 
       {/* Card Layout 3: Event/Booking card with background color */}
-      <Card
-        bg={lightBgColor}
-        borderRadius={themeValues.radii?.md || "md"}
-        overflow="hidden"
-        boxShadow={themeValues.shadows?.md || "md"}
-      >
+      <Card overflow="hidden">
         <Image
           src={conference.url}
           alt="Event Image"
@@ -243,7 +179,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
             <Badge colorScheme={colorKey} variant="solid">
               {faker.company.buzzAdjective()}
             </Badge>
-            <Text fontSize="sm" color={secondaryTextColor}>
+            <Text fontSize="sm">
               <Icon as={FaRegCalendarAlt} mr={1} />
               May 28, 2023
             </Text>
@@ -251,22 +187,17 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           <Heading size="md" mb={2}>
             {faker.company.name()}
           </Heading>
-          <Text fontSize="sm" color={textColor} mb={3}>
+          <Text fontSize="sm" mb={3}>
             {faker.word.words({ count: 25 })}
           </Text>
-          <HStack mb={4} color={secondaryTextColor} fontSize="xs">
+          <HStack mb={4} fontSize="xs">
             <Icon as={FaMapMarkerAlt} />
             <Text>
               {faker.location.city()}, {faker.location.country()}
             </Text>
           </HStack>
         </CardBody>
-        <CardFooter
-          pt={0}
-          borderTop="1px solid"
-          borderColor="rgba(0,0,0,0.1)"
-          justifyContent="space-between"
-        >
+        <CardFooter pt={0} justifyContent="space-between">
           <Text fontWeight="bold" fontSize="lg">
             ${faker.commerce.price()}
           </Text>
@@ -281,12 +212,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
       </Card>
 
       {/* Card Layout 4: Restaurant/Recipe card */}
-      <Card
-        variant="outline"
-        borderColor={borderColor}
-        backgroundColor={bgColor}
-        overflow="hidden"
-      >
+      <Card variant="outline" overflow="hidden">
         <Image src={food.url} alt={food.alt} height="160px" objectFit="cover" />
         <CardBody>
           <Flex justify="space-between" align="center" mb={2}>
@@ -302,7 +228,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
               ))}
             </HStack>
           </Flex>
-          <Text fontSize="sm" color={secondaryTextColor} mb={3}>
+          <Text fontSize="sm" mb={3}>
             {faker.food.description()}
           </Text>
           <Wrap spacing={2} mb={3}>
@@ -326,73 +252,15 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
             <Text fontWeight="bold" fontSize="xl">
               ${faker.commerce.price({ min: 5, max: 10 })}
             </Text>
-            <Button size="sm" colorScheme={colorKey} variant="outline">
+            <Button size="sm" colorScheme={colorKey}>
               Order Now
             </Button>
           </Flex>
         </CardBody>
       </Card>
 
-      {/* Card Layout 5: Blog post card */}
-      <Card
-        variant="outline"
-        borderColor={borderColor}
-        backgroundColor={bgColor}
-        overflow="hidden"
-      >
-        <Box position="relative">
-          <Image
-            src={travel.url}
-            alt={travel.alt}
-            height="180px"
-            objectFit="cover"
-          />
-          <Box
-            position="absolute"
-            top={0}
-            left={0}
-            right={0}
-            bottom={0}
-            bgGradient={`linear(to-b, transparent 50%, ${bgColor})`}
-          />
-          <Box position="absolute" bottom={4} left={4} right={4}>
-            <Badge colorScheme={colorKey} mb={2}>
-              Travel
-            </Badge>
-            <Heading size="md">
-              10 Hidden Gems in {faker.location.country()}
-            </Heading>
-          </Box>
-        </Box>
-        <CardBody>
-          <Text fontSize="sm" color={secondaryTextColor} mb={3}>
-            {faker.word.words({ count: 25 })}
-          </Text>
-          <Flex alignItems="center" mb={4}>
-            <Avatar size="sm" src={faker.image.avatar()} mr={2} />
-            <Box>
-              <Text fontSize="xs" fontWeight="bold">
-                By {faker.name.fullName()}
-              </Text>
-              <Text fontSize="xs" color={secondaryTextColor}>
-                {faker.person.jobTitle()} •{" "}
-                {formatRFC7231(faker.date.recent({ days: 30 }))}
-              </Text>
-            </Box>
-            <Spacer />
-            <HStack spacing={2}>
-              <Icon as={FaRegThumbsUp} />
-              <Text fontSize="xs">245</Text>
-            </HStack>
-          </Flex>
-          <Link color={`${colorKey}.500`} fontWeight="medium" fontSize="sm">
-            Read Full Article &rarr;
-          </Link>
-        </CardBody>
-      </Card>
-
       {/* Card Layout 6: Profile/Contact card */}
-      <Card variant="filled" bg={lightBgColor} overflow="hidden">
+      <Card variant="filled" overflow="hidden">
         <CardHeader
           pb={0}
           textAlign="center"
@@ -403,8 +271,6 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           <Avatar
             src={faker.image.avatar()}
             size="xl"
-            border="4px solid"
-            borderColor={bgColor}
             position="absolute"
             bottom="-40px"
             left="50%"
@@ -415,15 +281,10 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           <Heading size="md" mb={1}>
             {faker.name.fullName()}
           </Heading>
-          <Text
-            fontSize="sm"
-            fontWeight="medium"
-            color={`${colorKey}.500`}
-            mb={1}
-          >
+          <Text fontSize="sm" fontWeight="medium" mb={1}>
             {faker.person.jobTitle()}
           </Text>
-          <Text fontSize="sm" color={secondaryTextColor} mb={3}>
+          <Text fontSize="sm" mb={3}>
             {faker.location.city()}, {faker.location.state()}
           </Text>
           <Text fontSize="sm" mb={4} maxW="280px" mx="auto">
@@ -432,23 +293,17 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           <HStack justify="center" spacing={4} mb={3}>
             <VStack alignItems="center">
               <Text fontWeight="bold">24</Text>
-              <Text fontSize="xs" color={secondaryTextColor}>
-                Projects
-              </Text>
+              <Text fontSize="xs">Projects</Text>
             </VStack>
             <Divider orientation="vertical" height="40px" />
             <VStack alignItems="center">
               <Text fontWeight="bold">12k</Text>
-              <Text fontSize="xs" color={secondaryTextColor}>
-                Followers
-              </Text>
+              <Text fontSize="xs">Followers</Text>
             </VStack>
             <Divider orientation="vertical" height="40px" />
             <VStack alignItems="center">
               <Text fontWeight="bold">8</Text>
-              <Text fontSize="xs" color={secondaryTextColor}>
-                Years Exp.
-              </Text>
+              <Text fontSize="xs">Years Exp.</Text>
             </VStack>
           </HStack>
         </CardBody>

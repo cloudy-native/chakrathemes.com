@@ -54,7 +54,7 @@ const NewColorModal: React.FC<NewColorModalProps> = ({ isOpen, onClose }) => {
             />
           </FormControl>
 
-          <Tabs index={tabIndex} onChange={setTabIndex} variant="line">
+          <Tabs index={tabIndex} onChange={setTabIndex} isFitted isLazy>
             <TabList>
               <Tab>Color Picker</Tab>
               <Tab>From Image</Tab>
