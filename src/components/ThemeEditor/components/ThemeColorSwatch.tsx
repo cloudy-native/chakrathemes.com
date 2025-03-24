@@ -1,11 +1,6 @@
-import React from 'react';
-import {
-  Box,
-  Flex,
-  SimpleGrid,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import ColorTooltip from './ColorTooltip';
+import React from "react";
+import { Box, Flex, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import ColorTooltip from "./ColorTooltip";
 
 interface ColorShades {
   [key: string]: string;
@@ -16,7 +11,7 @@ interface ThemeColorSwatchProps {
   colorShades: ColorShades;
   onClick?: (colorKey: string, shade: string, color: string) => void;
   isCompact?: boolean;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: "xs" | "sm" | "md" | "lg";
   selected?: { colorKey: string; shade: string } | null;
 }
 
@@ -28,78 +23,60 @@ export const ThemeColorSwatch: React.FC<ThemeColorSwatchProps> = ({
   colorShades,
   onClick,
   isCompact = false,
-  size = 'md',
+  size = "md",
   selected = null,
 }) => {
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const highlightColor = useColorModeValue('blue.500', 'blue.300');
-  
+  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const highlightColor = useColorModeValue("blue.500", "blue.300");
+
   // Sort shades by numeric value
-  const sortedShades = Object.entries(colorShades)
-    .sort(([a], [b]) => parseInt(a) - parseInt(b));
-    
+  const sortedShades = Object.entries(colorShades).sort(([a], [b]) => parseInt(a) - parseInt(b));
+
   if (isCompact) {
     // Compact display (single row)
     return (
-      <Flex
-        borderRadius="md"
-        overflow="hidden"
-        borderWidth="1px"
-        borderColor={borderColor}
-      >
+      <Flex borderRadius="md" overflow="hidden" borderWidth="1px" borderColor={borderColor}>
         {sortedShades.map(([shade, color]) => {
-          const isSelected = selected && 
-            selected.colorKey === colorKey && 
-            selected.shade === shade;
-            
+          const isSelected = selected && selected.colorKey === colorKey && selected.shade === shade;
+
           return (
             <Box
               key={shade}
               onClick={onClick ? () => onClick(colorKey, shade, color as string) : undefined}
-              cursor={onClick ? 'pointer' : 'default'}
+              cursor={onClick ? "pointer" : "default"}
               flex={1}
               position="relative"
-              borderWidth={isSelected ? '2px' : '0'}
-              borderColor={isSelected ? highlightColor : 'transparent'}
+              borderWidth={isSelected ? "2px" : "0"}
+              borderColor={isSelected ? highlightColor : "transparent"}
               zIndex={isSelected ? 1 : 0}
             >
-              <ColorTooltip 
-                color={color as string} 
-                label={`${colorKey} ${shade}`}
-                size={size}
-              />
+              <ColorTooltip color={color as string} label={`${colorKey} ${shade}`} size={size} />
             </Box>
           );
         })}
       </Flex>
     );
   }
-  
+
   // Grid display
   return (
     <SimpleGrid columns={{ base: 5, md: 10 }} spacing={1}>
       {sortedShades.map(([shade, color]) => {
-        const isSelected = selected && 
-          selected.colorKey === colorKey && 
-          selected.shade === shade;
-          
+        const isSelected = selected && selected.colorKey === colorKey && selected.shade === shade;
+
         return (
           <Box
             key={shade}
             onClick={onClick ? () => onClick(colorKey, shade, color as string) : undefined}
-            cursor={onClick ? 'pointer' : 'default'}
-            borderWidth={isSelected ? '2px' : '0'}
-            borderColor={isSelected ? highlightColor : 'transparent'}
+            cursor={onClick ? "pointer" : "default"}
+            borderWidth={isSelected ? "2px" : "0"}
+            borderColor={isSelected ? highlightColor : "transparent"}
             borderRadius="sm"
             overflow="hidden"
             position="relative"
             zIndex={isSelected ? 1 : 0}
           >
-            <ColorTooltip 
-              color={color as string} 
-              label={`${colorKey} ${shade}`}
-              size={size}
-            />
+            <ColorTooltip color={color as string} label={`${colorKey} ${shade}`} size={size} />
           </Box>
         );
       })}

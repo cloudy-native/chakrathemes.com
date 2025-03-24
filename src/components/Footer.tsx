@@ -64,10 +64,7 @@ const Footer = () => {
   return (
     <Box as="footer" bg={bgColor} borderTop="1px" borderColor={borderColor}>
       <Container as={Stack} maxW={"container.xl"} py={10}>
-        <SimpleGrid
-          templateColumns={{ sm: "1fr 1fr", md: "2fr 1fr 1fr 2fr" }}
-          spacing={8}
-        >
+        <SimpleGrid templateColumns={{ sm: "1fr 1fr", md: "2fr 1fr 1fr 2fr" }} spacing={8}>
           <Stack spacing={6}>
             <Box>
               <Text
@@ -118,8 +115,7 @@ const Footer = () => {
           <Stack align={"flex-start"}>
             <ListHeader>Support Me</ListHeader>
             <Text>
-              If you like this and want to help a little bit, you can send small
-              donation.
+              If you like this and want to help a little bit, you can send small donation.
             </Text>
             <BuyMeCoffeeButton />
           </Stack>
@@ -130,8 +126,7 @@ const Footer = () => {
 
       <Box py={4}>
         <Text pt={2} fontSize={"sm"} textAlign={"center"}>
-          © {new Date().getFullYear()} ChakraUI Themes Editor. All rights
-          reserved. Make with ❤️ by{" "}
+          © {new Date().getFullYear()} ChakraUI Themes Editor. All rights reserved. Make with ❤️ by{" "}
           <Link href="https://www.linkedin.com/in/stephenharrison/" isExternal>
             Stephen Harrison <ExternalLinkIcon />
           </Link>

@@ -16,21 +16,18 @@ interface BorderElementsProps {
   colorKey?: string;
 }
 
-const BorderElements: React.FC<BorderElementsProps> = ({
-  themeValues,
-  colorKey,
-}) => {
+const BorderElements: React.FC<BorderElementsProps> = ({ themeValues, colorKey }) => {
   const bgColor = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
   // Get the available shadow keys
   const shadowKeys = Object.keys(themeValues.shadows || {}).filter(
-    (key) => key !== "outline" && key !== "inner" && key !== "none"
+    key => key !== "outline" && key !== "inner" && key !== "none"
   );
 
   // Get the border radius keys
   const radiusKeys = Object.keys(themeValues.radii || {}).filter(
-    (key) => key !== "none" && key !== "full"
+    key => key !== "none" && key !== "full"
   );
 
   // Use the provided colorKey or find the first available color
@@ -66,7 +63,7 @@ const BorderElements: React.FC<BorderElementsProps> = ({
           Border Radius
         </Text>
         <SimpleGrid columns={{ base: 2, md: 3 }} spacing={4}>
-          {radiusKeys.map((radiusKey) => (
+          {radiusKeys.map(radiusKey => (
             <Box
               key={radiusKey}
               bg={getActiveColorShade()}

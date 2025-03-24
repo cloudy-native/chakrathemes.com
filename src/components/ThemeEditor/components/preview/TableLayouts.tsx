@@ -47,10 +47,7 @@ interface TableLayoutsProps {
   themeValues: ThemeValues;
 }
 
-const TableLayouts: React.FC<TableLayoutsProps> = ({
-  colorKey,
-  themeValues,
-}) => {
+const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) => {
   // Helper functions for getting theme colors
   const getColor = (shade: string): string => {
     return `${colorKey}.${shade}`;
@@ -58,11 +55,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
 
   // Helper for getting a light shade of the theme color
   const getLightShade = (): string => {
-    if (
-      themeValues.colors &&
-      themeValues.colors[colorKey] &&
-      themeValues.colors[colorKey]["50"]
-    ) {
+    if (themeValues.colors && themeValues.colors[colorKey] && themeValues.colors[colorKey]["50"]) {
       return `${colorKey}.50`;
     }
     return `${colorKey}.100`;
@@ -70,11 +63,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
 
   // Helper for getting a medium shade of the theme color
   const getMediumShade = (): string => {
-    if (
-      themeValues.colors &&
-      themeValues.colors[colorKey] &&
-      themeValues.colors[colorKey]["200"]
-    ) {
+    if (themeValues.colors && themeValues.colors[colorKey] && themeValues.colors[colorKey]["200"]) {
       return `${colorKey}.200`;
     }
     return `${colorKey}.300`;
@@ -167,12 +156,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
   function randomFile() {
     return {
       name: faker.system.fileName(),
-      type: faker.helpers.arrayElement([
-        "PDF",
-        "Spreadsheet",
-        "Document",
-        "Presentation",
-      ]),
+      type: faker.helpers.arrayElement(["PDF", "Spreadsheet", "Document", "Presentation"]),
       size:
         faker.number.int({ min: 1, max: 1000 }).toString() +
         " " +
@@ -182,12 +166,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
     };
   }
 
-  const files: File[] = [
-    randomFile(),
-    randomFile(),
-    randomFile(),
-    randomFile(),
-  ];
+  const files: File[] = [randomFile(), randomFile(), randomFile(), randomFile()];
 
   const files2: File[] = [
     randomFile(),
@@ -228,7 +207,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
               </Tr>
             </Thead>
             <Tbody>
-              {products.map((product) => (
+              {products.map(product => (
                 <Tr key={product.id}>
                   <Td fontFamily="mono">{product.id}</Td>
                   <Td fontWeight="medium">{product.name}</Td>
@@ -237,10 +216,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
                   </Td>
                   <Td isNumeric>{product.price}</Td>
                   <Td isNumeric>
-                    <Text
-                      color={product.stock < 10 ? "red.500" : "green.500"}
-                      fontWeight="medium"
-                    >
+                    <Text color={product.stock < 10 ? "red.500" : "green.500"} fontWeight="medium">
                       {product.stock}
                     </Text>
                   </Td>
@@ -301,12 +277,8 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
               </Tr>
             </Thead>
             <Tbody>
-              {users.map((user) => (
-                <Tr
-                  key={user.id}
-                  _hover={{ bg: hoverBgColor }}
-                  transition="background-color 0.2s"
-                >
+              {users.map(user => (
+                <Tr key={user.id} _hover={{ bg: hoverBgColor }} transition="background-color 0.2s">
                   <Td>
                     <Checkbox colorScheme={colorKey} />
                   </Td>
@@ -374,9 +346,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
                         <MenuList>
                           <MenuItem icon={<ViewIcon />}>View details</MenuItem>
                           <MenuItem icon={<CheckIcon />}>
-                            {user.status === "Active"
-                              ? "Deactivate"
-                              : "Activate"}
+                            {user.status === "Active" ? "Deactivate" : "Activate"}
                           </MenuItem>
                           <MenuItem icon={<DeleteIcon />} color="red.500">
                             Delete
@@ -391,12 +361,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
           </Table>
         </TableContainer>
         <HStack spacing={4} mt={3} justify="flex-end">
-          <Button
-            size="sm"
-            colorScheme={colorKey}
-            leftIcon={<CheckIcon />}
-            variant="outline"
-          >
+          <Button size="sm" colorScheme={colorKey} leftIcon={<CheckIcon />} variant="outline">
             Bulk Edit
           </Button>
           <Button size="sm" colorScheme={colorKey}>
@@ -416,13 +381,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
           borderRadius={themeValues.radii?.md || "md"}
           bg={bgColor}
         >
-          <Box
-            py={3}
-            px={4}
-            borderBottom="1px solid"
-            borderColor={borderColor}
-            bg={headerBgColor}
-          >
+          <Box py={3} px={4} borderBottom="1px solid" borderColor={borderColor} bg={headerBgColor}>
             <Flex justifyContent="space-between" alignItems="center">
               <Text fontWeight="medium">Files (4)</Text>
               <HStack>
@@ -447,11 +406,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
             </Thead>
             <Tbody>
               {files.map((file, index) => (
-                <Tr
-                  key={index}
-                  _hover={{ bg: hoverBgColor }}
-                  transition="background-color 0.2s"
-                >
+                <Tr key={index} _hover={{ bg: hoverBgColor }} transition="background-color 0.2s">
                   <Td>
                     <HStack>
                       <Icon
@@ -511,13 +466,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({
               ))}
             </Tbody>
           </Table>
-          <Box
-            py={2}
-            px={4}
-            borderTop="1px solid"
-            borderColor={borderColor}
-            bg={altBgColor}
-          >
+          <Box py={2} px={4} borderTop="1px solid" borderColor={borderColor} bg={altBgColor}>
             <Flex justify="space-between" align="center">
               <Text fontSize="xs" color={subTextColor}>
                 Showing 4 of 4 files

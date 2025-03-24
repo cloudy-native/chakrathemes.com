@@ -98,19 +98,14 @@ export default theme;`;
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
         <GridItem rowSpan={2} colSpan={4}>
           <Text mb={4} fontSize="sm">
-            Select a color below to preview how the theme will look in your
-            application. Start with Color Palette and Basics. There are also
-            styled samples of Cards, Tables, and a magnificently over-engineered
-            Nuclear Power Station Dashboard. Make sure to drill down and explore
-            all the variations.{" "}
+            Select a color below to preview how the theme will look in your application. Start with
+            Color Palette and Basics. There are also styled samples of Cards, Tables, and a
+            magnificently over-engineered Nuclear Power Station Dashboard. Make sure to drill down
+            and explore all the variations.{" "}
           </Text>
           <Text mb={4} fontSize="sm">
-            When you're ready, download the theme and add it to your project.
-            Review{" "}
-            <Link
-              href="https://v2.chakra-ui.com/docs/styled-system/customize-theme"
-              isExternal
-            >
+            When you're ready, download the theme and add it to your project. Review{" "}
+            <Link href="https://v2.chakra-ui.com/docs/styled-system/customize-theme" isExternal>
               Customize Theme <ExternalLinkIcon />
             </Link>{" "}
             in the ChakraUI documentation for details.
@@ -135,21 +130,14 @@ export default theme;`;
         {/* Theme Code Buttons */}
 
         {/* Full-width Color Palette Cards Section */}
-        <Box
-          p={5}
-          borderWidth="1px"
-          borderRadius="lg"
-          boxShadow="md"
-          width="100%"
-        >
+        <Box p={5} borderWidth="1px" borderRadius="lg" boxShadow="md" width="100%">
           <Text fontSize={"sm"} mb={4}>
-            <InfoIcon /> Add more colors in the 'Colors' tab above and select
-            them here.
+            <InfoIcon /> Add more colors in the 'Colors' tab above and select them here.
           </Text>
 
           <Tabs isLazy index={colorTabIndex} onChange={setColorTabIndex}>
             <TabList flexWrap="wrap">
-              {colorKeys.map((colorKey) => (
+              {colorKeys.map(colorKey => (
                 // Determine text color based on background color luminance
                 <Tab
                   key={colorKey}
@@ -178,20 +166,15 @@ export default theme;`;
               ))}
             </TabList>
             <TabPanels mt={4}>
-              {colorKeys.map((colorKey) => (
+              {colorKeys.map(colorKey => (
                 <TabPanel key={colorKey} p={0}>
-                  <Tabs
-                    isLazy
-                    isFitted
-                    index={componentTabIndex}
-                    onChange={setComponentTabIndex}
-                  >
+                  <Tabs isLazy isFitted index={componentTabIndex} onChange={setComponentTabIndex}>
                     <TabList>
                       <Tab>Color Palette</Tab>
                       <Tab>Basics</Tab>
                       <Tab>Cards</Tab>
                       <Tab>Tables</Tab>
-                      <Tab>Dashboard</Tab>
+                      <Tab>Power Station</Tab>
                     </TabList>
                     <TabPanels>
                       <TabPanel>
@@ -203,28 +186,16 @@ export default theme;`;
                         />
                       </TabPanel>
                       <TabPanel>
-                        <ComponentPreview
-                          colorKey={colorKey}
-                          themeValues={themeValues}
-                        />
+                        <ComponentPreview colorKey={colorKey} themeValues={themeValues} />
                       </TabPanel>
                       <TabPanel>
-                        <CardLayouts
-                          colorKey={colorKey}
-                          themeValues={themeValues}
-                        />
+                        <CardLayouts colorKey={colorKey} themeValues={themeValues} />
                       </TabPanel>
                       <TabPanel>
-                        <TableLayouts
-                          colorKey={colorKey}
-                          themeValues={themeValues}
-                        />
+                        <TableLayouts colorKey={colorKey} themeValues={themeValues} />
                       </TabPanel>
                       <TabPanel>
-                        <NuclearDashboard
-                          colorKey={colorKey}
-                          themeValues={themeValues}
-                        />
+                        <NuclearDashboard colorKey={colorKey} themeValues={themeValues} />
                       </TabPanel>
                     </TabPanels>
                   </Tabs>

@@ -48,9 +48,8 @@ export const ColorPickerTab: React.FC = () => {
   }>(() => {
     // Initialize with current 500 colors
     const initialValues: { [key: string]: string } = {};
-    colors.forEach((colorSwatch) => {
-      initialValues[colorSwatch.colorKey] =
-        colorSwatch.colorShades["500"] || "#000000";
+    colors.forEach(colorSwatch => {
+      initialValues[colorSwatch.colorKey] = colorSwatch.colorShades["500"] || "#000000";
     });
     return initialValues;
   });
@@ -58,18 +57,17 @@ export const ColorPickerTab: React.FC = () => {
   // Effect to update inputValues when colors change
   useEffect(() => {
     const newValues: { [key: string]: string } = {};
-    colors.forEach((colorSwatch) => {
-      newValues[colorSwatch.colorKey] =
-        colorSwatch.colorShades["500"] || "#000000";
+    colors.forEach(colorSwatch => {
+      newValues[colorSwatch.colorKey] = colorSwatch.colorShades["500"] || "#000000";
     });
-    setInputValues((prevValues) => ({
+    setInputValues(prevValues => ({
       ...prevValues,
       ...newValues,
     }));
   }, [colors]);
 
   const toggleColorSwatch = (colorKey: string) => {
-    setOpenColorSwatches((prev) => ({
+    setOpenColorSwatches(prev => ({
       ...prev,
       [colorKey]: !prev[colorKey],
     }));
@@ -121,12 +119,7 @@ export const ColorPickerTab: React.FC = () => {
             }}
           >
             {/* Auto-generate button */}
-            <Box
-              mb={4}
-              p={3}
-              bg={useColorModeValue("gray.50", "gray.700")}
-              borderRadius="md"
-            >
+            <Box mb={4} p={3} bg={useColorModeValue("gray.50", "gray.700")} borderRadius="md">
               <FormLabel mb={2}>Regenerate Entire Palette</FormLabel>
               <HStack>
                 <InputGroup size="sm">
@@ -138,10 +131,10 @@ export const ColorPickerTab: React.FC = () => {
                       colorSwatch.colorShades["500"] ||
                       "#000000"
                     }
-                    onChange={(e) => {
+                    onChange={e => {
                       // Update input state
                       const newColor = e.target.value;
-                      setInputValues((prev) => ({
+                      setInputValues(prev => ({
                         ...prev,
                         [colorSwatch.colorKey]: newColor,
                       }));
@@ -160,11 +153,11 @@ export const ColorPickerTab: React.FC = () => {
                         colorSwatch.colorShades["500"] ||
                         "#000000"
                       }
-                      onChange={(e) => {
+                      onChange={e => {
                         const newColor = e.target.value;
 
                         // Update the state with the new color
-                        setInputValues((prev) => ({
+                        setInputValues(prev => ({
                           ...prev,
                           [colorSwatch.colorKey]: newColor,
                         }));
@@ -188,9 +181,7 @@ export const ColorPickerTab: React.FC = () => {
                     key={shade}
                     label={shade}
                     value={colorValue as string}
-                    onChange={(value) =>
-                      updateColorValue(colorSwatch.colorKey, shade, value)
-                    }
+                    onChange={value => updateColorValue(colorSwatch.colorKey, shade, value)}
                   />
                 ))}
             </SimpleGrid>

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Button, Link, Box, Text, Icon, useColorModeValue } from '@chakra-ui/react';
+import React from "react";
+import { Button, Link, Box, Text, Icon, useColorModeValue } from "@chakra-ui/react";
 
 // Coffee cup icon component
-const CoffeeIcon = (props) => (
+const CoffeeIcon = props => (
   <Icon viewBox="0 0 24 24" {...props}>
     <path
       fill="currentColor"
@@ -12,15 +12,15 @@ const CoffeeIcon = (props) => (
 );
 
 const BuyMeCoffeeButton = ({ username = "stephen.harrison", color = "yellow", size = "md" }) => {
-  const bgColor = useColorModeValue('yellow.400', 'yellow.500');
-  const hoverBgColor = useColorModeValue('yellow.500', 'yellow.600');
-  const textColor = useColorModeValue('gray.800', 'gray.900');
-  
+  const bgColor = useColorModeValue("yellow.400", "yellow.500");
+  const hoverBgColor = useColorModeValue("yellow.500", "yellow.600");
+  const textColor = useColorModeValue("gray.800", "gray.900");
+
   // Default link if no username is provided
   const buyMeACoffeeUrl = `https://www.buymeacoffee.com/${username}`;
 
   return (
-    <Link href={buyMeACoffeeUrl} isExternal style={{ textDecoration: 'none' }}>
+    <Link href={buyMeACoffeeUrl} isExternal style={{ textDecoration: "none" }}>
       <Button
         leftIcon={<CoffeeIcon />}
         bg={bgColor}
@@ -30,12 +30,12 @@ const BuyMeCoffeeButton = ({ username = "stephen.harrison", color = "yellow", si
         px={6}
         _hover={{
           bg: hoverBgColor,
-          transform: 'translateY(-2px)',
-          boxShadow: 'md',
+          transform: "translateY(-2px)",
+          boxShadow: "md",
         }}
         _active={{
-          transform: 'translateY(0)',
-          boxShadow: 'sm',
+          transform: "translateY(0)",
+          boxShadow: "sm",
         }}
         transition="all 0.2s"
         borderRadius="full"

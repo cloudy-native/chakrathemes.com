@@ -134,10 +134,7 @@ export const TypographyTab: React.FC = () => {
   };
 
   // Handle line height change
-  const handleLineHeightChange = (
-    lineHeightKey: string,
-    value: string | number
-  ) => {
+  const handleLineHeightChange = (lineHeightKey: string, value: string | number) => {
     updateThemeValue(["lineHeights", lineHeightKey], value);
   };
 
@@ -182,7 +179,7 @@ export const TypographyTab: React.FC = () => {
 
   // Select a Google Font
   const selectGoogleFont = (fontFamily: string) => {
-    const font = googleFonts.find((f) => f.family === fontFamily);
+    const font = googleFonts.find(f => f.family === fontFamily);
     if (font) {
       setSelectedFont(font);
       setAvailableVariants(font.variants);
@@ -196,13 +193,16 @@ export const TypographyTab: React.FC = () => {
   const loadGoogleFont = (family: string, variants: string[]) => {
     const variantsStr = variants.join(",");
     const link = document.createElement("link");
-    link.href = `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, "+")}:wght@${variantsStr}&display=swap`;
+    link.href = `https://fonts.googleapis.com/css2?family=${family.replace(
+      / /g,
+      "+"
+    )}:wght@${variantsStr}&display=swap`;
     link.rel = "stylesheet";
 
     // Remove existing font links for this font (to avoid duplicates)
     document.head
       .querySelectorAll(`link[href*="${family.replace(/ /g, "+")}"]`)
-      .forEach((el) => el.remove());
+      .forEach(el => el.remove());
 
     // Add the new link
     document.head.appendChild(link);
@@ -241,8 +241,8 @@ export const TypographyTab: React.FC = () => {
           <Link href="https://fonts.google.com/" isExternal>
             Google Fonts <ExternalLinkIcon />
           </Link>
-          , but to be perfectly honest, you might be a better off testing ideas
-          on Google Fonts directly than trying to use this clunky interface.
+          , but to be perfectly honest, you might be a better off testing ideas on Google Fonts
+          directly than trying to use this clunky interface.
         </Text>
       </Alert>
       <Accordion defaultIndex={[0, 1, 2]} allowMultiple>
@@ -275,12 +275,10 @@ export const TypographyTab: React.FC = () => {
                     <FormLabel>Select Google Font</FormLabel>
                     <Select
                       placeholder="Choose a font family"
-                      onChange={(e) =>
-                        selectGoogleFont && selectGoogleFont(e.target.value)
-                      }
+                      onChange={e => selectGoogleFont && selectGoogleFont(e.target.value)}
                       value={selectedFont?.family || ""}
                     >
-                      {googleFonts.map((font) => (
+                      {googleFonts.map(font => (
                         <option key={font.family} value={font.family}>
                           {font.family}
                         </option>
@@ -317,11 +315,9 @@ export const TypographyTab: React.FC = () => {
                               Available Weights
                             </Text>
                             <SimpleGrid columns={[1, 2, 3]} spacing={3}>
-                              {FONT_WEIGHT_VARIANTS.filter((variant) =>
-                                availableVariants.some(
-                                  (v) => getNumericWeight(v) === variant.value
-                                )
-                              ).map((weight) => (
+                              {FONT_WEIGHT_VARIANTS.filter(variant =>
+                                availableVariants.some(v => getNumericWeight(v) === variant.value)
+                              ).map(weight => (
                                 <Text
                                   key={weight.value}
                                   fontFamily={`"${selectedFont.family}", ${
@@ -346,7 +342,7 @@ export const TypographyTab: React.FC = () => {
                             <Text fontSize="sm" color="gray.500" mb={2}>
                               Size Variations
                             </Text>
-                            {previewSizes.map((size) => (
+                            {previewSizes.map(size => (
                               <Text
                                 key={size}
                                 fontSize={size}
@@ -429,21 +425,14 @@ export const TypographyTab: React.FC = () => {
                             onClick={() => {
                               // Apply to mono font
                               const fontValue = `"${selectedFont.family}", ${
-                                selectedFont.category === "monospace"
-                                  ? "monospace"
-                                  : "monospace"
+                                selectedFont.category === "monospace" ? "monospace" : "monospace"
                               }`;
                               handleFontChange("mono", fontValue);
                             }}
                             // Highlight if this is a monospace font
-                            variant={
-                              selectedFont.category === "monospace"
-                                ? "solid"
-                                : "outline"
-                            }
+                            variant={selectedFont.category === "monospace" ? "solid" : "outline"}
                           >
-                            Set as Mono Font{" "}
-                            {selectedFont.category === "monospace" && "✓"}
+                            Set as Mono Font {selectedFont.category === "monospace" && "✓"}
                           </Button>
                         </HStack>
                       </Box>
@@ -453,17 +442,15 @@ export const TypographyTab: React.FC = () => {
               ) : (
                 <Box>
                   <Text mb={4}>
-                    No Google Fonts API key found in environment variables.
-                    Please add a GOOGLE_FONTS_API_KEY entry to your .env file.
+                    No Google Fonts API key found in environment variables. Please add a
+                    GOOGLE_FONTS_API_KEY entry to your .env file.
                   </Text>
                   <Alert status="info">
                     <AlertIcon />
                     <Box>
                       <Text fontWeight="bold">Quick setup instructions:</Text>
                       <Text>1. Create a .env file in the project root</Text>
-                      <Text>
-                        2. Add: GOOGLE_FONTS_API_KEY=your_api_key_here
-                      </Text>
+                      <Text>2. Add: GOOGLE_FONTS_API_KEY=your_api_key_here</Text>
                       <Text>3. Restart the development server</Text>
                     </Box>
                   </Alert>
@@ -488,11 +475,9 @@ export const TypographyTab: React.FC = () => {
                 colorScheme="blue"
                 size="sm"
                 onClick={() => {
-                  Object.entries(DEFAULT_FONT_FAMILIES).forEach(
-                    ([fontType, fontValue]) => {
-                      handleFontChange(fontType, fontValue);
-                    }
-                  );
+                  Object.entries(DEFAULT_FONT_FAMILIES).forEach(([fontType, fontValue]) => {
+                    handleFontChange(fontType, fontValue);
+                  });
                 }}
               >
                 Reset to Default Fonts
@@ -500,57 +485,42 @@ export const TypographyTab: React.FC = () => {
             </Box>
 
             <VStack spacing={5} align="stretch">
-              {Object.entries(themeValues.fonts || {}).map(
-                ([fontType, fontValue]) => (
-                  <Box
-                    key={fontType}
-                    p={3}
-                    borderWidth="1px"
-                    borderRadius="md"
-                    boxShadow="sm"
-                  >
-                    <FormControl>
-                      <FormLabel fontWeight="bold">{fontType} Font</FormLabel>
-                      <Input
-                        value={fontValue as string}
-                        onChange={(e) =>
-                          handleFontChange(fontType, e.target.value)
-                        }
-                        mb={3}
-                      />
-                      <Box p={3}>
-                        {fontType === "mono" ? (
-                          <Text fontFamily={fontValue as string} fontSize="md">
-                            console.log("My theme", JSON.stringify(theme, null,
-                            2));
-                          </Text>
-                        ) : (
-                          <> </>
-                        )}
-                        {fontType === "body" ? (
-                          <Text fontFamily={fontValue as string} fontSize="md">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua.
-                          </Text>
-                        ) : (
-                          <> </>
-                        )}
-                        {fontType === "heading" ? (
-                          <Heading
-                            fontFamily={fontValue as string}
-                            fontSize="md"
-                          >
-                            This is a Preview Heading
-                          </Heading>
-                        ) : (
-                          <> </>
-                        )}
-                      </Box>
-                    </FormControl>
-                  </Box>
-                )
-              )}
+              {Object.entries(themeValues.fonts || {}).map(([fontType, fontValue]) => (
+                <Box key={fontType} p={3} borderWidth="1px" borderRadius="md" boxShadow="sm">
+                  <FormControl>
+                    <FormLabel fontWeight="bold">{fontType} Font</FormLabel>
+                    <Input
+                      value={fontValue as string}
+                      onChange={e => handleFontChange(fontType, e.target.value)}
+                      mb={3}
+                    />
+                    <Box p={3}>
+                      {fontType === "mono" ? (
+                        <Text fontFamily={fontValue as string} fontSize="md">
+                          console.log("My theme", JSON.stringify(theme, null, 2));
+                        </Text>
+                      ) : (
+                        <> </>
+                      )}
+                      {fontType === "body" ? (
+                        <Text fontFamily={fontValue as string} fontSize="md">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                          tempor incididunt ut labore et dolore magna aliqua.
+                        </Text>
+                      ) : (
+                        <> </>
+                      )}
+                      {fontType === "heading" ? (
+                        <Heading fontFamily={fontValue as string} fontSize="md">
+                          This is a Preview Heading
+                        </Heading>
+                      ) : (
+                        <> </>
+                      )}
+                    </Box>
+                  </FormControl>
+                </Box>
+              ))}
             </VStack>
           </AccordionPanel>
         </AccordionItem>
@@ -570,11 +540,9 @@ export const TypographyTab: React.FC = () => {
                 colorScheme="blue"
                 size="sm"
                 onClick={() => {
-                  Object.entries(DEFAULT_FONT_SIZES).forEach(
-                    ([sizeKey, sizeValue]) => {
-                      handleFontSizeChange(sizeKey, sizeValue);
-                    }
-                  );
+                  Object.entries(DEFAULT_FONT_SIZES).forEach(([sizeKey, sizeValue]) => {
+                    handleFontSizeChange(sizeKey, sizeValue);
+                  });
                 }}
               >
                 Reset to Default Sizes
@@ -613,22 +581,14 @@ export const TypographyTab: React.FC = () => {
                   }
 
                   return (
-                    <Box
-                      key={sizeKey}
-                      p={3}
-                      borderWidth="1px"
-                      borderRadius="md"
-                      boxShadow="sm"
-                    >
+                    <Box key={sizeKey} p={3} borderWidth="1px" borderRadius="md" boxShadow="sm">
                       <HStack justify="space-between" mb={2}>
                         <FormLabel mb={0} fontSize="sm" fontWeight="bold">
                           {sizeKey}
                         </FormLabel>
                         <Input
                           value={sizeValue as string}
-                          onChange={(e) =>
-                            handleFontSizeChange(sizeKey, e.target.value)
-                          }
+                          onChange={e => handleFontSizeChange(sizeKey, e.target.value)}
                           size="sm"
                           width="100px"
                         />
@@ -639,9 +599,7 @@ export const TypographyTab: React.FC = () => {
                         max={8}
                         step={0.125}
                         value={remValue}
-                        onChange={(val) =>
-                          handleFontSizeChange(sizeKey, `${val}rem`)
-                        }
+                        onChange={val => handleFontSizeChange(sizeKey, `${val}rem`)}
                         mb={3}
                       >
                         <SliderTrack>
@@ -651,9 +609,7 @@ export const TypographyTab: React.FC = () => {
                       </Slider>
 
                       <Box p={2} borderWidth="1px" borderRadius="md" mt={2}>
-                        <Text fontSize={sizeValue as string}>
-                          Sample text ({sizeKey})
-                        </Text>
+                        <Text fontSize={sizeValue as string}>Sample text ({sizeKey})</Text>
                       </Box>
                     </Box>
                   );
@@ -677,11 +633,9 @@ export const TypographyTab: React.FC = () => {
                 colorScheme="blue"
                 size="sm"
                 onClick={() => {
-                  Object.entries(DEFAULT_FONT_WEIGHTS).forEach(
-                    ([weightKey, weightValue]) => {
-                      handleFontWeightChange(weightKey, weightValue);
-                    }
-                  );
+                  Object.entries(DEFAULT_FONT_WEIGHTS).forEach(([weightKey, weightValue]) => {
+                    handleFontWeightChange(weightKey, weightValue);
+                  });
                 }}
               >
                 Reset to Default Weights
@@ -705,13 +659,7 @@ export const TypographyTab: React.FC = () => {
                   return weights.indexOf(aKey) - weights.indexOf(bKey);
                 })
                 .map(([weightKey, weightValue]) => (
-                  <Box
-                    key={weightKey}
-                    p={3}
-                    borderWidth="1px"
-                    borderRadius="md"
-                    boxShadow="sm"
-                  >
+                  <Box key={weightKey} p={3} borderWidth="1px" borderRadius="md" boxShadow="sm">
                     <FormControl>
                       <HStack justify="space-between" mb={2}>
                         <FormLabel mb={0} fontSize="sm" fontWeight="bold">
@@ -720,11 +668,8 @@ export const TypographyTab: React.FC = () => {
                         <Input
                           type="number"
                           value={weightValue as number}
-                          onChange={(e) =>
-                            handleFontWeightChange(
-                              weightKey,
-                              parseInt(e.target.value)
-                            )
+                          onChange={e =>
+                            handleFontWeightChange(weightKey, parseInt(e.target.value))
                           }
                           size="sm"
                           width="80px"
@@ -739,9 +684,7 @@ export const TypographyTab: React.FC = () => {
                         mt={2}
                         bg="gray.50"
                       >
-                        <Text fontWeight={weightValue as number}>
-                          Sample text ({weightKey})
-                        </Text>
+                        <Text fontWeight={weightValue as number}>Sample text ({weightKey})</Text>
                       </Box>
                     </FormControl>
                   </Box>
@@ -765,11 +708,9 @@ export const TypographyTab: React.FC = () => {
                 colorScheme="blue"
                 size="sm"
                 onClick={() => {
-                  Object.entries(DEFAULT_LETTER_SPACINGS).forEach(
-                    ([spacingKey, spacingValue]) => {
-                      handleLetterSpacingChange(spacingKey, spacingValue);
-                    }
-                  );
+                  Object.entries(DEFAULT_LETTER_SPACINGS).forEach(([spacingKey, spacingValue]) => {
+                    handleLetterSpacingChange(spacingKey, spacingValue);
+                  });
                 }}
               >
                 Reset to Default Letter Spacing
@@ -777,52 +718,30 @@ export const TypographyTab: React.FC = () => {
             </Box>
 
             <VStack spacing={6} align="stretch">
-              {Object.entries(
-                themeValues.letterSpacings || DEFAULT_LETTER_SPACINGS
-              )
+              {Object.entries(themeValues.letterSpacings || DEFAULT_LETTER_SPACINGS)
                 .sort(([aKey], [bKey]) => {
-                  const order = [
-                    "tighter",
-                    "tight",
-                    "normal",
-                    "wide",
-                    "wider",
-                    "widest",
-                  ];
+                  const order = ["tighter", "tight", "normal", "wide", "wider", "widest"];
                   return order.indexOf(aKey) - order.indexOf(bKey);
                 })
                 .map(([spacingKey, spacingValue]) => {
                   // Parse em value for slider (convert from string like "-0.05em" to number like -0.05)
                   let emValue = 0;
                   if (typeof spacingValue === "string") {
-                    const match = spacingValue
-                      .toString()
-                      .match(/([+-]?[0-9.]+)em/);
+                    const match = spacingValue.toString().match(/([+-]?[0-9.]+)em/);
                     if (match && match[1]) {
                       emValue = parseFloat(match[1]);
                     }
                   }
 
                   return (
-                    <Box
-                      key={spacingKey}
-                      p={3}
-                      borderWidth="1px"
-                      borderRadius="md"
-                      boxShadow="sm"
-                    >
+                    <Box key={spacingKey} p={3} borderWidth="1px" borderRadius="md" boxShadow="sm">
                       <HStack justify="space-between" mb={2}>
                         <FormLabel mb={0} fontSize="sm" fontWeight="bold">
                           {spacingKey}
                         </FormLabel>
                         <Input
                           value={spacingValue as string}
-                          onChange={(e) =>
-                            handleLetterSpacingChange(
-                              spacingKey,
-                              e.target.value
-                            )
-                          }
+                          onChange={e => handleLetterSpacingChange(spacingKey, e.target.value)}
                           size="sm"
                           width="100px"
                         />
@@ -833,9 +752,7 @@ export const TypographyTab: React.FC = () => {
                         max={0.2}
                         step={0.005}
                         value={emValue}
-                        onChange={(val) =>
-                          handleLetterSpacingChange(spacingKey, `${val}em`)
-                        }
+                        onChange={val => handleLetterSpacingChange(spacingKey, `${val}em`)}
                         mb={3}
                       >
                         <SliderTrack>
@@ -892,20 +809,12 @@ export const TypographyTab: React.FC = () => {
             <VStack spacing={6} align="stretch">
               {Object.entries(themeValues.lineHeights || DEFAULT_LINE_HEIGHTS)
                 .sort(([aKey], [bKey]) => {
-                  const order = [
-                    "none",
-                    "normal",
-                    "shorter",
-                    "short",
-                    "base",
-                    "tall",
-                    "taller",
-                  ];
+                  const order = ["none", "normal", "shorter", "short", "base", "tall", "taller"];
                   return order.indexOf(aKey) - order.indexOf(bKey);
                 })
                 .map(([lineHeightKey, lineHeightValue]) => {
                   // Parse numeric value for slider
-                  let numValue =
+                  const numValue =
                     typeof lineHeightValue === "number"
                       ? lineHeightValue
                       : lineHeightValue === "normal"
@@ -926,13 +835,11 @@ export const TypographyTab: React.FC = () => {
                         </FormLabel>
                         <Input
                           value={lineHeightValue as string | number}
-                          onChange={(e) => {
+                          onChange={e => {
                             const newValue = e.target.value;
                             handleLineHeightChange(
                               lineHeightKey,
-                              newValue === "normal"
-                                ? "normal"
-                                : parseFloat(newValue)
+                              newValue === "normal" ? "normal" : parseFloat(newValue)
                             );
                           }}
                           size="sm"
@@ -946,9 +853,7 @@ export const TypographyTab: React.FC = () => {
                           max={3}
                           step={0.05}
                           value={numValue}
-                          onChange={(val) =>
-                            handleLineHeightChange(lineHeightKey, val)
-                          }
+                          onChange={val => handleLineHeightChange(lineHeightKey, val)}
                           mb={3}
                         >
                           <SliderTrack>

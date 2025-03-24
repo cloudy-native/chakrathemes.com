@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Heading,
@@ -11,32 +11,35 @@ import {
   ChakraProvider,
   extendTheme,
   useColorModeValue,
-} from '@chakra-ui/react';
-import { useThemeContext } from '@/context/ThemeContext';
-import CardLayouts from '../components/preview/CardLayouts';
+} from "@chakra-ui/react";
+import { useThemeContext } from "@/context/ThemeContext";
+import CardLayouts from "../components/preview/CardLayouts";
 
 export const CardLayoutsTab: React.FC = () => {
   const { themeValues } = useThemeContext();
-  
+
   // Generate a preview theme based on current values
   const previewTheme = extendTheme(themeValues);
 
   // Use the color palettes from the theme
   const colorKeys = Object.keys(themeValues.colors || {});
-  
+
   return (
     <Box>
-      <Heading size="md" mb={2}>Card Layouts</Heading>
-      
+      <Heading size="md" mb={2}>
+        Card Layouts
+      </Heading>
+
       <Text fontSize="sm" mb={6}>
-        Explore different card designs using your theme colors and styles. These layouts showcase various ways to present 
-        content with cards, using different components, spacing, and visual hierarchies.
+        Explore different card designs using your theme colors and styles. These layouts showcase
+        various ways to present content with cards, using different components, spacing, and visual
+        hierarchies.
       </Text>
-      
+
       <ChakraProvider theme={previewTheme}>
         <Tabs isLazy isFitted>
           <TabList flexWrap="wrap">
-            {colorKeys.map((colorKey) => (
+            {colorKeys.map(colorKey => (
               <Tab
                 key={colorKey}
                 color={useColorModeValue("gray.700", "gray.200")}
@@ -54,12 +57,9 @@ export const CardLayoutsTab: React.FC = () => {
             ))}
           </TabList>
           <TabPanels mt={6}>
-            {colorKeys.map((colorKey) => (
+            {colorKeys.map(colorKey => (
               <TabPanel key={colorKey} p={0}>
-                <CardLayouts 
-                  colorKey={colorKey} 
-                  themeValues={themeValues} 
-                />
+                <CardLayouts colorKey={colorKey} themeValues={themeValues} />
               </TabPanel>
             ))}
           </TabPanels>

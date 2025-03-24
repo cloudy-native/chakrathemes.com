@@ -72,11 +72,7 @@ const ColorSwatch: React.FC<{
           <Text color={textColor} fontSize="xs" fontFamily="mono" opacity={0.9}>
             {hexValue}
           </Text>
-          <Tooltip
-            label={copied ? "Copied!" : "Copy hex"}
-            placement="top"
-            hasArrow
-          >
+          <Tooltip label={copied ? "Copied!" : "Copy hex"} placement="top" hasArrow>
             <IconButton
               aria-label="Copy color code"
               icon={copied ? <CheckIcon /> : <CopyIcon />}
@@ -137,7 +133,7 @@ const PaletteDetailModal: React.FC<{
             <FormLabel>Select a color and add it to your theme</FormLabel>
             <Input
               value={newColorName}
-              onChange={(e) => setNewColorName(e.target.value)}
+              onChange={e => setNewColorName(e.target.value)}
               placeholder="Color category name (e.g., primary, accent)"
               mb={4}
             />
@@ -185,12 +181,7 @@ const PaletteDetailModal: React.FC<{
                 </Text>
               </VStack>
               <Spacer />
-              <Button
-                size="sm"
-                leftIcon={<AddIcon />}
-                colorScheme="blue"
-                onClick={onClose}
-              >
+              <Button size="sm" leftIcon={<AddIcon />} colorScheme="blue" onClick={onClose}>
                 Use This Color
               </Button>
             </Flex>
@@ -251,9 +242,9 @@ const PaletteCard: React.FC<{
 const InspirationPalettes: React.FC<{
   onSelectColor: (color: string) => void;
 }> = ({ onSelectColor }) => {
-  const [selectedPalette, setSelectedPalette] = useState<
-    (typeof inspirationPalettes)[0] | null
-  >(null);
+  const [selectedPalette, setSelectedPalette] = useState<(typeof inspirationPalettes)[0] | null>(
+    null
+  );
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleSelectPalette = (palette: (typeof inspirationPalettes)[0]) => {
@@ -280,7 +271,7 @@ const InspirationPalettes: React.FC<{
       </Flex>
 
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4}>
-        {inspirationPalettes.map((palette) => (
+        {inspirationPalettes.map(palette => (
           <PaletteCard
             key={palette.concept}
             palette={palette}

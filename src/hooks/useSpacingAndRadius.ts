@@ -1,4 +1,4 @@
-import { ThemeValues } from '@/types';
+import { ThemeValues } from "@/types";
 
 export const useSpacingAndRadius = (
   themeValues: ThemeValues,
@@ -6,12 +6,12 @@ export const useSpacingAndRadius = (
 ) => {
   // Handle spacing change
   const handleSpacingChange = (spacingKey: string, value: string) => {
-    updateThemeValue(['space', spacingKey], value);
+    updateThemeValue(["space", spacingKey], value);
   };
 
   // Handle border radius change
   const handleRadiiChange = (radiusKey: string, value: string) => {
-    updateThemeValue(['radii', radiusKey], value);
+    updateThemeValue(["radii", radiusKey], value);
   };
 
   return {

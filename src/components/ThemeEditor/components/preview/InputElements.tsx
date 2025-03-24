@@ -22,7 +22,7 @@ import {
   Box,
   Input,
   Divider,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
@@ -39,16 +39,20 @@ const InputElements: React.FC<InputElementsProps> = ({ colorKey }) => {
       <CardBody>
         <VStack align="flex-start" spacing={4} width="100%">
           {/* Text Inputs */}
-          <Text fontWeight="medium" fontSize="sm">Text Inputs</Text>
+          <Text fontWeight="medium" fontSize="sm">
+            Text Inputs
+          </Text>
           <FormControl>
             <FormLabel>Regular Input</FormLabel>
             <Input placeholder="Focus me" focusBorderColor={`${colorKey}.500`} />
           </FormControl>
-          
+
           <Divider my={2} />
-          
+
           {/* Numeric Inputs */}
-          <Text fontWeight="medium" fontSize="sm">Numeric Inputs</Text>
+          <Text fontWeight="medium" fontSize="sm">
+            Numeric Inputs
+          </Text>
           <FormControl>
             <FormLabel>Number Input</FormLabel>
             <NumberInput focusBorderColor={`${colorKey}.500`} max={10} min={0}>
@@ -59,7 +63,7 @@ const InputElements: React.FC<InputElementsProps> = ({ colorKey }) => {
               </NumberInputStepper>
             </NumberInput>
           </FormControl>
-          
+
           <FormControl>
             <FormLabel>Pin Input</FormLabel>
             <HStack>
@@ -71,19 +75,16 @@ const InputElements: React.FC<InputElementsProps> = ({ colorKey }) => {
               </PinInput>
             </HStack>
           </FormControl>
-          
+
           <Divider my={2} />
-          
+
           {/* Range Input */}
-          <Text fontWeight="medium" fontSize="sm">Range Input</Text>
+          <Text fontWeight="medium" fontSize="sm">
+            Range Input
+          </Text>
           <FormControl>
             <FormLabel>Slider</FormLabel>
-            <Slider
-              colorScheme={colorKey}
-              defaultValue={30}
-              min={0}
-              max={100}
-            >
+            <Slider colorScheme={colorKey} defaultValue={30} min={0} max={100}>
               <SliderTrack>
                 <SliderFilledTrack />
               </SliderTrack>

@@ -1,9 +1,6 @@
-import React from 'react';
-import {
-  Box,
-  Text,
-} from '@chakra-ui/react';
-import ThemeColorSwatch from './ThemeColorSwatch';
+import React from "react";
+import { Box, Text } from "@chakra-ui/react";
+import ThemeColorSwatch from "./ThemeColorSwatch";
 
 interface PalettePreviewProps {
   palette: { [key: string]: string };
@@ -13,28 +10,34 @@ interface PalettePreviewProps {
   selectedShade?: string;
 }
 
-export const PalettePreview: React.FC<PalettePreviewProps> = ({ 
+export const PalettePreview: React.FC<PalettePreviewProps> = ({
   palette,
   label,
-  colorKey = 'color',
+  colorKey = "color",
   onClick,
-  selectedShade
+  selectedShade,
 }) => {
   // Handler for click events if needed
-  const handleClick = onClick ? (key: string, shade: string, color: string) => {
-    onClick(shade, color);
-  } : undefined;
-  
+  const handleClick = onClick
+    ? (key: string, shade: string, color: string) => {
+        onClick(shade, color);
+      }
+    : undefined;
+
   // Selected item format for ThemeColorSwatch
-  const selected = selectedShade ? { 
-    colorKey: colorKey, 
-    shade: selectedShade 
-  } : null;
-  
+  const selected = selectedShade
+    ? {
+        colorKey: colorKey,
+        shade: selectedShade,
+      }
+    : null;
+
   return (
     <Box>
       {label && (
-        <Text fontSize="sm" mb={2}>{label}</Text>
+        <Text fontSize="sm" mb={2}>
+          {label}
+        </Text>
       )}
       <ThemeColorSwatch
         colorKey={colorKey}

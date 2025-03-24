@@ -25,10 +25,7 @@ interface ComponentPreviewProps {
   themeValues: ThemeValues;
 }
 
-const ComponentPreview: React.FC<ComponentPreviewProps> = ({
-  colorKey,
-  themeValues,
-}) => {
+const ComponentPreview: React.FC<ComponentPreviewProps> = ({ colorKey, themeValues }) => {
   return (
     <Box>
       <Accordion allowMultiple>

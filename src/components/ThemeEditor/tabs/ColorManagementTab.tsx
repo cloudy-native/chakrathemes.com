@@ -36,10 +36,9 @@ export const ColorManagementTab: React.FC = () => {
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
         <GridItem rowSpan={2} colSpan={4}>
           <Text mb={6} fontSize="sm">
-            Create and manage color palettes for your theme. Add colors
-            manually, extract from images, or check out the curated Inspiration
-            tab! You can always copy or tweak the color values., but be careful
-            because it's easy to get messed up.
+            Create and manage color palettes for your theme. Add colors manually, extract from
+            images, or check out the curated Inspiration tab! You can always copy or tweak the color
+            values., but be careful because it's easy to get messed up.
           </Text>
         </GridItem>
         <GridItem>
@@ -59,7 +58,7 @@ export const ColorManagementTab: React.FC = () => {
               <Box flex="1" textAlign="left">
                 <Text fontWeight="medium">{colorSwatch.colorKey}</Text>
                 <Box mt={2}>
-                  <ThemeColorSwatch 
+                  <ThemeColorSwatch
                     colorKey={colorSwatch.colorKey}
                     colorShades={colorSwatch.colorShades}
                     isCompact={true}
@@ -75,14 +74,13 @@ export const ColorManagementTab: React.FC = () => {
                   {Object.entries(colorSwatch.colorShades)
                     .sort(([a], [b]) => parseInt(a) - parseInt(b))
                     .map(([shade, color]) => (
-                      <PaintChip 
+                      <PaintChip
                         key={shade}
                         colorKey={colorSwatch.colorKey}
                         shade={shade}
                         color={color as string}
                       />
-                    ))
-                  }
+                    ))}
                 </SimpleGrid>
                 {index < colors.length - 1 && <Divider mt={4} />}
               </Box>
@@ -106,12 +104,7 @@ export const ColorManagementTab: React.FC = () => {
           <Text mb={4} color={useColorModeValue("gray.500", "gray.400")}>
             No colors in your palette yet
           </Text>
-          <Button
-            size="sm"
-            colorScheme="blue"
-            leftIcon={<AddIcon />}
-            onClick={onOpen}
-          >
+          <Button size="sm" colorScheme="blue" leftIcon={<AddIcon />} onClick={onOpen}>
             Add Your First Color
           </Button>
         </Flex>

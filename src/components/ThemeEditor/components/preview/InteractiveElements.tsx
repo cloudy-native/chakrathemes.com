@@ -21,7 +21,7 @@ import {
   PopoverHeader,
   PopoverBody,
   Divider,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
@@ -38,7 +38,9 @@ const InteractiveElements: React.FC<InteractiveElementsProps> = ({ colorKey }) =
       <CardBody>
         <VStack align="flex-start" spacing={4} width="100%">
           {/* Tooltip */}
-          <Text fontWeight="medium" fontSize="sm">Tooltips</Text>
+          <Text fontWeight="medium" fontSize="sm">
+            Tooltips
+          </Text>
           <HStack spacing={4}>
             <Tooltip hasArrow label="Tooltip text">
               <Button size="sm" colorScheme={colorKey}>
@@ -46,11 +48,13 @@ const InteractiveElements: React.FC<InteractiveElementsProps> = ({ colorKey }) =
               </Button>
             </Tooltip>
           </HStack>
-          
+
           <Divider my={2} />
-          
+
           {/* Menus */}
-          <Text fontWeight="medium" fontSize="sm">Menus</Text>
+          <Text fontWeight="medium" fontSize="sm">
+            Menus
+          </Text>
           <HStack spacing={4}>
             <Menu>
               <MenuButton as={Button} colorScheme={colorKey} size="sm">
@@ -63,11 +67,13 @@ const InteractiveElements: React.FC<InteractiveElementsProps> = ({ colorKey }) =
               </MenuList>
             </Menu>
           </HStack>
-          
+
           <Divider my={2} />
-          
+
           {/* Popovers */}
-          <Text fontWeight="medium" fontSize="sm">Popovers</Text>
+          <Text fontWeight="medium" fontSize="sm">
+            Popovers
+          </Text>
           <HStack spacing={4}>
             <Popover>
               <PopoverTrigger>

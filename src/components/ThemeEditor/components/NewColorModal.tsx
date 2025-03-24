@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -17,11 +17,11 @@ import {
   Input,
   FormControl,
   FormLabel,
-} from '@chakra-ui/react';
-import { useThemeContext } from '@/context/ThemeContext';
-import PaletteGenerator from './PaletteGenerator';
-import ImageColorExtractor from './ImageColorExtractor';
-import InspirationPalettes from './InspirationPalettes';
+} from "@chakra-ui/react";
+import { useThemeContext } from "@/context/ThemeContext";
+import PaletteGenerator from "./PaletteGenerator";
+import ImageColorExtractor from "./ImageColorExtractor";
+import InspirationPalettes from "./InspirationPalettes";
 
 interface NewColorModalProps {
   isOpen: boolean;
@@ -30,7 +30,8 @@ interface NewColorModalProps {
 
 const NewColorModal: React.FC<NewColorModalProps> = ({ isOpen, onClose }) => {
   const [tabIndex, setTabIndex] = useState(0);
-  const { newColorName, setNewColorName, baseColor, setBaseColor, addNewColorPalette } = useThemeContext();
+  const { newColorName, setNewColorName, baseColor, setBaseColor, addNewColorPalette } =
+    useThemeContext();
 
   const handleAddColor = () => {
     addNewColorPalette();
@@ -43,13 +44,13 @@ const NewColorModal: React.FC<NewColorModalProps> = ({ isOpen, onClose }) => {
       <ModalContent>
         <ModalHeader>Add New Color</ModalHeader>
         <ModalCloseButton />
-        
+
         <ModalBody>
           <FormControl mb={4}>
             <FormLabel>Color Name</FormLabel>
             <Input
               value={newColorName}
-              onChange={(e) => setNewColorName(e.target.value)}
+              onChange={e => setNewColorName(e.target.value)}
               placeholder="E.g., primary, secondary, accent"
             />
           </FormControl>
@@ -60,28 +61,21 @@ const NewColorModal: React.FC<NewColorModalProps> = ({ isOpen, onClose }) => {
               <Tab>From Image</Tab>
               <Tab>Inspiration</Tab>
             </TabList>
-            
+
             <TabPanels>
               {/* Color Picker Tab */}
               <TabPanel p={4}>
-                <PaletteGenerator 
-                  baseColor={baseColor}
-                  setBaseColor={setBaseColor}
-                />
+                <PaletteGenerator baseColor={baseColor} setBaseColor={setBaseColor} />
               </TabPanel>
-              
+
               {/* Image Color Tab */}
               <TabPanel p={4}>
-                <ImageColorExtractor
-                  onSelectColor={(color) => setBaseColor(color)}
-                />
+                <ImageColorExtractor onSelectColor={color => setBaseColor(color)} />
               </TabPanel>
-              
+
               {/* Color Inspiration Tab */}
               <TabPanel p={4}>
-                <InspirationPalettes
-                  onSelectColor={(color) => setBaseColor(color)}
-                />
+                <InspirationPalettes onSelectColor={color => setBaseColor(color)} />
               </TabPanel>
             </TabPanels>
           </Tabs>
@@ -91,8 +85,8 @@ const NewColorModal: React.FC<NewColorModalProps> = ({ isOpen, onClose }) => {
           <Button variant="outline" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button 
-            colorScheme="blue" 
+          <Button
+            colorScheme="blue"
             onClick={handleAddColor}
             isDisabled={!newColorName.trim() || !baseColor}
           >

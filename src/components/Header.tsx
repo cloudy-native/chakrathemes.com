@@ -74,7 +74,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <HStack spacing={8} display={{ base: "none", md: "flex" }}>
             <HStack as="nav" spacing={6}>
-              {NAV_ITEMS.map((navItem) => (
+              {NAV_ITEMS.map(navItem => (
                 <Link
                   key={navItem.label}
                   as={!navItem.isExternal ? GatsbyLink : undefined}
@@ -117,13 +117,7 @@ const Header = () => {
           <Flex display={{ base: "flex", md: "none" }}>
             <IconButton
               onClick={onToggle}
-              icon={
-                isOpen ? (
-                  <CloseIcon w={3} h={3} />
-                ) : (
-                  <HamburgerIcon w={5} h={5} />
-                )
-              }
+              icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
               variant="ghost"
               aria-label="Toggle Navigation"
             />
@@ -134,7 +128,7 @@ const Header = () => {
         <Collapse in={isOpen} animateOpacity>
           <Box pb={4} display={{ md: "none" }}>
             <Stack as="nav" spacing={4} pt={2}>
-              {NAV_ITEMS.map((navItem) => (
+              {NAV_ITEMS.map(navItem => (
                 <Link
                   key={navItem.label}
                   as={!navItem.isExternal ? GatsbyLink : undefined}

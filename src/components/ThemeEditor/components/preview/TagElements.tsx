@@ -1,13 +1,4 @@
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Heading,
-  Tag,
-  VStack,
-  Wrap,
-  WrapItem,
-} from "@chakra-ui/react";
+import { Card, CardBody, CardHeader, Heading, Tag, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 import React from "react";
 
 interface TagElementsProps {

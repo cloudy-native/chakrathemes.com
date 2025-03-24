@@ -226,14 +226,11 @@ export const useImageColorExtraction = (
       return;
     }
 
-    const colorName = newPaletteNameFromImage
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, "-");
+    const colorName = newPaletteNameFromImage.trim().toLowerCase().replace(/\s+/g, "-");
     const palette = generateColorPalette(selectedColorFromImage);
 
     // Update theme with the new color palette
-    setThemeValues((prev) => {
+    setThemeValues(prev => {
       const newTheme = { ...prev };
       if (!newTheme.colors) {
         newTheme.colors = {};

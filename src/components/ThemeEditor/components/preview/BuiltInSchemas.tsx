@@ -32,14 +32,13 @@ const CHAKRAUI_COLORS = [
   "gray",
 ];
 
-const ALERTS: (
-  | "info"
-  | "warning"
-  | "success"
-  | "error"
-  | "loading"
-  | undefined
-)[] = ["info", "warning", "success", "error", "loading"];
+const ALERTS: ("info" | "warning" | "success" | "error" | "loading" | undefined)[] = [
+  "info",
+  "warning",
+  "success",
+  "error",
+  "loading",
+];
 
 interface BuiltInSchemasProps {
   colorKey: string;
@@ -58,7 +57,7 @@ const BuiltInSchemas: React.FC<BuiltInSchemasProps> = ({ colorKey }) => {
             Buttons
           </Text>
           <Wrap spacing={2}>
-            {CHAKRAUI_COLORS.map((color) => (
+            {CHAKRAUI_COLORS.map(color => (
               <WrapItem>
                 <Button key={color} colorScheme={color}>
                   {color}
@@ -74,7 +73,7 @@ const BuiltInSchemas: React.FC<BuiltInSchemasProps> = ({ colorKey }) => {
             Tags
           </Text>
           <Wrap spacing={2}>
-            {CHAKRAUI_COLORS.map((color) => (
+            {CHAKRAUI_COLORS.map(color => (
               <WrapItem>
                 <Tag key={color} colorScheme={color}>
                   {color}
@@ -90,7 +89,7 @@ const BuiltInSchemas: React.FC<BuiltInSchemasProps> = ({ colorKey }) => {
             Alerts
           </Text>
           <VStack spacing={2} align="start" width="100%">
-            {ALERTS.map((status) => (
+            {ALERTS.map(status => (
               <Alert key={status} status={status}>
                 <AlertIcon />
                 {status} alert

@@ -150,9 +150,7 @@ const SpacingControl: React.FC<{
   // Determine if we can use a slider for this value
   const canUseSlider =
     !["px"].includes(spaceKey) &&
-    (spaceValue.includes("rem") ||
-      spaceValue.includes("px") ||
-      !isNaN(parseFloat(spaceValue)));
+    (spaceValue.includes("rem") || spaceValue.includes("px") || !isNaN(parseFloat(spaceValue)));
 
   const remValue = parseRemValue(spaceValue);
 
@@ -162,7 +160,7 @@ const SpacingControl: React.FC<{
         <Text fontWeight="bold">{spaceKey}</Text>
         <Input
           value={spaceValue}
-          onChange={(e) => handleSpacingChange(spaceKey, e.target.value)}
+          onChange={e => handleSpacingChange(spaceKey, e.target.value)}
           size="sm"
           width="120px"
         />
@@ -174,7 +172,7 @@ const SpacingControl: React.FC<{
           max={16}
           step={0.125}
           value={remValue}
-          onChange={(val) => {
+          onChange={val => {
             if (val === 0) {
               handleSpacingChange(spaceKey, "0");
             } else if (spaceValue.includes("px")) {
@@ -219,8 +217,7 @@ export const SpacingTab: React.FC = () => {
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
         <GridItem rowSpan={2} colSpan={4}>
           <Text mb={6} fontSize="sm">
-            Spacing values are used for margins, padding, and layout sizing
-            across your theme.
+            Spacing values are used for margins, padding, and layout sizing across your theme.
           </Text>
         </GridItem>
         <GridItem>
@@ -248,9 +245,7 @@ export const SpacingTab: React.FC = () => {
               {Object.entries(themeValues.space || {})
                 .filter(([key]) => {
                   const num = parseFloat(key);
-                  return (
-                    !isNaN(num) && num <= 12 && !T_SHIRT_SIZES.includes(key)
-                  );
+                  return !isNaN(num) && num <= 12 && !T_SHIRT_SIZES.includes(key);
                 })
                 .sort(([a], [b]) => parseFloat(a) - parseFloat(b))
                 .map(([spaceKey, spaceValue]) => (
@@ -270,9 +265,7 @@ export const SpacingTab: React.FC = () => {
               {Object.entries(themeValues.space || {})
                 .filter(([key]) => {
                   const num = parseFloat(key);
-                  return (
-                    !isNaN(num) && num > 12 && !T_SHIRT_SIZES.includes(key)
-                  );
+                  return !isNaN(num) && num > 12 && !T_SHIRT_SIZES.includes(key);
                 })
                 .sort(([a], [b]) => parseFloat(a) - parseFloat(b))
                 .map(([spaceKey, spaceValue]) => (

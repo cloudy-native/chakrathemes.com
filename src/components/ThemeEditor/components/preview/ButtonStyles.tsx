@@ -37,14 +37,14 @@ const ButtonStyles: React.FC<ButtonStylesProps> = ({ colorKey }) => {
             Buttons
           </Text>
           <Wrap spacing={2}>
-            {BUTTON_SIZES.map((size) => (
+            {BUTTON_SIZES.map(size => (
               <WrapItem>
                 <Button key={size} size={size as any} colorScheme={colorKey}>
                   {size.toUpperCase()} Button
                 </Button>
               </WrapItem>
             ))}
-            {BUTTON_VARIANTS.map((variant) => (
+            {BUTTON_VARIANTS.map(variant => (
               <WrapItem>
                 <Button
                   key={variant}
@@ -62,11 +62,7 @@ const ButtonStyles: React.FC<ButtonStylesProps> = ({ colorKey }) => {
               </Button>
             </WrapItem>
             <WrapItem>
-              <Button
-                rightIcon={<ArrowForwardIcon />}
-                colorScheme={colorKey}
-                variant="outline"
-              >
+              <Button rightIcon={<ArrowForwardIcon />} colorScheme={colorKey} variant="outline">
                 Right Icon
               </Button>
             </WrapItem>
@@ -77,12 +73,7 @@ const ButtonStyles: React.FC<ButtonStylesProps> = ({ colorKey }) => {
               </ButtonGroup>
             </WrapItem>
             <WrapItem>
-              <Button
-                isLoading
-                loadingText="Loading"
-                colorScheme={colorKey}
-                variant="solid"
-              >
+              <Button isLoading loadingText="Loading" colorScheme={colorKey} variant="solid">
                 Loading
               </Button>
             </WrapItem>

@@ -114,8 +114,8 @@ const PresetCard: React.FC<{
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
   return (
-    <Card 
-      variant="outline" 
+    <Card
+      variant="outline"
       bg={bgColor}
       borderColor={borderColor}
       _hover={{ shadow: "md", transform: "translateY(-2px)" }}
@@ -124,14 +124,10 @@ const PresetCard: React.FC<{
       <CardBody>
         <VStack align="flex-start" spacing={2}>
           <Heading size="sm">{name}</Heading>
-          <Text fontSize="sm" color="gray.500">{description}</Text>
-          <Button 
-            size="sm" 
-            colorScheme="blue" 
-            variant="outline"
-            onClick={onApply}
-            mt={2}
-          >
+          <Text fontSize="sm" color="gray.500">
+            {description}
+          </Text>
+          <Button size="sm" colorScheme="blue" variant="outline" onClick={onApply} mt={2}>
             Apply Preset
           </Button>
         </VStack>
@@ -170,7 +166,7 @@ const SavePresetModal: React.FC<{
               <FormLabel>Preset Name</FormLabel>
               <Input
                 value={presetName}
-                onChange={(e) => setPresetName(e.target.value)}
+                onChange={e => setPresetName(e.target.value)}
                 placeholder="Enter a name for your preset"
               />
             </FormControl>
@@ -178,7 +174,7 @@ const SavePresetModal: React.FC<{
               <FormLabel>Description</FormLabel>
               <Input
                 value={presetDescription}
-                onChange={(e) => setPresetDescription(e.target.value)}
+                onChange={e => setPresetDescription(e.target.value)}
                 placeholder="Brief description of this theme style"
               />
             </FormControl>
@@ -202,13 +198,15 @@ export const ThemePresets: React.FC = () => {
   const { themeValues, setThemeValues, updateThemeValue } = useThemeContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
-  
+
   // State for user-saved presets
-  const [userPresets, setUserPresets] = useState<{
-    name: string;
-    description: string;
-    theme: ThemeValues;
-  }[]>(() => {
+  const [userPresets, setUserPresets] = useState<
+    {
+      name: string;
+      description: string;
+      theme: ThemeValues;
+    }[]
+  >(() => {
     // Try to load saved presets from localStorage
     const savedPresets = localStorage.getItem("chakraThemePresets");
     if (savedPresets) {
@@ -225,20 +223,20 @@ export const ThemePresets: React.FC = () => {
   // Apply a built-in preset
   const applyBuiltinPreset = (index: number) => {
     const preset = BUILT_IN_PRESETS[index];
-    
+
     // Apply preset theme values
     if (preset.theme.radii) {
       Object.entries(preset.theme.radii).forEach(([key, value]) => {
-        updateThemeValue(['radii', key], value);
+        updateThemeValue(["radii", key], value);
       });
     }
-    
+
     if (preset.theme.shadows) {
       Object.entries(preset.theme.shadows).forEach(([key, value]) => {
-        updateThemeValue(['shadows', key], value);
+        updateThemeValue(["shadows", key], value);
       });
     }
-    
+
     toast({
       title: "Preset Applied",
       description: `Applied the ${preset.name} preset`,
@@ -252,7 +250,7 @@ export const ThemePresets: React.FC = () => {
   const applyUserPreset = (index: number) => {
     const preset = userPresets[index];
     setThemeValues(preset.theme);
-    
+
     toast({
       title: "Preset Applied",
       description: `Applied your ${preset.name} preset`,
@@ -269,13 +267,13 @@ export const ThemePresets: React.FC = () => {
       description,
       theme: { ...themeValues },
     };
-    
+
     const updatedPresets = [...userPresets, newPreset];
     setUserPresets(updatedPresets);
-    
+
     // Save to localStorage
     localStorage.setItem("chakraThemePresets", JSON.stringify(updatedPresets));
-    
+
     toast({
       title: "Preset Saved",
       description: `Saved current theme as "${name}"`,
@@ -287,11 +285,15 @@ export const ThemePresets: React.FC = () => {
 
   // Download all presets as JSON
   const downloadPresets = () => {
-    const data = JSON.stringify({
-      builtIn: BUILT_IN_PRESETS,
-      user: userPresets,
-    }, null, 2);
-    
+    const data = JSON.stringify(
+      {
+        builtIn: BUILT_IN_PRESETS,
+        user: userPresets,
+      },
+      null,
+      2
+    );
+
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -308,27 +310,19 @@ export const ThemePresets: React.FC = () => {
       <HStack justify="space-between" mb={4}>
         <Heading size="md">Theme Presets</Heading>
         <HStack>
-          <Button 
-            leftIcon={<AddIcon />} 
-            colorScheme="green" 
-            size="sm"
-            onClick={onOpen}
-          >
+          <Button leftIcon={<AddIcon />} colorScheme="green" size="sm" onClick={onOpen}>
             Save Current Theme
           </Button>
-          <Button 
-            leftIcon={<DownloadIcon />} 
-            variant="outline" 
-            size="sm"
-            onClick={downloadPresets}
-          >
+          <Button leftIcon={<DownloadIcon />} variant="outline" size="sm" onClick={downloadPresets}>
             Export Presets
           </Button>
         </HStack>
       </HStack>
-      
+
       {/* Built-in Presets */}
-      <Text fontSize="sm" fontWeight="medium" mb={2}>Built-in Style Presets</Text>
+      <Text fontSize="sm" fontWeight="medium" mb={2}>
+        Built-in Style Presets
+      </Text>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={6}>
         {BUILT_IN_PRESETS.map((preset, index) => (
           <PresetCard
@@ -339,11 +333,13 @@ export const ThemePresets: React.FC = () => {
           />
         ))}
       </SimpleGrid>
-      
+
       {/* User-saved Presets */}
       {userPresets.length > 0 && (
         <>
-          <Text fontSize="sm" fontWeight="medium" mb={2} mt={6}>Your Saved Themes</Text>
+          <Text fontSize="sm" fontWeight="medium" mb={2} mt={6}>
+            Your Saved Themes
+          </Text>
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
             {userPresets.map((preset, index) => (
               <PresetCard
@@ -356,13 +352,9 @@ export const ThemePresets: React.FC = () => {
           </SimpleGrid>
         </>
       )}
-      
+
       {/* Save Preset Modal */}
-      <SavePresetModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onSave={saveCurrentTheme}
-      />
+      <SavePresetModal isOpen={isOpen} onClose={onClose} onSave={saveCurrentTheme} />
     </Box>
   );
 };

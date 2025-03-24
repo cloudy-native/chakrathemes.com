@@ -1,10 +1,5 @@
 import { ThemeEditor } from "@/components";
-import {
-  ArrowForwardIcon,
-  CheckIcon,
-  RepeatIcon,
-  StarIcon,
-} from "@chakra-ui/icons";
+import { ArrowForwardIcon, CheckIcon, RepeatIcon, StarIcon } from "@chakra-ui/icons";
 import {
   Alert,
   AlertIcon,
@@ -32,12 +27,7 @@ interface FeatureCardProps {
   badge?: string | null;
 }
 
-const FeatureCard: React.FC<FeatureCardProps> = ({
-  title,
-  description,
-  icon,
-  badge = null,
-}) => {
+const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon, badge = null }) => {
   const bgColor = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
 
@@ -53,12 +43,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
     >
       <Flex direction="column" height="100%">
         <Flex align="center" mb={4}>
-          <Icon
-            as={icon}
-            color={useColorModeValue("blue.500", "blue.300")}
-            boxSize={5}
-            mr={2}
-          />
+          <Icon as={icon} color={useColorModeValue("blue.500", "blue.300")} boxSize={5} mr={2} />
           <Heading size="md">{title}</Heading>
           {badge && (
             <Badge ml={2} colorScheme="green" variant="solid">
@@ -82,14 +67,9 @@ const IndexPage: React.FC<PageProps> = () => {
             <Heading as="h1" size="2xl">
               Chakra UI Theme Editor
             </Heading>
-            <Text
-              fontSize="xl"
-              color={useColorModeValue("gray.600", "gray.400")}
-              maxW="3xl"
-            >
-              Create and customize a unique and distinctive Chakra UI theme for
-              your brand. Modify colors, typography, spacing, and more, then
-              export your theme file.
+            <Text fontSize="xl" color={useColorModeValue("gray.600", "gray.400")} maxW="3xl">
+              Create and customize a unique and distinctive Chakra UI theme for your brand. Modify
+              colors, typography, spacing, and more, then export your theme file.
             </Text>
           </VStack>
 
@@ -118,8 +98,8 @@ const IndexPage: React.FC<PageProps> = () => {
           <ThemeEditor />
 
           <Alert status="warning">
-            <AlertIcon /> This is v0.0.3 of the editor. Is is full of bugs and
-            UX issues. Apologies. It is actively being worked on.
+            <AlertIcon /> This is v0.0.3 of the editor. Is is full of bugs and UX issues. Apologies.
+            It is actively being worked on.
           </Alert>
         </VStack>
       </Container>

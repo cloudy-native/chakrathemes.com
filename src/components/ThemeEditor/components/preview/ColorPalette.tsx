@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Box,
-  SimpleGrid,
-  Text,
-  Button,
-  Flex,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, SimpleGrid, Text, Button, Flex, useColorModeValue } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import { ThemeValues } from "@/types";
 
@@ -30,7 +23,6 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
         .map(([shade, colorValue]) => (
           <Box
             key={shade}
-            bg="white"
             boxShadow="md"
             borderRadius="md"
             overflow="hidden"
@@ -59,12 +51,12 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
             </Box>
             <Box p={3}>
               <Flex justifyContent="space-between" alignItems="center">
-                <Text fontSize="xs" fontFamily="monospace" color="gray.700">
+                <Text fontSize="xs" fontFamily="monospace">
                   {colorValue as string}
                 </Text>
                 <Button
                   size="xs"
-                  variant="ghost"
+                  variant="solid"
                   onClick={() => onCopy(colorValue as string)}
                   aria-label={`Copy ${colorValue}`}
                   leftIcon={<CopyIcon />}

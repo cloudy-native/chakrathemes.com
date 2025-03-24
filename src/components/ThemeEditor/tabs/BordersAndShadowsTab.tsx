@@ -53,17 +53,7 @@ const DEFAULT_SHADOWS = {
 };
 
 // Categories for display organization
-const SIZE_RADII = [
-  "none",
-  "sm",
-  "base",
-  "md",
-  "lg",
-  "xl",
-  "2xl",
-  "3xl",
-  "full",
-];
+const SIZE_RADII = ["none", "sm", "base", "md", "lg", "xl", "2xl", "3xl", "full"];
 const SIZE_SHADOWS = [
   "none",
   "xs",
@@ -104,14 +94,7 @@ const ShadowControl: React.FC<{
       display="flex"
       flexDirection="column"
     >
-      <Flex
-        mb={3}
-        align="center"
-        justify="space-between"
-        bg={codeBg}
-        p={2}
-        borderRadius="md"
-      >
+      <Flex mb={3} align="center" justify="space-between" bg={codeBg} p={2} borderRadius="md">
         <Code colorScheme="blue" children={copyValue} />
         <Button
           size="xs"
@@ -186,9 +169,7 @@ const BorderRadiusControl: React.FC<{
   const canUseSlider =
     radiusKey !== "full" &&
     radiusKey !== "none" &&
-    (radiusValue.includes("rem") ||
-      radiusValue.includes("px") ||
-      !isNaN(parseFloat(radiusValue)));
+    (radiusValue.includes("rem") || radiusValue.includes("px") || !isNaN(parseFloat(radiusValue)));
 
   // Determine if we should show the input field
   const showInput = radiusKey !== "none" && radiusKey !== "full";
@@ -209,14 +190,7 @@ const BorderRadiusControl: React.FC<{
       display="flex"
       flexDirection="column"
     >
-      <Flex
-        mb={3}
-        align="center"
-        justify="space-between"
-        bg={codeBg}
-        p={2}
-        borderRadius="md"
-      >
+      <Flex mb={3} align="center" justify="space-between" bg={codeBg} p={2} borderRadius="md">
         <Code colorScheme="blue" children={copyValue} />
         <Button
           size="xs"
@@ -230,17 +204,12 @@ const BorderRadiusControl: React.FC<{
       </Flex>
 
       <Flex justify="space-between" align="center" mb={4} flex="1">
-        <Box
-          width="80px"
-          height="80px"
-          bg="blue.500"
-          borderRadius={radiusValue}
-        />
+        <Box width="80px" height="80px" bg="blue.500" borderRadius={radiusValue} />
 
         {showInput && (
           <Input
             value={radiusValue}
-            onChange={(e) => onChange(radiusKey, e.target.value)}
+            onChange={e => onChange(radiusKey, e.target.value)}
             size="sm"
             width="120px"
           />
@@ -253,7 +222,7 @@ const BorderRadiusControl: React.FC<{
           max={2} // Most border-radius values are less than 2rem
           step={0.0625}
           value={remValue}
-          onChange={(val) => {
+          onChange={val => {
             if (val === 0) {
               onChange(radiusKey, "0");
             } else if (radiusValue.includes("px")) {
@@ -331,17 +300,12 @@ export const BordersAndShadowsTab: React.FC = () => {
             <Grid templateColumns="repeat(5, 1fr)" gap={4}>
               <GridItem rowSpan={2} colSpan={4}>
                 <Text mb={6} fontSize={"sm"}>
-                  Border radius values define the roundness of corners across
-                  your components.
+                  Border radius values define the roundness of corners across your components.
                 </Text>
               </GridItem>
               <GridItem>
                 <Flex justify="right" mb={2}>
-                  <Button
-                    colorScheme="blue"
-                    size="sm"
-                    onClick={handleResetRadii}
-                  >
+                  <Button colorScheme="blue" size="sm" onClick={handleResetRadii}>
                     Reset All Radii
                   </Button>
                 </Flex>
@@ -384,17 +348,12 @@ export const BordersAndShadowsTab: React.FC = () => {
             <Grid templateColumns="repeat(5, 1fr)" gap={4}>
               <GridItem rowSpan={2} colSpan={4}>
                 <Text mb={6} fontSize={"sm"}>
-                  Shadow values define the appearance of shadows across your
-                  components.
+                  Shadow values define the appearance of shadows across your components.
                 </Text>
               </GridItem>
               <GridItem>
                 <Flex justify="right" mb={2}>
-                  <Button
-                    colorScheme="blue"
-                    size="sm"
-                    onClick={handleResetShadows}
-                  >
+                  <Button colorScheme="blue" size="sm" onClick={handleResetShadows}>
                     Reset All Shadows
                   </Button>
                 </Flex>

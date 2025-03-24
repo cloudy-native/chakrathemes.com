@@ -10,7 +10,7 @@ import {
   Avatar,
   AvatarBadge,
   AvatarGroup,
-  Divider
+  Divider,
 } from "@chakra-ui/react";
 import { faker } from "@faker-js/faker";
 
@@ -27,9 +27,11 @@ const AvatarElements: React.FC<AvatarElementsProps> = ({ colorKey }) => {
       <CardBody>
         <VStack align="flex-start" spacing={4} width="100%">
           {/* Avatar Sizes */}
-          <Text fontWeight="medium" fontSize="sm">Avatar Sizes</Text>
+          <Text fontWeight="medium" fontSize="sm">
+            Avatar Sizes
+          </Text>
           <HStack spacing={4}>
-            {["xs", "sm", "md", "lg", "xl"].map((size) => (
+            {["xs", "sm", "md", "lg", "xl"].map(size => (
               <Avatar
                 key={size}
                 size={size as any}
@@ -41,13 +43,13 @@ const AvatarElements: React.FC<AvatarElementsProps> = ({ colorKey }) => {
           </HStack>
 
           <Divider my={2} />
-          
+
           {/* Avatar with Badge */}
-          <Text fontWeight="medium" fontSize="sm">With Badge</Text>
+          <Text fontWeight="medium" fontSize="sm">
+            With Badge
+          </Text>
           <HStack spacing={4}>
-            {[
-              `${colorKey}.200`,
-            ].map((badgeBg, index) => (
+            {[`${colorKey}.200`].map((badgeBg, index) => (
               <Avatar
                 key={index}
                 bg={`${colorKey}.500`}
@@ -60,9 +62,11 @@ const AvatarElements: React.FC<AvatarElementsProps> = ({ colorKey }) => {
           </HStack>
 
           <Divider my={2} />
-          
+
           {/* Avatar Group */}
-          <Text fontWeight="medium" fontSize="sm">Avatar Group</Text>
+          <Text fontWeight="medium" fontSize="sm">
+            Avatar Group
+          </Text>
           <AvatarGroup size="md" max={3}>
             {[200, 400, 500, 600, 700].map((shade, index) => (
               <Avatar

@@ -1,18 +1,14 @@
-import React from "react";
 import {
+  Alert,
+  AlertIcon,
   Card,
   CardBody,
   CardHeader,
+  Divider,
   Heading,
   VStack,
-  Alert,
-  AlertIcon,
-  Divider,
-  Text,
-  Grid,
-  GridItem,
-  Box,
 } from "@chakra-ui/react";
+import React from "react";
 
 interface AlertElementsProps {
   colorKey: string;

@@ -24,7 +24,7 @@ import { Vibrant } from "node-vibrant/browser";
 export const ImageColorTab: React.FC = () => {
   const { themeValues, setThemeValues } = useThemeContext();
   const toast = useToast();
-  
+
   // Image color state
   const [imageUrl, setImageUrl] = useState("");
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
@@ -33,9 +33,9 @@ export const ImageColorTab: React.FC = () => {
   const [selectedColorFromImage, setSelectedColorFromImage] = useState<string | null>(null);
   const [newPaletteNameFromImage, setNewPaletteNameFromImage] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const borderColor = useColorModeValue("gray.200", "gray.700");
-  
+
   // Handle image upload from file
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -245,14 +245,11 @@ export const ImageColorTab: React.FC = () => {
       return;
     }
 
-    const colorName = newPaletteNameFromImage
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, "-");
+    const colorName = newPaletteNameFromImage.trim().toLowerCase().replace(/\s+/g, "-");
     const palette = generateColorPalette(selectedColorFromImage);
 
     // Update theme with the new color palette
-    setThemeValues((prev) => {
+    setThemeValues(prev => {
       const newTheme = { ...prev };
       if (!newTheme.colors) {
         newTheme.colors = {};
@@ -274,12 +271,7 @@ export const ImageColorTab: React.FC = () => {
 
   return (
     <VStack spacing={6} align="stretch">
-      <Box
-        p={4}
-        borderWidth="1px"
-        borderRadius="md"
-        bg={useColorModeValue("blue.50", "blue.900")}
-      >
+      <Box p={4} borderWidth="1px" borderRadius="md" bg={useColorModeValue("blue.50", "blue.900")}>
         <Text fontWeight="bold" mb={4}>
           Extract Colors from Image
         </Text>
@@ -305,9 +297,7 @@ export const ImageColorTab: React.FC = () => {
                 onChange={handleImageUpload}
                 style={{ display: "none" }}
               />
-              {uploadedImage && !imageUrl && (
-                <Text fontSize="sm">Image uploaded</Text>
-              )}
+              {uploadedImage && !imageUrl && <Text fontSize="sm">Image uploaded</Text>}
             </HStack>
           </Box>
 
@@ -344,12 +334,7 @@ export const ImageColorTab: React.FC = () => {
               maxH="300px"
               overflow="hidden"
             >
-              <ChakraImage
-                src={uploadedImage}
-                maxH="280px"
-                objectFit="contain"
-                borderRadius="md"
-              />
+              <ChakraImage src={uploadedImage} maxH="280px" objectFit="contain" borderRadius="md" />
             </Center>
 
             <Button
@@ -376,19 +361,13 @@ export const ImageColorTab: React.FC = () => {
               {extractedColors.map((color, idx) => (
                 <Box
                   key={idx}
-                  borderWidth={
-                    selectedColorFromImage === color.color ? "2px" : "1px"
-                  }
+                  borderWidth={selectedColorFromImage === color.color ? "2px" : "1px"}
                   borderRadius="md"
                   overflow="hidden"
                   cursor="pointer"
                   onClick={() => setSelectedColorFromImage(color.color)}
                   position="relative"
-                  borderColor={
-                    selectedColorFromImage === color.color
-                      ? "blue.500"
-                      : borderColor
-                  }
+                  borderColor={selectedColorFromImage === color.color ? "blue.500" : borderColor}
                 >
                   <Box h="60px" style={{ backgroundColor: color.color }} />
                   <Box p={2}>
@@ -424,9 +403,7 @@ export const ImageColorTab: React.FC = () => {
                     <Input
                       placeholder="e.g. 'image-palette'"
                       value={newPaletteNameFromImage}
-                      onChange={(e) =>
-                        setNewPaletteNameFromImage(e.target.value)
-                      }
+                      onChange={e => setNewPaletteNameFromImage(e.target.value)}
                     />
                   </FormControl>
 
@@ -446,10 +423,7 @@ export const ImageColorTab: React.FC = () => {
                   </FormControl>
                 </HStack>
 
-                <Button
-                  colorScheme="blue"
-                  onClick={generatePaletteFromExtractedColor}
-                >
+                <Button colorScheme="blue" onClick={generatePaletteFromExtractedColor}>
                   Add Palette
                 </Button>
 

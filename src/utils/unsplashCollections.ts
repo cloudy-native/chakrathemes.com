@@ -16,8 +16,7 @@ export interface ImageCollection {
 export const unsplashCollections: ImageCollection = {
   sofas: {
     title: "Comfortable Sofas",
-    description:
-      "Stylish sofas and living spaces for interior design inspiration",
+    description: "Stylish sofas and living spaces for interior design inspiration",
     images: [
       {
         url: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",

@@ -26,8 +26,7 @@ export const isLightColor = (color: string): boolean => {
 
   // Calculate luminance using the formula from WCAG 2.0
   // https://www.w3.org/TR/WCAG20-TECHS/G17.html
-  const luminance =
-    0.2126 * (r / 255) + 0.7152 * (g / 255) + 0.0722 * (b / 255);
+  const luminance = 0.2126 * (r / 255) + 0.7152 * (g / 255) + 0.0722 * (b / 255);
 
   // Color is considered light if luminance is > 0.5
   return luminance > 0.5;
@@ -79,9 +78,7 @@ export const darken = (hex: string, amount: number): string => {
 /**
  * Generates a full color palette from a single base color
  */
-export const generateColorPalette = (
-  baseColor: string
-): { [key: string]: string } => {
+export const generateColorPalette = (baseColor: string): { [key: string]: string } => {
   return {
     50: lighten(baseColor, 0.85), // Very light
     100: lighten(baseColor, 0.7), // Lighter
@@ -97,10 +94,7 @@ export const generateColorPalette = (
 };
 
 // Helper function to get a lighter shade of the theme color
-export const getLightShade = (
-  themeValues: ThemeValues,
-  colorKey: string
-): string => {
+export const getLightShade = (themeValues: ThemeValues, colorKey: string): string => {
   // Try to get a light shade (50, 100, or 200)
   if (themeValues.colors && themeValues.colors[colorKey]) {
     if (themeValues.colors[colorKey]["50"]) {
@@ -115,10 +109,7 @@ export const getLightShade = (
 };
 
 // Helper function to get a darker shade of the theme color
-export const getDarkShade = (
-  themeValues: ThemeValues,
-  colorKey: string
-): string => {
+export const getDarkShade = (themeValues: ThemeValues, colorKey: string): string => {
   // Try to get a dark shade (800, 700, or 600)
   if (themeValues.colors && themeValues.colors[colorKey]) {
     if (themeValues.colors[colorKey]["800"]) {
@@ -133,10 +124,7 @@ export const getDarkShade = (
 };
 
 // Helper function to get a primary shade of the theme color
-export const getPrimaryShade = (
-  themeValues: ThemeValues,
-  colorKey: string
-): string => {
+export const getPrimaryShade = (themeValues: ThemeValues, colorKey: string): string => {
   // Try to get a medium shade (500)
   if (themeValues.colors && themeValues.colors[colorKey]) {
     if (themeValues.colors[colorKey]["500"]) {

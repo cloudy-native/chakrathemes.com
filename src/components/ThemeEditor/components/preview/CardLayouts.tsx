@@ -46,19 +46,23 @@ interface CardLayoutsProps {
 
 const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
   const sofa = faker.helpers.arrayElement(unsplashCollections.sofas.images);
-  const landscape = faker.helpers.arrayElement(
-    unsplashCollections.landscape.images
-  );
-  const conference = faker.helpers.arrayElement(
-    unsplashCollections.conference.images
-  );
+  const landscape = faker.helpers.arrayElement(unsplashCollections.landscape.images);
+  const conference = faker.helpers.arrayElement(unsplashCollections.conference.images);
   const food = faker.helpers.arrayElement(unsplashCollections.food.images);
   const travel = faker.helpers.arrayElement(unsplashCollections.travel.images);
 
   // For the interactive mood board card
-  const moodEmojis = ['😀', '😊', '🙂', '😐', '😕', '😣', '😢'];
-  const moodColors = ['green.400', 'green.300', 'blue.300', 'gray.400', 'yellow.300', 'orange.300', 'red.300'];
-  
+  const moodEmojis = ["😀", "😊", "🙂", "😐", "😕", "😣", "😢"];
+  const moodColors = [
+    "green.400",
+    "green.300",
+    "blue.300",
+    "gray.400",
+    "yellow.300",
+    "orange.300",
+    "red.300",
+  ];
+
   return (
     <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={8}>
       {/* Card Layout 0: Interactive Daily Mood Tracker */}
@@ -74,29 +78,29 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
             </Badge>
           </Flex>
         </CardHeader>
-        
+
         <CardBody>
           <VStack spacing={4} align="stretch">
             <Flex justifyContent="space-between" alignItems="center">
               <Text fontWeight="bold">{faker.date.recent().toLocaleDateString()}</Text>
               <Text fontWeight="bold">{faker.date.recent().toLocaleTimeString()}</Text>
-              <Text fontSize="sm" >Track your emotional wellbeing</Text>
+              <Text fontSize="sm">Track your emotional wellbeing</Text>
             </Flex>
-            
+
             {/* Interactive mood selector */}
-            <Flex 
-              justifyContent="space-between" 
-              bg={`${colorKey}.50`} 
-              p={3} 
+            <Flex
+              justifyContent="space-between"
+              bg={`${colorKey}.50`}
+              p={3}
               borderRadius="md"
               borderWidth="1px"
             >
               {moodEmojis.map((emoji, idx) => (
-                <Box 
+                <Box
                   key={idx}
-                  fontSize="2xl" 
-                  p={2} 
-                  borderRadius="full" 
+                  fontSize="2xl"
+                  p={2}
+                  borderRadius="full"
                   bg={idx === 2 ? moodColors[idx] : "transparent"}
                   cursor="pointer"
                   transform={idx === 2 ? "scale(1.2)" : "scale(1)"}
@@ -107,20 +111,22 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
                 </Box>
               ))}
             </Flex>
-            
+
             {/* Journal entry */}
-            <Box borderWidth="1px" borderRadius="md" p={3} >
-              <Text fontSize="sm" fontStyle="italic" >
+            <Box borderWidth="1px" borderRadius="md" p={3}>
+              <Text fontSize="sm" fontStyle="italic">
                 {faker.word.words({ count: 25 })}
               </Text>
             </Box>
-            
+
             {/* Progress visualization */}
             <Box>
-              <Text fontSize="sm" mb={1}>Weekly mood pattern</Text>
+              <Text fontSize="sm" mb={1}>
+                Weekly mood pattern
+              </Text>
               <Flex height="30px" borderRadius="md" overflow="hidden">
                 {[...Array(7)].map((_, idx) => (
-                  <Box 
+                  <Box
                     key={idx}
                     flex="1"
                     bg={faker.helpers.arrayElement(moodColors)}
@@ -131,25 +137,17 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
             </Box>
           </VStack>
         </CardBody>
-        
+
         <CardFooter borderTopWidth="1px" justifyContent="space-between">
-          <Button
-            size="sm"
-            variant="ghost"
-            leftIcon={<FaRegCalendarAlt />}
-            colorScheme={colorKey}
-          >
+          <Button size="sm" variant="ghost" leftIcon={<FaRegCalendarAlt />} colorScheme={colorKey}>
             History
           </Button>
-          <Button
-            size="sm"
-            colorScheme={colorKey}
-          >
+          <Button size="sm" colorScheme={colorKey}>
             Save Today's Mood
           </Button>
         </CardFooter>
       </Card>
-      
+
       {/* Horizontal product card with image, details and action buttons */}
       <Card
         direction={{ base: "column", sm: "row" }}
@@ -195,7 +193,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
       </Card>
 
       {/* Social media post with avatar, content, and interaction buttons */}
-      <Card 
+      <Card
         variant="outline"
         borderRadius="sm"
         boxShadow="2xl"
@@ -234,18 +232,8 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           </VStack>
         </CardBody>
         <Image objectFit="cover" src={landscape.url} alt={landscape.alt} />
-        <CardFooter
-          justify="space-between"
-          flexWrap="wrap"
-          borderTop="1px solid"
-        >
-          <Button
-            flex="1"
-            variant="ghost"
-            leftIcon={<FaHeart />}
-            colorScheme={colorKey}
-            size="sm"
-          >
+        <CardFooter justify="space-between" flexWrap="wrap" borderTop="1px solid">
+          <Button flex="1" variant="ghost" leftIcon={<FaHeart />} colorScheme={colorKey} size="sm">
             Like
           </Button>
           <Button
@@ -257,32 +245,21 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           >
             Comment
           </Button>
-          <Button
-            flex="1"
-            variant="ghost"
-            leftIcon={<FaShare />}
-            colorScheme={colorKey}
-            size="sm"
-          >
+          <Button flex="1" variant="ghost" leftIcon={<FaShare />} colorScheme={colorKey} size="sm">
             Share
           </Button>
         </CardFooter>
       </Card>
 
       {/* Event/Booking card with background color */}
-      <Card 
+      <Card
         overflow="hidden"
-        borderRadius="3xl" 
+        borderRadius="3xl"
         borderBottomWidth="4px"
         borderBottomColor={`${colorKey}.500`}
         boxShadow="lg"
       >
-        <Image
-          src={conference.url}
-          alt="Event Image"
-          height="140px"
-          objectFit="cover"
-        />
+        <Image src={conference.url} alt="Event Image" height="140px" objectFit="cover" />
         <CardBody pt={4}>
           <Flex justifyContent="space-between" alignItems="center" mb={2}>
             <Badge colorScheme={colorKey} variant="solid">
@@ -310,21 +287,17 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           <Text fontWeight="bold" fontSize="lg">
             ${faker.commerce.price()}
           </Text>
-          <Button
-            colorScheme={colorKey}
-            size="sm"
-            rightIcon={<FaChevronRight />}
-          >
+          <Button colorScheme={colorKey} size="sm" rightIcon={<FaChevronRight />}>
             Register Now
           </Button>
         </CardFooter>
       </Card>
 
       {/* Restaurant/Recipe card */}
-      <Card 
-        variant="elevated" 
+      <Card
+        variant="elevated"
         overflow="hidden"
-        borderRadius="md" 
+        borderRadius="md"
         boxShadow="dark-lg"
         _hover={{ boxShadow: "2xl" }}
         transition="box-shadow 0.3s"
@@ -376,8 +349,8 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
       </Card>
 
       {/* Profile/Contact card */}
-      <Card 
-        variant="filled" 
+      <Card
+        variant="filled"
         overflow="hidden"
         borderRadius="none"
         boxShadow="inner"
@@ -386,13 +359,13 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         position="relative"
         _after={{
           content: '""',
-          position: 'absolute',
-          top: '0',
-          right: '0',
-          width: '30px',
-          height: '30px',
+          position: "absolute",
+          top: "0",
+          right: "0",
+          width: "30px",
+          height: "30px",
           bg: `${colorKey}.500`,
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%)'
+          clipPath: "polygon(0 0, 100% 0, 100% 100%)",
         }}
       >
         <CardHeader
