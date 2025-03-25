@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import ColorInput from "@/components/ThemeEditor/components/ColorInput";
-import ColorSwatch from "@/components/ThemeEditor/components/ColorSwatch";
+import { ExpandableColorSwatch } from "@/components/ThemeEditor/components/ColorSwatch";
 import PaletteGenerator from "@/components/ThemeEditor/components/PaletteGenerator";
 import PalettePreview from "@/components/ThemeEditor/components/PalettePreview";
 import { generateColorPalette } from "@/utils/colorUtils";
@@ -126,7 +126,7 @@ export const ColorPickerTab: React.FC = () => {
           borderColor={borderColor}
           overflow="hidden"
         >
-          <ColorSwatch
+          <ExpandableColorSwatch
             colorSwatch={colorSwatch}
             isOpen={
               openColorSwatches[colorSwatch.colorKey] !== undefined

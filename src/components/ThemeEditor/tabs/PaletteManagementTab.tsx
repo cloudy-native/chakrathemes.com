@@ -1,10 +1,19 @@
-import { AddPaletteModal } from "@/components/ThemeEditor/components/AddPaletteModal";
-import { PaletteShade } from "@/components/ThemeEditor/components/PaletteShade";
+import { 
+  AddPaletteModal,
+  PaletteShade,
+  AccessibilityAnalysisModal,
+  ColorHarmonyModal
+} from "@/components/ThemeEditor/components";
 import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ThemeValues } from "@/types";
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { 
+  AddIcon, 
+  DeleteIcon, 
+  CheckIcon, 
+  RepeatIcon 
+} from "@chakra-ui/icons";
 import {
   Accordion,
   AccordionButton,
@@ -16,6 +25,7 @@ import {
   Flex,
   Grid,
   GridItem,
+  HStack,
   IconButton,
   SimpleGrid,
   Text,
@@ -40,6 +50,16 @@ export const PaletteManagementTab: React.FC = () => {
 
   // Add palette modal state
   const { isOpen, onOpen, onClose } = useDisclosure();
+  
+  // Accessibility analysis modal state
+  const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] = React.useState(false);
+  const [accessibilityColorKey, setAccessibilityColorKey] = React.useState<string>("");
+  const [accessibilityColorShades, setAccessibilityColorShades] = React.useState<Record<string, string>>({});
+  
+  // Color harmony modal state
+  const [isHarmonyModalOpen, setIsHarmonyModalOpen] = React.useState(false);
+  const [harmonyColorKey, setHarmonyColorKey] = React.useState<string>("");
+  const [harmonyColorShades, setHarmonyColorShades] = React.useState<Record<string, string>>({});
 
   // Delete confirmation dialog state
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
@@ -53,6 +73,26 @@ export const PaletteManagementTab: React.FC = () => {
   const openDeleteDialog = (colorKey: string) => {
     setPaletteToDelete(colorKey);
     setIsDeleteDialogOpen(true);
+  };
+
+  // Handle opening the accessibility modal
+  const openAccessibilityModal = (colorKey: string, colorShades: Record<string, string>) => {
+    setAccessibilityColorKey(colorKey);
+    setAccessibilityColorShades(colorShades);
+    setIsAccessibilityModalOpen(true);
+    
+    // Track analytics
+    trackColorAction("open_accessibility_analysis", colorKey);
+  };
+  
+  // Handle opening the color harmony modal
+  const openHarmonyModal = (colorKey: string, colorShades: Record<string, string>) => {
+    setHarmonyColorKey(colorKey);
+    setHarmonyColorShades(colorShades);
+    setIsHarmonyModalOpen(true);
+    
+    // Track analytics
+    trackColorAction("open_color_harmony", colorKey);
   };
 
   // Handle delete confirmation
@@ -115,19 +155,52 @@ export const PaletteManagementTab: React.FC = () => {
               <Box flex="1" textAlign="left">
                 <Flex justifyContent="space-between" alignItems="center">
                   <Text fontWeight="medium">{palette.colorKey}</Text>
-                  <Tooltip label="Delete palette" placement="top">
-                    <IconButton
-                      aria-label="Delete palette"
-                      icon={<DeleteIcon />}
-                      size="sm"
-                      variant="ghost"
-                      colorScheme="red"
-                      onClick={e => {
-                        e.stopPropagation(); // Prevent accordion from toggling
-                        openDeleteDialog(palette.colorKey);
-                      }}
-                    />
-                  </Tooltip>
+                  <HStack spacing={1}>
+                    {/* Accessibility Analysis Button */}
+                    <Tooltip label="Accessibility Analysis" placement="top">
+                      <IconButton
+                        aria-label="Accessibility Analysis"
+                        icon={<CheckIcon />}
+                        size="sm"
+                        variant="ghost"
+                        colorScheme="green"
+                        onClick={e => {
+                          e.stopPropagation(); // Prevent accordion from toggling
+                          openAccessibilityModal(palette.colorKey, palette.colorShades);
+                        }}
+                      />
+                    </Tooltip>
+                    
+                    {/* Color Harmony Button */}
+                    <Tooltip label="Color Harmony" placement="top">
+                      <IconButton
+                        aria-label="Color Harmony"
+                        icon={<RepeatIcon />}
+                        size="sm"
+                        variant="ghost"
+                        colorScheme="blue"
+                        onClick={e => {
+                          e.stopPropagation(); // Prevent accordion from toggling
+                          openHarmonyModal(palette.colorKey, palette.colorShades);
+                        }}
+                      />
+                    </Tooltip>
+                    
+                    {/* Delete Button */}
+                    <Tooltip label="Delete palette" placement="top">
+                      <IconButton
+                        aria-label="Delete palette"
+                        icon={<DeleteIcon />}
+                        size="sm"
+                        variant="ghost"
+                        colorScheme="red"
+                        onClick={e => {
+                          e.stopPropagation(); // Prevent accordion from toggling
+                          openDeleteDialog(palette.colorKey);
+                        }}
+                      />
+                    </Tooltip>
+                  </HStack>
                 </Flex>
                 <Box mt={2}>
                   <ThemeColorSwatch
@@ -212,6 +285,22 @@ export const PaletteManagementTab: React.FC = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
+      
+      {/* Accessibility Analysis Modal */}
+      <AccessibilityAnalysisModal 
+        isOpen={isAccessibilityModalOpen}
+        onClose={() => setIsAccessibilityModalOpen(false)}
+        colorKey={accessibilityColorKey}
+        colorShades={accessibilityColorShades}
+      />
+      
+      {/* Color Harmony Modal */}
+      <ColorHarmonyModal
+        isOpen={isHarmonyModalOpen}
+        onClose={() => setIsHarmonyModalOpen(false)}
+        colorKey={harmonyColorKey}
+        colorShades={harmonyColorShades}
+      />
     </Box>
   );
 };

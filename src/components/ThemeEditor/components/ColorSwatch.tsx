@@ -5,13 +5,58 @@ import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import ThemeColorSwatch from "./ThemeColorSwatch";
 import { PaletteShade } from "./PaletteShade";
 
-interface ColorSwatchProps {
+// Simple color swatch component for use in dialogs, tooltips, etc.
+interface BasicColorSwatchProps {
+  color: string;
+  size?: "xs" | "sm" | "md" | "lg";
+  borderRadius?: string;
+  mr?: number;
+  ml?: number;
+}
+
+export const ColorSwatch: React.FC<BasicColorSwatchProps> = ({ 
+  color, 
+  size = "md", 
+  borderRadius = "md",
+  mr,
+  ml
+}) => {
+  // Size mapping
+  const sizeMap = {
+    xs: "16px",
+    sm: "24px",
+    md: "32px",
+    lg: "40px"
+  };
+  
+  const dimension = sizeMap[size];
+  
+  return (
+    <Box 
+      w={dimension} 
+      h={dimension} 
+      bg={color} 
+      borderRadius={borderRadius}
+      borderWidth="1px"
+      borderColor={useColorModeValue("gray.200", "gray.700")}
+      mr={mr}
+      ml={ml}
+    />
+  );
+};
+
+// Expanded color swatch component (original implementation)
+interface ExpandableColorSwatchProps {
   colorSwatch: ColorSwatchType;
   isOpen: boolean;
   toggleOpen: () => void;
 }
 
-export const ColorSwatch: React.FC<ColorSwatchProps> = ({ colorSwatch, isOpen, toggleOpen }) => {
+export const ExpandableColorSwatch: React.FC<ExpandableColorSwatchProps> = ({ 
+  colorSwatch, 
+  isOpen, 
+  toggleOpen 
+}) => {
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const bgColor = useColorModeValue("gray.100", "gray.700");
   const hoverBgColor = useColorModeValue("gray.200", "gray.600");
