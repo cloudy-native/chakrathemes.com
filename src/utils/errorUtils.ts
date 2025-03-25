@@ -4,7 +4,7 @@
 export class ValidationError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'ValidationError';
+    this.name = "ValidationError";
   }
 }
 
@@ -14,7 +14,7 @@ export class ValidationError extends Error {
 export class ColorParseError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'ColorParseError';
+    this.name = "ColorParseError";
   }
 }
 
@@ -35,10 +35,10 @@ export const isValidHexColor = (hex: string): boolean => {
  */
 export const validateColor = (color: string): void => {
   if (!color) {
-    throw new ValidationError('Color value is required');
+    throw new ValidationError("Color value is required");
   }
-  
-  if (color.startsWith('#') && !isValidHexColor(color)) {
+
+  if (color.startsWith("#") && !isValidHexColor(color)) {
     throw new ValidationError(`Invalid hex color format: ${color}. Use #RGB or #RRGGBB format.`);
   }
 };
@@ -50,15 +50,17 @@ export const validateColor = (color: string): void => {
  */
 export const validateColorName = (name: string): void => {
   if (!name || !name.trim()) {
-    throw new ValidationError('Color name is required');
+    throw new ValidationError("Color name is required");
   }
-  
+
   if (name.length > 30) {
-    throw new ValidationError('Color name must be 30 characters or less');
+    throw new ValidationError("Color name must be 30 characters or less");
   }
-  
+
   if (!/^[a-zA-Z0-9\s-_]+$/.test(name)) {
-    throw new ValidationError('Color name must contain only letters, numbers, spaces, hyphens, and underscores');
+    throw new ValidationError(
+      "Color name must contain only letters, numbers, spaces, hyphens, and underscores"
+    );
   }
 };
 

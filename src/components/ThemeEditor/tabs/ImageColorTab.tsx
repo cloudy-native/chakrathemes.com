@@ -38,11 +38,11 @@ export const ImageColorTab: React.FC = () => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [extractedColors, setExtractedColors] = useState<ExtractedColor[]>([]);
   const [isExtracting, setIsExtracting] = useState(false);
-  
+
   // Palette generation state
   const [selectedColorFromImage, setSelectedColorFromImage] = useState("");
   const [newPaletteNameFromImage, setNewPaletteNameFromImage] = useState("");
-  
+
   // Image drag and drop handling
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -57,13 +57,13 @@ export const ImageColorTab: React.FC = () => {
   // Handle image upload from file
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement> | File) => {
     let file: File | null = null;
-    
+
     if (event instanceof File) {
       file = event;
     } else if (event.target.files && event.target.files.length > 0) {
       file = event.target.files[0];
     }
-    
+
     if (file) {
       if (!file.type.startsWith("image/")) {
         toast({
@@ -113,18 +113,18 @@ export const ImageColorTab: React.FC = () => {
           { name: "Dark Muted", color: "#553344" },
           { name: "Light Muted", color: "#DDBBCC" },
         ];
-        
+
         setExtractedColors(mockExtractedColors);
         setSelectedColorFromImage(mockExtractedColors[0].color);
         setNewPaletteNameFromImage(mockExtractedColors[0].name || "new-palette");
-        
+
         toast({
           title: "Colors extracted",
           status: "success",
           duration: 2000,
           isClosable: true,
         });
-        
+
         setIsExtracting(false);
       }, 1000);
     } catch (error) {
@@ -201,9 +201,9 @@ export const ImageColorTab: React.FC = () => {
       <Grid templateColumns="repeat(12, 1fr)" gap={4}>
         <GridItem colSpan={{ base: 12, md: 8 }}>
           <Text mb={4} fontSize="sm">
-            Upload an image to extract colors and create palettes for your theme. You can click on any
-            extracted color to use it as a base for a new palette. This is a great way to ensure your
-            theme aligns with your brand identity or desired aesthetic.
+            Upload an image to extract colors and create palettes for your theme. You can click on
+            any extracted color to use it as a base for a new palette. This is a great way to ensure
+            your theme aligns with your brand identity or desired aesthetic.
           </Text>
         </GridItem>
       </Grid>
@@ -283,9 +283,7 @@ export const ImageColorTab: React.FC = () => {
                           cursor="pointer"
                           borderWidth="2px"
                           borderColor={
-                            selectedColorFromImage === color.color
-                              ? "blue.500"
-                              : "transparent"
+                            selectedColorFromImage === color.color ? "blue.500" : "transparent"
                           }
                           borderRadius="md"
                           overflow="hidden"
@@ -348,10 +346,10 @@ export const ImageColorTab: React.FC = () => {
                                 ...themeValues,
                                 colors: {
                                   ...(themeValues.colors || {}),
-                                  [paletteName]: palette
+                                  [paletteName]: palette,
                                 },
                               };
-                              
+
                               // Set the updated theme
                               setThemeValues(themeWithNewPalette);
 
@@ -378,7 +376,7 @@ export const ImageColorTab: React.FC = () => {
                             Preview:
                           </Text>
                           {selectedColorFromImage && (
-                            <PalettePreview 
+                            <PalettePreview
                               palette={generateColorPalette(selectedColorFromImage)}
                               label={newPaletteNameFromImage || "New Palette"}
                             />

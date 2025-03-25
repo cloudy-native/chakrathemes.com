@@ -94,9 +94,9 @@ export interface ColorShade {
 export type ColorPalette = Record<string, string>;
 
 // Theme context action types
-export type ThemeAction = 
-  | { type: 'SET_THEME_VALUES'; payload: ThemeValues }
-  | { type: 'UPDATE_THEME_VALUE'; path: ThemePath; value: ThemeValueType }
-  | { type: 'ADD_COLOR_PALETTE'; name: string; baseColor: string }
-  | { type: 'UPDATE_COLOR_PALETTE'; colorKey: string; newBaseColor: string }
-  | { type: 'UPDATE_COLOR_VALUE'; colorCategory: string; shade: string; value: string };
+export type ThemeAction =
+  | { type: "SET_THEME_VALUES"; payload: ThemeValues }
+  | { type: "UPDATE_THEME_VALUE"; path: ThemePath; value: ThemeValueType }
+  | { type: "ADD_COLOR_PALETTE"; name: string; baseColor: string }
+  | { type: "UPDATE_COLOR_PALETTE"; colorKey: string; newBaseColor: string }
+  | { type: "UPDATE_COLOR_VALUE"; colorCategory: string; shade: string; value: string };

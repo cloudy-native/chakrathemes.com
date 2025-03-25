@@ -1,5 +1,11 @@
 import { useCallback } from "react";
-import { EventCategory, trackEvent, trackFeatureUsage, trackTabChange, trackThemeDownload } from "@/utils/analytics";
+import {
+  EventCategory,
+  trackEvent,
+  trackFeatureUsage,
+  trackTabChange,
+  trackThemeDownload,
+} from "@/utils/analytics";
 import { TrackingEvent } from "@/types";
 
 /**
@@ -8,12 +14,7 @@ import { TrackingEvent } from "@/types";
 export const useAnalytics = () => {
   // Track a general event
   const trackAction = useCallback((event: TrackingEvent) => {
-    trackEvent(
-      event.category as EventCategory,
-      event.action,
-      event.label,
-      event.value
-    );
+    trackEvent(event.category as EventCategory, event.action, event.label, event.value);
   }, []);
 
   // Track a specific feature usage

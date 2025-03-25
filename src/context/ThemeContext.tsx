@@ -69,7 +69,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
 
     const colorName = newColorName.trim().toLowerCase().replace(/\s+/g, "-");
-    
+
     // Dispatch the action
     dispatch({ type: "ADD_COLOR_PALETTE", name: colorName, baseColor });
 
@@ -105,13 +105,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Update a specific color value
   const updateColorValue = (colorCategory: string, shade: string, value: string) => {
-    dispatch({ 
-      type: "UPDATE_COLOR_VALUE", 
-      colorCategory, 
-      shade, 
-      value 
+    dispatch({
+      type: "UPDATE_COLOR_VALUE",
+      colorCategory,
+      shade,
+      value,
     });
-    
+
     // Track the event
     trackEvent(EventCategory.COLOR, "update_color", `${colorCategory}.${shade}`);
   };

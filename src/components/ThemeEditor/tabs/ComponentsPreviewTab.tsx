@@ -14,10 +14,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import {
-  ColorTabContent,
-  ThemePreviewHeader,
-} from "@/components/ThemeEditor/components/preview";
+import { ColorTabContent, ThemePreviewHeader } from "@/components/ThemeEditor/components/preview";
 
 export const ComponentsPreviewTab: React.FC = () => {
   const { themeValues } = useThemeContext();
@@ -84,13 +81,13 @@ export const ComponentsPreviewTab: React.FC = () => {
                 </Tab>
               ))}
             </TabList>
-            
+
             {/* Content panels for each color */}
             <TabPanels mt={4}>
               {colorKeys.map(colorKey => (
                 <TabPanel key={colorKey} p={0}>
-                  <ColorTabContent 
-                    colorKey={colorKey} 
+                  <ColorTabContent
+                    colorKey={colorKey}
                     themeValues={themeValues}
                     componentTabIndex={componentTabIndex}
                     setComponentTabIndex={setComponentTabIndex}

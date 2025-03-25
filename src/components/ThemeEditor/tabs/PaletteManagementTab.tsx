@@ -37,42 +37,42 @@ export const PaletteManagementTab: React.FC = () => {
   const { getColors, setThemeValues, themeValues } = useThemeContext();
   const { trackColorAction } = useAnalytics();
   const toast = useToast();
-  
+
   // Add palette modal state
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   // Delete confirmation dialog state
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
   const [paletteToDelete, setPaletteToDelete] = React.useState<string | null>(null);
   const cancelRef = React.useRef<HTMLButtonElement>(null);
-  
+
   // Get all palettes
   const palettes = getColors();
-  
+
   // Handle delete button click
   const openDeleteDialog = (colorKey: string) => {
     setPaletteToDelete(colorKey);
     setIsDeleteDialogOpen(true);
   };
-  
+
   // Handle delete confirmation
   const handleDeletePalette = () => {
     if (paletteToDelete) {
       // Create a new theme object based on the current one
       const newTheme: ThemeValues = JSON.parse(JSON.stringify(themeValues));
-      
+
       // Remove the color palette
       if (newTheme.colors && paletteToDelete in newTheme.colors) {
         const { [paletteToDelete]: _, ...remainingColors } = newTheme.colors;
         newTheme.colors = remainingColors;
       }
-      
+
       // Update the theme
       setThemeValues(newTheme);
-      
+
       // Track the delete action
       trackColorAction("delete_palette", paletteToDelete);
-      
+
       // Show success toast
       toast({
         title: "Palette deleted",
@@ -81,7 +81,7 @@ export const PaletteManagementTab: React.FC = () => {
         duration: 2000,
         isClosable: true,
       });
-      
+
       // Close the dialog
       setIsDeleteDialogOpen(false);
       setPaletteToDelete(null);
@@ -122,7 +122,7 @@ export const PaletteManagementTab: React.FC = () => {
                       size="sm"
                       variant="ghost"
                       colorScheme="red"
-                      onClick={(e) => {
+                      onClick={e => {
                         e.stopPropagation(); // Prevent accordion from toggling
                         openDeleteDialog(palette.colorKey);
                       }}
@@ -183,7 +183,7 @@ export const PaletteManagementTab: React.FC = () => {
 
       {/* Add Palette Modal */}
       <AddPaletteModal isOpen={isOpen} onClose={onClose} />
-      
+
       {/* Delete Confirmation Dialog */}
       <AlertDialog
         isOpen={isDeleteDialogOpen}
@@ -197,8 +197,8 @@ export const PaletteManagementTab: React.FC = () => {
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure you want to delete the <b>{paletteToDelete}</b> palette? 
-              This action cannot be undone.
+              Are you sure you want to delete the <b>{paletteToDelete}</b> palette? This action
+              cannot be undone.
             </AlertDialogBody>
 
             <AlertDialogFooter>

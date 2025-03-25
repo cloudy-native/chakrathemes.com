@@ -86,7 +86,7 @@ export const useColorManagement = ({
   // Update a specific color value
   const updateColorValue = (colorCategory: string, shade: string, value: string) => {
     updateThemeValue(["colors", colorCategory, shade], value);
-    
+
     // Track the event
     trackEvent(EventCategory.COLOR, "update_color", `${colorCategory}.${shade}`);
   };

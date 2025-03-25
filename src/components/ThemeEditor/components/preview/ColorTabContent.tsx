@@ -14,11 +14,11 @@ interface ColorTabContentProps {
 /**
  * Component tab content for a specific color
  */
-export const ColorTabContent: React.FC<ColorTabContentProps> = ({ 
-  colorKey, 
-  themeValues, 
-  componentTabIndex, 
-  setComponentTabIndex 
+export const ColorTabContent: React.FC<ColorTabContentProps> = ({
+  colorKey,
+  themeValues,
+  componentTabIndex,
+  setComponentTabIndex,
 }) => {
   const [copiedValue, setCopiedValue] = useState<string | null>(null);
   const { trackTab } = useAnalytics();
@@ -60,11 +60,7 @@ export const ColorTabContent: React.FC<ColorTabContentProps> = ({
           />
         </TabPanel>
         <TabPanel>
-          <ComponentPreview
-            colorKey={colorKey}
-            themeValues={themeValues}
-            id="basics-tab"
-          />
+          <ComponentPreview colorKey={colorKey} themeValues={themeValues} id="basics-tab" />
         </TabPanel>
         <TabPanel>
           <CardLayouts colorKey={colorKey} themeValues={themeValues} />

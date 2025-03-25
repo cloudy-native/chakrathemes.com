@@ -60,12 +60,7 @@ export default theme;`;
   };
 
   return (
-    <Button
-      colorScheme="green"
-      onClick={downloadTheme}
-      leftIcon={<ArrowForwardIcon />}
-      mb={4}
-    >
+    <Button colorScheme="green" onClick={downloadTheme} leftIcon={<ArrowForwardIcon />} mb={4}>
       Download Theme
     </Button>
   );

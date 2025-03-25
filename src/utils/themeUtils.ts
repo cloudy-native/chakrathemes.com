@@ -36,11 +36,7 @@ export const updateThemeProperty = (
  * @param defaultValue Default value to return if path doesn't exist
  * @returns The value at the specified path or the default value
  */
-export const getThemeProperty = <T>(
-  theme: ThemeValues,
-  path: ThemePath,
-  defaultValue: T
-): T => {
+export const getThemeProperty = <T>(theme: ThemeValues, path: ThemePath, defaultValue: T): T => {
   let current: any = theme;
 
   // Navigate through the path
