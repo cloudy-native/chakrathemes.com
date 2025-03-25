@@ -8,10 +8,22 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  // Get appropriate gradient colors for light/dark mode
+  const gradientStart = useColorModeValue("blue.50", "blue.900");
+  const gradientEnd = useColorModeValue("blue.100", "blue.800");
+
   return (
-    <Flex direction="column" minH="100vh">
+    <Flex 
+      direction="column" 
+      minH="100vh"
+      bgGradient={`linear(to-b, ${gradientStart}, ${gradientEnd})`}
+    >
       <Header />
-      <Box as="main" flex="1" width="100%">
+      <Box 
+        as="main" 
+        flex="1" 
+        width="100%"
+      >
         {children}
       </Box>
       <Footer />

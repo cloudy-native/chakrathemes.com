@@ -130,7 +130,7 @@ export default theme;`;
         {/* Full-width Color Palette Cards Section */}
         <Box p={5} borderWidth="1px" borderRadius="lg" boxShadow="md" width="100%">
           <Text fontSize={"sm"} mb={4}>
-            <InfoIcon /> Add more colors in the 'Colors' tab above and select them here.
+            <InfoIcon /> Add more palettes in the 'Palettes' tab above and select them here.
           </Text>
 
           <Tabs isLazy index={colorTabIndex} onChange={setColorTabIndex}>

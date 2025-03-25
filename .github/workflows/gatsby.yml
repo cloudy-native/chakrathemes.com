@@ -1,8 +1,6 @@
-# Sample workflow for building and deploying a Gatsby site to GitHub Pages
+# Workflow for building and deploying the Chakra Themes site to GitHub Pages
 #
-# To get started with Gatsby see: https://www.gatsbyjs.com/docs/quick-start/
-#
-name: Deploy Gatsby site to Pages
+name: Deploy Chakra Themes to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -54,7 +52,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "18"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         id: pages
@@ -75,9 +73,14 @@ jobs:
             ${{ runner.os }}-gatsby-build-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Update version file
+        run: ${{ steps.detect-package-manager.outputs.manager }} run update-version
+        
       - name: Build with Gatsby
         env:
           PREFIX_PATHS: 'true'
+          GOOGLE_FONTS_API_KEY: ${{ secrets.GOOGLE_FONTS_API_KEY }}
+          GATSBY_GOOGLE_FONTS_API_KEY: ${{ secrets.GOOGLE_FONTS_API_KEY }}
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
