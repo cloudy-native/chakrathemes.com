@@ -16,9 +16,9 @@ import {
 } from "@chakra-ui/react";
 import { HeadFC, PageProps } from "gatsby";
 import * as React from "react";
-import versionData from '../version.json';
+import versionData from "../version.json";
 
-const appVersion = versionData.version;
+const { version, buildDate } = versionData;
 
 // TypeScript interface for the FeatureCard component
 interface FeatureCardProps {
@@ -114,8 +114,8 @@ const IndexPage: React.FC<PageProps> = () => {
           <ThemeEditor />
 
           <Alert status="warning">
-            <AlertIcon /> This is v{appVersion} of the editor. Is is full of bugs and UX issues.
-            Apologies. It is actively being worked on.
+            <AlertIcon /> This is v{version} of the editor (built on {buildDate}). Is is full of
+            bugs and UX issues. Apologies. It is actively being worked on.
           </Alert>
         </VStack>
       </Container>
