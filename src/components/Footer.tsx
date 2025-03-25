@@ -3,12 +3,12 @@ import {
   Box,
   Container,
   Divider,
+  IconButton,
   Link,
   SimpleGrid,
   Stack,
   Text,
   VisuallyHidden,
-  chakra,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
@@ -26,26 +26,17 @@ const SocialButton = ({
   href: string;
 }) => {
   return (
-    <chakra.button
-      bg={useColorModeValue("neutral.100", "neutral.800")}
-      rounded={"full"}
-      w={8}
-      h={8}
-      cursor={"pointer"}
-      as={"a"}
+    <IconButton
+      as="a"
       href={href}
-      display={"inline-flex"}
-      alignItems={"center"}
-      justifyContent={"center"}
-      transition={"background 0.3s ease"}
-      _hover={{
-        bg: useColorModeValue("primary.500", "primary.400"),
-        color: "white",
-      }}
+      aria-label={label}
+      icon={<>{children}</>}
+      isRound
+      size="sm"
+      variant="ghost"
     >
       <VisuallyHidden>{label}</VisuallyHidden>
-      {children}
-    </chakra.button>
+    </IconButton>
   );
 };
 

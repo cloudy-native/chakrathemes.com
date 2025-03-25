@@ -1,5 +1,5 @@
 import { ThemeEditor } from "@/components";
-import { CheckIcon, RepeatIcon, StarIcon } from "@chakra-ui/icons";
+import { CheckIcon, ExternalLinkIcon, RepeatIcon, StarIcon } from "@chakra-ui/icons";
 import {
   Alert,
   AlertIcon,
@@ -9,6 +9,7 @@ import {
   Flex,
   Heading,
   Icon,
+  Link,
   SimpleGrid,
   Text,
   VStack,
@@ -33,7 +34,7 @@ const featureList: FeatureCardProps[] = [
   {
     title: "Genuinely Free Forever",
     description:
-      "No catches here—completely free to use whenever you need it. No sign-ups, no usage limits, no attribution requirements, and definitely no surprise premium tiers. Just straightforward theme creation tools available to everyone.",
+      "No catches here—completely free to use whenever you need it. No sign-ups, no usage limits, no restrictive licensing, and definitely no surprise premium tiers. Just straightforward theme creation tools available to everyone.",
     icon: StarIcon,
     badge: "Free",
   },
@@ -113,9 +114,16 @@ const IndexPage: React.FC<PageProps> = () => {
           {/* Editor */}
           <ThemeEditor />
 
-          <Alert status="warning">
-            <AlertIcon /> This is v{version} of the editor (built on {buildDate}). Is is full of
-            bugs and UX issues. Apologies. It is actively being worked on.
+          <Alert status="info">
+            <AlertIcon />{" "}
+            <Text>
+              This is v{version} of the editor (built on {buildDate}). There are bugs, only some of
+              which we know about. Please{" "}
+              <Link href="https://github.com/cloudy-native/chakrathemes.com/issues" isExternal>
+                Open an issue on GitHub <ExternalLinkIcon />
+              </Link>
+              , or better still submit a PR. Thanks!
+            </Text>
           </Alert>
         </VStack>
       </Container>
