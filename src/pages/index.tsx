@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { HeadFC, PageProps } from "gatsby";
 import * as React from "react";
-import versionData from '../../app-version.json';
+import versionData from '../version.json';
 
 const appVersion = versionData.version;
 
