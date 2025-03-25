@@ -1,5 +1,5 @@
 import { AddColorModal } from "@/components/ThemeEditor/components/AddColorModal";
-import { PaintChip } from "@/components/ThemeEditor/components/ColorSwatch";
+import { PaletteShade } from "@/components/ThemeEditor/components/PaletteShade";
 import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
 import { AddIcon } from "@chakra-ui/icons";
@@ -69,7 +69,7 @@ export const ColorManagementTab: React.FC = () => {
                   {Object.entries(colorSwatch.colorShades)
                     .sort(([a], [b]) => parseInt(a) - parseInt(b))
                     .map(([shade, color]) => (
-                      <PaintChip
+                      <PaletteShade
                         key={shade}
                         colorKey={colorSwatch.colorKey}
                         shade={shade}

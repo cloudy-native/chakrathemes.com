@@ -64,16 +64,17 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
 
               {/* Image Color Tab */}
               <TabPanel p={4}>
-                <ImageColorExtractor 
+                <ImageColorExtractor
                   onSelectColor={color => {
                     setBaseColor(color);
                     // Also set a default palette name
                     if (!newColorName) {
                       const paletteNames = ["primary", "accent", "highlight", "brand", "feature"];
-                      const randomName = paletteNames[Math.floor(Math.random() * paletteNames.length)];
+                      const randomName =
+                        paletteNames[Math.floor(Math.random() * paletteNames.length)];
                       setNewColorName(randomName);
                     }
-                  }} 
+                  }}
                 />
               </TabPanel>
 
@@ -92,9 +93,9 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
               />
             </Box>
           )}
-          
+
           <Divider my={4} />
-          
+
           <FormControl mb={4}>
             <FormLabel>Palette Name</FormLabel>
             <Input

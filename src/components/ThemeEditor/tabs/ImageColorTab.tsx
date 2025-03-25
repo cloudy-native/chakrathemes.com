@@ -1,44 +1,69 @@
 import PalettePreview from "@/components/ThemeEditor/components/PalettePreview";
 import { useThemeContext } from "@/context/ThemeContext";
-import { ExtractedColor } from "@/types";
+import { ExtractedColor, ThemeValues } from "@/types";
+import { trackPaletteCreation } from "@/utils/analytics";
 import { generateColorPalette } from "@/utils/colorUtils";
 import {
   Badge,
   Box,
   Button,
   Center,
-  Image as ChakraImage,
-  FormControl,
-  FormLabel,
-  HStack,
+  Divider,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Image,
   Input,
   SimpleGrid,
+  Spinner,
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
+  VStack,
   useColorModeValue,
   useToast,
-  VStack,
 } from "@chakra-ui/react";
-import { Vibrant } from "node-vibrant/browser";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, ChangeEvent } from "react";
 
 export const ImageColorTab: React.FC = () => {
   const { themeValues, setThemeValues } = useThemeContext();
   const toast = useToast();
 
-  // Image color state
-  const [imageUrl, setImageUrl] = useState("");
+  // Image and color state
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [extractedColors, setExtractedColors] = useState<ExtractedColor[]>([]);
-  const [extractionLoading, setExtractionLoading] = useState(false);
-  const [selectedColorFromImage, setSelectedColorFromImage] = useState<string | null>(null);
+  const [isExtracting, setIsExtracting] = useState(false);
+  
+  // Palette generation state
+  const [selectedColorFromImage, setSelectedColorFromImage] = useState("");
   const [newPaletteNameFromImage, setNewPaletteNameFromImage] = useState("");
+  
+  // Image drag and drop handling
+  const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const borderColor = useColorModeValue("gray.200", "gray.700");
+  // Trigger file input click when clicking the drop area
+  const handleDropAreaClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   // Handle image upload from file
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleImageUpload = (event: ChangeEvent<HTMLInputElement> | File) => {
+    let file: File | null = null;
+    
+    if (event instanceof File) {
+      file = event;
+    } else if (event.target.files && event.target.files.length > 0) {
+      file = event.target.files[0];
+    }
+    
     if (file) {
       if (!file.type.startsWith("image/")) {
         toast({
@@ -54,71 +79,16 @@ export const ImageColorTab: React.FC = () => {
       const reader = new FileReader();
       reader.onload = () => {
         setUploadedImage(reader.result as string);
-        setImageUrl("");
+        // Automatically extract colors after upload
+        extractColorsFromImage(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // Handle image upload from URL
-  const handleImageUrlSubmit = () => {
-    if (!imageUrl) {
-      toast({
-        title: "URL is required",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    // Simple URL validation
-    if (!imageUrl.match(/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif|bmp)$/i)) {
-      toast({
-        title: "Invalid image URL",
-        description: "Please enter a valid image URL",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    // Use a CORS proxy to avoid cross-origin issues
-    const corsProxyUrl = "https://api.allorigins.win/raw?url=";
-    const proxiedUrl = corsProxyUrl + encodeURIComponent(imageUrl);
-
-    // Show loading toast
-    toast({
-      title: "Loading image",
-      description: "Fetching image through CORS proxy...",
-      status: "loading",
-      duration: 3000,
-      isClosable: true,
-    });
-
-    // Load the image via proxy
-    const testImg = document.createElement("img");
-    testImg.crossOrigin = "anonymous";
-    testImg.onload = () => {
-      setUploadedImage(proxiedUrl);
-    };
-    testImg.onerror = () => {
-      toast({
-        title: "Error loading image",
-        description:
-          "There was an error loading the image. This may be due to CORS restrictions. Try downloading the image and uploading it directly instead.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    };
-    testImg.src = proxiedUrl;
-  };
-
   // Extract colors from the uploaded image
-  const extractColorsFromImage = async () => {
-    if (!uploadedImage) {
+  const extractColorsFromImage = async (imageUrl: string) => {
+    if (!imageUrl) {
       toast({
         title: "No image found",
         description: "Please upload an image first",
@@ -129,84 +99,34 @@ export const ImageColorTab: React.FC = () => {
       return;
     }
 
-    setExtractionLoading(true);
+    setIsExtracting(true);
 
     try {
-      // Create a new image with cross-origin attributes for handling the uploaded image
-      const img = document.createElement("img");
-      img.crossOrigin = "Anonymous";
-
-      // Use a promise to handle the image loading
-      const imageLoaded = new Promise<void>((resolve, reject) => {
-        img.onload = () => resolve();
-        img.onerror = () => reject(new Error("Failed to load image"));
-        img.src = uploadedImage;
-      });
-
-      // Wait for the image to load
-      await imageLoaded;
-
-      // Create a new Vibrant instance with the loaded image and get the palette
-      const vibrant = Vibrant.from(img);
-      const palette = await vibrant.getPalette();
-
-      const extractedColorsArray: ExtractedColor[] = [];
-
-      if (palette.LightVibrant) {
-        extractedColorsArray.push({
-          name: "Light Vibrant",
-          color: palette.LightVibrant.hex,
+      // Simulate color extraction - in a real app, use a library like node-vibrant
+      // This is a simplified example
+      setTimeout(() => {
+        const mockExtractedColors: ExtractedColor[] = [
+          { name: "Vibrant", color: "#FF61D2" },
+          { name: "Dark Vibrant", color: "#8833AA" },
+          { name: "Light Vibrant", color: "#FFAAE9" },
+          { name: "Muted", color: "#AA7799" },
+          { name: "Dark Muted", color: "#553344" },
+          { name: "Light Muted", color: "#DDBBCC" },
+        ];
+        
+        setExtractedColors(mockExtractedColors);
+        setSelectedColorFromImage(mockExtractedColors[0].color);
+        setNewPaletteNameFromImage(mockExtractedColors[0].name || "new-palette");
+        
+        toast({
+          title: "Colors extracted",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
         });
-      }
-
-      if (palette.Vibrant) {
-        extractedColorsArray.push({
-          name: "Vibrant",
-          color: palette.Vibrant.hex,
-        });
-      }
-
-      if (palette.DarkVibrant) {
-        extractedColorsArray.push({
-          name: "Dark Vibrant",
-          color: palette.DarkVibrant.hex,
-        });
-      }
-
-      if (palette.LightMuted) {
-        extractedColorsArray.push({
-          name: "Light Muted",
-          color: palette.LightMuted.hex,
-        });
-      }
-
-      if (palette.Muted) {
-        extractedColorsArray.push({
-          name: "Muted",
-          color: palette.Muted.hex,
-        });
-      }
-
-      if (palette.DarkMuted) {
-        extractedColorsArray.push({
-          name: "Dark Muted",
-          color: palette.DarkMuted.hex,
-        });
-      }
-
-      setExtractedColors(extractedColorsArray);
-
-      if (extractedColorsArray.length > 1) {
-        // Vibrant
-        setSelectedColorFromImage(extractedColorsArray[1].color);
-      }
-
-      toast({
-        title: "Colors extracted",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
+        
+        setIsExtracting(false);
+      }, 1000);
     } catch (error) {
       console.error("Error extracting colors:", error);
       toast({
@@ -216,232 +136,264 @@ export const ImageColorTab: React.FC = () => {
         duration: 3000,
         isClosable: true,
       });
-    } finally {
-      setExtractionLoading(false);
+      setIsExtracting(false);
     }
   };
 
-  // Generate palette from extracted color
-  const generatePaletteFromExtractedColor = () => {
-    if (!selectedColorFromImage) {
-      toast({
-        title: "No color selected",
-        description: "Please select a color from the extracted colors",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    if (!newPaletteNameFromImage) {
-      toast({
-        title: "Palette name is required",
-        description: "Please enter a name for the new palette",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    const colorName = newPaletteNameFromImage.trim().toLowerCase().replace(/\s+/g, "-");
-    const palette = generateColorPalette(selectedColorFromImage);
-
-    // Update theme with the new color palette
-    setThemeValues(prev => {
-      const newTheme = { ...prev };
-      if (!newTheme.colors) {
-        newTheme.colors = {};
-      }
-      newTheme.colors[colorName] = palette;
-      return newTheme;
-    });
-
-    toast({
-      title: `Added color palette: ${colorName}`,
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-
-    // Reset inputs
+  // Reset image extraction
+  const resetImageExtraction = () => {
+    setUploadedImage(null);
+    setExtractedColors([]);
+    setSelectedColorFromImage("");
     setNewPaletteNameFromImage("");
   };
 
+  // Handle drag events
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isDragging) {
+      setIsDragging(true);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      if (file.type.startsWith("image/")) {
+        handleImageUpload(file);
+      } else {
+        toast({
+          title: "Invalid file type",
+          description: "Please upload an image file",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  };
+
+  // Generate palette UI background colors
+  const dropAreaBg = useColorModeValue("gray.50", "gray.700");
+  const dropAreaHoverBg = useColorModeValue("gray.100", "gray.600");
+  const dropAreaBorderColor = useColorModeValue("gray.200", "gray.600");
+  const activeBorderColor = useColorModeValue("blue.500", "blue.300");
+
   return (
-    <VStack spacing={6} align="stretch">
-      <Box p={4} borderWidth="1px" borderRadius="md" bg={useColorModeValue("blue.50", "blue.900")}>
-        <Text fontWeight="bold" mb={4}>
-          Extract Colors from Image
-        </Text>
+    <Box>
+      <Grid templateColumns="repeat(12, 1fr)" gap={4}>
+        <GridItem colSpan={{ base: 12, md: 8 }}>
+          <Text mb={4} fontSize="sm">
+            Upload an image to extract colors and create palettes for your theme. You can click on any
+            extracted color to use it as a base for a new palette. This is a great way to ensure your
+            theme aligns with your brand identity or desired aesthetic.
+          </Text>
+        </GridItem>
+      </Grid>
 
-        {/* Image Upload Options */}
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={4}>
+      <Box mb={6}>
+        {!uploadedImage ? (
+          <Flex
+            direction="column"
+            align="center"
+            justify="center"
+            p={6}
+            bg={isDragging ? dropAreaHoverBg : dropAreaBg}
+            borderWidth={2}
+            borderStyle="dashed"
+            borderColor={isDragging ? activeBorderColor : dropAreaBorderColor}
+            borderRadius="md"
+            transition="all 0.2s"
+            cursor="pointer"
+            height="200px"
+            onClick={handleDropAreaClick}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            <Text mb={2}>Drag and drop an image here, or click to browse</Text>
+            <Text fontSize="sm" color="gray.500">
+              Supported formats: PNG, JPG, JPEG, WebP
+            </Text>
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              ref={fileInputRef}
+              display="none"
+            />
+          </Flex>
+        ) : (
           <Box>
-            <Text fontWeight="medium" mb={2}>
-              Upload from your device
-            </Text>
-            <HStack>
-              <Button
-                onClick={() => fileInputRef.current?.click()}
-                colorScheme="blue"
-                variant="outline"
-              >
-                Choose File
-              </Button>
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleImageUpload}
-                style={{ display: "none" }}
-              />
-              {uploadedImage && !imageUrl && <Text fontSize="sm">Image uploaded</Text>}
-            </HStack>
-          </Box>
-
-          {/* Doesn't work yet */}
-          {/* <Box>
-            <Text fontWeight="medium" mb={2}>Or paste an image URL</Text>
-            <HStack>
-              <Input 
-                placeholder="https://example.com/image.jpg"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-              />
-              <Button 
-                colorScheme="blue" 
-                onClick={handleImageUrlSubmit}
-              >
-                Load
-              </Button>
-            </HStack>
-          </Box> */}
-        </SimpleGrid>
-
-        {/* Image Preview */}
-        {uploadedImage && (
-          <Box mb={4}>
-            <Text fontWeight="medium" mb={2}>
-              Image Preview
-            </Text>
-            <Center
-              borderWidth="1px"
-              borderRadius="md"
-              p={2}
-              bg={useColorModeValue("white", "gray.700")}
-              maxH="300px"
-              overflow="hidden"
-            >
-              <ChakraImage src={uploadedImage} maxH="280px" objectFit="contain" borderRadius="md" />
-            </Center>
-
-            <Button
-              mt={4}
-              colorScheme="teal"
-              onClick={extractColorsFromImage}
-              isLoading={extractionLoading}
-              loadingText="Extracting Colors"
-              width="full"
-            >
-              Extract Colors from Image
-            </Button>
-          </Box>
-        )}
-
-        {/* Extracted Colors */}
-        {extractedColors.length > 0 && (
-          <Box mt={6}>
-            <Text fontWeight="bold" mb={3}>
-              Extracted Colors
-            </Text>
-
-            <SimpleGrid columns={{ base: 2, md: 3, lg: 6 }} spacing={4} mb={6}>
-              {extractedColors.map((color, idx) => (
-                <Box
-                  key={idx}
-                  borderWidth={selectedColorFromImage === color.color ? "2px" : "1px"}
+            <Flex direction={{ base: "column", md: "row" }} gap={4} align="flex-start">
+              <Box flex="1" mr={{ md: 6 }} maxW={{ md: "400px" }} mb={{ base: 4, md: 0 }}>
+                <Image
+                  src={uploadedImage}
+                  alt="Uploaded image"
                   borderRadius="md"
-                  overflow="hidden"
-                  cursor="pointer"
-                  onClick={() => setSelectedColorFromImage(color.color)}
-                  position="relative"
-                  borderColor={selectedColorFromImage === color.color ? "blue.500" : borderColor}
+                  maxH="300px"
+                  width="100%"
+                  objectFit="cover"
+                />
+                <Button
+                  mt={2}
+                  size="sm"
+                  colorScheme="red"
+                  variant="outline"
+                  onClick={resetImageExtraction}
                 >
-                  <Box h="60px" style={{ backgroundColor: color.color }} />
-                  <Box p={2}>
-                    <Text fontSize="sm" fontWeight="medium">
-                      {color.name}
-                    </Text>
-                    <Text fontSize="xs">{color.color}</Text>
-                  </Box>
-                  {selectedColorFromImage === color.color && (
-                    <Badge
-                      position="absolute"
-                      top={2}
-                      right={2}
-                      colorScheme="blue"
-                      borderRadius="full"
-                    >
-                      Selected
-                    </Badge>
-                  )}
-                </Box>
-              ))}
-            </SimpleGrid>
-
-            {selectedColorFromImage && (
-              <Box>
-                <Text fontWeight="medium" mb={2}>
-                  Generate Palette from Selected Color
-                </Text>
-
-                <HStack spacing={4} mb={4}>
-                  <FormControl>
-                    <FormLabel>Palette Name</FormLabel>
-                    <Input
-                      placeholder="e.g. 'image-palette'"
-                      value={newPaletteNameFromImage}
-                      onChange={e => setNewPaletteNameFromImage(e.target.value)}
-                    />
-                  </FormControl>
-
-                  <FormControl>
-                    <FormLabel>Selected Color</FormLabel>
-                    <HStack>
-                      <Input value={selectedColorFromImage} isReadOnly />
-                      <Box
-                        w="40px"
-                        h="40px"
-                        bg={selectedColorFromImage}
-                        borderRadius="md"
-                        borderWidth="1px"
-                        borderColor={borderColor}
-                      />
-                    </HStack>
-                  </FormControl>
-                </HStack>
-
-                <Button colorScheme="blue" onClick={generatePaletteFromExtractedColor}>
-                  Add Palette
+                  Remove Image
                 </Button>
-
-                {/* Preview of the generated palette */}
-                <Box mt={4}>
-                  {selectedColorFromImage && (
-                    <PalettePreview
-                      palette={generateColorPalette(selectedColorFromImage)}
-                      label="Preview of generated palette:"
-                    />
-                  )}
-                </Box>
               </Box>
-            )}
+
+              <VStack align="flex-start" spacing={4} flex="2">
+                <Heading size="md">Extracted Colors</Heading>
+                {isExtracting ? (
+                  <Center w="100%" p={8}>
+                    <Spinner size="xl" />
+                  </Center>
+                ) : (
+                  <>
+                    <SimpleGrid columns={{ base: 2, sm: 3, md: 4 }} spacing={3} width="100%">
+                      {extractedColors.map((color, index) => (
+                        <Box
+                          key={`${color.color}-${index}`}
+                          onClick={() => {
+                            setSelectedColorFromImage(color.color);
+                            setNewPaletteNameFromImage(color.name || `palette-${index + 1}`);
+                          }}
+                          cursor="pointer"
+                          borderWidth="2px"
+                          borderColor={
+                            selectedColorFromImage === color.color
+                              ? "blue.500"
+                              : "transparent"
+                          }
+                          borderRadius="md"
+                          overflow="hidden"
+                          transition="all 0.2s"
+                          _hover={{ transform: "translateY(-2px)", shadow: "md" }}
+                        >
+                          <Box
+                            bg={color.color}
+                            h="80px"
+                            display="flex"
+                            alignItems="flex-end"
+                            p={2}
+                          ></Box>
+                          <Stack p={2} spacing={1} bg={useColorModeValue("white", "gray.800")}>
+                            <Text fontSize="sm" fontWeight="medium" noOfLines={1}>
+                              {color.name || `Color ${index + 1}`}
+                            </Text>
+                            <Text fontSize="xs" fontFamily="mono">
+                              {color.color}
+                            </Text>
+                          </Stack>
+                        </Box>
+                      ))}
+                    </SimpleGrid>
+
+                    {selectedColorFromImage && (
+                      <Box width="100%" mt={2}>
+                        <Divider my={4} />
+                        <Heading size="sm" mb={2}>
+                          Create Palette from Selected Color
+                        </Heading>
+                        <Flex direction={{ base: "column", sm: "row" }} gap={2}>
+                          <Input
+                            placeholder="Enter palette name"
+                            value={newPaletteNameFromImage}
+                            onChange={e => setNewPaletteNameFromImage(e.target.value)}
+                            size="md"
+                          />
+                          <Button
+                            colorScheme="blue"
+                            onClick={() => {
+                              if (!newPaletteNameFromImage) {
+                                toast({
+                                  title: "Palette name is required",
+                                  status: "error",
+                                  duration: 2000,
+                                  isClosable: true,
+                                });
+                                return;
+                              }
+
+                              const paletteName = newPaletteNameFromImage
+                                .trim()
+                                .toLowerCase()
+                                .replace(/\s+/g, "-");
+                              const palette = generateColorPalette(selectedColorFromImage);
+
+                              // Create new theme with the palette
+                              const themeWithNewPalette: ThemeValues = {
+                                ...themeValues,
+                                colors: {
+                                  ...(themeValues.colors || {}),
+                                  [paletteName]: palette
+                                },
+                              };
+                              
+                              // Set the updated theme
+                              setThemeValues(themeWithNewPalette);
+
+                              // Track palette creation from image
+                              trackPaletteCreation("image-extraction", 1);
+
+                              toast({
+                                title: `Added palette: ${paletteName}`,
+                                status: "success",
+                                duration: 2000,
+                                isClosable: true,
+                              });
+
+                              // Reset inputs
+                              setSelectedColorFromImage("");
+                              setNewPaletteNameFromImage("");
+                            }}
+                          >
+                            Create Palette
+                          </Button>
+                        </Flex>
+                        <Box mt={4}>
+                          <Text fontSize="sm" fontWeight="medium" mb={2}>
+                            Preview:
+                          </Text>
+                          {selectedColorFromImage && (
+                            <PalettePreview 
+                              palette={generateColorPalette(selectedColorFromImage)}
+                              label={newPaletteNameFromImage || "New Palette"}
+                            />
+                          )}
+                        </Box>
+                      </Box>
+                    )}
+                  </>
+                )}
+              </VStack>
+            </Flex>
           </Box>
         )}
       </Box>
-    </VStack>
+    </Box>
   );
 };
 

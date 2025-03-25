@@ -13,17 +13,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const gradientEnd = useColorModeValue("blue.100", "blue.800");
 
   return (
-    <Flex 
-      direction="column" 
+    <Flex
+      direction="column"
       minH="100vh"
       bgGradient={`linear(to-b, ${gradientStart}, ${gradientEnd})`}
     >
       <Header />
-      <Box 
-        as="main" 
-        flex="1" 
-        width="100%"
-      >
+      <Box as="main" flex="1" width="100%">
         {children}
       </Box>
       <Footer />

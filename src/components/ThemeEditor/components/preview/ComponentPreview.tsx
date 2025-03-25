@@ -30,7 +30,11 @@ interface ComponentPreviewProps {
 // Create a global object to store accordion open states across all instances
 const globalAccordionStates: Record<string, number[]> = {};
 
-const ComponentPreview: React.FC<ComponentPreviewProps> = ({ colorKey, themeValues, id = "default" }) => {
+const ComponentPreview: React.FC<ComponentPreviewProps> = ({
+  colorKey,
+  themeValues,
+  id = "default",
+}) => {
   // Use a state to track which accordions are expanded
   const [expandedIndexes, setExpandedIndexes] = useState<number[]>(globalAccordionStates[id] || []);
 
@@ -50,11 +54,7 @@ const ComponentPreview: React.FC<ComponentPreviewProps> = ({ colorKey, themeValu
 
   return (
     <Box>
-      <Accordion 
-        allowMultiple 
-        index={expandedIndexes} 
-        onChange={handleAccordionChange}
-      >
+      <Accordion allowMultiple index={expandedIndexes} onChange={handleAccordionChange}>
         <AccordionItem>
           <AccordionButton>
             <Heading size="sm" as="span" flex="1" textAlign="left">

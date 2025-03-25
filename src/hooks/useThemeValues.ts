@@ -128,13 +128,15 @@ export const defaultTheme: ThemeValues = {
   },
 };
 
+import { ThemePath, ThemeValueType } from "@/types";
+
 export const useThemeValues = () => {
   const [themeValues, setThemeValues] = useState<ThemeValues>(defaultTheme);
 
-  const updateThemeValue = (path: string[], value: any) => {
+  const updateThemeValue = (path: ThemePath, value: ThemeValueType) => {
     setThemeValues(prev => {
       const newTheme = JSON.parse(JSON.stringify(prev));
-      let current = newTheme;
+      let current: Record<string, any> = newTheme;
 
       for (let i = 0; i < path.length - 1; i++) {
         if (!current[path[i]]) {

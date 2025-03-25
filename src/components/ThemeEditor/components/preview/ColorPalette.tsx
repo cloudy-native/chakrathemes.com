@@ -13,7 +13,7 @@ interface ColorPaletteProps {
 const ColorPalette: React.FC<ColorPaletteProps> = ({
   colorKey,
   themeValues,
-  copiedValue,  // kept for compatibility but not used directly
+  copiedValue, // kept for compatibility but not used directly
   onCopy,
 }) => {
   return (

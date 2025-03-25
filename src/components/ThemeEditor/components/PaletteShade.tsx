@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Text,
-  Flex,
-  useColorModeValue,
-  Tooltip,
-  IconButton,
-} from "@chakra-ui/react";
+import { Box, Text, Flex, useColorModeValue, Tooltip, IconButton } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
+import { isLightColor } from "@/utils/colorUtils";
 
 // Component to display a single shade from a palette
 export const PaletteShade: React.FC<{
@@ -17,15 +11,8 @@ export const PaletteShade: React.FC<{
 }> = ({ colorKey, shade, color }) => {
   const [copied, setCopied] = useState(false);
 
-  const isDark = (hex: string) => {
-    // Simple check if the color is dark (for text contrast)
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return r * 0.299 + g * 0.587 + b * 0.114 <= 186;
-  };
-
-  const textColor = isDark(color) ? "white" : "black";
+  // Use the standardized color utils function to determine text color
+  const textColor = isLightColor(color) ? "black" : "white";
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
   // Copy color hex to clipboard

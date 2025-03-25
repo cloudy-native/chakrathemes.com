@@ -1,16 +1,17 @@
-import React, { createContext, useContext, useState } from "react";
-import { ThemeValues } from "@/types";
+import React, { createContext, useContext, useReducer, useState } from "react";
+import { ThemeValues, ThemePath, ThemeValueType, ColorSwatch, ThemeAction } from "@/types";
 import { defaultTheme } from "@/hooks/useThemeValues";
-import { generateColorPalette } from "@/utils/colorUtils";
 import { useToast } from "@chakra-ui/react";
+import { themeReducer } from "./ThemeReducer";
+import { EventCategory, trackEvent } from "@/utils/analytics";
 
 interface ThemeContextType {
   // Theme state
   themeValues: ThemeValues;
-  setThemeValues: React.Dispatch<React.SetStateAction<ThemeValues>>;
+  setThemeValues: (theme: ThemeValues) => void;
 
   // Core theme management
-  updateThemeValue: (path: string[], value: any) => void;
+  updateThemeValue: (path: ThemePath, value: ThemeValueType) => void;
 
   // Color management
   newColorName: string;
@@ -20,7 +21,7 @@ interface ThemeContextType {
   addNewColorPalette: () => void;
   updateColorPalette: (colorKey: string, newBaseColor: string) => void;
   updateColorValue: (colorCategory: string, shade: string, value: string) => void;
-  getColors: () => Array<{ colorKey: string; colorShades: { [key: string]: string } }>;
+  getColors: () => ColorSwatch[];
 
   // UI state for theme preview
   themeString: string;
@@ -32,8 +33,8 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Core theme state
-  const [themeValues, setThemeValues] = useState<ThemeValues>(defaultTheme);
+  // Core theme state using reducer
+  const [themeValues, dispatch] = useReducer(themeReducer, defaultTheme);
 
   // UI state
   const [themeString, setThemeString] = useState("");
@@ -45,22 +46,14 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const toast = useToast();
 
-  // Update a deep nested property in themeValues
-  const updateThemeValue = (path: string[], value: any) => {
-    setThemeValues(prev => {
-      const newTheme = JSON.parse(JSON.stringify(prev));
-      let current = newTheme;
+  // Wrapper function to set the entire theme
+  const setThemeValues = (theme: ThemeValues) => {
+    dispatch({ type: "SET_THEME_VALUES", payload: theme });
+  };
 
-      for (let i = 0; i < path.length - 1; i++) {
-        if (!current[path[i]]) {
-          current[path[i]] = {};
-        }
-        current = current[path[i]];
-      }
-
-      current[path[path.length - 1]] = value;
-      return newTheme;
-    });
+  // Update a specific theme value
+  const updateThemeValue = (path: ThemePath, value: ThemeValueType) => {
+    dispatch({ type: "UPDATE_THEME_VALUE", path, value });
   };
 
   // Add a new color palette from manual color picker
@@ -76,22 +69,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
 
     const colorName = newColorName.trim().toLowerCase().replace(/\s+/g, "-");
-
-    // Generate the palette from the base color
-    const palette = generateColorPalette(baseColor);
-
-    // Update theme with the new color palette
-    setThemeValues(prev => {
-      const newTheme = { ...prev };
-      if (!newTheme.colors) {
-        newTheme.colors = {};
-      }
-      newTheme.colors[colorName] = palette;
-      return newTheme;
-    });
+    
+    // Dispatch the action
+    dispatch({ type: "ADD_COLOR_PALETTE", name: colorName, baseColor });
 
     // Reset inputs
     setNewColorName("");
+
+    // Track the event
+    trackEvent(EventCategory.COLOR, "add_palette", colorName);
 
     toast({
       title: `Added color palette: ${colorName}`,
@@ -103,15 +89,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Update an existing color palette with a new base color
   const updateColorPalette = (colorKey: string, newBaseColor: string) => {
-    const palette = generateColorPalette(newBaseColor);
-    setThemeValues(prev => {
-      const newTheme = { ...prev };
-      if (!newTheme.colors) {
-        newTheme.colors = {};
-      }
-      newTheme.colors[colorKey] = palette;
-      return newTheme;
-    });
+    // Dispatch the action
+    dispatch({ type: "UPDATE_COLOR_PALETTE", colorKey, newBaseColor });
+
+    // Track the event
+    trackEvent(EventCategory.COLOR, "update_palette", colorKey);
 
     toast({
       title: `Updated color palette: ${colorKey}`,
@@ -123,7 +105,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Update a specific color value
   const updateColorValue = (colorCategory: string, shade: string, value: string) => {
-    updateThemeValue(["colors", colorCategory, shade], value);
+    dispatch({ 
+      type: "UPDATE_COLOR_VALUE", 
+      colorCategory, 
+      shade, 
+      value 
+    });
+    
+    // Track the event
+    trackEvent(EventCategory.COLOR, "update_color", `${colorCategory}.${shade}`);
   };
 
   // Extract colors from the theme

@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
+import { ThemeValues, ColorSwatch, ThemePath, ThemeValueType } from "@/types";
 import { generateColorPalette } from "@/utils/colorUtils";
-import { ColorSwatch, ThemeValues } from "@/types";
+import { EventCategory, trackEvent } from "@/utils/analytics";
 
-export const useColorManagement = (
-  themeValues: ThemeValues,
-  setThemeValues: React.Dispatch<React.SetStateAction<ThemeValues>>,
-  updateThemeValue: (path: string[], value: any) => void
-) => {
+interface UseColorManagementProps {
+  themeValues: ThemeValues;
+  updateThemeValue: (path: ThemePath, value: ThemeValueType) => void;
+  setThemeValues: React.Dispatch<React.SetStateAction<ThemeValues>>;
+}
+
+export const useColorManagement = ({
+  themeValues,
+  updateThemeValue,
+  setThemeValues,
+}: UseColorManagementProps) => {
   const [newColorName, setNewColorName] = useState("");
   const [baseColor, setBaseColor] = useState("#3182CE"); // Default blue color
   const toast = useToast();
@@ -42,6 +49,9 @@ export const useColorManagement = (
     // Reset inputs
     setNewColorName("");
 
+    // Track the event
+    trackEvent(EventCategory.COLOR, "add_palette", colorName);
+
     toast({
       title: `Added color palette: ${colorName}`,
       status: "success",
@@ -62,6 +72,9 @@ export const useColorManagement = (
       return newTheme;
     });
 
+    // Track the event
+    trackEvent(EventCategory.COLOR, "update_palette", colorKey);
+
     toast({
       title: `Updated color palette: ${colorKey}`,
       status: "success",
@@ -73,6 +86,9 @@ export const useColorManagement = (
   // Update a specific color value
   const updateColorValue = (colorCategory: string, shade: string, value: string) => {
     updateThemeValue(["colors", colorCategory, shade], value);
+    
+    // Track the event
+    trackEvent(EventCategory.COLOR, "update_color", `${colorCategory}.${shade}`);
   };
 
   // Extract colors from the theme
@@ -81,6 +97,28 @@ export const useColorManagement = (
     return Object.keys(colors).map(colorKey => {
       const colorShades = typeof colors[colorKey] === "object" ? colors[colorKey] : {};
       return { colorKey, colorShades };
+    });
+  };
+
+  // Remove a color palette
+  const removeColorPalette = (colorKey: string) => {
+    setThemeValues(prev => {
+      const newTheme = { ...prev };
+      if (newTheme.colors && newTheme.colors[colorKey]) {
+        const { [colorKey]: _, ...remainingColors } = newTheme.colors;
+        newTheme.colors = remainingColors;
+      }
+      return newTheme;
+    });
+
+    // Track the event
+    trackEvent(EventCategory.COLOR, "remove_palette", colorKey);
+
+    toast({
+      title: `Removed color palette: ${colorKey}`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
     });
   };
 
@@ -93,5 +131,6 @@ export const useColorManagement = (
     updateColorPalette,
     updateColorValue,
     getColors,
+    removeColorPalette,
   };
 };

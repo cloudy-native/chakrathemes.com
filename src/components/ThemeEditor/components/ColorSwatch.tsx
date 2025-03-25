@@ -1,24 +1,9 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Text,
-  Flex,
-  HStack,
-  Input,
-  SimpleGrid,
-  VStack,
-  useColorModeValue,
-  Tooltip,
-  IconButton,
-} from "@chakra-ui/react";
+import React from "react";
+import { Box, Text, Flex, HStack, SimpleGrid, VStack, useColorModeValue } from "@chakra-ui/react";
 import { ColorSwatch as ColorSwatchType } from "@/types";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import ThemeColorSwatch from "./ThemeColorSwatch";
-import { useThemeContext } from "@/context/ThemeContext";
 import { PaletteShade } from "./PaletteShade";
-
-// Re-export PaletteShade as PaintChip for backward compatibility
-export const PaintChip = PaletteShade;
 
 interface ColorSwatchProps {
   colorSwatch: ColorSwatchType;
@@ -80,7 +65,7 @@ export const ColorSwatch: React.FC<ColorSwatchProps> = ({ colorSwatch, isOpen, t
             {Object.entries(colorSwatch.colorShades)
               .sort(([a], [b]) => parseInt(a) - parseInt(b))
               .map(([shade, color]) => (
-                <PaintChip
+                <PaletteShade
                   key={shade}
                   colorKey={colorSwatch.colorKey}
                   shade={shade}

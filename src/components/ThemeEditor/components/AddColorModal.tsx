@@ -64,7 +64,7 @@ export const AddColorModal: React.FC<NewColorModalProps> = ({ isOpen, onClose })
 
               {/* Image Color Tab */}
               <TabPanel p={4}>
-                <ImageColorExtractor 
+                <ImageColorExtractor
                   onSelectColor={color => {
                     setBaseColor(color);
                     // Also set the color name based on the extracted color
@@ -73,7 +73,7 @@ export const AddColorModal: React.FC<NewColorModalProps> = ({ isOpen, onClose })
                       const randomName = colorNames[Math.floor(Math.random() * colorNames.length)];
                       setNewColorName(randomName);
                     }
-                  }} 
+                  }}
                 />
               </TabPanel>
 
@@ -92,9 +92,9 @@ export const AddColorModal: React.FC<NewColorModalProps> = ({ isOpen, onClose })
               />
             </Box>
           )}
-          
+
           <Divider my={4} />
-          
+
           <FormControl mb={4}>
             <FormLabel>Color Name</FormLabel>
             <Input

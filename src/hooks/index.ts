@@ -3,3 +3,4 @@ export * from "./useColorManagement";
 export * from "./useImageColorExtraction";
 export * from "./useTypographyManagement";
 export * from "./useSpacingAndRadius";
+export * from "./useAnalytics";

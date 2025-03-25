@@ -81,11 +81,8 @@ export const ColorPickerTab: React.FC = () => {
     <VStack spacing={6} align="stretch">
       {/* Add new color palette */}
       <Box borderWidth="1px" borderRadius="md" p={4}>
-        <PaletteGenerator
-          baseColor={baseColor}
-          setBaseColor={setBaseColor}
-        />
-        
+        <PaletteGenerator baseColor={baseColor} setBaseColor={setBaseColor} />
+
         {/* Preview of the generated palette */}
         {baseColor && (
           <Box mt={4}>
@@ -95,7 +92,7 @@ export const ColorPickerTab: React.FC = () => {
             />
           </Box>
         )}
-        
+
         {/* Color Name Input */}
         <FormControl mt={4}>
           <FormLabel>Palette Name</FormLabel>
@@ -105,7 +102,7 @@ export const ColorPickerTab: React.FC = () => {
             placeholder="primary, accent, brand, etc."
           />
         </FormControl>
-        
+
         {/* Generate Button */}
         <Box mt={4} textAlign="right">
           <Button

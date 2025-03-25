@@ -1,15 +1,9 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import { isLightColor } from "@/utils/colorUtils";
-import { ArrowForwardIcon, ExternalLinkIcon, InfoIcon } from "@chakra-ui/icons";
+import { InfoIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   ChakraProvider,
-  Flex,
-  Grid,
-  GridItem,
-  Link,
-  Spacer,
   Tab,
   TabList,
   TabPanel,
@@ -17,19 +11,17 @@ import {
   Tabs,
   Text,
   extendTheme,
-  useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import {
-  CardLayouts,
-  ColorPalette,
-  ComponentPreview,
-  TableLayouts,
+  ColorTabContent,
+  ThemePreviewHeader,
 } from "@/components/ThemeEditor/components/preview";
 
 export const ComponentsPreviewTab: React.FC = () => {
   const { themeValues } = useThemeContext();
+  const { trackTab } = useAnalytics();
 
   // Generate a preview theme based on current values
   const previewTheme = extendTheme(themeValues);
@@ -41,99 +33,28 @@ export const ComponentsPreviewTab: React.FC = () => {
   const [colorTabIndex, setColorTabIndex] = useState(0);
   const [componentTabIndex, setComponentTabIndex] = useState(0);
 
-  // Clipboard functionality
-  const [copiedValue, setCopiedValue] = useState<string | null>(null);
-  const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const handleCopyToClipboard = (value: string) => {
-    navigator.clipboard.writeText(value);
-    setCopiedValue(value);
-
-    // Reset after 2 seconds
-    setTimeout(() => {
-      setCopiedValue(null);
-    }, 2000);
-  };
-
-  // Download theme as a file
-  const downloadTheme = () => {
-    try {
-      const themeStr = `import { extendTheme } from '@chakra-ui/react';
-
-const theme = extendTheme(${JSON.stringify(themeValues, null, 2)});
-
-export default theme;`;
-
-      const blob = new Blob([themeStr], { type: "text/javascript" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "theme.js";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      toast({
-        title: "Theme downloaded",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
-    } catch (error) {
-      toast({
-        title: "Error downloading theme",
-        description: "Check your theme configuration",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
-  };
-
   return (
     <Box>
-      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-        <GridItem rowSpan={2} colSpan={4}>
-          <Text mb={4} fontSize="sm">
-            Select a color below to preview how the theme will look in your application. Start with
-            Color Palette and Basics. There are also styled samples of Cards, and Tables Make sure
-            to drill down and explore all the variations.{" "}
-          </Text>
-          <Text mb={4} fontSize="sm">
-            When you're ready, download the theme and add it to your project. Review{" "}
-            <Link href="https://v2.chakra-ui.com/docs/styled-system/customize-theme" isExternal>
-              Customize Theme <ExternalLinkIcon />
-            </Link>{" "}
-            in the ChakraUI documentation for details.
-          </Text>
-        </GridItem>
-        <GridItem>
-          <Flex align="flex-end">
-            <Spacer />
-            <Button
-              colorScheme="green"
-              onClick={downloadTheme}
-              leftIcon={<ArrowForwardIcon />}
-              mb={4}
-            >
-              Download Theme
-            </Button>
-          </Flex>
-        </GridItem>
-      </Grid>
+      {/* Header with instructions and download button */}
+      <ThemePreviewHeader themeValues={themeValues} />
 
       <ChakraProvider theme={previewTheme}>
-        {/* Theme Code Buttons */}
-
         {/* Full-width Color Palette Cards Section */}
         <Box p={5} borderWidth="1px" borderRadius="lg" boxShadow="md" width="100%">
           <Text fontSize={"sm"} mb={4}>
             <InfoIcon /> Add more palettes in the 'Palettes' tab above and select them here.
           </Text>
 
-          <Tabs isLazy index={colorTabIndex} onChange={setColorTabIndex}>
+          <Tabs
+            isLazy
+            index={colorTabIndex}
+            onChange={index => {
+              setColorTabIndex(index);
+              const selectedColor = colorKeys[index];
+              trackTab(`color-${selectedColor}`);
+            }}
+          >
+            {/* Color tabs */}
             <TabList flexWrap="wrap">
               {colorKeys.map(colorKey => (
                 // Determine text color based on background color luminance
@@ -163,40 +84,17 @@ export default theme;`;
                 </Tab>
               ))}
             </TabList>
+            
+            {/* Content panels for each color */}
             <TabPanels mt={4}>
               {colorKeys.map(colorKey => (
                 <TabPanel key={colorKey} p={0}>
-                  <Tabs isLazy isFitted index={componentTabIndex} onChange={setComponentTabIndex}>
-                    <TabList>
-                      <Tab>Color Palette</Tab>
-                      <Tab>Basics</Tab>
-                      <Tab>Cards</Tab>
-                      <Tab>Tables</Tab>
-                    </TabList>
-                    <TabPanels>
-                      <TabPanel>
-                        <ColorPalette
-                          colorKey={colorKey}
-                          themeValues={themeValues}
-                          copiedValue={copiedValue}
-                          onCopy={handleCopyToClipboard}
-                        />
-                      </TabPanel>
-                      <TabPanel>
-                        <ComponentPreview 
-                          colorKey={colorKey} 
-                          themeValues={themeValues} 
-                          id="basics-tab" 
-                        />
-                      </TabPanel>
-                      <TabPanel>
-                        <CardLayouts colorKey={colorKey} themeValues={themeValues} />
-                      </TabPanel>
-                      <TabPanel>
-                        <TableLayouts colorKey={colorKey} themeValues={themeValues} />
-                      </TabPanel>
-                    </TabPanels>
-                  </Tabs>
+                  <ColorTabContent 
+                    colorKey={colorKey} 
+                    themeValues={themeValues}
+                    componentTabIndex={componentTabIndex}
+                    setComponentTabIndex={setComponentTabIndex}
+                  />
                 </TabPanel>
               ))}
             </TabPanels>
