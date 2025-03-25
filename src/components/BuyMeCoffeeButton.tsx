@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Link, Box, Text, Icon, useColorModeValue } from "@chakra-ui/react";
 
 // Coffee cup icon component
-const CoffeeIcon = props => (
+const CoffeeIcon = (props: React.ComponentProps<typeof Icon>) => (
   <Icon viewBox="0 0 24 24" {...props}>
     <path
       fill="currentColor"
@@ -11,7 +11,15 @@ const CoffeeIcon = props => (
   </Icon>
 );
 
-const BuyMeCoffeeButton = ({ username = "stephen.harrison", color = "yellow", size = "md" }) => {
+interface BuyMeCoffeeButtonProps {
+  username?: string;
+  size?: string;
+}
+
+const BuyMeCoffeeButton = ({
+  username = "stephen.harrison",
+  size = "md",
+}: BuyMeCoffeeButtonProps) => {
   const bgColor = useColorModeValue("yellow.400", "yellow.500");
   const hoverBgColor = useColorModeValue("yellow.500", "yellow.600");
   const textColor = useColorModeValue("gray.800", "gray.900");

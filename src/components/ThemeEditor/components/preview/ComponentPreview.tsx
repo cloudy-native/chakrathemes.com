@@ -9,7 +9,7 @@ import {
   Heading,
   SimpleGrid,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AlertElements from "./AlertElements";
 import AvatarElements from "./AvatarElements";
 import BasicElements from "./BasicElements";
@@ -23,12 +23,38 @@ import ShadowElements from "./ShadowElements";
 interface ComponentPreviewProps {
   colorKey: string;
   themeValues: ThemeValues;
+  // Add static ID to identify component across color changes
+  id?: string;
 }
 
-const ComponentPreview: React.FC<ComponentPreviewProps> = ({ colorKey, themeValues }) => {
+// Create a global object to store accordion open states across all instances
+const globalAccordionStates: Record<string, number[]> = {};
+
+const ComponentPreview: React.FC<ComponentPreviewProps> = ({ colorKey, themeValues, id = "default" }) => {
+  // Use a state to track which accordions are expanded
+  const [expandedIndexes, setExpandedIndexes] = useState<number[]>(globalAccordionStates[id] || []);
+
+  // When the component changes (due to color change), restore the previous state
+  useEffect(() => {
+    // Update the component state from the global store if it exists
+    if (globalAccordionStates[id]) {
+      setExpandedIndexes(globalAccordionStates[id]);
+    }
+  }, [colorKey, id]);
+
+  // When accordion state changes, save to the global store
+  const handleAccordionChange = (indexes: number[]) => {
+    setExpandedIndexes(indexes);
+    globalAccordionStates[id] = indexes;
+  };
+
   return (
     <Box>
-      <Accordion allowMultiple>
+      <Accordion 
+        allowMultiple 
+        index={expandedIndexes} 
+        onChange={handleAccordionChange}
+      >
         <AccordionItem>
           <AccordionButton>
             <Heading size="sm" as="span" flex="1" textAlign="left">

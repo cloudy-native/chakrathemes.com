@@ -1,5 +1,5 @@
-import React from "react";
 import { Box, Text } from "@chakra-ui/react";
+import React from "react";
 import ThemeColorSwatch from "./ThemeColorSwatch";
 
 interface PalettePreviewProps {
@@ -10,7 +10,7 @@ interface PalettePreviewProps {
   selectedShade?: string;
 }
 
-export const PalettePreview: React.FC<PalettePreviewProps> = ({
+const PalettePreview: React.FC<PalettePreviewProps> = ({
   palette,
   label,
   colorKey = "color",

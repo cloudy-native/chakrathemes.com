@@ -10,7 +10,7 @@ process.env.GATSBY_GOOGLE_FONTS_API_KEY = process.env.GOOGLE_FONTS_API_KEY;
 const config: GatsbyConfig = {
   siteMetadata: {
     title: `ChakraUI Themes Editor`,
-    description: `A Chakra UI Themes Editor`,
+    description: `A Chakra UI Themes Editor that's free to use. Forever.`,
     author: `@chakrathemes`,
     siteUrl: `https://chakrathemes.com`,
   },

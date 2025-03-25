@@ -1,23 +1,24 @@
 import { ThemeEditor } from "@/components";
-import { ArrowForwardIcon, CheckIcon, RepeatIcon, StarIcon } from "@chakra-ui/icons";
+import { CheckIcon, RepeatIcon, StarIcon } from "@chakra-ui/icons";
 import {
   Alert,
   AlertIcon,
+  Badge,
   Box,
-  Button,
   Container,
+  Flex,
   Heading,
+  Icon,
+  SimpleGrid,
   Text,
   VStack,
   useColorModeValue,
-  SimpleGrid,
-  Flex,
-  Icon,
-  Badge,
 } from "@chakra-ui/react";
 import { HeadFC, PageProps } from "gatsby";
 import * as React from "react";
-import { ThemeProvider } from "@/context/ThemeContext";
+import versionData from '../../app-version.json';
+
+const appVersion = versionData.version;
 
 // TypeScript interface for the FeatureCard component
 interface FeatureCardProps {
@@ -26,6 +27,29 @@ interface FeatureCardProps {
   icon: React.ElementType;
   badge?: string | null;
 }
+
+// Feature List Data
+const featureList: FeatureCardProps[] = [
+  {
+    title: "Genuinely Free Forever",
+    description:
+      "No catches here—completely free to use whenever you need it. No sign-ups, no usage limits, no attribution requirements, and definitely no surprise premium tiers. Just straightforward theme creation tools available to everyone.",
+    icon: StarIcon,
+    badge: "Free",
+  },
+  {
+    title: "Constantly Improving",
+    description:
+      "We're actively developing new features based on what our users actually want. Your feedback directly shapes our roadmap, helping us make theme creation smoother and more powerful with each update.",
+    icon: RepeatIcon,
+  },
+  {
+    title: "Production-Ready Output",
+    description:
+      "Generate clean, optimized theme files that integrate perfectly with Chakra UI. These aren't just demo-quality exports—they're refined, efficient code you can confidently use in your professional projects right away.",
+    icon: CheckIcon,
+  },
+];
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon, badge = null }) => {
   const bgColor = useColorModeValue("white", "gray.800");
@@ -75,31 +99,23 @@ const IndexPage: React.FC<PageProps> = () => {
 
           {/* Feature Cards */}
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-            <FeatureCard
-              title="Genuinely Free Forever"
-              description="No catches here—completely free to use whenever you need it. No sign-ups, no usage limits, no attribution requirements, and definitely no surprise premium tiers. Just straightforward theme creation tools available to everyone.
-"
-              icon={StarIcon}
-              badge="Free"
-            />
-            <FeatureCard
-              title="Constantly Improving"
-              description="We're actively developing new features based on what our users actually want. Your feedback directly shapes our roadmap, helping us make theme creation smoother and more powerful with each update."
-              icon={RepeatIcon}
-            />
-            <FeatureCard
-              title="Production-Ready Output"
-              description="Generate clean, optimized theme files that integrate perfectly with Chakra UI. These aren't just demo-quality exports—they're refined, efficient code you can confidently use in your professional projects right away."
-              icon={CheckIcon}
-            />
+            {featureList.map((feature, index) => (
+              <FeatureCard
+                key={index}
+                title={feature.title}
+                description={feature.description}
+                icon={feature.icon}
+                badge={feature.badge}
+              />
+            ))}
           </SimpleGrid>
 
           {/* Editor */}
           <ThemeEditor />
 
           <Alert status="warning">
-            <AlertIcon /> This is v0.0.3 of the editor. Is is full of bugs and UX issues. Apologies.
-            It is actively being worked on.
+            <AlertIcon /> This is v{appVersion} of the editor. Is is full of bugs and UX issues.
+            Apologies. It is actively being worked on.
           </Alert>
         </VStack>
       </Container>

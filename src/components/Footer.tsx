@@ -1,3 +1,4 @@
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   Box,
   Container,
@@ -12,9 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import React from "react";
-import { FaFacebook, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import BuyMeCoffeeButton from "./BuyMeCoffeeButton";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const SocialButton = ({
   children,
@@ -80,14 +80,11 @@ const Footer = () => {
             </Box>
             <Text fontSize={"sm"}>A simple ChakraUI Themes Editor.</Text>
             <Stack direction={"row"} spacing={4}>
-              <SocialButton label={"Twitter"} href={"https://twitter.com"}>
-                <FaTwitter />
-              </SocialButton>
-              <SocialButton label={"LinkedIn"} href={"https://linkedin.com"}>
+              <SocialButton label={"LinkedIn"} href={"https://www.linkedin.com/in/stephenharrison"}>
                 <FaLinkedin />
               </SocialButton>
-              <SocialButton label={"Facebook"} href={"https://facebook.com"}>
-                <FaFacebook />
+              <SocialButton label={"GitHub"} href={"https://github.com/cloudy-native"}>
+                <FaGithub />
               </SocialButton>
             </Stack>
           </Stack>
@@ -126,7 +123,7 @@ const Footer = () => {
 
       <Box py={4}>
         <Text pt={2} fontSize={"sm"} textAlign={"center"}>
-          © {new Date().getFullYear()} ChakraUI Themes Editor. All rights reserved. Make with ❤️ by{" "}
+          © {new Date().getFullYear()} ChakraUI Themes Editor. All rights reserved. Made with ❤️ by{" "}
           <Link href="https://www.linkedin.com/in/stephenharrison/" isExternal>
             Stephen Harrison <ExternalLinkIcon />
           </Link>

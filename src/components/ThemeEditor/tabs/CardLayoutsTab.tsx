@@ -13,7 +13,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useThemeContext } from "@/context/ThemeContext";
-import CardLayouts from "../components/preview/CardLayouts";
+import CardLayouts from "@/components/ThemeEditor/components/preview/CardLayouts";
 
 export const CardLayoutsTab: React.FC = () => {
   const { themeValues } = useThemeContext();

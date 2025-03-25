@@ -1,31 +1,28 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Heading,
-  SimpleGrid,
-  Text,
-  Badge,
-  HStack,
-  VStack,
-  Flex,
-  Spacer,
-  Button,
-  useColorModeValue,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  IconButton,
-  Tooltip,
-  Input,
-  FormControl,
-  FormLabel,
-} from "@chakra-ui/react";
-import { InfoIcon, AddIcon, CopyIcon, CheckIcon } from "@chakra-ui/icons";
 import { useThemeContext } from "@/context/ThemeContext";
 import inspirationPalettes from "@/utils/inspirationPalettes";
+import { AddIcon, CheckIcon, CopyIcon, InfoIcon } from "@chakra-ui/icons";
+import {
+  Badge,
+  Box,
+  Button,
+  Flex,
+  Heading,
+  HStack,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  SimpleGrid,
+  Spacer,
+  Text,
+  Tooltip,
+  useColorModeValue,
+  VStack,
+} from "@chakra-ui/react";
+import React, { useState } from "react";
 
 // Individual color swatch component
 const ColorSwatch: React.FC<{
@@ -103,10 +100,8 @@ const PaletteDetailModal: React.FC<{
     setSelectedColorName(name);
     setSelectedHexValue(color);
 
-    // Auto-fill the color name if it's empty
-    if (!newColorName) {
-      setNewColorName(name.toLowerCase().replace(/\s+/g, "-"));
-    }
+    // Always set the color name when selecting from inspiration
+    setNewColorName(name.toLowerCase().replace(/\s+/g, "-"));
 
     onSelectColor(name, color);
   };
@@ -129,16 +124,6 @@ const PaletteDetailModal: React.FC<{
         <ModalCloseButton />
 
         <ModalBody pb={6}>
-          <FormControl mb={4}>
-            <FormLabel>Select a color and add it to your theme</FormLabel>
-            <Input
-              value={newColorName}
-              onChange={e => setNewColorName(e.target.value)}
-              placeholder="Color category name (e.g., primary, accent)"
-              mb={4}
-            />
-          </FormControl>
-
           <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4} mb={6}>
             {Object.entries(palette.colors).map(([name, hex]) => (
               <Box

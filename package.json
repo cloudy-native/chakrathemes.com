@@ -22,7 +22,8 @@
     "deploy:gh": "gatsby build --prefix-paths && gh-pages -d public -b main",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx src/ --fix",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,md}\""
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,md}\"",
+    "version": "npm version patch && ts-node update-version"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.2.4",

@@ -1,7 +1,9 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import {
   Box,
+  Button,
   Divider,
+  FormControl,
   FormLabel,
   HStack,
   Input,
@@ -12,9 +14,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import ColorInput from "../components/ColorInput";
-import ColorSwatch from "../components/ColorSwatch";
-import PaletteGenerator from "../components/PaletteGenerator";
+import ColorInput from "@/components/ThemeEditor/components/ColorInput";
+import ColorSwatch from "@/components/ThemeEditor/components/ColorSwatch";
+import PaletteGenerator from "@/components/ThemeEditor/components/PaletteGenerator";
+import PalettePreview from "@/components/ThemeEditor/components/PalettePreview";
+import { generateColorPalette } from "@/utils/colorUtils";
 
 export const ColorPickerTab: React.FC = () => {
   const {
@@ -76,13 +80,43 @@ export const ColorPickerTab: React.FC = () => {
   return (
     <VStack spacing={6} align="stretch">
       {/* Add new color palette */}
-      <PaletteGenerator
-        colorName={newColorName}
-        setColorName={setNewColorName}
-        baseColor={baseColor}
-        setBaseColor={setBaseColor}
-        onGenerate={addNewColorPalette}
-      />
+      <Box borderWidth="1px" borderRadius="md" p={4}>
+        <PaletteGenerator
+          baseColor={baseColor}
+          setBaseColor={setBaseColor}
+        />
+        
+        {/* Preview of the generated palette */}
+        {baseColor && (
+          <Box mt={4}>
+            <PalettePreview
+              palette={generateColorPalette(baseColor)}
+              label="Preview of generated palette:"
+            />
+          </Box>
+        )}
+        
+        {/* Color Name Input */}
+        <FormControl mt={4}>
+          <FormLabel>Palette Name</FormLabel>
+          <Input
+            value={newColorName}
+            onChange={e => setNewColorName(e.target.value)}
+            placeholder="primary, accent, brand, etc."
+          />
+        </FormControl>
+        
+        {/* Generate Button */}
+        <Box mt={4} textAlign="right">
+          <Button
+            onClick={addNewColorPalette}
+            disabled={!baseColor || !newColorName}
+            colorScheme="blue"
+          >
+            Add to Theme
+          </Button>
+        </Box>
+      </Box>
 
       <Divider />
 

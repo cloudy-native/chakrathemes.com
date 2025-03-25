@@ -25,9 +25,8 @@ import {
   CardLayouts,
   ColorPalette,
   ComponentPreview,
-  NuclearDashboard,
   TableLayouts,
-} from "../components/preview";
+} from "@/components/ThemeEditor/components/preview";
 
 export const ComponentsPreviewTab: React.FC = () => {
   const { themeValues } = useThemeContext();
@@ -99,9 +98,8 @@ export default theme;`;
         <GridItem rowSpan={2} colSpan={4}>
           <Text mb={4} fontSize="sm">
             Select a color below to preview how the theme will look in your application. Start with
-            Color Palette and Basics. There are also styled samples of Cards, Tables, and a
-            magnificently over-engineered Nuclear Power Station Dashboard. Make sure to drill down
-            and explore all the variations.{" "}
+            Color Palette and Basics. There are also styled samples of Cards, and Tables Make sure
+            to drill down and explore all the variations.{" "}
           </Text>
           <Text mb={4} fontSize="sm">
             When you're ready, download the theme and add it to your project. Review{" "}
@@ -174,7 +172,6 @@ export default theme;`;
                       <Tab>Basics</Tab>
                       <Tab>Cards</Tab>
                       <Tab>Tables</Tab>
-                      <Tab>Power Station</Tab>
                     </TabList>
                     <TabPanels>
                       <TabPanel>
@@ -186,16 +183,17 @@ export default theme;`;
                         />
                       </TabPanel>
                       <TabPanel>
-                        <ComponentPreview colorKey={colorKey} themeValues={themeValues} />
+                        <ComponentPreview 
+                          colorKey={colorKey} 
+                          themeValues={themeValues} 
+                          id="basics-tab" 
+                        />
                       </TabPanel>
                       <TabPanel>
                         <CardLayouts colorKey={colorKey} themeValues={themeValues} />
                       </TabPanel>
                       <TabPanel>
                         <TableLayouts colorKey={colorKey} themeValues={themeValues} />
-                      </TabPanel>
-                      <TabPanel>
-                        <NuclearDashboard colorKey={colorKey} themeValues={themeValues} />
                       </TabPanel>
                     </TabPanels>
                   </Tabs>

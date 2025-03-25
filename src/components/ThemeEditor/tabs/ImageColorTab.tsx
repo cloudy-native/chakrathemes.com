@@ -1,25 +1,25 @@
-import React, { useState, useRef } from "react";
+import PalettePreview from "@/components/ThemeEditor/components/PalettePreview";
+import { useThemeContext } from "@/context/ThemeContext";
+import { ExtractedColor } from "@/types";
+import { generateColorPalette } from "@/utils/colorUtils";
 import {
+  Badge,
   Box,
   Button,
   Center,
+  Image as ChakraImage,
   FormControl,
   FormLabel,
   HStack,
   Input,
   SimpleGrid,
   Text,
-  VStack,
-  Badge,
   useColorModeValue,
-  Image as ChakraImage,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
-import { generateColorPalette } from "@/utils/colorUtils";
-import PalettePreview from "../components/PalettePreview";
-import { ExtractedColor } from "@/types";
-import { useThemeContext } from "@/context/ThemeContext";
 import { Vibrant } from "node-vibrant/browser";
+import React, { useRef, useState } from "react";
 
 export const ImageColorTab: React.FC = () => {
   const { themeValues, setThemeValues } = useThemeContext();

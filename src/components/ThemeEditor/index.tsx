@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 // Import tabs
-import ColorManagementTab from "./tabs/ColorManagementTab";
+import PaletteManagementTab from "./tabs/PaletteManagementTab";
 import TypographyTab from "./tabs/TypographyTab";
 import SpacingTab from "./tabs/SpacingTab";
 import BordersAndShadowsTab from "./tabs/BordersAndShadowsTab";
@@ -47,7 +47,7 @@ export const ThemeEditor: React.FC = () => {
         >
           <TabList mb="1em">
             <Tab>Theme Preview</Tab>
-            <Tab>Colors</Tab>
+            <Tab>Palettes</Tab>
             <Tab>Typography</Tab>
             <Tab>Spacing</Tab>
             <Tab>Borders & Shadows</Tab>
@@ -59,9 +59,9 @@ export const ThemeEditor: React.FC = () => {
               <ComponentsPreviewTab />
             </TabPanel>
 
-            {/* Unified Color Management Tab */}
+            {/* Palette Management Tab */}
             <TabPanel>
-              <ColorManagementTab />
+              <PaletteManagementTab />
             </TabPanel>
 
             {/* Typography Tab */}

@@ -91,19 +91,23 @@ Stop hand-crafting theme files and struggling with color scales. Our visual edit
 ### Creating a New Theme
 
 1. Start by selecting the "Colors" tab and add your primary brand colors
-2. Use the color picker or upload an image to extract colors
-3. Move to the "Typography" tab to set up your font styles
-4. Configure spacing values in the "Spacing" tab
-5. Adjust border radius and shadows in the "Borders & Shadows" tab
-6. Preview your theme with cards and components in the "Your Theme" tab
-7. Copy the generated theme code to use in your Chakra UI project
+2. Use the color picker or choose from theme presets
+3. Use the "Image Color" tab to extract colors from uploaded images
+4. Move to the "Typography" tab to set up your font styles
+5. Configure spacing values in the "Spacing" tab
+6. Adjust border radius and shadows in the "Borders & Shadows" tab
+7. Preview theme elements in the "Cards & Layouts" tab
+8. Preview your theme with components in the "Components Preview" tab
+9. Copy the generated theme code to use in your Chakra UI project
 
 ### Working with Colors
 
 The Colors tab provides a unified interface for creating and managing color palettes:
 
 - Add new colors by clicking the "New Color" button
-- Choose between using the color picker, extracting from an image, or browsing inspiration palettes
+- Use the dedicated color picker tab for detailed color selection
+- Use the "Image Color" tab to extract and use colors from uploaded images 
+- Browse theme presets for quick starting points
 - Explore themed inspiration palettes like "Summer Breeze," "Retro Wave," or "Cosmic Voyage"
 - Name your color (e.g., "primary", "accent", "brand")
 - The editor automatically generates a full color palette with shades
@@ -138,22 +142,41 @@ src/
 │   │   ├── components/       # Reusable editor components
 │   │   │   ├── ColorInput.tsx
 │   │   │   ├── ColorSwatch.tsx
+│   │   │   ├── ColorTooltip.tsx
 │   │   │   ├── ImageColorExtractor.tsx
 │   │   │   ├── InspirationPalettes.tsx
 │   │   │   ├── NewColorModal.tsx
 │   │   │   ├── PaletteGenerator.tsx
+│   │   │   ├── PalettePreview.tsx
+│   │   │   ├── ThemeColorSwatch.tsx
+│   │   │   ├── ThemePresets.tsx
 │   │   │   ├── preview/      # Component preview elements
+│   │   │   │   ├── AlertElements.tsx
+│   │   │   │   ├── AvatarElements.tsx
 │   │   │   │   ├── BasicElements.tsx
-│   │   │   │   ├── BorderShadowElements.tsx
+│   │   │   │   ├── BorderElements.tsx
+│   │   │   │   ├── BuiltInSchemas.tsx
+│   │   │   │   ├── ButtonStyles.tsx
 │   │   │   │   ├── CardLayouts.tsx
+│   │   │   │   ├── ColorPalette.tsx
 │   │   │   │   ├── CombinedStylesPreview.tsx
+│   │   │   │   ├── ComponentPreview.tsx
+│   │   │   │   ├── InputElements.tsx
+│   │   │   │   ├── ProgressElements.tsx
+│   │   │   │   ├── ShadowElements.tsx
+│   │   │   │   ├── TableLayouts.tsx
+│   │   │   │   ├── TagElements.tsx
 │   │   │   │   └── ...
 │   │   │   └── ...
 │   │   ├── tabs/             # Tab content components
 │   │   │   ├── BordersAndShadowsTab.tsx
+│   │   │   ├── CardLayoutsTab.tsx
 │   │   │   ├── ColorManagementTab.tsx
+│   │   │   ├── ColorPickerTab.tsx
 │   │   │   ├── ComponentsPreviewTab.tsx
+│   │   │   ├── ImageColorTab.tsx
 │   │   │   ├── SpacingTab.tsx
+│   │   │   ├── ThemePresetsTab.tsx
 │   │   │   └── TypographyTab.tsx
 │   │   └── index.tsx         # Main ThemeEditor component
 │   ├── Layout.tsx            # Site layout component
@@ -174,7 +197,8 @@ src/
 │   └── index.ts              # Theme-related type definitions
 └── utils/                    # Utility functions
     ├── colorUtils.ts         # Color manipulation utilities
-    └── inspirationPalettes.ts # Pre-defined color palette themes
+    ├── inspirationPalettes.ts # Pre-defined color palette themes
+    └── unsplashCollections.ts # Unsplash collection IDs for images
 ```
 
 ### Most Important Files
@@ -183,10 +207,12 @@ src/
 - **src/context/ThemeContext.tsx**: Manages the state of the theme being edited
 - **src/hooks/useThemeValues.ts**: Contains default theme values and structure
 - **src/components/ThemeEditor/tabs/ColorManagementTab.tsx**: Unified interface for creating and managing colors
-- **src/components/ThemeEditor/components/ImageColorExtractor.tsx**: Extracts colors from uploaded images
+- **src/components/ThemeEditor/tabs/ImageColorTab.tsx**: Interface for extracting colors from uploaded images
+- **src/components/ThemeEditor/components/PalettePreview.tsx**: Reusable color palette preview component
 - **src/components/ThemeEditor/components/InspirationPalettes.tsx**: Curated color palette inspiration browser
 - **src/components/ThemeEditor/tabs/BordersAndShadowsTab.tsx**: Controls for editing border radius and shadows
-- **src/components/ThemeEditor/components/preview/BorderShadowElements.tsx**: Visual preview of shadows and border radius
+- **src/components/ThemeEditor/components/preview/BorderElements.tsx**: Visual preview of border radius
+- **src/components/ThemeEditor/components/preview/ShadowElements.tsx**: Visual preview of shadows
 - **src/components/ThemeEditor/components/preview/CombinedStylesPreview.tsx**: Interactive preview of shadow and border styles on UI components
 - **src/components/ThemeEditor/components/preview/CardLayouts.tsx**: Collection of card components with varying layouts and styles
 - **src/components/ThemeEditor/components/preview/TableLayouts.tsx**: Various table designs with different styling options

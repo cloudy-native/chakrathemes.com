@@ -16,9 +16,18 @@ import ThemeColorSwatch from "./ThemeColorSwatch";
 interface PaletteGeneratorProps {
   baseColor: string;
   setBaseColor: (color: string) => void;
+  colorName?: string;
+  setColorName?: (name: string) => void;
+  onGenerate?: () => void;
 }
 
-export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({ baseColor, setBaseColor }) => {
+export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({
+  baseColor,
+  setBaseColor,
+  colorName = "",
+  setColorName = () => {},
+  onGenerate = () => {},
+}) => {
   return (
     <Box p={4} borderWidth="1px" borderRadius="md" bg={useColorModeValue("blue.50", "blue.900")}>
       <Text fontWeight="bold" mb={4}>
@@ -49,17 +58,7 @@ export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({ baseColor, s
         </InputGroup>
       </FormControl>
 
-      {/* Preview of the generated palette */}
-      <Box mt={4}>
-        <Text fontSize="sm" mb={2}>
-          Preview:
-        </Text>
-        <ThemeColorSwatch
-          colorKey="preview"
-          colorShades={generateColorPalette(baseColor)}
-          size="lg"
-        />
-      </Box>
+      {/* Preview is now handled by the parent component */}
     </Box>
   );
 };

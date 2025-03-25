@@ -1,4 +1,4 @@
-import { AddColorModal } from "@/components/ThemeEditor/components/AddColorModal";
+import { AddPaletteModal } from "@/components/ThemeEditor/components/AddPaletteModal";
 import { PaintChip } from "@/components/ThemeEditor/components/ColorSwatch";
 import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
@@ -11,7 +11,6 @@ import {
   AccordionPanel,
   Box,
   Button,
-  Divider,
   Flex,
   Grid,
   GridItem,
@@ -22,40 +21,41 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-export const ColorManagementTab: React.FC = () => {
+export const PaletteManagementTab: React.FC = () => {
   const { getColors } = useThemeContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const colors = getColors();
+  const palettes = getColors();
 
   return (
     <Box>
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
         <GridItem rowSpan={2} colSpan={4}>
           <Text mb={6} fontSize="sm">
-            Create and manage color palettes for your theme. Add colors manually, extract from
-            images, or check out the curated Inspiration tab! You can always copy or tweak the color
-            values., but be careful because it's easy to get messed up.
+            Create and manage palettes for your theme. Each palette is a range of shades derived
+            from a base color. Add palettes manually, extract from images, or check out the curated
+            Inspiration tab! You can have as many palettes as you like. Palettes are part of a
+            complete ChakraUI theme that also includes typography, space, borders, and so on.
           </Text>
         </GridItem>
         <GridItem>
           <Flex justify="right" mb={2}>
             <Button leftIcon={<AddIcon />} colorScheme="blue" onClick={onOpen}>
-              Add Color Palette
+              Add Palette
             </Button>
           </Flex>
         </GridItem>
       </Grid>
 
       <Accordion allowMultiple defaultIndex={[]}>
-        {colors.map((colorSwatch, index) => (
-          <AccordionItem key={colorSwatch.colorKey}>
+        {palettes.map((palette, index) => (
+          <AccordionItem key={palette.colorKey}>
             <AccordionButton>
               <Box flex="1" textAlign="left">
-                <Text fontWeight="medium">{colorSwatch.colorKey}</Text>
+                <Text fontWeight="medium">{palette.colorKey}</Text>
                 <Box mt={2}>
                   <ThemeColorSwatch
-                    colorKey={colorSwatch.colorKey}
-                    colorShades={colorSwatch.colorShades}
+                    colorKey={palette.colorKey}
+                    colorShades={palette.colorShades}
                     isCompact={true}
                     size="lg"
                   />
@@ -66,18 +66,17 @@ export const ColorManagementTab: React.FC = () => {
             <AccordionPanel pb={4}>
               <Box mb={4}>
                 <SimpleGrid columns={{ base: 2, sm: 5 }} spacing={4} maxWidth="100%">
-                  {Object.entries(colorSwatch.colorShades)
+                  {Object.entries(palette.colorShades)
                     .sort(([a], [b]) => parseInt(a) - parseInt(b))
                     .map(([shade, color]) => (
                       <PaintChip
                         key={shade}
-                        colorKey={colorSwatch.colorKey}
+                        colorKey={palette.colorKey}
                         shade={shade}
                         color={color as string}
                       />
                     ))}
                 </SimpleGrid>
-                {index < colors.length - 1 && <Divider mt={4} />}
               </Box>
             </AccordionPanel>
           </AccordionItem>
@@ -85,7 +84,7 @@ export const ColorManagementTab: React.FC = () => {
       </Accordion>
 
       {/* Empty state */}
-      {colors.length === 0 && (
+      {palettes.length === 0 && (
         <Flex
           direction="column"
           align="center"
@@ -97,18 +96,18 @@ export const ColorManagementTab: React.FC = () => {
           borderColor={useColorModeValue("gray.200", "gray.600")}
         >
           <Text mb={4} color={useColorModeValue("gray.500", "gray.400")}>
-            No colors in your palette yet
+            No palettes in your theme yet
           </Text>
           <Button size="sm" colorScheme="blue" leftIcon={<AddIcon />} onClick={onOpen}>
-            Add Your First Color
+            Add Your First Palette
           </Button>
         </Flex>
       )}
 
-      {/* Add Color Modal */}
-      <AddColorModal isOpen={isOpen} onClose={onClose} />
+      {/* Add Palette Modal */}
+      <AddPaletteModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };
 
-export default ColorManagementTab;
+export default PaletteManagementTab;

@@ -1,7 +1,7 @@
 import React from "react";
-import { Box, SimpleGrid, Text, Button, Flex, useColorModeValue } from "@chakra-ui/react";
-import { CopyIcon } from "@chakra-ui/icons";
+import { Box, SimpleGrid } from "@chakra-ui/react";
 import { ThemeValues } from "@/types";
+import { PaletteShade } from "@/components/ThemeEditor/components";
 
 interface ColorPaletteProps {
   colorKey: string;
@@ -13,7 +13,7 @@ interface ColorPaletteProps {
 const ColorPalette: React.FC<ColorPaletteProps> = ({
   colorKey,
   themeValues,
-  copiedValue,
+  copiedValue,  // kept for compatibility but not used directly
   onCopy,
 }) => {
   return (
@@ -21,51 +21,13 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
       {Object.entries(themeValues.colors[colorKey])
         .sort(([a], [b]) => parseInt(a) - parseInt(b))
         .map(([shade, colorValue]) => (
-          <Box
+          <PaletteShade
             key={shade}
-            boxShadow="md"
-            borderRadius="md"
-            overflow="hidden"
-            transition="all 0.2s"
-            _hover={{
-              transform: "translateY(-4px)",
-              boxShadow: "lg",
-            }}
-          >
-            <Box
-              h="100px"
-              bg={colorValue as string}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              position="relative"
-            >
-              <Text
-                fontSize="lg"
-                fontWeight="bold"
-                color={parseInt(shade) > 500 ? "white" : "black"}
-                textShadow="0px 0px 2px rgba(0,0,0,0.2)"
-              >
-                {shade}
-              </Text>
-            </Box>
-            <Box p={3}>
-              <Flex justifyContent="space-between" alignItems="center">
-                <Text fontSize="xs" fontFamily="monospace">
-                  {colorValue as string}
-                </Text>
-                <Button
-                  size="xs"
-                  variant="solid"
-                  onClick={() => onCopy(colorValue as string)}
-                  aria-label={`Copy ${colorValue}`}
-                  leftIcon={<CopyIcon />}
-                >
-                  {copiedValue === colorValue ? "Copied!" : ""}
-                </Button>
-              </Flex>
-            </Box>
-          </Box>
+            colorKey={colorKey}
+            shade={shade}
+            color={colorValue as string}
+            // PaletteShade has its own copy functionality
+          />
         ))}
     </SimpleGrid>
   );
