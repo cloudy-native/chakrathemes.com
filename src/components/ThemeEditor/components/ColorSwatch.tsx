@@ -14,28 +14,28 @@ interface BasicColorSwatchProps {
   ml?: number;
 }
 
-export const ColorSwatch: React.FC<BasicColorSwatchProps> = ({ 
-  color, 
-  size = "md", 
+export const ColorSwatch: React.FC<BasicColorSwatchProps> = ({
+  color,
+  size = "md",
   borderRadius = "md",
   mr,
-  ml
+  ml,
 }) => {
   // Size mapping
   const sizeMap = {
     xs: "16px",
     sm: "24px",
     md: "32px",
-    lg: "40px"
+    lg: "40px",
   };
-  
+
   const dimension = sizeMap[size];
-  
+
   return (
-    <Box 
-      w={dimension} 
-      h={dimension} 
-      bg={color} 
+    <Box
+      w={dimension}
+      h={dimension}
+      bg={color}
       borderRadius={borderRadius}
       borderWidth="1px"
       borderColor={useColorModeValue("gray.200", "gray.700")}
@@ -52,10 +52,10 @@ interface ExpandableColorSwatchProps {
   toggleOpen: () => void;
 }
 
-export const ExpandableColorSwatch: React.FC<ExpandableColorSwatchProps> = ({ 
-  colorSwatch, 
-  isOpen, 
-  toggleOpen 
+export const ExpandableColorSwatch: React.FC<ExpandableColorSwatchProps> = ({
+  colorSwatch,
+  isOpen,
+  toggleOpen,
 }) => {
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const bgColor = useColorModeValue("gray.100", "gray.700");

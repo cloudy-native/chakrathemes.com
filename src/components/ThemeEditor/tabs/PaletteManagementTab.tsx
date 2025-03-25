@@ -1,19 +1,15 @@
-import { 
+import {
   AddPaletteModal,
   PaletteShade,
   AccessibilityAnalysisModal,
-  ColorHarmonyModal
+  ColorHarmonyModal,
+  PaletteAdjustment,
 } from "@/components/ThemeEditor/components";
 import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ThemeValues } from "@/types";
-import { 
-  AddIcon, 
-  DeleteIcon, 
-  CheckIcon, 
-  RepeatIcon 
-} from "@chakra-ui/icons";
+import { AddIcon, DeleteIcon, CheckIcon, RepeatIcon } from "@chakra-ui/icons";
 import {
   Accordion,
   AccordionButton,
@@ -50,12 +46,14 @@ export const PaletteManagementTab: React.FC = () => {
 
   // Add palette modal state
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   // Accessibility analysis modal state
   const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] = React.useState(false);
   const [accessibilityColorKey, setAccessibilityColorKey] = React.useState<string>("");
-  const [accessibilityColorShades, setAccessibilityColorShades] = React.useState<Record<string, string>>({});
-  
+  const [accessibilityColorShades, setAccessibilityColorShades] = React.useState<
+    Record<string, string>
+  >({});
+
   // Color harmony modal state
   const [isHarmonyModalOpen, setIsHarmonyModalOpen] = React.useState(false);
   const [harmonyColorKey, setHarmonyColorKey] = React.useState<string>("");
@@ -80,17 +78,17 @@ export const PaletteManagementTab: React.FC = () => {
     setAccessibilityColorKey(colorKey);
     setAccessibilityColorShades(colorShades);
     setIsAccessibilityModalOpen(true);
-    
+
     // Track analytics
     trackColorAction("open_accessibility_analysis", colorKey);
   };
-  
+
   // Handle opening the color harmony modal
   const openHarmonyModal = (colorKey: string, colorShades: Record<string, string>) => {
     setHarmonyColorKey(colorKey);
     setHarmonyColorShades(colorShades);
     setIsHarmonyModalOpen(true);
-    
+
     // Track analytics
     trackColorAction("open_color_harmony", colorKey);
   };
@@ -170,7 +168,7 @@ export const PaletteManagementTab: React.FC = () => {
                         }}
                       />
                     </Tooltip>
-                    
+
                     {/* Color Harmony Button */}
                     <Tooltip label="Color Harmony" placement="top">
                       <IconButton
@@ -185,7 +183,7 @@ export const PaletteManagementTab: React.FC = () => {
                         }}
                       />
                     </Tooltip>
-                    
+
                     {/* Delete Button */}
                     <Tooltip label="Delete palette" placement="top">
                       <IconButton
@@ -214,6 +212,10 @@ export const PaletteManagementTab: React.FC = () => {
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel pb={4}>
+              {/* Palette Adjustment Tool */}
+              <PaletteAdjustment colorKey={palette.colorKey} colorShades={palette.colorShades} />
+
+              {/* Individual Color Shades */}
               <Box mb={4}>
                 <SimpleGrid columns={{ base: 2, sm: 5 }} spacing={4} maxWidth="100%">
                   {Object.entries(palette.colorShades)
@@ -285,15 +287,15 @@ export const PaletteManagementTab: React.FC = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-      
+
       {/* Accessibility Analysis Modal */}
-      <AccessibilityAnalysisModal 
+      <AccessibilityAnalysisModal
         isOpen={isAccessibilityModalOpen}
         onClose={() => setIsAccessibilityModalOpen(false)}
         colorKey={accessibilityColorKey}
         colorShades={accessibilityColorShades}
       />
-      
+
       {/* Color Harmony Modal */}
       <ColorHarmonyModal
         isOpen={isHarmonyModalOpen}

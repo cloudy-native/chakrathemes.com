@@ -8,3 +8,4 @@ export { default as PaletteShade } from "./PaletteShade";
 export { default as AddPaletteModal } from "./AddPaletteModal";
 export { default as AccessibilityAnalysisModal } from "./AccessibilityAnalysisModal";
 export { default as ColorHarmonyModal } from "./ColorHarmonyModal";
+export { default as PaletteAdjustment } from "./PaletteAdjustment";
