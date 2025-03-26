@@ -1,5 +1,4 @@
 import { ThemeEditor } from "@/components";
-import { CheckIcon, ExternalLinkIcon, RepeatIcon, StarIcon } from "@chakra-ui/icons";
 import {
   Alert,
   AlertIcon,
@@ -16,6 +15,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { HeadFC, PageProps } from "gatsby";
+import { Check, ExternalLink, RotateCw, Star } from "lucide-react";
 import * as React from "react";
 import versionData from "../version.json";
 
@@ -35,20 +35,20 @@ const featureList: FeatureCardProps[] = [
     title: "Genuinely Free Forever",
     description:
       "No catches here—completely free to use whenever you need it. No sign-ups, no usage limits, no restrictive licensing, and definitely no surprise premium tiers. Just straightforward theme creation tools available to everyone.",
-    icon: StarIcon,
+    icon: Star,
     badge: "Free",
   },
   {
     title: "Constantly Improving",
     description:
       "We're actively developing new features based on what our users actually want. Your feedback directly shapes our roadmap, helping us make theme creation smoother and more powerful with each update.",
-    icon: RepeatIcon,
+    icon: RotateCw,
   },
   {
     title: "Production-Ready Output",
     description:
       "Generate clean, optimized theme files that integrate perfectly with Chakra UI. These aren't just demo-quality exports—they're refined, efficient code you can confidently use in your professional projects right away.",
-    icon: CheckIcon,
+    icon: Check,
   },
 ];
 
@@ -113,18 +113,6 @@ const IndexPage: React.FC<PageProps> = () => {
 
           {/* Editor */}
           <ThemeEditor />
-
-          <Alert status="info">
-            <AlertIcon />{" "}
-            <Text>
-              This is v{version} of the editor (built on {buildDate}). There are bugs, only some of
-              which we know about. Please{" "}
-              <Link href="https://github.com/cloudy-native/chakrathemes.com/issues" isExternal>
-                Open an issue on GitHub <ExternalLinkIcon />
-              </Link>
-              , or better still submit a PR. Thanks!
-            </Text>
-          </Alert>
         </VStack>
       </Container>
     </Box>

@@ -1,8 +1,8 @@
-import React from "react";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { Grid, GridItem, Text, Link, Flex, Spacer } from "@chakra-ui/react";
-import ThemeDownloader from "./ThemeDownloader";
 import { ThemeValues } from "@/types";
+import { Flex, Grid, GridItem, Icon, Link, Spacer, Text } from "@chakra-ui/react";
+import { ExternalLinkIcon } from "lucide-react";
+import React from "react";
+import ThemeDownloader from "./ThemeDownloader";
 
 interface ThemePreviewHeaderProps {
   themeValues: ThemeValues;
@@ -23,7 +23,7 @@ export const ThemePreviewHeader: React.FC<ThemePreviewHeaderProps> = ({ themeVal
         <Text mb={4} fontSize="sm">
           When you're ready, download the theme and add it to your project. Review{" "}
           <Link href="https://v2.chakra-ui.com/docs/styled-system/customize-theme" isExternal>
-            Customize Theme <ExternalLinkIcon />
+            Customize Theme <Icon as={ExternalLinkIcon} />
           </Link>{" "}
           in the ChakraUI documentation for details.
         </Text>

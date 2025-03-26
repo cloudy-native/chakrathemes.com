@@ -30,7 +30,6 @@
     "postversion": "npm run update-version"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/react": "^2.10.6",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -52,6 +51,7 @@
     "gatsby-source-filesystem": "^5.14.0",
     "gatsby-transformer-remark": "^6.14.0",
     "gatsby-transformer-sharp": "^5.14.0",
+    "lucide-react": "^0.483.0",
     "node-vibrant": "^4.0.3",
     "prismjs": "^1.29.0",
     "react": "^18.2.0",

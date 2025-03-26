@@ -38,3 +38,8 @@ npm run deploy
 - Pages are in `src/pages`
 - The theme configuration is in `src/theme`
 - The editor functionality is in `src/components/ThemeEditor`
+
+## Coding conventions
+
+- Use lucide-react for all icons
+- 

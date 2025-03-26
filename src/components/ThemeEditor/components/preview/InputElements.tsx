@@ -24,7 +24,7 @@ import {
   Divider,
   Text,
 } from "@chakra-ui/react";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { ArrowRight } from "lucide-react";
 
 interface InputElementsProps {
   colorKey: string;
@@ -89,7 +89,7 @@ const InputElements: React.FC<InputElementsProps> = ({ colorKey }) => {
                 <SliderFilledTrack />
               </SliderTrack>
               <SliderThumb boxSize={6}>
-                <Box color={`${colorKey}.500`} as={ArrowForwardIcon} />
+                <Box color={`${colorKey}.500`} as={ArrowRight} />
               </SliderThumb>
             </Slider>
           </FormControl>

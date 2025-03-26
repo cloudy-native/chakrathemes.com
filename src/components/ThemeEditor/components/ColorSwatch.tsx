@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Text, Flex, HStack, SimpleGrid, VStack, useColorModeValue } from "@chakra-ui/react";
 import { ColorSwatch as ColorSwatchType } from "@/types";
-import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import ThemeColorSwatch from "./ThemeColorSwatch";
 import { PaletteShade } from "./PaletteShade";
 
@@ -81,7 +81,7 @@ export const ExpandableColorSwatch: React.FC<ExpandableColorSwatchProps> = ({
         <Box flex="1">
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontWeight="medium">{colorSwatch.colorKey}</Text>
-            {isOpen ? <TriangleUpIcon /> : <TriangleDownIcon />}
+            {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
           </Flex>
           <HStack spacing={3} mt={2}>
             {/* Color swatch preview */}

@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { HeadFC, Link, PageProps } from "gatsby";
 import * as React from "react";
-import { FaExclamationTriangle, FaHome } from "react-icons/fa";
+import { AlertTriangle, Home } from "lucide-react";
 
 const NotFoundPage: React.FC<PageProps> = () => {
   // Theme colors
@@ -34,7 +34,7 @@ const NotFoundPage: React.FC<PageProps> = () => {
         >
           {/* Icon and Heading */}
           <Flex direction="column" align="center" justify="center" textAlign="center">
-            <Icon as={FaExclamationTriangle} w={20} h={20} color={primaryColor} mb={6} />
+            <Icon as={AlertTriangle} w={20} h={20} color={primaryColor} mb={6} />
             <Heading as="h1" fontSize={{ base: "4xl", md: "5xl" }} mb={2} color={headingColor}>
               404
             </Heading>
@@ -76,7 +76,7 @@ const NotFoundPage: React.FC<PageProps> = () => {
             width="full"
             justify="center"
           >
-            <Button as={Link} to="/" size="lg" leftIcon={<FaHome />} px={8}>
+            <Button as={Link} to="/" size="lg" leftIcon={<Home size={18} />} px={8}>
               Back to Home
             </Button>
           </Stack>

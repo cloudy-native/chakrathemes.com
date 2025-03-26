@@ -1,9 +1,10 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import { isLightColor } from "@/utils/colorUtils";
-import { InfoIcon } from "@chakra-ui/icons";
+import { Info } from "lucide-react";
 import {
   Box,
   ChakraProvider,
+  Icon,
   Tab,
   TabList,
   TabPanel,
@@ -39,7 +40,7 @@ export const ComponentsPreviewTab: React.FC = () => {
         {/* Full-width Color Palette Cards Section */}
         <Box p={5} borderWidth="1px" borderRadius="lg" boxShadow="md" width="100%">
           <Text fontSize={"sm"} mb={4}>
-            <InfoIcon /> Add more palettes in the 'Palettes' tab above and select them here.
+            <Icon as={Info} /> Add more palettes in the 'Palettes' tab above and select them here.
           </Text>
 
           <Tabs

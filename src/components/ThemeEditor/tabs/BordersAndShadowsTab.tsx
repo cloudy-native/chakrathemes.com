@@ -1,5 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
-import { CopyIcon } from "@chakra-ui/icons";
+import { Copy } from "lucide-react";
 import {
   Box,
   Button,
@@ -101,7 +101,7 @@ const ShadowControl: React.FC<{
           variant="ghost"
           onClick={handleCopy}
           aria-label="Copy to clipboard"
-          leftIcon={<CopyIcon />}
+          leftIcon={<Copy size={14} />}
         >
           {copiedValue === copyValue ? "Copied!" : ""}
         </Button>
@@ -197,7 +197,7 @@ const BorderRadiusControl: React.FC<{
           variant="ghost"
           onClick={handleCopy}
           aria-label="Copy to clipboard"
-          leftIcon={<CopyIcon />}
+          leftIcon={<Copy size={14} />}
         >
           {copiedValue === copyValue ? "Copied!" : ""}
         </Button>

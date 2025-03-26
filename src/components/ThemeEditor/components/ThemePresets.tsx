@@ -23,7 +23,7 @@ import {
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { AddIcon, DownloadIcon } from "@chakra-ui/icons";
+import { Plus, Download } from "lucide-react";
 import { ThemeValues } from "@/types";
 import { useThemeContext } from "@/context/ThemeContext";
 
@@ -310,10 +310,10 @@ export const ThemePresets: React.FC = () => {
       <HStack justify="space-between" mb={4}>
         <Heading size="md">Theme Presets</Heading>
         <HStack>
-          <Button leftIcon={<AddIcon />} colorScheme="green" size="sm" onClick={onOpen}>
+          <Button leftIcon={<Plus size={16} />} colorScheme="green" size="sm" onClick={onOpen}>
             Save Current Theme
           </Button>
-          <Button leftIcon={<DownloadIcon />} variant="outline" size="sm" onClick={downloadPresets}>
+          <Button leftIcon={<Download size={16} />} variant="outline" size="sm" onClick={downloadPresets}>
             Export Presets
           </Button>
         </HStack>

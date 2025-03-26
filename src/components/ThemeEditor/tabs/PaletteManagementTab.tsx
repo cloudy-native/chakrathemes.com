@@ -4,12 +4,13 @@ import {
   AccessibilityAnalysisModal,
   ColorHarmonyModal,
   PaletteAdjustment,
+  PaletteColorContrast,
 } from "@/components/ThemeEditor/components";
 import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ThemeValues } from "@/types";
-import { AddIcon, DeleteIcon, CheckIcon, RepeatIcon } from "@chakra-ui/icons";
+import { Plus, Trash, Check, RefreshCw } from "lucide-react";
 import {
   Accordion,
   AccordionButton,
@@ -139,7 +140,7 @@ export const PaletteManagementTab: React.FC = () => {
         </GridItem>
         <GridItem>
           <Flex justify="right" mb={2}>
-            <Button leftIcon={<AddIcon />} colorScheme="blue" onClick={onOpen}>
+            <Button leftIcon={<Plus size={16} />} colorScheme="blue" onClick={onOpen}>
               Add Palette
             </Button>
           </Flex>
@@ -158,7 +159,7 @@ export const PaletteManagementTab: React.FC = () => {
                     <Tooltip label="Accessibility Analysis" placement="top">
                       <IconButton
                         aria-label="Accessibility Analysis"
-                        icon={<CheckIcon />}
+                        icon={<Check size={16} />}
                         size="sm"
                         variant="ghost"
                         colorScheme="green"
@@ -173,7 +174,7 @@ export const PaletteManagementTab: React.FC = () => {
                     <Tooltip label="Color Harmony" placement="top">
                       <IconButton
                         aria-label="Color Harmony"
-                        icon={<RepeatIcon />}
+                        icon={<RefreshCw size={16} />}
                         size="sm"
                         variant="ghost"
                         colorScheme="blue"
@@ -188,7 +189,7 @@ export const PaletteManagementTab: React.FC = () => {
                     <Tooltip label="Delete palette" placement="top">
                       <IconButton
                         aria-label="Delete palette"
-                        icon={<DeleteIcon />}
+                        icon={<Trash size={16} />}
                         size="sm"
                         variant="ghost"
                         colorScheme="red"
@@ -230,6 +231,12 @@ export const PaletteManagementTab: React.FC = () => {
                     ))}
                 </SimpleGrid>
               </Box>
+              
+              {/* Color Contrast Explorer for this palette */}
+              <PaletteColorContrast 
+                colorKey={palette.colorKey} 
+                colorShades={palette.colorShades} 
+              />
             </AccordionPanel>
           </AccordionItem>
         ))}
@@ -250,7 +257,7 @@ export const PaletteManagementTab: React.FC = () => {
           <Text mb={4} color={useColorModeValue("gray.500", "gray.400")}>
             No palettes in your theme yet
           </Text>
-          <Button size="sm" colorScheme="blue" leftIcon={<AddIcon />} onClick={onOpen}>
+          <Button size="sm" colorScheme="blue" leftIcon={<Plus size={16} />} onClick={onOpen}>
             Add Your First Palette
           </Button>
         </Flex>

@@ -1,6 +1,6 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import inspirationPalettes from "@/utils/inspirationPalettes";
-import { AddIcon, CheckIcon, CopyIcon, InfoIcon } from "@chakra-ui/icons";
+import { Check, Copy, Info, Plus } from "lucide-react";
 import {
   Badge,
   Box,
@@ -72,7 +72,7 @@ const ColorSwatch: React.FC<{
           <Tooltip label={copied ? "Copied!" : "Copy hex"} placement="top" hasArrow>
             <IconButton
               aria-label="Copy color code"
-              icon={copied ? <CheckIcon /> : <CopyIcon />}
+              icon={copied ? <Check size={12} /> : <Copy size={12} />}
               size="xs"
               variant="ghost"
               color={textColor}
@@ -166,7 +166,7 @@ const PaletteDetailModal: React.FC<{
                 </Text>
               </VStack>
               <Spacer />
-              <Button size="sm" leftIcon={<AddIcon />} colorScheme="blue" onClick={onClose}>
+              <Button size="sm" leftIcon={<Plus size={16} />} colorScheme="blue" onClick={onClose}>
                 Use This Color
               </Button>
             </Flex>
@@ -251,7 +251,7 @@ const InspirationPalettes: React.FC<{
           placement="top"
           hasArrow
         >
-          <InfoIcon color="gray.500" />
+          <Info size={16} color="gray" />
         </Tooltip>
       </Flex>
 

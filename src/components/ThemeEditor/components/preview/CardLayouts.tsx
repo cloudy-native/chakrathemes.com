@@ -28,16 +28,15 @@ import {
 import { faker } from "@faker-js/faker";
 import React from "react";
 import {
-  FaChevronRight,
-  FaComment,
-  FaHeart,
-  FaMapMarkerAlt,
-  FaRegBookmark,
-  FaRegCalendarAlt,
-  FaRegStar,
-  FaShare,
-  FaStar,
-} from "react-icons/fa";
+  Bookmark,
+  Calendar,
+  ChevronRight,
+  Heart,
+  MapPin,
+  MessageSquare,
+  Share2,
+  Star,
+} from "lucide-react";
 
 interface CardLayoutsProps {
   colorKey: string;
@@ -139,7 +138,12 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         </CardBody>
 
         <CardFooter borderTopWidth="1px" justifyContent="space-between">
-          <Button size="sm" variant="ghost" leftIcon={<FaRegCalendarAlt />} colorScheme={colorKey}>
+          <Button
+            size="sm"
+            variant="ghost"
+            leftIcon={<Calendar size={16} />}
+            colorScheme={colorKey}
+          >
             History
           </Button>
           <Button size="sm" colorScheme={colorKey}>
@@ -213,7 +217,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
               variant="ghost"
               colorScheme={colorKey}
               aria-label="Options"
-              icon={<FaRegBookmark />}
+              icon={<Bookmark size={18} />}
               size="sm"
             />
           </Flex>
@@ -233,19 +237,31 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
         </CardBody>
         <Image objectFit="cover" src={landscape.url} alt={landscape.alt} />
         <CardFooter justify="space-between" flexWrap="wrap" borderTop="1px solid">
-          <Button flex="1" variant="ghost" leftIcon={<FaHeart />} colorScheme={colorKey} size="sm">
+          <Button
+            flex="1"
+            variant="ghost"
+            leftIcon={<Heart size={16} />}
+            colorScheme={colorKey}
+            size="sm"
+          >
             Like
           </Button>
           <Button
             flex="1"
             variant="ghost"
-            leftIcon={<FaComment />}
+            leftIcon={<MessageSquare size={16} />}
             colorScheme={colorKey}
             size="sm"
           >
             Comment
           </Button>
-          <Button flex="1" variant="ghost" leftIcon={<FaShare />} colorScheme={colorKey} size="sm">
+          <Button
+            flex="1"
+            variant="ghost"
+            leftIcon={<Share2 size={16} />}
+            colorScheme={colorKey}
+            size="sm"
+          >
             Share
           </Button>
         </CardFooter>
@@ -266,7 +282,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
               {faker.company.buzzAdjective()}
             </Badge>
             <Text fontSize="sm">
-              <Icon as={FaRegCalendarAlt} mr={1} />
+              <Icon as={Calendar} boxSize={4} mr={1} />
               May 28, 2023
             </Text>
           </Flex>
@@ -277,7 +293,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
             {faker.word.words({ count: 25 })}
           </Text>
           <HStack mb={4} fontSize="xs">
-            <Icon as={FaMapMarkerAlt} />
+            <Icon as={MapPin} boxSize={4} />
             <Text>
               {faker.location.city()}, {faker.location.country()}
             </Text>
@@ -287,7 +303,7 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
           <Text fontWeight="bold" fontSize="lg">
             ${faker.commerce.price()}
           </Text>
-          <Button colorScheme={colorKey} size="sm" rightIcon={<FaChevronRight />}>
+          <Button colorScheme={colorKey} size="sm" rightIcon={<ChevronRight size={16} />}>
             Register Now
           </Button>
         </CardFooter>
@@ -310,9 +326,11 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
               {[1, 2, 3, 4, 5].map((_, i) => (
                 <Icon
                   key={i}
-                  as={i < 4 ? FaStar : FaRegStar}
+                  as={Star}
                   color={i < 4 ? `${colorKey}.500` : "gray.300"}
                   fontSize="sm"
+                  fill={i < 4 ? `${colorKey}.500` : "none"}
+                  boxSize={4}
                 />
               ))}
             </HStack>

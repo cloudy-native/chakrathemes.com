@@ -1,16 +1,5 @@
 import { ThemeValues } from "@/types";
 import {
-  CheckIcon,
-  DeleteIcon,
-  DownloadIcon,
-  EditIcon,
-  ExternalLinkIcon,
-  HamburgerIcon,
-  TriangleDownIcon,
-  TriangleUpIcon,
-  ViewIcon,
-} from "@chakra-ui/icons";
-import {
   Avatar,
   Badge,
   Box,
@@ -40,6 +29,18 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { faker } from "@faker-js/faker";
+import {
+  Check,
+  ChevronDown,
+  ChevronUp,
+  DownloadIcon,
+  ExternalLinkIcon,
+  Eye,
+  EyeIcon,
+  Menu as MenuIcon,
+  Pencil,
+  Trash,
+} from "lucide-react";
 import React from "react";
 
 interface TableLayoutsProps {
@@ -257,19 +258,19 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
                 <Th>
                   <HStack>
                     <Text>User</Text>
-                    <TriangleDownIcon boxSize={3} color="gray.500" />
+                    <Icon as={ChevronDown} boxSize={3} color="gray.500" />
                   </HStack>
                 </Th>
                 <Th>
                   <HStack>
                     <Text>Role</Text>
-                    <TriangleDownIcon boxSize={3} color="gray.500" />
+                    <Icon as={ChevronDown} boxSize={3} color="gray.500" />
                   </HStack>
                 </Th>
                 <Th>
                   <HStack>
                     <Text>Status</Text>
-                    <TriangleUpIcon boxSize={3} color="gray.500" />
+                    <Icon as={ChevronUp} boxSize={3} color="gray.500" />
                   </HStack>
                 </Th>
                 <Th>Last Active</Th>
@@ -329,7 +330,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
                       <Tooltip label="Edit user" hasArrow>
                         <IconButton
                           aria-label="Edit user"
-                          icon={<EditIcon />}
+                          icon={<Pencil />}
                           size="sm"
                           variant="ghost"
                           colorScheme={colorKey}
@@ -339,16 +340,16 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
                         <MenuButton
                           as={IconButton}
                           aria-label="More options"
-                          icon={<HamburgerIcon />}
+                          icon={<MenuIcon />}
                           size="sm"
                           variant="ghost"
                         />
                         <MenuList>
-                          <MenuItem icon={<ViewIcon />}>View details</MenuItem>
-                          <MenuItem icon={<CheckIcon />}>
+                          <MenuItem icon={<Eye />}>View details</MenuItem>
+                          <MenuItem icon={<Check />}>
                             {user.status === "Active" ? "Deactivate" : "Activate"}
                           </MenuItem>
-                          <MenuItem icon={<DeleteIcon />} color="red.500">
+                          <MenuItem icon={<Trash />} color="red.500">
                             Delete
                           </MenuItem>
                         </MenuList>
@@ -361,7 +362,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
           </Table>
         </TableContainer>
         <HStack spacing={4} mt={3} justify="flex-end">
-          <Button size="sm" colorScheme={colorKey} leftIcon={<CheckIcon />} variant="outline">
+          <Button size="sm" colorScheme={colorKey} leftIcon={<Check />} variant="outline">
             Bulk Edit
           </Button>
           <Button size="sm" colorScheme={colorKey}>
@@ -414,9 +415,9 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
                           file.type === "PDF"
                             ? DownloadIcon
                             : file.type === "Spreadsheet"
-                              ? ViewIcon
+                              ? EyeIcon
                               : file.type === "Document"
-                                ? ViewIcon
+                                ? EyeIcon
                                 : DownloadIcon
                         }
                         color={getColor("500")}
@@ -455,7 +456,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
                       />
                       <IconButton
                         aria-label="View file"
-                        icon={<ExternalLinkIcon />}
+                        icon={<Icon as={ExternalLinkIcon} />}
                         size="xs"
                         variant="ghost"
                         colorScheme={colorKey}

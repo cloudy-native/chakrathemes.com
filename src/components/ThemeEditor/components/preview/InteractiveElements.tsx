@@ -23,7 +23,7 @@ import {
   Divider,
   Text,
 } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { MenuIcon } from "lucide-react";
 
 interface InteractiveElementsProps {
   colorKey: string;
@@ -58,7 +58,7 @@ const InteractiveElements: React.FC<InteractiveElementsProps> = ({ colorKey }) =
           <HStack spacing={4}>
             <Menu>
               <MenuButton as={Button} colorScheme={colorKey} size="sm">
-                <Icon as={HamburgerIcon} />
+                <Icon as={MenuIcon} />
               </MenuButton>
               <MenuList>
                 <MenuItem>Option 1</MenuItem>

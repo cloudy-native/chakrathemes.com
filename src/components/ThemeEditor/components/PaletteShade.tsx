@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Text, Flex, useColorModeValue, Tooltip, IconButton, HStack } from "@chakra-ui/react";
-import { CopyIcon, LockIcon, UnlockIcon, EditIcon } from "@chakra-ui/icons";
+import { Copy, Lock, Unlock, Pencil } from "lucide-react";
 import { isLightColor } from "@/utils/colorUtils";
 import { useThemeContext } from "@/context/ThemeContext";
 import { ThemeValues } from "@/types";
@@ -145,7 +145,7 @@ export const PaletteShade: React.FC<{
             {/* Lock/Unlock button */}
             <Tooltip label={isLocked ? "Unlock shade" : "Lock shade"} placement="top" hasArrow>
               <IconButton
-                icon={isLocked ? <UnlockIcon /> : <LockIcon />}
+                icon={isLocked ? <Unlock size={16} /> : <Lock size={16} />}
                 size="sm"
                 aria-label={isLocked ? "Unlock shade" : "Lock shade"}
                 variant="ghost"
@@ -157,7 +157,7 @@ export const PaletteShade: React.FC<{
             {/* Edit button */}
             <Tooltip label={isEditing ? "Save" : "Edit color"} placement="top" hasArrow>
               <IconButton
-                icon={<EditIcon />}
+                icon={<Pencil size={16} />}
                 size="sm"
                 aria-label={isEditing ? "Save color" : "Edit color"}
                 variant="ghost"
@@ -169,7 +169,7 @@ export const PaletteShade: React.FC<{
             {/* Copy button */}
             <Tooltip label={copied ? "Copied!" : "Copy"} placement="top" hasArrow>
               <IconButton
-                icon={<CopyIcon />}
+                icon={<Copy size={16} />}
                 size="sm"
                 aria-label="Copy color hex code"
                 variant="ghost"

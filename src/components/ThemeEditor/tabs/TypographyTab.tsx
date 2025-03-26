@@ -28,12 +28,13 @@ import {
   VStack,
   useToast,
   Link,
+  Icon,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { useThemeContext } from "@/context/ThemeContext";
 import { FONT_WEIGHT_VARIANTS } from "@/hooks/useTypographyManagement";
 import { GoogleFont, GoogleFontsResponse } from "@/types";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { ExternalLinkIcon } from "lucide-react";
 
 // Default font sizes for reset functionality
 const DEFAULT_FONT_SIZES = {
@@ -239,7 +240,7 @@ export const TypographyTab: React.FC = () => {
         <Text>
           This interface is incomplete and confusing. We connect to{" "}
           <Link href="https://fonts.google.com/" isExternal>
-            Google Fonts <ExternalLinkIcon />
+            Google Fonts <Icon as={ExternalLinkIcon} />
           </Link>
           , but to be perfectly honest, you might be a better off testing ideas on Google Fonts
           directly than trying to use this clunky interface.

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, useToast } from "@chakra-ui/react";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { ArrowRight } from "lucide-react";
 import { ThemeValues } from "@/types";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
@@ -60,7 +60,7 @@ export default theme;`;
   };
 
   return (
-    <Button colorScheme="green" onClick={downloadTheme} leftIcon={<ArrowForwardIcon />} mb={4}>
+    <Button colorScheme="green" onClick={downloadTheme} leftIcon={<ArrowRight size={16} />} mb={4}>
       Download Theme
     </Button>
   );

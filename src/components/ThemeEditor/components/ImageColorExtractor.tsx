@@ -10,7 +10,7 @@ import {
   useToast,
   SimpleGrid,
 } from "@chakra-ui/react";
-import { AddIcon, CheckIcon } from "@chakra-ui/icons";
+import { Check, Plus } from "lucide-react";
 import { Vibrant } from "node-vibrant/browser";
 import { ExtractedColor } from "@/types";
 
@@ -104,7 +104,7 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
           _hover={{ borderColor: "blue.500", cursor: "pointer" }}
           onClick={triggerFileInput}
         >
-          <AddIcon mb={3} fontSize="xl" />
+          <Plus size={24} style={{ marginBottom: "12px" }} />
           <Text mb={1} fontWeight="medium">
             Upload an image
           </Text>
@@ -155,7 +155,7 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
                       h="18px"
                       borderRadius="full"
                     >
-                      <CheckIcon color="blue.500" fontSize="xs" />
+                      <Check size={12} color="#3182CE" />
                     </Flex>
                   )}
                 </Box>

@@ -1,33 +1,33 @@
-import React, { useMemo } from "react";
+import { getAccessibleTextColor, getContrastRatio } from "@/utils/colorUtils";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
+  Badge,
+  Box,
   Button,
   Flex,
-  Box,
-  Text,
   Grid,
-  Badge,
+  Icon,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stat,
+  StatHelpText,
   StatLabel,
   StatNumber,
-  StatHelpText,
-  Tabs,
-  TabList,
-  TabPanels,
   Tab,
+  TabList,
   TabPanel,
-  useColorModeValue,
+  TabPanels,
+  Tabs,
+  Text,
   Tooltip,
-  Icon,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { InfoIcon, CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
-import { getContrastRatio, getAccessibleTextColor } from "@/utils/colorUtils";
+import { AlertTriangle, CheckCircle, Info } from "lucide-react";
+import React, { useMemo } from "react";
 import { ColorSwatch } from "./ColorSwatch";
 
 interface AccessibilityAnalysisModalProps {
@@ -146,7 +146,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Tabs variant="enclosed" isFitted>
+          <Tabs isFitted>
             <TabList mb="1em">
               <Tab>Contrast Analysis</Tab>
               <Tab>Color Blindness</Tab>
@@ -185,7 +185,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
                       borderColor="yellow.200"
                     >
                       <Flex mb={2} align="center">
-                        <WarningIcon mr={2} />
+                        <Icon as={AlertTriangle} color="yellow.500" mr={2} />
                         <Text fontWeight="bold">Accessibility Warnings</Text>
                       </Flex>
                       {wcagWarnings.map((warning, i) => (
@@ -369,7 +369,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
                     Protanopia (Red-Green Color Blindness - Red Weakness)
                     <Tooltip label="1% of men have this condition" placement="top">
                       <span>
-                        <InfoIcon ml={1} boxSize={3} />
+                        <Icon as={Info} ml={1} boxSize={3} />
                       </span>
                     </Tooltip>
                   </Text>
@@ -411,7 +411,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
                     Deuteranopia (Red-Green Color Blindness - Green Weakness)
                     <Tooltip label="6% of men have this condition" placement="top">
                       <span>
-                        <InfoIcon ml={1} boxSize={3} />
+                        <Icon as={Info} ml={1} boxSize={3} />
                       </span>
                     </Tooltip>
                   </Text>
@@ -452,7 +452,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
                     Tritanopia (Blue-Yellow Color Blindness)
                     <Tooltip label="0.1% of people have this rare condition" placement="top">
                       <span>
-                        <InfoIcon ml={1} boxSize={3} />
+                        <Icon as={Info} ml={1} boxSize={3} />
                       </span>
                     </Tooltip>
                   </Text>
@@ -498,7 +498,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
 
                 <Box p={4} bg={boxBgColor} borderRadius="md" mb={4}>
                   <Flex mb={3}>
-                    <Icon as={CheckCircleIcon} color="green.500" mr={2} mt={1} />
+                    <Icon as={CheckCircle} color="green.500" mr={2} mt={1} />
                     <Box>
                       <Text fontWeight="bold">Use Appropriate Text Colors</Text>
                       <Text fontSize="sm">
@@ -511,7 +511,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
 
                   {wcagWarnings.length === 0 ? (
                     <Flex>
-                      <Icon as={CheckCircleIcon} color="green.500" mr={2} mt={1} />
+                      <Icon as={CheckCircle} color="green.500" mr={2} mt={1} />
                       <Box>
                         <Text fontWeight="bold">Good Job!</Text>
                         <Text fontSize="sm">
@@ -523,7 +523,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
                   ) : (
                     wcagWarnings.map((warning, i) => (
                       <Flex key={i} mb={warning.type === "contrast" ? 3 : 0}>
-                        <Icon as={WarningIcon} color="orange.500" mr={2} mt={1} />
+                        <Icon as={AlertTriangle} color="orange.500" mr={2} mt={1} />
                         <Box>
                           <Text fontWeight="bold">
                             {warning.type === "contrast"

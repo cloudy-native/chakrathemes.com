@@ -1,40 +1,32 @@
-import React, { useState } from "react";
+import { useThemeContext } from "@/context/ThemeContext";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { ThemeValues } from "@/types";
 import {
+  Badge,
   Box,
   Button,
+  ButtonGroup,
   Flex,
   HStack,
+  IconButton,
+  SimpleGrid,
   Slider,
-  SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  SliderTrack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   Tooltip,
   VStack,
   useColorModeValue,
-  Badge,
-  IconButton,
-  SimpleGrid,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
 } from "@chakra-ui/react";
-import {
-  SunIcon,
-  MoonIcon,
-  RepeatIcon,
-  ChevronUpIcon,
-  ChevronDownIcon,
-  InfoIcon,
-  CheckIcon,
-} from "@chakra-ui/icons";
 import chroma from "chroma-js";
-import { useThemeContext } from "@/context/ThemeContext";
-import { ThemeValues } from "@/types";
-import { useAnalytics } from "@/hooks/useAnalytics";
-import ColorSwatch from "./ColorSwatch";
+import { Check, Info, Moon, RotateCcw, Sun } from "lucide-react";
+import React, { useState } from "react";
 
 interface PaletteAdjustmentProps {
   colorKey: string;
@@ -200,7 +192,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
     return (
       <Flex justifyContent="center" mt={2} mb={4}>
         <Button
-          leftIcon={<RepeatIcon />}
+          leftIcon={<RotateCcw size={16} />}
           size="sm"
           onClick={() => {
             setIsAdjusting(true);
@@ -215,7 +207,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
 
   return (
     <Box my={4} borderWidth="1px" borderRadius="md" borderColor={borderColor} overflow="hidden">
-      <Tabs variant="enclosed" colorScheme="blue" size="sm" isFitted>
+      <Tabs isFitted>
         <TabList>
           <Tab>Basic Adjustments</Tab>
           <Tab>Advanced</Tab>
@@ -232,7 +224,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
                 <HStack>
                   <IconButton
                     aria-label="Decrease brightness"
-                    icon={<MoonIcon />}
+                    icon={<Moon size={16} />}
                     size="xs"
                     onClick={() => {
                       setBrightness(Math.max(-2, brightness - 0.1));
@@ -244,7 +236,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
                   </Badge>
                   <IconButton
                     aria-label="Increase brightness"
-                    icon={<SunIcon />}
+                    icon={<Sun size={16} />}
                     size="xs"
                     onClick={() => {
                       setBrightness(Math.min(2, brightness + 0.1));
@@ -331,7 +323,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
                     Temperature
                   </Text>
                   <Tooltip label="Shift colors warmer (yellow/red) or cooler (blue)">
-                    <InfoIcon boxSize={3} />
+                    <Info size={12} />
                   </Tooltip>
                 </HStack>
                 <Badge variant="outline" fontSize="xs">
@@ -365,7 +357,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
                     Gamma
                   </Text>
                   <Tooltip label="Adjust the gamma curve (affects mid-tones)">
-                    <InfoIcon boxSize={3} />
+                    <Info size={12} />
                   </Tooltip>
                 </HStack>
                 <Badge variant="outline" fontSize="xs">
@@ -454,27 +446,37 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
         </SimpleGrid>
       </Box>
 
-      <Flex p={4} borderTopWidth="1px" borderColor={borderColor} justify="space-between">
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => {
-            resetAdjustments();
-            setIsAdjusting(false);
-          }}
-        >
-          Cancel
-        </Button>
+      <Flex p={4} borderTopWidth="1px" borderColor={borderColor} justify="flex-end">
+        <ButtonGroup>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => {
+              resetAdjustments();
+              setIsAdjusting(false);
+            }}
+          >
+            Cancel
+          </Button>
 
-        <HStack>
-          <Button size="sm" variant="outline" leftIcon={<RepeatIcon />} onClick={resetAdjustments}>
+          <Button
+            size="sm"
+            variant="outline"
+            leftIcon={<RotateCcw size={16} />}
+            onClick={resetAdjustments}
+          >
             Reset
           </Button>
 
-          <Button size="sm" colorScheme="green" leftIcon={<CheckIcon />} onClick={applyAdjustments}>
+          <Button
+            size="sm"
+            colorScheme="green"
+            leftIcon={<Check size={16} />}
+            onClick={applyAdjustments}
+          >
             Apply Changes
           </Button>
-        </HStack>
+        </ButtonGroup>
       </Flex>
     </Box>
   );

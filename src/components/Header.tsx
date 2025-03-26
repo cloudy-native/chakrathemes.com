@@ -1,5 +1,3 @@
-import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { FaGithub } from "react-icons/fa";
 import {
   Box,
   Button,
@@ -14,10 +12,10 @@ import {
   useColorMode,
   useColorModeValue,
   useDisclosure,
-  Tooltip,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
 import React from "react";
+import { Github, Menu, Moon, Sun, X } from "lucide-react";
 
 interface NavItem {
   label: string;
@@ -97,7 +95,7 @@ const Header = () => {
               <IconButton
                 aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
                 variant="ghost"
-                icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                icon={colorMode === "light" ? <Moon size={18} /> : <Sun size={18} />}
                 onClick={toggleColorMode}
               />
               <Button
@@ -105,7 +103,7 @@ const Header = () => {
                 href="https://github.com/cloudy-native/chakrathemes.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                rightIcon={<FaGithub />}
+                rightIcon={<Github size={18} />}
                 variant="outline"
               >
                 Fork me on GitHub
@@ -117,7 +115,7 @@ const Header = () => {
           <Flex display={{ base: "flex", md: "none" }}>
             <IconButton
               onClick={onToggle}
-              icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+              icon={isOpen ? <X size={18} /> : <Menu size={18} />}
               variant="ghost"
               aria-label="Toggle Navigation"
             />
@@ -147,7 +145,7 @@ const Header = () => {
               ))}
               <Button
                 size="sm"
-                leftIcon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                leftIcon={colorMode === "light" ? <Moon size={16} /> : <Sun size={16} />}
                 onClick={toggleColorMode}
                 variant="outline"
                 justifyContent="flex-start"
@@ -163,7 +161,7 @@ const Header = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 size="sm"
-                leftIcon={<FaGithub />}
+                leftIcon={<Github size={16} />}
                 variant="outline"
                 colorScheme="gray"
                 justifyContent="flex-start"

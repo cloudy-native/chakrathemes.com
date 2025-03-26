@@ -1,47 +1,47 @@
-import React, { useState, useMemo, useCallback } from "react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  Flex,
-  Box,
-  Text,
-  SimpleGrid,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  useColorModeValue,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  VStack,
-  HStack,
-  Select,
-  Tooltip,
-  IconButton,
-  useToast,
-} from "@chakra-ui/react";
-import { ColorSwatch } from "./ColorSwatch";
-import {
-  getAnalogousColors,
-  getComplementaryColor,
-  getTriadicColors,
-  getMonochromaticColors,
-  createColorScale,
-  generateColorPalette,
-} from "@/utils/colorUtils";
 import { useThemeContext } from "@/context/ThemeContext";
-import { InfoIcon, AddIcon, CheckIcon } from "@chakra-ui/icons";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ThemeValues } from "@/types";
+import {
+  createColorScale,
+  generateColorPalette,
+  getAnalogousColors,
+  getComplementaryColor,
+  getMonochromaticColors,
+  getTriadicColors,
+} from "@/utils/colorUtils";
+import { Check, Plus } from "lucide-react";
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+  SimpleGrid,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  Tooltip,
+  useColorModeValue,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
+import React, { useCallback, useMemo, useState } from "react";
+import { ColorSwatch } from "./ColorSwatch";
 
 interface ColorHarmonyModalProps {
   isOpen: boolean;
@@ -170,7 +170,7 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Tabs variant="enclosed">
+          <Tabs>
             <TabList mb="1em">
               <Tab>Complementary</Tab>
               <Tab>Analogous</Tab>
@@ -222,7 +222,7 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                         <Tooltip label="Add as new palette">
                           <IconButton
                             aria-label="Add as new palette"
-                            icon={<AddIcon />}
+                            icon={<Plus size={16} />}
                             size="sm"
                             colorScheme="blue"
                             onClick={() => addNewPalette(complementaryColor)}
@@ -304,7 +304,7 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                           <Tooltip label="Add as new palette">
                             <IconButton
                               aria-label="Add as new palette"
-                              icon={<AddIcon />}
+                              icon={<Plus size={14} />}
                               size="xs"
                               colorScheme="blue"
                               onClick={() => addNewPalette(color)}
@@ -351,7 +351,7 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                           <Tooltip label="Add as new palette">
                             <IconButton
                               aria-label="Add as new palette"
-                              icon={<AddIcon />}
+                              icon={<Plus size={14} />}
                               size="xs"
                               colorScheme="blue"
                               onClick={() => addNewPalette(color)}
@@ -396,7 +396,7 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                           <Tooltip label="Add as new palette">
                             <IconButton
                               aria-label="Add as new palette"
-                              icon={<AddIcon />}
+                              icon={<Plus size={14} />}
                               size="xs"
                               colorScheme="blue"
                               onClick={() => addNewPalette(color)}
@@ -495,7 +495,7 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                           <Tooltip label="Add as new palette">
                             <IconButton
                               aria-label="Add as new palette"
-                              icon={<AddIcon />}
+                              icon={<Plus size={14} />}
                               size="xs"
                               colorScheme="blue"
                               onClick={() => addNewPalette(color)}
@@ -550,7 +550,7 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                 <Button
                   ml={3}
                   colorScheme="green"
-                  leftIcon={<CheckIcon />}
+                  leftIcon={<Check size={16} />}
                   onClick={confirmNewPalette}
                 >
                   Add

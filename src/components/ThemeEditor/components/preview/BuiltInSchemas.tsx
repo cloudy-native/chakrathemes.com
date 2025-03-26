@@ -1,4 +1,4 @@
-import { ArrowForwardIcon, EmailIcon } from "@chakra-ui/icons";
+import { ArrowRight } from "lucide-react";
 import {
   Alert,
   AlertIcon,

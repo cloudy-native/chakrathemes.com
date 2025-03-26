@@ -1,4 +1,4 @@
-import { ArrowForwardIcon, EmailIcon } from "@chakra-ui/icons";
+import { ArrowRight, MailIcon } from "lucide-react";
 import {
   Box,
   Button,
@@ -57,12 +57,12 @@ const ButtonStyles: React.FC<ButtonStylesProps> = ({ colorKey }) => {
               </WrapItem>
             ))}
             <WrapItem>
-              <Button leftIcon={<EmailIcon />} colorScheme={colorKey}>
+              <Button leftIcon={<MailIcon/>} colorScheme={colorKey}>
                 Left Icon
               </Button>
             </WrapItem>
             <WrapItem>
-              <Button rightIcon={<ArrowForwardIcon />} colorScheme={colorKey} variant="outline">
+              <Button rightIcon={<ArrowRight />} colorScheme={colorKey} variant="outline">
                 Right Icon
               </Button>
             </WrapItem>
