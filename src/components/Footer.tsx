@@ -115,16 +115,18 @@ const Footer = () => {
       <Box py={4}>
         <Stack spacing={2} align="center">
           <Text fontSize={"sm"} textAlign={"center"}>
-            © {new Date().getFullYear()} ChakraUI Themes Editor. All rights reserved. Made with ❤️ by{" "}
+            © {new Date().getFullYear()} ChakraUI Themes Editor. All rights reserved. Made with ❤️
+            by{" "}
             <Link href="https://www.linkedin.com/in/stephenharrison/" isExternal>
               Stephen Harrison <Icon as={ExternalLink} />
             </Link>
           </Text>
           <Text fontSize="xs" color="gray.500">
-            Version 0.1.1 (March 25, 2025) | 
+            Version 0.1.1 (March 25, 2025) |
             <Link href="https://github.com/cloudy-native/chakrathemes.com/issues" ml={1} isExternal>
               Report Issues <Icon as={ExternalLink} boxSize={3} />
-            </Link> | 
+            </Link>{" "}
+            |
             <Link href="https://github.com/cloudy-native/chakrathemes.com/pulls" ml={1} isExternal>
               Submit PRs <Icon as={ExternalLink} boxSize={3} />
             </Link>

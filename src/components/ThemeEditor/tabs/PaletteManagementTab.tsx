@@ -231,12 +231,9 @@ export const PaletteManagementTab: React.FC = () => {
                     ))}
                 </SimpleGrid>
               </Box>
-              
+
               {/* Color Contrast Explorer for this palette */}
-              <PaletteColorContrast 
-                colorKey={palette.colorKey} 
-                colorShades={palette.colorShades} 
-              />
+              <PaletteColorContrast colorKey={palette.colorKey} colorShades={palette.colorShades} />
             </AccordionPanel>
           </AccordionItem>
         ))}

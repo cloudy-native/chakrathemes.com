@@ -46,22 +46,22 @@ export const ThemeEditor: React.FC = () => {
           onChange={setActiveTabIndex}
         >
           <TabList mb="1em">
-            <Tab>Theme Preview</Tab>
             <Tab>Palettes</Tab>
+            <Tab>Theme Preview</Tab>
             <Tab>Typography</Tab>
             <Tab>Spacing</Tab>
             <Tab>Borders & Shadows</Tab>
           </TabList>
 
           <TabPanels>
-            {/* Components Preview Tab */}
-            <TabPanel>
-              <ComponentsPreviewTab />
-            </TabPanel>
-
             {/* Palette Management Tab */}
             <TabPanel>
               <PaletteManagementTab />
+            </TabPanel>
+
+            {/* Components Preview Tab */}
+            <TabPanel>
+              <ComponentsPreviewTab />
             </TabPanel>
 
             {/* Typography Tab */}

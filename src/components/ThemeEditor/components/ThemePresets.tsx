@@ -313,7 +313,12 @@ export const ThemePresets: React.FC = () => {
           <Button leftIcon={<Plus size={16} />} colorScheme="green" size="sm" onClick={onOpen}>
             Save Current Theme
           </Button>
-          <Button leftIcon={<Download size={16} />} variant="outline" size="sm" onClick={downloadPresets}>
+          <Button
+            leftIcon={<Download size={16} />}
+            variant="outline"
+            size="sm"
+            onClick={downloadPresets}
+          >
             Export Presets
           </Button>
         </HStack>

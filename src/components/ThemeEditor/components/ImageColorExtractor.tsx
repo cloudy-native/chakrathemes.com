@@ -43,13 +43,13 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
       const palette = await Vibrant.from(imageSrc).getPalette();
 
       const colors: ExtractedColor[] = [];
-      if (palette.Vibrant) colors.push({ name: "Vibrant", color: palette.Vibrant.hex });
-      if (palette.Muted) colors.push({ name: "Muted", color: palette.Muted.hex });
-      if (palette.DarkVibrant) colors.push({ name: "DarkVibrant", color: palette.DarkVibrant.hex });
-      if (palette.DarkMuted) colors.push({ name: "DarkMuted", color: palette.DarkMuted.hex });
       if (palette.LightVibrant)
         colors.push({ name: "LightVibrant", color: palette.LightVibrant.hex });
+      if (palette.Vibrant) colors.push({ name: "Vibrant", color: palette.Vibrant.hex });
+      if (palette.DarkVibrant) colors.push({ name: "DarkVibrant", color: palette.DarkVibrant.hex });
       if (palette.LightMuted) colors.push({ name: "LightMuted", color: palette.LightMuted.hex });
+      if (palette.Muted) colors.push({ name: "Muted", color: palette.Muted.hex });
+      if (palette.DarkMuted) colors.push({ name: "DarkMuted", color: palette.DarkMuted.hex });
 
       setExtractedColors(colors);
 

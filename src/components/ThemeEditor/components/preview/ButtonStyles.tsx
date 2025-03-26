@@ -57,7 +57,7 @@ const ButtonStyles: React.FC<ButtonStylesProps> = ({ colorKey }) => {
               </WrapItem>
             ))}
             <WrapItem>
-              <Button leftIcon={<MailIcon/>} colorScheme={colorKey}>
+              <Button leftIcon={<MailIcon />} colorScheme={colorKey}>
                 Left Icon
               </Button>
             </WrapItem>

@@ -18,30 +18,28 @@ import {
   useColorMode,
   Select,
   Code,
-  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { getContrastRatio, isLightColor } from "@/utils/colorUtils";
+import { useColorModeValue } from "@chakra-ui/react";
+import { getContrastRatio } from "@/utils/colorUtils";
 import { Copy, Eye } from "lucide-react";
 import { useThemeContext } from "@/context/ThemeContext";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import chroma from "chroma-js";
 
-// Preview panel showing text at different sizes
-const PreviewPanel: React.FC<{ bg: string; text: string }> = ({ bg, text }) => (
-  <Box 
-    mt={4} 
-    p={4} 
-    bg={bg} 
-    borderRadius="md" 
-    borderWidth="1px"
-  >
-    <Heading size="lg" color={text} mb={2}>Heading Text</Heading>
+// Preview panel showing text at different sizes (for future use)
+const _PreviewPanel: React.FC<{ bg: string; text: string }> = ({ bg, text }) => (
+  <Box mt={4} p={4} bg={bg} borderRadius="md" borderWidth="1px">
+    <Heading size="lg" color={text} mb={2}>
+      Heading Text
+    </Heading>
     <Text color={text} fontSize="md" mb={3}>
-      This is a paragraph of text that demonstrates how content would appear 
-      with these color settings. It should be readable and meet accessibility standards.
+      This is a paragraph of text that demonstrates how content would appear with these color
+      settings. It should be readable and meet accessibility standards.
     </Text>
     <Text color={text} fontSize="sm">
-      Here's smaller text for captions or secondary content, which has stricter contrast requirements.
+      Here&apos;s smaller text for captions or secondary content, which has stricter contrast
+      requirements.
     </Text>
 
     <Flex justifyContent="space-between" mt={4}>
@@ -60,41 +58,66 @@ interface ColorControlsProps {
   colorKey: string;
   shadeLight: string;
   shadeDark: string;
-  palettes: Array<{colorKey: string, colorShades: Record<string, string>}>;
+  palettes: Array<{ colorKey: string; colorShades: Record<string, string> }>;
   onColorKeyChange: (colorKey: string) => void;
   onShadeLightChange: (shade: string) => void;
   onShadeDarkChange: (shade: string) => void;
   contrastRatio: number;
   isAutoDark: boolean;
+  trackColorAction?: (action: string, label?: string, value?: number) => void;
 }
 
-const ColorControls: React.FC<ColorControlsProps> = ({ 
-  colorKey, 
-  shadeLight, 
-  shadeDark, 
-  palettes, 
-  onColorKeyChange, 
-  onShadeLightChange, 
-  onShadeDarkChange, 
-  contrastRatio, 
-  isAutoDark
+const ColorControls: React.FC<ColorControlsProps> = ({
+  colorKey,
+  shadeLight,
+  shadeDark,
+  palettes,
+  onColorKeyChange,
+  onShadeLightChange,
+  onShadeDarkChange,
+  contrastRatio,
+  isAutoDark,
+  trackColorAction,
 }) => {
   const wcagAA = contrastRatio >= 4.5;
   const wcagAALarge = contrastRatio >= 3;
   const wcagAAA = contrastRatio >= 7;
-  
+
   // Get current palette
   const currentPalette = palettes.find(p => p.colorKey === colorKey)?.colorShades || {};
   const bgColorLight = currentPalette[shadeLight] || "#FFFFFF";
   const bgColorDark = currentPalette[shadeDark] || "#1A202C";
-  
+
   // Create TypeScript code for useColorModeValue
   const generateTSCode = () => {
     return `useColorModeValue("${colorKey}.${shadeLight}", "${colorKey}.${shadeDark}")`;
   };
 
   const toast = useToast();
-  
+
+  // Handle color key change with tracking
+  const handleColorKeyChange = (newColorKey: string) => {
+    onColorKeyChange(newColorKey);
+    if (trackColorAction) {
+      trackColorAction("change_palette", newColorKey);
+    }
+  };
+
+  // Handle shade changes with tracking
+  const handleShadeLightChange = (shade: string) => {
+    onShadeLightChange(shade);
+    if (trackColorAction) {
+      trackColorAction("change_light_shade", `${colorKey}.${shade}`);
+    }
+  };
+
+  const handleShadeDarkChange = (shade: string) => {
+    onShadeDarkChange(shade);
+    if (trackColorAction) {
+      trackColorAction("change_dark_shade", `${colorKey}.${shade}`);
+    }
+  };
+
   const copyTSCode = () => {
     navigator.clipboard.writeText(generateTSCode());
     toast({
@@ -103,59 +126,57 @@ const ColorControls: React.FC<ColorControlsProps> = ({
       status: "success",
       duration: 2000,
     });
+
+    if (trackColorAction) {
+      trackColorAction("copy_color_code", colorKey);
+    }
   };
-  
+
   return (
     <VStack spacing={4} align="stretch">
       <FormControl>
         <FormLabel>Color Palette</FormLabel>
-        <Select 
-          value={colorKey} 
-          onChange={(e) => onColorKeyChange(e.target.value)}
-        >
-          {palettes.map((palette) => (
+        <Select value={colorKey} onChange={e => handleColorKeyChange(e.target.value)}>
+          {palettes.map(palette => (
             <option key={palette.colorKey} value={palette.colorKey}>
               {palette.colorKey}
             </option>
           ))}
         </Select>
       </FormControl>
-      
+
       <Grid templateColumns="repeat(2, 1fr)" gap={4}>
         <FormControl>
           <FormLabel>Light Mode Shade</FormLabel>
-          <Select 
-            value={shadeLight} 
-            onChange={(e) => onShadeLightChange(e.target.value)}
-          >
+          <Select value={shadeLight} onChange={e => handleShadeLightChange(e.target.value)}>
             {Object.keys(currentPalette)
               .sort((a, b) => parseInt(a) - parseInt(b))
-              .map((shade) => (
+              .map(shade => (
                 <option key={shade} value={shade}>
                   {shade} ({currentPalette[shade]})
                 </option>
-            ))}
+              ))}
           </Select>
         </FormControl>
-        
+
         <FormControl isDisabled={isAutoDark}>
           <FormLabel>Dark Mode Shade</FormLabel>
-          <Select 
-            value={shadeDark} 
-            onChange={(e) => onShadeDarkChange(e.target.value)}
+          <Select
+            value={shadeDark}
+            onChange={e => handleShadeDarkChange(e.target.value)}
             isDisabled={isAutoDark}
           >
             {Object.keys(currentPalette)
               .sort((a, b) => parseInt(a) - parseInt(b))
-              .map((shade) => (
+              .map(shade => (
                 <option key={shade} value={shade}>
                   {shade} ({currentPalette[shade]})
                 </option>
-            ))}
+              ))}
           </Select>
         </FormControl>
       </Grid>
-      
+
       <Box p={2} borderRadius="md" borderWidth="1px">
         <Flex justify="space-between" align="center" mb={2}>
           <Text fontWeight="bold">Generated TypeScript:</Text>
@@ -170,7 +191,7 @@ const ColorControls: React.FC<ColorControlsProps> = ({
           {generateTSCode()}
         </Code>
       </Box>
-      
+
       <Flex align="center" justify="space-between" p={2} borderRadius="md" borderWidth="1px">
         <Text>Contrast Ratio: {contrastRatio.toFixed(2)}:1</Text>
         <HStack>
@@ -180,35 +201,29 @@ const ColorControls: React.FC<ColorControlsProps> = ({
           <Badge colorScheme={wcagAA ? "green" : "red"} mr={1}>
             AA {wcagAA ? "✓" : "✗"}
           </Badge>
-          <Badge colorScheme={wcagAAA ? "green" : "blue"}>
-            AAA {wcagAAA ? "✓" : "✗"}
-          </Badge>
+          <Badge colorScheme={wcagAAA ? "green" : "blue"}>AAA {wcagAAA ? "✓" : "✗"}</Badge>
         </HStack>
       </Flex>
-      
+
       <HStack>
         <Box flex={1}>
-          <Text fontSize="sm" fontWeight="bold">Light Mode Preview:</Text>
-          <Box 
-            p={3} 
-            borderRadius="md" 
-            bg={bgColorLight} 
-            borderWidth="1px" 
-            mt={1}
-          >
-            <Text color="gray.800">Background: {colorKey}.{shadeLight}</Text>
+          <Text fontSize="sm" fontWeight="bold">
+            Light Mode Preview:
+          </Text>
+          <Box p={3} borderRadius="md" bg={bgColorLight} borderWidth="1px" mt={1}>
+            <Text color="gray.800">
+              Background: {colorKey}.{shadeLight}
+            </Text>
           </Box>
         </Box>
         <Box flex={1}>
-          <Text fontSize="sm" fontWeight="bold">Dark Mode Preview:</Text>
-          <Box 
-            p={3} 
-            borderRadius="md" 
-            bg={bgColorDark} 
-            borderWidth="1px" 
-            mt={1}
-          >
-            <Text color="gray.100">Background: {colorKey}.{shadeDark}</Text>
+          <Text fontSize="sm" fontWeight="bold">
+            Dark Mode Preview:
+          </Text>
+          <Box p={3} borderRadius="md" bg={bgColorDark} borderWidth="1px" mt={1}>
+            <Text color="gray.100">
+              Background: {colorKey}.{shadeDark}
+            </Text>
           </Box>
         </Box>
       </HStack>
@@ -218,12 +233,14 @@ const ColorControls: React.FC<ColorControlsProps> = ({
 
 // Function to suggest a good dark shade based on light shade
 function suggestDarkShade(lightShade: string): string {
-  const lightValue = parseInt(lightShade);
-  
+  // We convert to number but don't need the value later, the mapping is direct
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _lightValue = parseInt(lightShade);
+
   // Simple mapping strategy (inverse relationship)
   const mapping: Record<string, string> = {
     "50": "900",
-    "100": "800", 
+    "100": "800",
     "200": "700",
     "300": "600",
     "400": "500",
@@ -231,46 +248,47 @@ function suggestDarkShade(lightShade: string): string {
     "600": "300",
     "700": "200",
     "800": "100",
-    "900": "50"
+    "900": "50",
   };
-  
+
   return mapping[lightShade] || "800"; // Default to 800 if no mapping
 }
 
 // Main component with split view
 export const ColorContrastExplorer: React.FC = () => {
   const { themeValues } = useThemeContext();
-  
+  const { trackColorAction, trackFeature } = useAnalytics();
+
   // Get palettes from theme
   const palettes = Object.entries(themeValues.colors || {}).map(([colorKey, colorShades]) => ({
     colorKey,
-    colorShades: colorShades as Record<string, string>
+    colorShades: colorShades as Record<string, string>,
   }));
-  
+
   // Default to first palette or gray if none available
   const defaultPalette = palettes.length > 0 ? palettes[0].colorKey : "gray";
-  
+
   // Background configuration
   const [bgColorKey, setBgColorKey] = useState(defaultPalette);
   const [bgShadeLight, setBgShadeLight] = useState("50"); // Default to lightest shade
   const [bgShadeDark, setBgShadeDark] = useState("800"); // Default to dark shade
   const [autoSuggestDark, setAutoSuggestDark] = useState(true);
-  
+
   // Text configuration (we'll use gray for text by default)
   const [textColorKey, setTextColorKey] = useState("gray");
   const [textShadeLight, setTextShadeLight] = useState("800"); // Default to dark text on light bg
   const [textShadeDark, setTextShadeDark] = useState("100"); // Default to light text on dark bg
   const [autoSuggestDarkText, setAutoSuggestDarkText] = useState(true);
-  
+
   // Get current palette colors
   const bgPalette = palettes.find(p => p.colorKey === bgColorKey)?.colorShades || {};
   const textPalette = palettes.find(p => p.colorKey === textColorKey)?.colorShades || {};
-  
+
   const bgColorLight = bgPalette[bgShadeLight] || "#FFFFFF";
   const bgColorDark = bgPalette[bgShadeDark] || "#1A202C";
   const textColorLight = textPalette[textShadeLight] || "#1A202C";
   const textColorDark = textPalette[textShadeDark] || "#FFFFFF";
-  
+
   // Computed values for accessibility
   const lightContrast = getContrastRatio(bgColorLight, textColorLight);
   const darkContrast = getContrastRatio(bgColorDark, textColorDark);
@@ -278,7 +296,7 @@ export const ColorContrastExplorer: React.FC = () => {
   // For live view mode
   const { colorMode, toggleColorMode } = useColorMode();
   const [liveView, setLiveView] = useState(false);
-  
+
   // Auto-suggest dark mode colors when light mode changes
   useEffect(() => {
     if (autoSuggestDark) {
@@ -286,18 +304,34 @@ export const ColorContrastExplorer: React.FC = () => {
       setBgShadeDark(suggestedDark);
     }
   }, [bgShadeLight, autoSuggestDark]);
-  
-  // This is replaced by the more sophisticated text color suggestion based on contrast
-  
+
+  // Track explorer loaded
+  useEffect(() => {
+    trackFeature("contrast_explorer", "loaded");
+  }, [trackFeature]);
+
+  // Handle view mode toggle with tracking
+  const handleViewModeToggle = () => {
+    const newMode = !liveView;
+    setLiveView(newMode);
+    trackFeature("contrast_explorer", newMode ? "switch_to_live_view" : "switch_to_split_view");
+  };
+
+  // Handle color mode toggle with tracking
+  const handleColorModeToggle = () => {
+    toggleColorMode();
+    trackFeature("contrast_explorer", `switch_to_${colorMode === "light" ? "dark" : "light"}_mode`);
+  };
+
   // Generate TypeScript code for complete pair
   const generateFullTSCode = () => {
     const bgCode = `const bg = useColorModeValue("${bgColorKey}.${bgShadeLight}", "${bgColorKey}.${bgShadeDark}");`;
     const textCode = `const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${textColorKey}.${textShadeDark}");`;
     return `${bgCode}\n${textCode}`;
   };
-  
+
   const toast = useToast();
-  
+
   const copyFullTSCode = () => {
     navigator.clipboard.writeText(generateFullTSCode());
     toast({
@@ -306,8 +340,9 @@ export const ColorContrastExplorer: React.FC = () => {
       status: "success",
       duration: 2000,
     });
+    trackColorAction("copy_contrast_code", `${bgColorKey}/${textColorKey}`);
   };
-  
+
   return (
     <Box borderWidth="1px" borderRadius="md" p={4} mb={6}>
       <Flex justify="space-between" align="center" mb={4}>
@@ -316,7 +351,7 @@ export const ColorContrastExplorer: React.FC = () => {
           <IconButton
             icon={<Eye size={16} />}
             aria-label="Toggle live view"
-            onClick={() => setLiveView(!liveView)}
+            onClick={handleViewModeToggle}
             variant={liveView ? "solid" : "outline"}
             colorScheme="blue"
           />
@@ -328,14 +363,14 @@ export const ColorContrastExplorer: React.FC = () => {
         <Box>
           <Flex justify="space-between" align="center" mb={4}>
             <Text>Currently showing: {colorMode === "light" ? "Light Mode" : "Dark Mode"}</Text>
-            <Button size="sm" onClick={toggleColorMode}>
+            <Button size="sm" onClick={handleColorModeToggle}>
               Switch to {colorMode === "light" ? "Dark" : "Light"} Mode
             </Button>
           </Flex>
-          
-          <Box 
-            p={4} 
-            bg={colorMode === "light" ? bgColorLight : bgColorDark} 
+
+          <Box
+            p={4}
+            bg={colorMode === "light" ? bgColorLight : bgColorDark}
             color={colorMode === "light" ? textColorLight : textColorDark}
             borderRadius="md"
           >
@@ -343,26 +378,26 @@ export const ColorContrastExplorer: React.FC = () => {
               Live Preview
             </Heading>
             <Text>
-              This shows how your content will appear in the current color mode.
-              Switch between light and dark mode to see how your colors adapt.
+              This shows how your content will appear in the current color mode. Switch between
+              light and dark mode to see how your colors adapt.
             </Text>
-            
-            <Box 
-              mt={6} 
-              borderWidth="1px" 
-              borderRadius="md" 
-              p={4} 
+
+            <Box
+              mt={6}
+              borderWidth="1px"
+              borderRadius="md"
+              p={4}
               bg={colorMode === "light" ? bgColorLight : bgColorDark}
             >
               <Heading size="md" mb={2}>
                 Card Component
               </Heading>
               <Text>
-                Cards, buttons, and other UI elements should maintain readability
-                across both color modes.
+                Cards, buttons, and other UI elements should maintain readability across both color
+                modes.
               </Text>
-              <Button 
-                mt={4} 
+              <Button
+                mt={4}
                 color={colorMode === "light" ? textColorLight : textColorDark}
                 bg="transparent"
                 borderWidth="1px"
@@ -372,7 +407,7 @@ export const ColorContrastExplorer: React.FC = () => {
               </Button>
             </Box>
           </Box>
-          
+
           <Box p={4} mt={4} borderWidth="1px" borderRadius="md">
             <Flex justifyContent="space-between" alignItems="center" mb={4}>
               <Heading size="sm">Generated TypeScript Code</Heading>
@@ -387,13 +422,15 @@ export const ColorContrastExplorer: React.FC = () => {
               {generateFullTSCode()}
             </Code>
           </Box>
-          
+
           <Divider my={6} />
-          
+
           <Grid templateColumns="repeat(2, 1fr)" gap={6}>
             <Box>
-              <Heading size="sm" mb={4}>Background Color</Heading>
-              <ColorControls 
+              <Heading size="sm" mb={4}>
+                Background Color
+              </Heading>
+              <ColorControls
                 colorKey={bgColorKey}
                 shadeLight={bgShadeLight}
                 shadeDark={bgShadeDark}
@@ -403,23 +440,30 @@ export const ColorContrastExplorer: React.FC = () => {
                 onShadeDarkChange={setBgShadeDark}
                 contrastRatio={lightContrast}
                 isAutoDark={autoSuggestDark}
+                trackColorAction={trackColorAction}
               />
               <FormControl display="flex" alignItems="center" mt={2}>
                 <FormLabel htmlFor="auto-bg" mb="0" fontSize="sm">
                   Auto-suggest dark shade
                 </FormLabel>
-                <Switch 
-                  id="auto-bg" 
+                <Switch
+                  id="auto-bg"
                   isChecked={autoSuggestDark}
-                  onChange={() => setAutoSuggestDark(!autoSuggestDark)}
+                  onChange={() => {
+                    const newValue = !autoSuggestDark;
+                    setAutoSuggestDark(newValue);
+                    trackColorAction("toggle_auto_dark_bg", newValue ? "enabled" : "disabled");
+                  }}
                   colorScheme="blue"
                 />
               </FormControl>
             </Box>
-            
+
             <Box>
-              <Heading size="sm" mb={4}>Text Color</Heading>
-              <ColorControls 
+              <Heading size="sm" mb={4}>
+                Text Color
+              </Heading>
+              <ColorControls
                 colorKey={textColorKey}
                 shadeLight={textShadeLight}
                 shadeDark={textShadeDark}
@@ -429,15 +473,20 @@ export const ColorContrastExplorer: React.FC = () => {
                 onShadeDarkChange={setTextShadeDark}
                 contrastRatio={darkContrast}
                 isAutoDark={autoSuggestDarkText}
+                trackColorAction={trackColorAction}
               />
               <FormControl display="flex" alignItems="center" mt={2}>
                 <FormLabel htmlFor="auto-text" mb="0" fontSize="sm">
                   Auto-suggest dark shade
                 </FormLabel>
-                <Switch 
-                  id="auto-text" 
+                <Switch
+                  id="auto-text"
                   isChecked={autoSuggestDarkText}
-                  onChange={() => setAutoSuggestDarkText(!autoSuggestDarkText)}
+                  onChange={() => {
+                    const newValue = !autoSuggestDarkText;
+                    setAutoSuggestDarkText(newValue);
+                    trackColorAction("toggle_auto_dark_text", newValue ? "enabled" : "disabled");
+                  }}
                   colorScheme="blue"
                 />
               </FormControl>
@@ -449,36 +498,42 @@ export const ColorContrastExplorer: React.FC = () => {
         <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           {/* Light Mode Panel */}
           <Box p={4} borderWidth="1px" borderRadius="md">
-            <Heading size="md" mb={4}>Light Mode</Heading>
-            <Box 
-              p={4} 
-              borderRadius="md" 
-              bg={bgColorLight} 
-              color={textColorLight} 
-              borderWidth="1px" 
+            <Heading size="md" mb={4}>
+              Light Mode
+            </Heading>
+            <Box
+              p={4}
+              borderRadius="md"
+              bg={bgColorLight}
+              color={textColorLight}
+              borderWidth="1px"
               mb={4}
             >
-              <Heading size="md" mb={2}>Preview</Heading>
-              <Text>This text uses {textColorKey}.{textShadeLight} on {bgColorKey}.{bgShadeLight}</Text>
-              <Button 
-                mt={4} 
-                bg="transparent" 
-                borderWidth="1px" 
+              <Heading size="md" mb={2}>
+                Preview
+              </Heading>
+              <Text>
+                This text uses {textColorKey}.{textShadeLight} on {bgColorKey}.{bgShadeLight}
+              </Text>
+              <Button
+                mt={4}
+                bg="transparent"
+                borderWidth="1px"
                 borderColor={textColorLight}
                 color={textColorLight}
               >
                 Sample Button
               </Button>
             </Box>
-            
+
             <Flex justifyContent="space-between" mb={3}>
               <Heading size="sm">Background</Heading>
               <FormControl display="flex" alignItems="center" width="auto">
                 <FormLabel htmlFor="auto-bg-light" mb="0" fontSize="xs" mr={1}>
                   Auto dark
                 </FormLabel>
-                <Switch 
-                  id="auto-bg-light" 
+                <Switch
+                  id="auto-bg-light"
                   size="sm"
                   isChecked={autoSuggestDark}
                   onChange={() => setAutoSuggestDark(!autoSuggestDark)}
@@ -486,16 +541,12 @@ export const ColorContrastExplorer: React.FC = () => {
                 />
               </FormControl>
             </Flex>
-            
+
             <Grid templateColumns="repeat(2, 1fr)" gap={3} mb={4}>
               <FormControl size="sm">
                 <FormLabel fontSize="xs">Color</FormLabel>
-                <Select 
-                  size="sm"
-                  value={bgColorKey} 
-                  onChange={(e) => setBgColorKey(e.target.value)}
-                >
-                  {palettes.map((palette) => (
+                <Select size="sm" value={bgColorKey} onChange={e => setBgColorKey(e.target.value)}>
+                  {palettes.map(palette => (
                     <option key={palette.colorKey} value={palette.colorKey}>
                       {palette.colorKey}
                     </option>
@@ -504,32 +555,34 @@ export const ColorContrastExplorer: React.FC = () => {
               </FormControl>
               <FormControl size="sm">
                 <FormLabel fontSize="xs">Shade</FormLabel>
-                <Select 
+                <Select
                   size="sm"
-                  value={bgShadeLight} 
-                  onChange={(e) => setBgShadeLight(e.target.value)}
+                  value={bgShadeLight}
+                  onChange={e => setBgShadeLight(e.target.value)}
                 >
                   {Object.keys(bgPalette)
                     .sort((a, b) => parseInt(a) - parseInt(b))
-                    .map((shade) => (
+                    .map(shade => (
                       <option key={shade} value={shade}>
                         {shade}
                       </option>
-                  ))}
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
-            
-            <Heading size="sm" mb={3}>Text</Heading>
+
+            <Heading size="sm" mb={3}>
+              Text
+            </Heading>
             <Grid templateColumns="repeat(2, 1fr)" gap={3}>
               <FormControl size="sm">
                 <FormLabel fontSize="xs">Color</FormLabel>
-                <Select 
+                <Select
                   size="sm"
-                  value={textColorKey} 
-                  onChange={(e) => setTextColorKey(e.target.value)}
+                  value={textColorKey}
+                  onChange={e => setTextColorKey(e.target.value)}
                 >
-                  {palettes.map((palette) => (
+                  {palettes.map(palette => (
                     <option key={palette.colorKey} value={palette.colorKey}>
                       {palette.colorKey}
                     </option>
@@ -538,62 +591,82 @@ export const ColorContrastExplorer: React.FC = () => {
               </FormControl>
               <FormControl size="sm">
                 <FormLabel fontSize="xs">Shade</FormLabel>
-                <Select 
+                <Select
                   size="sm"
-                  value={textShadeLight} 
-                  onChange={(e) => setTextShadeLight(e.target.value)}
+                  value={textShadeLight}
+                  onChange={e => setTextShadeLight(e.target.value)}
                 >
                   {Object.keys(textPalette)
                     .sort((a, b) => parseInt(a) - parseInt(b))
-                    .map((shade) => (
+                    .map(shade => (
                       <option key={shade} value={shade}>
                         {shade}
                       </option>
-                  ))}
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
-            
-            <Flex align="center" justify="space-between" mt={4} p={2} bg="gray.100" borderRadius="md">
+
+            <Flex
+              align="center"
+              justify="space-between"
+              mt={4}
+              p={2}
+              bg="gray.100"
+              borderRadius="md"
+            >
               <Text fontSize="sm">Contrast: {lightContrast.toFixed(2)}:1</Text>
               <Badge colorScheme={lightContrast >= 4.5 ? "green" : "red"}>
                 {lightContrast >= 4.5 ? "WCAG AA ✓" : "WCAG AA ✗"}
               </Badge>
             </Flex>
           </Box>
-          
+
           {/* Dark Mode Panel */}
           <Box p={4} borderWidth="1px" borderRadius="md" bg="gray.800">
-            <Heading size="md" mb={4} color="white">Dark Mode</Heading>
-            <Box 
-              p={4} 
-              borderRadius="md" 
-              bg={bgColorDark} 
-              color={textColorDark} 
-              borderWidth="1px" 
+            <Heading size="md" mb={4} color="white">
+              Dark Mode
+            </Heading>
+            <Box
+              p={4}
+              borderRadius="md"
+              bg={bgColorDark}
+              color={textColorDark}
+              borderWidth="1px"
               mb={4}
             >
-              <Heading size="md" mb={2}>Preview</Heading>
-              <Text>This text uses {textColorKey}.{textShadeDark} on {bgColorKey}.{bgShadeDark}</Text>
-              <Button 
-                mt={4} 
-                bg="transparent" 
-                borderWidth="1px" 
+              <Heading size="md" mb={2}>
+                Preview
+              </Heading>
+              <Text>
+                This text uses {textColorKey}.{textShadeDark} on {bgColorKey}.{bgShadeDark}
+              </Text>
+              <Button
+                mt={4}
+                bg="transparent"
+                borderWidth="1px"
                 borderColor={textColorDark}
                 color={textColorDark}
               >
                 Sample Button
               </Button>
             </Box>
-            
+
             <Flex justifyContent="space-between" mb={3}>
-              <Heading size="sm" color="white">Background</Heading>
-              <FormControl display="flex" alignItems="center" width="auto" isDisabled={autoSuggestDark}>
+              <Heading size="sm" color="white">
+                Background
+              </Heading>
+              <FormControl
+                display="flex"
+                alignItems="center"
+                width="auto"
+                isDisabled={autoSuggestDark}
+              >
                 <FormLabel htmlFor="auto-bg-dark" mb="0" fontSize="xs" mr={1} color="white">
                   Manual
                 </FormLabel>
-                <Switch 
-                  id="auto-bg-dark" 
+                <Switch
+                  id="auto-bg-dark"
                   size="sm"
                   isChecked={!autoSuggestDark}
                   onChange={() => setAutoSuggestDark(!autoSuggestDark)}
@@ -601,17 +674,19 @@ export const ColorContrastExplorer: React.FC = () => {
                 />
               </FormControl>
             </Flex>
-            
+
             <Grid templateColumns="repeat(2, 1fr)" gap={3} mb={4}>
               <FormControl size="sm" isDisabled={autoSuggestDark}>
-                <FormLabel fontSize="xs" color="white">Color</FormLabel>
-                <Select 
+                <FormLabel fontSize="xs" color="white">
+                  Color
+                </FormLabel>
+                <Select
                   size="sm"
-                  value={bgColorKey} 
-                  onChange={(e) => setBgColorKey(e.target.value)}
+                  value={bgColorKey}
+                  onChange={e => setBgColorKey(e.target.value)}
                   isDisabled={autoSuggestDark}
                 >
-                  {palettes.map((palette) => (
+                  {palettes.map(palette => (
                     <option key={palette.colorKey} value={palette.colorKey}>
                       {palette.colorKey}
                     </option>
@@ -619,32 +694,41 @@ export const ColorContrastExplorer: React.FC = () => {
                 </Select>
               </FormControl>
               <FormControl size="sm" isDisabled={autoSuggestDark}>
-                <FormLabel fontSize="xs" color="white">Shade</FormLabel>
-                <Select 
+                <FormLabel fontSize="xs" color="white">
+                  Shade
+                </FormLabel>
+                <Select
                   size="sm"
-                  value={bgShadeDark} 
-                  onChange={(e) => setBgShadeDark(e.target.value)}
+                  value={bgShadeDark}
+                  onChange={e => setBgShadeDark(e.target.value)}
                   isDisabled={autoSuggestDark}
                 >
                   {Object.keys(bgPalette)
                     .sort((a, b) => parseInt(a) - parseInt(b))
-                    .map((shade) => (
+                    .map(shade => (
                       <option key={shade} value={shade}>
                         {shade}
                       </option>
-                  ))}
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
-            
+
             <Flex justifyContent="space-between" mb={3}>
-              <Heading size="sm" color="white">Text</Heading>
-              <FormControl display="flex" alignItems="center" width="auto" isDisabled={autoSuggestDarkText}>
+              <Heading size="sm" color="white">
+                Text
+              </Heading>
+              <FormControl
+                display="flex"
+                alignItems="center"
+                width="auto"
+                isDisabled={autoSuggestDarkText}
+              >
                 <FormLabel htmlFor="auto-text-dark" mb="0" fontSize="xs" mr={1} color="white">
                   Manual
                 </FormLabel>
-                <Switch 
-                  id="auto-text-dark" 
+                <Switch
+                  id="auto-text-dark"
                   size="sm"
                   isChecked={!autoSuggestDarkText}
                   onChange={() => setAutoSuggestDarkText(!autoSuggestDarkText)}
@@ -652,17 +736,19 @@ export const ColorContrastExplorer: React.FC = () => {
                 />
               </FormControl>
             </Flex>
-            
+
             <Grid templateColumns="repeat(2, 1fr)" gap={3}>
               <FormControl size="sm" isDisabled={autoSuggestDarkText}>
-                <FormLabel fontSize="xs" color="white">Color</FormLabel>
-                <Select 
+                <FormLabel fontSize="xs" color="white">
+                  Color
+                </FormLabel>
+                <Select
                   size="sm"
-                  value={textColorKey} 
-                  onChange={(e) => setTextColorKey(e.target.value)}
+                  value={textColorKey}
+                  onChange={e => setTextColorKey(e.target.value)}
                   isDisabled={autoSuggestDarkText}
                 >
-                  {palettes.map((palette) => (
+                  {palettes.map(palette => (
                     <option key={palette.colorKey} value={palette.colorKey}>
                       {palette.colorKey}
                     </option>
@@ -670,26 +756,37 @@ export const ColorContrastExplorer: React.FC = () => {
                 </Select>
               </FormControl>
               <FormControl size="sm" isDisabled={autoSuggestDarkText}>
-                <FormLabel fontSize="xs" color="white">Shade</FormLabel>
-                <Select 
+                <FormLabel fontSize="xs" color="white">
+                  Shade
+                </FormLabel>
+                <Select
                   size="sm"
-                  value={textShadeDark} 
-                  onChange={(e) => setTextShadeDark(e.target.value)}
+                  value={textShadeDark}
+                  onChange={e => setTextShadeDark(e.target.value)}
                   isDisabled={autoSuggestDarkText}
                 >
                   {Object.keys(textPalette)
                     .sort((a, b) => parseInt(a) - parseInt(b))
-                    .map((shade) => (
+                    .map(shade => (
                       <option key={shade} value={shade}>
                         {shade}
                       </option>
-                  ))}
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
-            
-            <Flex align="center" justify="space-between" mt={4} p={2} bg="gray.700" borderRadius="md">
-              <Text fontSize="sm" color="white">Contrast: {darkContrast.toFixed(2)}:1</Text>
+
+            <Flex
+              align="center"
+              justify="space-between"
+              mt={4}
+              p={2}
+              bg="gray.700"
+              borderRadius="md"
+            >
+              <Text fontSize="sm" color="white">
+                Contrast: {darkContrast.toFixed(2)}:1
+              </Text>
               <Badge colorScheme={darkContrast >= 4.5 ? "green" : "red"}>
                 {darkContrast >= 4.5 ? "WCAG AA ✓" : "WCAG AA ✗"}
               </Badge>
@@ -697,7 +794,7 @@ export const ColorContrastExplorer: React.FC = () => {
           </Box>
         </Grid>
       )}
-      
+
       {/* Shared Controls */}
       <Box mt={6} p={4} borderWidth="1px" borderRadius="md">
         <Flex justifyContent="space-between" alignItems="center" mb={4}>
@@ -723,13 +820,20 @@ interface PaletteColorContrastProps {
   colorShades: Record<string, string>;
 }
 
-export const PaletteColorContrast: React.FC<PaletteColorContrastProps> = ({ 
-  colorKey, 
-  colorShades 
+export const PaletteColorContrast: React.FC<PaletteColorContrastProps> = ({
+  colorKey,
+  colorShades,
 }) => {
   const { themeValues } = useThemeContext();
+  const { trackColorAction, trackFeature } = useAnalytics();
   const toast = useToast();
-  
+
+  // Track component loaded
+  useEffect(() => {
+    trackFeature("contrast_explorer", "palette_contrast_loaded");
+    trackColorAction("view_palette_contrast", colorKey);
+  }, [trackFeature, trackColorAction, colorKey]);
+
   // State for selected shades
   const [bgShadeLight, setBgShadeLight] = useState("50");
   const [bgShadeDark, setBgShadeDark] = useState("800");
@@ -737,29 +841,29 @@ export const PaletteColorContrast: React.FC<PaletteColorContrastProps> = ({
   const [textShadeDark, setTextShadeDark] = useState("100");
   const [autoSuggestDark, setAutoSuggestDark] = useState(true);
   const [autoSuggestText, setAutoSuggestText] = useState(true);
-  
+
   // Always use gray for text
   const textColorKey = "gray";
-  
+
   // Get all palettes for text color selection
   const palettes = Object.entries(themeValues.colors || {}).map(([key, shades]) => ({
     colorKey: key,
-    colorShades: shades as Record<string, string>
+    colorShades: shades as Record<string, string>,
   }));
-  
+
   // Get text palette
   const textPalette = palettes.find(p => p.colorKey === textColorKey)?.colorShades || {};
-  
+
   // Get colors
   const bgColorLight = colorShades[bgShadeLight] || "#FFFFFF";
   const bgColorDark = colorShades[bgShadeDark] || "#1A202C";
   const textColorLight = textPalette[textShadeLight] || "#1A202C";
   const textColorDark = textPalette[textShadeDark] || "#FFFFFF";
-  
+
   // Calculate contrast
   const lightContrast = getContrastRatio(bgColorLight, textColorLight);
   const darkContrast = getContrastRatio(bgColorDark, textColorDark);
-  
+
   // Auto-suggest dark mode shade when light mode changes
   useEffect(() => {
     if (autoSuggestDark) {
@@ -767,26 +871,28 @@ export const PaletteColorContrast: React.FC<PaletteColorContrastProps> = ({
       setBgShadeDark(suggestedDark);
     }
   }, [bgShadeLight, autoSuggestDark]);
-  
+
   // Function to suggest a good text shade based on background color
   function findBestContrastShade(bgColor: string, textPalette: Record<string, string>): string {
     try {
       // Get all available shades sorted from lightest to darkest
       const shades = Object.keys(textPalette).sort((a, b) => parseInt(a) - parseInt(b));
       if (shades.length === 0) return "50"; // Default fallback
-      
+
       // Check if bgColor is a valid color
-      if (!bgColor || typeof bgColor !== 'string') {
+      if (!bgColor || typeof bgColor !== "string") {
         console.error("Invalid background color:", bgColor);
         return "50"; // Default to light text
       }
-      
+
       // Determine if bg is light or dark using luminance
       const bgLuminance = chroma(bgColor).luminance();
       const bgIsDark = bgLuminance < 0.45; // Use 0.45 as threshold
-      
-      console.log(`BG Color: ${bgColor}, Luminance: ${bgLuminance.toFixed(3)}, Is Dark: ${bgIsDark}`);
-      
+
+      console.log(
+        `BG Color: ${bgColor}, Luminance: ${bgLuminance.toFixed(3)}, Is Dark: ${bgIsDark}`
+      );
+
       // For dark backgrounds, we want light text (50, 100, 200)
       // For light backgrounds, we want dark text (700, 800, 900)
       if (bgIsDark) {
@@ -819,23 +925,25 @@ export const PaletteColorContrast: React.FC<PaletteColorContrastProps> = ({
       return "50"; // Default fallback on error - light text is safer
     }
   }
-  
+
   // Auto-suggest text shades for better contrast with the background
   useEffect(() => {
     if (autoSuggestText) {
       try {
         console.log("------------- Auto-suggesting text colors -------------");
-        
+
         // Get the current gray palette from the theme
         const grayPalette = themeValues.colors?.gray || {};
         console.log("Gray palette:", grayPalette);
-        
+
         // Ensure we have the actual hex values for our background colors
         const bgColorLight = colorShades[bgShadeLight];
         const bgColorDark = colorShades[bgShadeDark];
-        
-        console.log(`Background colors - Light: ${bgColorLight} (${bgShadeLight}), Dark: ${bgColorDark} (${bgShadeDark})`);
-        
+
+        console.log(
+          `Background colors - Light: ${bgColorLight} (${bgShadeLight}), Dark: ${bgColorDark} (${bgShadeDark})`
+        );
+
         if (bgColorLight) {
           // For light mode background, find the best contrast text color
           console.log("Finding best contrast for LIGHT MODE:", bgColorLight);
@@ -843,7 +951,7 @@ export const PaletteColorContrast: React.FC<PaletteColorContrastProps> = ({
           console.log(`Setting light mode text shade to: ${suggestedLightText}`);
           setTextShadeLight(suggestedLightText);
         }
-        
+
         if (bgColorDark) {
           // For dark mode background, find the best contrast text color
           console.log("Finding best contrast for DARK MODE:", bgColorDark);
@@ -856,7 +964,7 @@ export const PaletteColorContrast: React.FC<PaletteColorContrastProps> = ({
       }
     }
   }, [bgShadeLight, bgShadeDark, colorShades, themeValues.colors, autoSuggestText]);
-  
+
   // Generate TypeScript code
   const generateTSCode = () => {
     return `// Background color
@@ -864,7 +972,7 @@ const bg = useColorModeValue("${colorKey}.${bgShadeLight}", "${colorKey}.${bgSha
 // Text color
 const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${textColorKey}.${textShadeDark}");`;
   };
-  
+
   const copyTSCode = () => {
     navigator.clipboard.writeText(generateTSCode());
     toast({
@@ -873,63 +981,84 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
       status: "success",
       duration: 2000,
     });
+    trackColorAction("copy_palette_contrast_code", colorKey);
   };
-  
+
   return (
     <Box mt={4} borderWidth="1px" borderRadius="md" p={4}>
-      <Heading size="sm" mb={4}>Color Contrast Explorer for {colorKey}</Heading>
-      
+      <Heading size="sm" mb={4}>
+        Color Contrast Explorer for {colorKey}
+      </Heading>
+
       <Box>
-        <Heading size="xs" mb={3}>Settings</Heading>
+        <Heading size="xs" mb={3}>
+          Settings
+        </Heading>
         <VStack align="stretch" spacing={2} mb={4}>
           <FormControl display="flex" alignItems="center">
             <FormLabel htmlFor="auto-dark" mb="0" fontSize="sm">
               Auto-suggest dark mode shade
             </FormLabel>
-            <Switch 
-              id="auto-dark" 
+            <Switch
+              id="auto-dark"
               size="sm"
               isChecked={autoSuggestDark}
-              onChange={() => setAutoSuggestDark(!autoSuggestDark)}
+              onChange={() => {
+                const newValue = !autoSuggestDark;
+                setAutoSuggestDark(newValue);
+                trackColorAction(
+                  "toggle_palette_auto_dark",
+                  `${newValue ? "enabled" : "disabled"}_${colorKey}`
+                );
+              }}
               colorScheme="blue"
             />
           </FormControl>
-          
+
           <FormControl display="flex" alignItems="center">
             <FormLabel htmlFor="auto-text" mb="0" fontSize="sm">
               Auto-suggest text colors
             </FormLabel>
-            <Switch 
-              id="auto-text" 
+            <Switch
+              id="auto-text"
               size="sm"
               isChecked={autoSuggestText}
-              onChange={() => setAutoSuggestText(!autoSuggestText)}
+              onChange={() => {
+                const newValue = !autoSuggestText;
+                setAutoSuggestText(newValue);
+                trackColorAction(
+                  "toggle_palette_auto_text",
+                  `${newValue ? "enabled" : "disabled"}_${colorKey}`
+                );
+              }}
               colorScheme="blue"
             />
           </FormControl>
         </VStack>
-        
+
         <Text fontSize="xs" fontWeight="medium" mb={2} mt={2}>
           Using <b>gray</b> palette for text colors
         </Text>
       </Box>
-      
+
       {/* Light/Dark Mode Previews with their respective color controls */}
       <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={4} mt={4}>
         {/* Light Mode Column */}
         <Box>
           {/* Light Mode Color Controls */}
           <Box mb={3}>
-            <Text fontSize="xs" fontWeight="bold" color="blue.500" mb={1}>Background: {colorKey}.{bgShadeLight}</Text>
+            <Text fontSize="xs" fontWeight="bold" color="blue.500" mb={1}>
+              Background: {colorKey}.{bgShadeLight}
+            </Text>
             <Flex gap={1} flexWrap="wrap" mb={3}>
               {Object.keys(colorShades)
                 .sort((a, b) => parseInt(a) - parseInt(b))
-                .map((shade) => (
-                  <Box 
+                .map(shade => (
+                  <Box
                     key={shade}
                     onClick={() => setBgShadeLight(shade)}
                     bg={colorShades[shade]}
-                    w="22px" 
+                    w="22px"
                     h="22px"
                     borderRadius="sm"
                     borderWidth="2px"
@@ -939,25 +1068,28 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                     transition="all 0.2s"
                     title={`Shade ${shade}`}
                   />
-                ))
-              }
+                ))}
             </Flex>
-            
+
             <Flex align="center">
-              <Text fontSize="xs" fontWeight="bold" color="blue.500" mb={1}>Text: gray.{textShadeLight}</Text>
+              <Text fontSize="xs" fontWeight="bold" color="blue.500" mb={1}>
+                Text: gray.{textShadeLight}
+              </Text>
               {autoSuggestText && (
-                <Badge ml={2} colorScheme="green" variant="outline" fontSize="9px" mb={1}>Auto</Badge>
+                <Badge ml={2} colorScheme="green" variant="outline" fontSize="9px" mb={1}>
+                  Auto
+                </Badge>
               )}
             </Flex>
             <Flex gap={1} flexWrap="wrap">
               {Object.keys(textPalette)
                 .sort((a, b) => parseInt(a) - parseInt(b))
-                .map((shade) => (
-                  <Box 
+                .map(shade => (
+                  <Box
                     key={shade}
                     onClick={() => !autoSuggestText && setTextShadeLight(shade)}
                     bg={textPalette[shade]}
-                    w="22px" 
+                    w="22px"
                     h="22px"
                     borderRadius="sm"
                     borderWidth="2px"
@@ -968,30 +1100,29 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                     transition="all 0.2s"
                     title={autoSuggestText ? `Auto-selected: ${shade}` : `Shade ${shade}`}
                   />
-                ))
-              }
+                ))}
             </Flex>
           </Box>
-          
+
           {/* Light Mode Preview */}
           <Box borderWidth="1px" borderRadius="md" overflow="hidden">
             <Box py={2} px={3} bg="gray.50" borderBottomWidth="1px">
-              <Text fontWeight="medium" fontSize="sm">Light Mode</Text>
+              <Text fontWeight="medium" fontSize="sm">
+                Light Mode
+              </Text>
             </Box>
-            <Box 
-              p={4} 
-              bg={bgColorLight} 
-              color={textColorLight}
-            >
-              <Heading size="sm" mb={2}>Preview</Heading>
+            <Box p={4} bg={bgColorLight} color={textColorLight}>
+              <Heading size="sm" mb={2}>
+                Preview
+              </Heading>
               <Text fontSize="sm">
                 This text demonstrates gray.{textShadeLight} on {colorKey}.{bgShadeLight}.
               </Text>
-              <Button 
+              <Button
                 mt={3}
-                size="sm" 
-                bg="transparent" 
-                borderWidth="1px" 
+                size="sm"
+                bg="transparent"
+                borderWidth="1px"
                 borderColor={textColorLight}
                 color={textColorLight}
               >
@@ -1008,26 +1139,30 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
             </Box>
           </Box>
         </Box>
-        
+
         {/* Dark Mode Column */}
         <Box>
           {/* Dark Mode Color Controls */}
           <Box mb={3}>
             <Flex align="center">
-              <Text fontSize="xs" fontWeight="bold" color="blue.500" mb={1}>Background: {colorKey}.{bgShadeDark}</Text>
+              <Text fontSize="xs" fontWeight="bold" color="blue.500" mb={1}>
+                Background: {colorKey}.{bgShadeDark}
+              </Text>
               {autoSuggestDark && (
-                <Badge ml={2} colorScheme="blue" variant="outline" fontSize="9px" mb={1}>Auto</Badge>
+                <Badge ml={2} colorScheme="blue" variant="outline" fontSize="9px" mb={1}>
+                  Auto
+                </Badge>
               )}
             </Flex>
             <Flex gap={1} flexWrap="wrap" mb={3}>
               {Object.keys(colorShades)
                 .sort((a, b) => parseInt(a) - parseInt(b))
-                .map((shade) => (
-                  <Box 
+                .map(shade => (
+                  <Box
                     key={shade}
                     onClick={() => !autoSuggestDark && setBgShadeDark(shade)}
                     bg={colorShades[shade]}
-                    w="22px" 
+                    w="22px"
                     h="22px"
                     borderRadius="sm"
                     borderWidth="2px"
@@ -1038,25 +1173,28 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                     transition="all 0.2s"
                     title={autoSuggestDark ? `Auto-selected: ${shade}` : `Shade ${shade}`}
                   />
-                ))
-              }
+                ))}
             </Flex>
-            
+
             <Flex align="center">
-              <Text fontSize="xs" fontWeight="bold" color="blue.500" mb={1}>Text: gray.{textShadeDark}</Text>
+              <Text fontSize="xs" fontWeight="bold" color="blue.500" mb={1}>
+                Text: gray.{textShadeDark}
+              </Text>
               {autoSuggestText && (
-                <Badge ml={2} colorScheme="green" variant="outline" fontSize="9px" mb={1}>Auto</Badge>
+                <Badge ml={2} colorScheme="green" variant="outline" fontSize="9px" mb={1}>
+                  Auto
+                </Badge>
               )}
             </Flex>
             <Flex gap={1} flexWrap="wrap">
               {Object.keys(textPalette)
                 .sort((a, b) => parseInt(a) - parseInt(b))
-                .map((shade) => (
-                  <Box 
+                .map(shade => (
+                  <Box
                     key={shade}
                     onClick={() => !autoSuggestText && setTextShadeDark(shade)}
                     bg={textPalette[shade]}
-                    w="22px" 
+                    w="22px"
                     h="22px"
                     borderRadius="sm"
                     borderWidth="2px"
@@ -1067,30 +1205,29 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                     transition="all 0.2s"
                     title={autoSuggestText ? `Auto-selected: ${shade}` : `Shade ${shade}`}
                   />
-                ))
-              }
+                ))}
             </Flex>
           </Box>
-          
+
           {/* Dark Mode Preview */}
           <Box borderWidth="1px" borderRadius="md" overflow="hidden">
             <Box py={2} px={3} bg="gray.800" color="white" borderBottomWidth="1px">
-              <Text fontWeight="medium" fontSize="sm">Dark Mode</Text>
+              <Text fontWeight="medium" fontSize="sm">
+                Dark Mode
+              </Text>
             </Box>
-            <Box 
-              p={4} 
-              bg={bgColorDark} 
-              color={textColorDark}
-            >
-              <Heading size="sm" mb={2}>Preview</Heading>
+            <Box p={4} bg={bgColorDark} color={textColorDark}>
+              <Heading size="sm" mb={2}>
+                Preview
+              </Heading>
               <Text fontSize="sm">
                 This text demonstrates gray.{textShadeDark} on {colorKey}.{bgShadeDark}.
               </Text>
-              <Button 
+              <Button
                 mt={3}
-                size="sm" 
-                bg="transparent" 
-                borderWidth="1px" 
+                size="sm"
+                bg="transparent"
+                borderWidth="1px"
                 borderColor={textColorDark}
                 color={textColorDark}
               >
@@ -1108,11 +1245,13 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
           </Box>
         </Box>
       </Grid>
-      
+
       {/* Code Generation */}
       <Box mt={4} p={3} borderWidth="1px" borderRadius="md">
         <Flex justify="space-between" align="center" mb={2}>
-          <Text fontWeight="medium" fontSize="sm">Generated Code</Text>
+          <Text fontWeight="medium" fontSize="sm">
+            Generated Code
+          </Text>
           <IconButton
             icon={<Copy size={14} />}
             aria-label="Copy code"
