@@ -27,7 +27,7 @@ export const ThemeColorSwatch: React.FC<ThemeColorSwatchProps> = ({
   selected = null,
 }) => {
   const borderColor = useColorModeValue("gray.200", "gray.700");
-  const highlightColor = useColorModeValue("blue.500", "blue.300");
+  const highlightColor = useColorModeValue("primary.500", "primary.300");
 
   // Sort shades by numeric value
   const sortedShades = Object.entries(colorShades).sort(([a], [b]) => parseInt(a) - parseInt(b));

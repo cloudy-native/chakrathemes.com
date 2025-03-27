@@ -8,6 +8,7 @@ import {
   ButtonGroup,
   Flex,
   HStack,
+  Icon,
   IconButton,
   SimpleGrid,
   Slider,
@@ -25,7 +26,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import chroma from "chroma-js";
-import { Check, Info, Moon, RotateCcw, Sun } from "lucide-react";
+import { Check, Info, Moon, RotateCcw, Sun, Palette } from "lucide-react";
 import React, { useState } from "react";
 
 interface PaletteAdjustmentProps {
@@ -190,16 +191,17 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
 
   if (!isAdjusting) {
     return (
-      <Flex justifyContent="center" mt={2} mb={4}>
+      <Flex justifyContent="flex-end" mt={2} mb={4}>
         <Button
-          leftIcon={<RotateCcw size={16} />}
-          size="sm"
+          colorScheme="primary"
+          variant="ghost"
+          leftIcon={<Icon as={Palette} />}
           onClick={() => {
             setIsAdjusting(true);
             updatePreview();
           }}
         >
-          Adjust Palette
+          Advanced Adjustments
         </Button>
       </Flex>
     );
@@ -224,8 +226,8 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
                 <HStack>
                   <IconButton
                     aria-label="Decrease brightness"
-                    icon={<Moon size={16} />}
-                    size="xs"
+                    icon={<Icon as={Moon} />}
+                    variant="ghost"
                     onClick={() => {
                       setBrightness(Math.max(-2, brightness - 0.1));
                       updatePreview();
@@ -236,8 +238,8 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
                   </Badge>
                   <IconButton
                     aria-label="Increase brightness"
-                    icon={<Sun size={16} />}
-                    size="xs"
+                    icon={<Icon as={Sun} />}
+                    variant="ghost"
                     onClick={() => {
                       setBrightness(Math.min(2, brightness + 0.1));
                       updatePreview();
@@ -323,7 +325,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
                     Temperature
                   </Text>
                   <Tooltip label="Shift colors warmer (yellow/red) or cooler (blue)">
-                    <Info size={12} />
+                    <Icon as={Info} />
                   </Tooltip>
                 </HStack>
                 <Badge variant="outline" fontSize="xs">
@@ -357,7 +359,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
                     Gamma
                   </Text>
                   <Tooltip label="Adjust the gamma curve (affects mid-tones)">
-                    <Info size={12} />
+                    <Icon as={Info} />
                   </Tooltip>
                 </HStack>
                 <Badge variant="outline" fontSize="xs">
@@ -461,8 +463,8 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
 
           <Button
             size="sm"
-            variant="outline"
-            leftIcon={<RotateCcw size={16} />}
+            colorScheme="secondary"
+            leftIcon={<Icon as={RotateCcw} />}
             onClick={resetAdjustments}
           >
             Reset
@@ -470,8 +472,8 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
 
           <Button
             size="sm"
-            colorScheme="green"
-            leftIcon={<Check size={16} />}
+            colorScheme="primary"
+            leftIcon={<Icon as={Check} />}
             onClick={applyAdjustments}
           >
             Apply Changes

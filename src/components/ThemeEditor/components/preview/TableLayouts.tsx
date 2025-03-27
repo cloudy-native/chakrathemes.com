@@ -331,7 +331,6 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
                         <IconButton
                           aria-label="Edit user"
                           icon={<Pencil />}
-                          size="sm"
                           variant="ghost"
                           colorScheme={colorKey}
                         />
@@ -450,14 +449,12 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
                       <IconButton
                         aria-label="Download file"
                         icon={<DownloadIcon />}
-                        size="xs"
                         variant="ghost"
                         colorScheme={colorKey}
                       />
                       <IconButton
                         aria-label="View file"
                         icon={<Icon as={ExternalLinkIcon} />}
-                        size="xs"
                         variant="ghost"
                         colorScheme={colorKey}
                       />

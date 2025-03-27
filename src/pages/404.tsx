@@ -21,6 +21,7 @@ const NotFoundPage: React.FC<PageProps> = () => {
   const primaryColor = useColorModeValue("primary.500", "primary.400");
   const textColor = useColorModeValue("gray.600", "gray.400");
   const headingColor = useColorModeValue("gray.800", "white");
+
   return (
     <Container maxW="container.md">
       <Center>
@@ -55,14 +56,13 @@ const NotFoundPage: React.FC<PageProps> = () => {
           {/* Developer message in development */}
           {process.env.NODE_ENV === "development" && (
             <Box
-              bg={useColorModeValue("blue.50", "blue.900")}
+              bg={useColorModeValue("primary.50", "primary.900")}
               p={4}
               borderRadius="md"
               borderLeft="4px solid"
-              borderColor="blue.500"
               maxW="full"
             >
-              <Text color={useColorModeValue("blue.700", "blue.100")} fontSize="sm">
+              <Text color={useColorModeValue("primary.700", "primary.100")} fontSize="sm">
                 Developer Note: You can create new pages in the <code>src/pages/</code> directory.
               </Text>
             </Box>

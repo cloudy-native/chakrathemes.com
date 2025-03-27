@@ -15,27 +15,27 @@ interface CaptionedImageProps {
  * A reusable component for displaying an image with a caption
  * Default width is 50% of container
  */
-const CaptionedImage: React.FC<CaptionedImageProps> = ({ 
-  src, 
-  alt, 
-  caption, 
-  mt = 4, 
+const CaptionedImage: React.FC<CaptionedImageProps> = ({
+  src,
+  alt,
+  caption,
+  mt = 4,
   mb = 4,
-  width = "50%" 
+  width = "50%",
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   return (
     <>
-      <Box 
-        borderWidth="1px" 
-        borderRadius="md" 
-        overflow="hidden" 
-        mt={mt} 
-        mb={mb} 
+      <Box
+        borderWidth="1px"
+        borderRadius="md"
+        overflow="hidden"
+        mt={mt}
+        mb={mb}
         boxShadow="md"
         display="inline-block" // Makes the box fit the content
         maxWidth="100%" // Ensures it doesn't overflow
@@ -44,22 +44,17 @@ const CaptionedImage: React.FC<CaptionedImageProps> = ({
         onClick={openModal}
         transition="transform 0.2s"
         _hover={{
-          transform: "scale(1.02)"
+          transform: "scale(1.02)",
         }}
       >
-        <Image src={src} alt={alt} width="100%" style={{ display: 'block' }} />
-        <Text p={2} bg="gray.50" fontSize="xs" color="gray.600" textAlign="center">
+        <Image src={src} alt={alt} width="100%" style={{ display: "block" }} />
+        <Text p={2} fontSize="xs" textAlign="center">
           {caption}
         </Text>
       </Box>
-      
+
       {/* Full-size image modal */}
-      <ImageModal 
-        isOpen={isModalOpen} 
-        onClose={closeModal} 
-        src={src} 
-        alt={alt}
-      />
+      <ImageModal isOpen={isModalOpen} onClose={closeModal} src={src} alt={alt} />
     </>
   );
 };

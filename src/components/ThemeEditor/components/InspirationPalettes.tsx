@@ -1,6 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import inspirationPalettes from "@/utils/inspirationPalettes";
-import { Check, Copy, Info, Plus } from "lucide-react";
 import {
   Badge,
   Box,
@@ -8,6 +7,7 @@ import {
   Flex,
   Heading,
   HStack,
+  Icon,
   IconButton,
   Modal,
   ModalBody,
@@ -22,6 +22,7 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
+import { Check, Copy, Info, Plus } from "lucide-react";
 import React, { useState } from "react";
 
 // Individual color swatch component
@@ -31,7 +32,7 @@ const ColorSwatch: React.FC<{
   onClick: () => void;
 }> = ({ colorName, hexValue, onClick }) => {
   const [copied, setCopied] = useState(false);
-  const textColor = isLightColor(hexValue) ? "gray.800" : "white";
+  const textColor = isLightColor(hexValue) ? "gray.800" : "gray.100";
 
   // Simple function to determine if a color is light or dark
   function isLightColor(hex: string): boolean {
@@ -72,8 +73,7 @@ const ColorSwatch: React.FC<{
           <Tooltip label={copied ? "Copied!" : "Copy hex"} placement="top" hasArrow>
             <IconButton
               aria-label="Copy color code"
-              icon={copied ? <Check size={12} /> : <Copy size={12} />}
-              size="xs"
+              icon={copied ? <Icon as={Check} /> : <Icon as={Copy} />}
               variant="ghost"
               color={textColor}
               onClick={copyToClipboard}
@@ -113,7 +113,7 @@ const PaletteDetailModal: React.FC<{
         <ModalHeader>
           <Flex align="center">
             <Text>{palette.concept}</Text>
-            <Badge ml={2} colorScheme="purple">
+            <Badge ml={2} colorScheme="accent">
               {Object.keys(palette.colors).length} colors
             </Badge>
           </Flex>
@@ -129,7 +129,6 @@ const PaletteDetailModal: React.FC<{
               <Box
                 key={name}
                 borderWidth={selectedColorName === name ? "3px" : "0px"}
-                borderColor="blue.500"
                 borderRadius="md"
                 transition="all 0.2s"
               >
@@ -166,7 +165,12 @@ const PaletteDetailModal: React.FC<{
                 </Text>
               </VStack>
               <Spacer />
-              <Button size="sm" leftIcon={<Plus size={16} />} colorScheme="blue" onClick={onClose}>
+              <Button
+                size="sm"
+                leftIcon={<Icon as={Plus} />}
+                colorScheme="primary"
+                onClick={onClose}
+              >
                 Use This Color
               </Button>
             </Flex>
@@ -182,16 +186,11 @@ const PaletteCard: React.FC<{
   palette: (typeof inspirationPalettes)[0];
   onSelectPalette: () => void;
 }> = ({ palette, onSelectPalette }) => {
-  const cardBg = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-
   return (
     <Box
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
-      bg={cardBg}
-      borderColor={borderColor}
       transition="transform 0.2s, box-shadow 0.2s"
       _hover={{ transform: "translateY(-4px)", boxShadow: "lg" }}
       cursor="pointer"
@@ -215,7 +214,7 @@ const PaletteCard: React.FC<{
         <Heading size="sm" mb={1}>
           {palette.concept}
         </Heading>
-        <Text fontSize="xs" color="gray.500" mb={3}>
+        <Text fontSize="xs" mb={3}>
           {palette.description}
         </Text>
       </Box>
@@ -251,7 +250,7 @@ const InspirationPalettes: React.FC<{
           placement="top"
           hasArrow
         >
-          <Info size={16} color="gray" />
+          <Icon as={Info} />
         </Tooltip>
       </Flex>
 

@@ -29,7 +29,7 @@ export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({
   onGenerate = () => {},
 }) => {
   return (
-    <Box p={4} borderWidth="1px" borderRadius="md" bg={useColorModeValue("blue.50", "blue.900")}>
+    <Box p={4} borderWidth="1px" borderRadius="md">
       <Text fontWeight="bold" mb={4}>
         Generate New Color Palette
       </Text>

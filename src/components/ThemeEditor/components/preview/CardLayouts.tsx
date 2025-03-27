@@ -218,7 +218,6 @@ const CardLayouts: React.FC<CardLayoutsProps> = ({ colorKey, themeValues }) => {
               colorScheme={colorKey}
               aria-label="Options"
               icon={<Bookmark size={18} />}
-              size="sm"
             />
           </Flex>
         </CardHeader>

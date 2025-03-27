@@ -1,30 +1,32 @@
-import React, { useState } from "react";
+import { useThemeContext } from "@/context/ThemeContext";
+import { panelBackground, panelBorder } from "@/theme/themeConstants";
+import { generateColorPalette } from "@/utils/colorUtils";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
   Box,
-  Input,
+  Button,
+  Divider,
   FormControl,
   FormLabel,
-  Divider,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { useThemeContext } from "@/context/ThemeContext";
-import PaletteGenerator from "./PaletteGenerator";
+import React, { useState } from "react";
 import ImageColorExtractor from "./ImageColorExtractor";
 import InspirationPalettes from "./InspirationPalettes";
+import PaletteGenerator from "./PaletteGenerator";
 import PalettePreview from "./PalettePreview";
-import { generateColorPalette } from "@/utils/colorUtils";
 
 interface AddPaletteModalProps {
   isOpen: boolean;
@@ -35,6 +37,8 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
   const [tabIndex, setTabIndex] = useState(0);
   const { newColorName, setNewColorName, baseColor, setBaseColor, addNewColorPalette } =
     useThemeContext();
+  const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
+  const border = useColorModeValue(panelBorder.light, panelBorder.dark);
 
   const handleAddPalette = () => {
     addNewColorPalette();
@@ -44,7 +48,7 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={bg} borderColor={border}>
         <ModalHeader>Add New Palette</ModalHeader>
         <ModalCloseButton />
 
@@ -110,11 +114,7 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
           <Button variant="outline" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button
-            colorScheme="blue"
-            onClick={handleAddPalette}
-            isDisabled={!newColorName.trim() || !baseColor}
-          >
+          <Button onClick={handleAddPalette} isDisabled={!newColorName.trim() || !baseColor}>
             Add to Theme
           </Button>
         </ModalFooter>

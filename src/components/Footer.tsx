@@ -32,7 +32,6 @@ const SocialButton = ({
       aria-label={label}
       icon={<>{children}</>}
       isRound
-      size="sm"
       variant="ghost"
     >
       <VisuallyHidden>{label}</VisuallyHidden>
@@ -49,8 +48,8 @@ const ListHeader = ({ children }: { children: React.ReactNode }) => {
 };
 
 const Footer = () => {
-  const bgColor = useColorModeValue("neutral.50", "neutral.900");
-  const borderColor = useColorModeValue("neutral.200", "neutral.700");
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
 
   return (
     <Box as="footer" bg={bgColor} borderTop="1px" borderColor={borderColor}>
@@ -58,14 +57,7 @@ const Footer = () => {
         <SimpleGrid templateColumns={{ sm: "1fr 1fr", md: "2fr 1fr 1fr 2fr" }} spacing={8}>
           <Stack spacing={6}>
             <Box>
-              <Text
-                as={GatsbyLink}
-                to="/"
-                fontFamily={"heading"}
-                fontWeight="bold"
-                fontSize="xl"
-                color="primary.500"
-              >
+              <Text as={GatsbyLink} to="/" fontFamily={"heading"} fontWeight="bold" fontSize="xl">
                 ChakraUI Themes Editor
               </Text>
             </Box>
@@ -121,7 +113,7 @@ const Footer = () => {
               Stephen Harrison <Icon as={ExternalLink} />
             </Link>
           </Text>
-          <Text fontSize="xs" color="gray.500">
+          <Text fontSize="xs">
             Version 0.1.1 (March 25, 2025) |
             <Link href="https://github.com/cloudy-native/chakrathemes.com/issues" ml={1} isExternal>
               Report Issues <Icon as={ExternalLink} boxSize={3} />

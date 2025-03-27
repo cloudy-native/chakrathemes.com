@@ -22,19 +22,11 @@ const QuickStartTab: React.FC = () => {
               filename="help/palettes-tab.png"
               alt="Palettes tab"
               caption="View the Palettes tab"
-              width="70%" 
+              width="70%"
             />
             <Text>
               Name your palette (e.g., "primary", "brand") and choose a base color. The editor will
               generate a full range of shades.
-            </Text>
-          </ListItem>
-
-          <ListItem>
-            <Text fontWeight="bold">Customize typography settings</Text>
-            <Text>
-              Go to the Typography tab to adjust font families, weights, sizes, and line heights for
-              different text elements in your theme.
             </Text>
           </ListItem>
 

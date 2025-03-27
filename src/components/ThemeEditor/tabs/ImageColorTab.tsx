@@ -194,7 +194,7 @@ export const ImageColorTab: React.FC = () => {
   const dropAreaBg = useColorModeValue("gray.50", "gray.700");
   const dropAreaHoverBg = useColorModeValue("gray.100", "gray.600");
   const dropAreaBorderColor = useColorModeValue("gray.200", "gray.600");
-  const activeBorderColor = useColorModeValue("blue.500", "blue.300");
+  const activeBorderColor = useColorModeValue("primary.500", "primary.300");
 
   return (
     <Box>
@@ -230,9 +230,7 @@ export const ImageColorTab: React.FC = () => {
             onDrop={handleDrop}
           >
             <Text mb={2}>Drag and drop an image here, or click to browse</Text>
-            <Text fontSize="sm" color="gray.500">
-              Supported formats: PNG, JPG, JPEG, WebP
-            </Text>
+            <Text fontSize="sm">Supported formats: PNG, JPG, JPEG, WebP</Text>
             <Input
               type="file"
               accept="image/*"
@@ -283,7 +281,7 @@ export const ImageColorTab: React.FC = () => {
                           cursor="pointer"
                           borderWidth="2px"
                           borderColor={
-                            selectedColorFromImage === color.color ? "blue.500" : "transparent"
+                            selectedColorFromImage === color.color ? "primary.500" : "transparent"
                           }
                           borderRadius="md"
                           overflow="hidden"
@@ -323,7 +321,7 @@ export const ImageColorTab: React.FC = () => {
                             size="md"
                           />
                           <Button
-                            colorScheme="blue"
+                            colorScheme="primary"
                             onClick={() => {
                               if (!newPaletteNameFromImage) {
                                 toast({

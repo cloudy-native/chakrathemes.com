@@ -95,7 +95,7 @@ const ShadowControl: React.FC<{
       flexDirection="column"
     >
       <Flex mb={3} align="center" justify="space-between" bg={codeBg} p={2} borderRadius="md">
-        <Code colorScheme="blue" children={copyValue} />
+        <Code colorScheme="primary" children={copyValue} />
         <Button
           size="xs"
           variant="ghost"
@@ -191,7 +191,7 @@ const BorderRadiusControl: React.FC<{
       flexDirection="column"
     >
       <Flex mb={3} align="center" justify="space-between" bg={codeBg} p={2} borderRadius="md">
-        <Code colorScheme="blue" children={copyValue} />
+        <Code colorScheme="primary" children={copyValue} />
         <Button
           size="xs"
           variant="ghost"
@@ -204,7 +204,7 @@ const BorderRadiusControl: React.FC<{
       </Flex>
 
       <Flex justify="space-between" align="center" mb={4} flex="1">
-        <Box width="80px" height="80px" bg="blue.500" borderRadius={radiusValue} />
+        <Box width="80px" height="80px" bg="primary.500" borderRadius={radiusValue} />
 
         {showInput && (
           <Input
@@ -305,7 +305,7 @@ export const BordersAndShadowsTab: React.FC = () => {
               </GridItem>
               <GridItem>
                 <Flex justify="right" mb={2}>
-                  <Button colorScheme="blue" size="sm" onClick={handleResetRadii}>
+                  <Button colorScheme="primary" size="sm" onClick={handleResetRadii}>
                     Reset All Radii
                   </Button>
                 </Flex>
@@ -353,7 +353,7 @@ export const BordersAndShadowsTab: React.FC = () => {
               </GridItem>
               <GridItem>
                 <Flex justify="right" mb={2}>
-                  <Button colorScheme="blue" size="sm" onClick={handleResetShadows}>
+                  <Button colorScheme="primary" size="sm" onClick={handleResetShadows}>
                     Reset All Shadows
                   </Button>
                 </Flex>

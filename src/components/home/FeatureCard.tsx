@@ -1,5 +1,6 @@
+import { featureBackground } from "@/theme/themeConstants";
+import { Badge, Box, Flex, Heading, Icon, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
-import { Box, Badge, Flex, Heading, Icon, Text, useColorModeValue } from "@chakra-ui/react";
 
 export interface FeatureCardProps {
   title: string;
@@ -9,27 +10,19 @@ export interface FeatureCardProps {
 }
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon, badge = null }) => {
-  const bgColor = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const iconColor = useColorModeValue("accent.600", "accent.400");
+  const bg = useColorModeValue(featureBackground.light, featureBackground.dark);
 
   return (
-    <Box
-      p={5}
-      borderWidth="1px"
-      borderColor={borderColor}
-      bg={bgColor}
-      borderRadius="lg"
-      boxShadow="md"
-      height="100%"
-    >
+    <Box p={5} borderWidth="1px" borderRadius="lg" boxShadow="md" height="100%" bg={bg}>
       <Flex direction="column" height="100%">
         <Flex align="center" mb={3}>
-          <Icon as={icon} color={useColorModeValue("blue.500", "blue.300")} boxSize={5} mr={2} />
+          <Icon color={iconColor} as={icon} boxSize={5} mr={2} />
           <Heading size="md" lineHeight="1.2">
             {title}
           </Heading>
           {badge && (
-            <Badge ml={2} colorScheme={badge === "Pro" ? "blue" : "green"} variant="solid">
+            <Badge ml={2} variant="solid">
               {badge}
             </Badge>
           )}

@@ -9,12 +9,12 @@ import {
   getMonochromaticColors,
   getTriadicColors,
 } from "@/utils/colorUtils";
-import { Check, Plus } from "lucide-react";
 import {
   Box,
   Button,
   Flex,
   HStack,
+  Icon,
   IconButton,
   Modal,
   ModalBody,
@@ -40,8 +40,10 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
+import { Check, Plus } from "lucide-react";
 import React, { useCallback, useMemo, useState } from "react";
 import { ColorSwatch } from "./ColorSwatch";
+import { panelBackground } from "@/theme/themeConstants";
 
 interface ColorHarmonyModalProps {
   isOpen: boolean;
@@ -56,8 +58,6 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
   colorKey,
   colorShades,
 }) => {
-  const bgColor = useColorModeValue("white", "gray.800");
-  const textColor = useColorModeValue("gray.800", "white");
   const baseColor = colorShades[500]; // Use 500 as the base color for harmonies
   const toast = useToast();
   const { setThemeValues, themeValues } = useThemeContext();
@@ -158,10 +158,12 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
     setNewPaletteName("");
   }, [selectedHarmonyColor, newPaletteName, themeValues, setThemeValues, trackColorAction, toast]);
 
+  const bgColor = useColorModeValue(panelBackground.light, panelBackground.dark);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl">
       <ModalOverlay />
-      <ModalContent bg={bgColor} color={textColor}>
+      <ModalContent bg={bgColor}>
         <ModalHeader>
           <Flex align="center">
             <Text>Color Harmony: {colorKey}</Text>
@@ -222,9 +224,7 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                         <Tooltip label="Add as new palette">
                           <IconButton
                             aria-label="Add as new palette"
-                            icon={<Plus size={16} />}
-                            size="sm"
-                            colorScheme="blue"
+                            icon={<Icon as={Plus} />}
                             onClick={() => addNewPalette(complementaryColor)}
                           />
                         </Tooltip>
@@ -305,8 +305,6 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                             <IconButton
                               aria-label="Add as new palette"
                               icon={<Plus size={14} />}
-                              size="xs"
-                              colorScheme="blue"
                               onClick={() => addNewPalette(color)}
                             />
                           </Tooltip>
@@ -352,8 +350,6 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                             <IconButton
                               aria-label="Add as new palette"
                               icon={<Plus size={14} />}
-                              size="xs"
-                              colorScheme="blue"
                               onClick={() => addNewPalette(color)}
                             />
                           </Tooltip>
@@ -397,8 +393,6 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                             <IconButton
                               aria-label="Add as new palette"
                               icon={<Plus size={14} />}
-                              size="xs"
-                              colorScheme="blue"
                               onClick={() => addNewPalette(color)}
                             />
                           </Tooltip>
@@ -496,8 +490,7 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                             <IconButton
                               aria-label="Add as new palette"
                               icon={<Plus size={14} />}
-                              size="xs"
-                              colorScheme="blue"
+                              colorScheme="primary"
                               onClick={() => addNewPalette(color)}
                             />
                           </Tooltip>
@@ -537,9 +530,6 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                         padding: "8px",
                         borderRadius: "4px",
                         border: "1px solid",
-                        borderColor: useColorModeValue("gray.200", "gray.600"),
-                        backgroundColor: useColorModeValue("white", "gray.700"),
-                        color: textColor,
                         width: "100%",
                       }}
                       placeholder="Enter palette name"
@@ -549,8 +539,8 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
 
                 <Button
                   ml={3}
-                  colorScheme="green"
-                  leftIcon={<Check size={16} />}
+                  colorScheme="primary"
+                  leftIcon={<Icon as={Check} />}
                   onClick={confirmNewPalette}
                 >
                   Add
@@ -565,7 +555,7 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
           )}
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <Button colorScheme="primary" mr={3} onClick={onClose}>
             Close
           </Button>
         </ModalFooter>

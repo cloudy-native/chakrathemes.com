@@ -109,11 +109,7 @@ export const AddColorModal: React.FC<NewColorModalProps> = ({ isOpen, onClose })
           <Button variant="outline" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button
-            colorScheme="blue"
-            onClick={handleAddColor}
-            isDisabled={!newColorName.trim() || !baseColor}
-          >
+          <Button onClick={handleAddColor} isDisabled={!newColorName.trim() || !baseColor}>
             Add to Palette
           </Button>
         </ModalFooter>

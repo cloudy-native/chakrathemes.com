@@ -39,7 +39,7 @@ export const ColorManagementTab: React.FC = () => {
         </GridItem>
         <GridItem>
           <Flex justify="right" mb={2}>
-            <Button leftIcon={<Plus size={16} />} colorScheme="blue" onClick={onOpen}>
+            <Button leftIcon={<Plus size={16} />} colorScheme="primary" onClick={onOpen}>
               Add Color Palette
             </Button>
           </Flex>
@@ -99,7 +99,7 @@ export const ColorManagementTab: React.FC = () => {
           <Text mb={4} color={useColorModeValue("gray.500", "gray.400")}>
             No colors in your palette yet
           </Text>
-          <Button size="sm" colorScheme="blue" leftIcon={<Plus size={16} />} onClick={onOpen}>
+          <Button size="sm" colorScheme="primary" leftIcon={<Plus size={16} />} onClick={onOpen}>
             Add Your First Color
           </Button>
         </Flex>

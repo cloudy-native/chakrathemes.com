@@ -63,7 +63,6 @@ export const ColorTooltip: React.FC<ColorTooltipProps> = ({
                   ? "translateY(-50%)"
                   : "none",
             bg: "gray.700",
-            color: "white",
             fontSize: "xs",
             p: 1,
             borderRadius: "sm",

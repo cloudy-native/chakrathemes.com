@@ -1,22 +1,12 @@
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs, useBreakpointValue } from "@chakra-ui/react";
 import React, { useState } from "react";
-import {
-  Box,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  useColorModeValue,
-  useBreakpointValue,
-  TabProps,
-} from "@chakra-ui/react";
 
 // Import tabs
-import PaletteManagementTab from "./tabs/PaletteManagementTab";
-import TypographyTab from "./tabs/TypographyTab";
-import SpacingTab from "./tabs/SpacingTab";
 import BordersAndShadowsTab from "./tabs/BordersAndShadowsTab";
 import ComponentsPreviewTab from "./tabs/ComponentsPreviewTab";
+import PaletteManagementTab from "./tabs/PaletteManagementTab";
+import SpacingTab from "./tabs/SpacingTab";
+import TypographyTab from "./tabs/TypographyTab";
 
 // Import context provider
 import { ThemeProvider } from "@/context/ThemeContext";
@@ -27,9 +17,6 @@ export const ThemeEditor: React.FC = () => {
 
   // Setup UI styling
   // Get primary color from ThemeContext for tabs and container
-  const primaryColor = "primary";
-  const bgColor = useColorModeValue("white", "gray.900");
-  const borderColor = useColorModeValue(`${primaryColor}.50`, `${primaryColor}.900`);
   const tabOrientation = useBreakpointValue({
     base: "vertical",
     md: "horizontal",
@@ -37,7 +24,7 @@ export const ThemeEditor: React.FC = () => {
 
   return (
     <ThemeProvider>
-      <Box p={5} borderWidth="1px" bg={bgColor} borderColor={borderColor}>
+      <Box p={5} borderWidth="1px">
         <Tabs
           isLazy
           orientation={tabOrientation}

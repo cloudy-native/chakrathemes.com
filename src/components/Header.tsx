@@ -5,6 +5,7 @@ import {
   Container,
   Flex,
   HStack,
+  Icon,
   IconButton,
   Link,
   Stack,
@@ -35,9 +36,9 @@ const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   // Use specific colors to ensure opacity in both modes
-  const bgColor = useColorModeValue("white", "#1A202C"); // Using specific hex for dark mode
-  const textColor = useColorModeValue("neutral.800", "neutral.100");
-  const borderColor = useColorModeValue("neutral.200", "neutral.700");
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const textColor = useColorModeValue("gray.800", "gray.100");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
 
   return (
     <Box
@@ -60,10 +61,8 @@ const Header = () => {
             fontFamily="heading"
             fontWeight="bold"
             fontSize="xl"
-            color="primary.500"
             _hover={{
               textDecoration: "none",
-              color: "primary.600",
             }}
           >
             chakrathemes.com
@@ -95,7 +94,8 @@ const Header = () => {
               <IconButton
                 aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
                 variant="ghost"
-                icon={colorMode === "light" ? <Moon size={18} /> : <Sun size={18} />}
+                size="lg"
+                icon={colorMode === "light" ? <Icon as={Moon} /> : <Icon as={Sun} />}
                 onClick={toggleColorMode}
               />
               <Button
@@ -104,7 +104,7 @@ const Header = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 rightIcon={<Github size={18} />}
-                variant="outline"
+                variant="ghost"
               >
                 Fork me on GitHub
               </Button>
@@ -116,7 +116,6 @@ const Header = () => {
             <IconButton
               onClick={onToggle}
               icon={isOpen ? <X size={18} /> : <Menu size={18} />}
-              variant="ghost"
               aria-label="Toggle Navigation"
             />
           </Flex>

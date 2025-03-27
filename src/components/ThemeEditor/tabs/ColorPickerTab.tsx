@@ -108,7 +108,7 @@ export const ColorPickerTab: React.FC = () => {
           <Button
             onClick={addNewColorPalette}
             disabled={!baseColor || !newColorName}
-            colorScheme="blue"
+            colorScheme="primary"
           >
             Add to Theme
           </Button>

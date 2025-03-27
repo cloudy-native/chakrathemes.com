@@ -79,8 +79,6 @@ jobs:
       - name: Build with Gatsby
         env:
           PREFIX_PATHS: 'true'
-          GOOGLE_FONTS_API_KEY: ${{ secrets.GOOGLE_FONTS_API_KEY }}
-          GATSBY_GOOGLE_FONTS_API_KEY: ${{ secrets.GOOGLE_FONTS_API_KEY }}
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

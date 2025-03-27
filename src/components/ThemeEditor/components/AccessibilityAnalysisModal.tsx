@@ -29,6 +29,7 @@ import {
 import { AlertTriangle, CheckCircle, Info } from "lucide-react";
 import React, { useMemo } from "react";
 import { ColorSwatch } from "./ColorSwatch";
+import { panelBackground } from "@/theme/themeConstants";
 
 interface AccessibilityAnalysisModalProps {
   isOpen: boolean;
@@ -43,9 +44,10 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
   colorKey,
   colorShades,
 }) => {
-  const bgColor = useColorModeValue("white", "gray.800");
-  const textColor = useColorModeValue("gray.800", "white");
-  const boxBgColor = useColorModeValue("gray.50", "gray.700");
+  const bgColor = useColorModeValue(panelBackground.light, panelBackground.dark);
+
+  // const textColor = useColorModeValue("gray.800", "gr");
+  // const boxBgColor = useColorModeValue("gray.50", "gray.700");
 
   // Sort shades by numeric value
   const sortedShades = useMemo(() => {
@@ -137,7 +139,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
-      <ModalContent bg={bgColor} color={textColor}>
+      <ModalContent bg={bgColor}>
         <ModalHeader>
           <Flex align="center">
             <Text>Accessibility Analysis: {colorKey}</Text>
@@ -496,7 +498,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
                   improve accessibility and usability:
                 </Text>
 
-                <Box p={4} bg={boxBgColor} borderRadius="md" mb={4}>
+                <Box p={4} borderRadius="md" mb={4}>
                   <Flex mb={3}>
                     <Icon as={CheckCircle} color="green.500" mr={2} mt={1} />
                     <Box>
@@ -542,7 +544,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
                   )}
                 </Box>
 
-                <Box p={4} bg={boxBgColor} borderRadius="md">
+                <Box p={4} borderRadius="md">
                   <Text fontWeight="bold" mb={2}>
                     Tips for Color Blindness Considerations
                   </Text>
@@ -568,7 +570,7 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
           </Tabs>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <Button mr={3} onClick={onClose}>
             Close
           </Button>
         </ModalFooter>

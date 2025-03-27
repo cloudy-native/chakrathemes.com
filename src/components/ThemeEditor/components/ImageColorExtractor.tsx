@@ -1,18 +1,18 @@
-import React, { useState, useRef } from "react";
+import { ExtractedColor } from "@/types";
 import {
   Box,
   Button,
-  Flex,
-  Text,
-  VStack,
-  HStack,
   Image as ChakraImage,
-  useToast,
+  Flex,
+  Icon,
   SimpleGrid,
+  Text,
+  useToast,
+  VStack,
 } from "@chakra-ui/react";
 import { Check, Plus } from "lucide-react";
 import { Vibrant } from "node-vibrant/browser";
-import { ExtractedColor } from "@/types";
+import React, { useRef, useState } from "react";
 
 interface ImageColorExtractorProps {
   onSelectColor: (color: string) => void;
@@ -100,11 +100,10 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
           borderRadius="md"
           borderStyle="dashed"
           borderColor="gray.300"
-          bg="gray.50"
-          _hover={{ borderColor: "blue.500", cursor: "pointer" }}
+          _hover={{ cursor: "pointer" }}
           onClick={triggerFileInput}
         >
-          <Plus size={24} style={{ marginBottom: "12px" }} />
+          <Icon as={Plus} size={24} style={{ marginBottom: "12px" }} />
           <Text mb={1} fontWeight="medium">
             Upload an image
           </Text>
@@ -132,14 +131,14 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
                   overflow="hidden"
                   borderRadius="md"
                   borderWidth="2px"
-                  borderColor={selectedColorIndex === index ? "blue.500" : "transparent"}
+                  borderColor={selectedColorIndex === index ? "accent.500" : "transparent"}
                 >
                   <Box bg={color.color} h="60px" w="100%" />
                   <Text
                     fontSize="xs"
                     p={1}
                     textAlign="center"
-                    bg={selectedColorIndex === index ? "blue.50" : "gray.50"}
+                    bg={selectedColorIndex === index ? "accent.50" : "gray.50"}
                   >
                     {color.name}
                   </Text>
@@ -150,12 +149,11 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
                       right={1}
                       align="center"
                       justify="center"
-                      bg="white"
                       w="18px"
                       h="18px"
                       borderRadius="full"
                     >
-                      <Check size={12} color="#3182CE" />
+                      <Icon as={Check} />
                     </Flex>
                   )}
                 </Box>

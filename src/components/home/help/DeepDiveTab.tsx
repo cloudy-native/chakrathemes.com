@@ -17,7 +17,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ExternalLink, LucideCheck } from "lucide-react";
+import { ExternalLink, Check } from "lucide-react";
 import React from "react";
 
 const DeepDiveTab: React.FC = () => {
@@ -201,8 +201,8 @@ const DeepDiveTab: React.FC = () => {
                 visual impairments, to easily read and navigate the content.{" "}
               </Text>
               <Text mb={3}>
-                Start with contrast analysis. Click <Icon as={LucideCheck} /> to open the contrast
-                review. First see how a palette performs with the
+                Start with contrast analysis. Click <Icon as={Check} /> to open the contrast review.
+                First see how a palette performs with the
                 <Link href="https://www.w3.org/WAI/standards-guidelines/wcag/" isExternal>
                   WCAG Standards Guidelines <Icon as={ExternalLink} />
                 </Link>

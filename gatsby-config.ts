@@ -1,11 +1,4 @@
 import type { GatsbyConfig } from "gatsby";
-import dotenv from "dotenv";
-
-// Load environment variables
-dotenv.config();
-
-// For client-side access, prefix environment variables with GATSBY_
-process.env.GATSBY_GOOGLE_FONTS_API_KEY = process.env.GOOGLE_FONTS_API_KEY;
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -20,6 +13,15 @@ const config: GatsbyConfig = {
     "gatsby-plugin-robots-txt",
     "gatsby-plugin-catch-links",
     "gatsby-plugin-tsconfig-paths",
+    {
+      resolve: `gatsby-plugin-google-fonts`,
+      options: {
+        fonts: [
+          `Open Sans\:300,400,600`,
+        ],
+        display: 'swap',
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {

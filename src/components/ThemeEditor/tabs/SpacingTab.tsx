@@ -111,7 +111,7 @@ const SpacingVisualizer: React.FC<{
       <Box
         width={spaceValue}
         height="12px"
-        bg="blue.500"
+        bg="primary.500"
         borderRadius="sm"
         minWidth="2px" // Ensure very small values are still visible
       />
@@ -222,7 +222,7 @@ export const SpacingTab: React.FC = () => {
         </GridItem>
         <GridItem>
           <Flex justify="right" mb={2}>
-            <Button size="sm" colorScheme="blue" onClick={handleResetSpacing}>
+            <Button size="sm" colorScheme="primary" onClick={handleResetSpacing}>
               Reset All Spacing
             </Button>
           </Flex>

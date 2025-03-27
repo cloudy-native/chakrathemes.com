@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Box, Text, Flex, useColorModeValue, Tooltip, IconButton, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Flex,
+  useColorModeValue,
+  Tooltip,
+  IconButton,
+  HStack,
+  Icon,
+} from "@chakra-ui/react";
 import { Copy, Lock, Unlock, Pencil } from "lucide-react";
 import { isLightColor } from "@/utils/colorUtils";
 import { useThemeContext } from "@/context/ThemeContext";
@@ -145,8 +154,8 @@ export const PaletteShade: React.FC<{
             {/* Lock/Unlock button */}
             <Tooltip label={isLocked ? "Unlock shade" : "Lock shade"} placement="top" hasArrow>
               <IconButton
-                icon={isLocked ? <Unlock size={16} /> : <Lock size={16} />}
-                size="sm"
+                size="xs"
+                icon={isLocked ? <Icon as={Unlock} /> : <Icon as={Lock} />}
                 aria-label={isLocked ? "Unlock shade" : "Lock shade"}
                 variant="ghost"
                 colorScheme={isLocked ? "yellow" : "gray"}
@@ -157,8 +166,8 @@ export const PaletteShade: React.FC<{
             {/* Edit button */}
             <Tooltip label={isEditing ? "Save" : "Edit color"} placement="top" hasArrow>
               <IconButton
-                icon={<Pencil size={16} />}
-                size="sm"
+                size="xs"
+                icon={<Icon as={Pencil} />}
                 aria-label={isEditing ? "Save color" : "Edit color"}
                 variant="ghost"
                 colorScheme={isEditing ? "green" : "gray"}
@@ -169,11 +178,11 @@ export const PaletteShade: React.FC<{
             {/* Copy button */}
             <Tooltip label={copied ? "Copied!" : "Copy"} placement="top" hasArrow>
               <IconButton
-                icon={<Copy size={16} />}
-                size="sm"
+                size="xs"
+                icon={<Icon as={Copy} />}
                 aria-label="Copy color hex code"
                 variant="ghost"
-                colorScheme="blue"
+                colorScheme="primary"
                 onClick={copyToClipboard}
               />
             </Tooltip>

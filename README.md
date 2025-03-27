@@ -13,7 +13,6 @@ A powerful visual editor for creating and customizing Chakra UI themes. Build be
 ChakraThemes.com is an interactive web application that helps designers and developers create custom Chakra UI themes through a visual interface. It allows you to:
 
 - Create and customize color palettes
-- Edit typography settings
 - Configure spacing and sizing
 - Adjust border radius and shadows
 - Preview components with your theme changes in real-time
@@ -29,11 +28,6 @@ Stop hand-crafting theme files and struggling with color scales. Our visual edit
   - Browse curated inspiration palettes with pre-defined color schemes
   - Preview color shades and variants
   - Manage multiple color categories
-
-- **Typography Control**:
-  - Set font families with Google Fonts integration
-  - Customize font sizes, weights, and line heights
-  - Preview text styles across different elements
 
 - **Spacing and Layout**:
   - Configure consistent spacing tokens
@@ -93,7 +87,6 @@ Stop hand-crafting theme files and struggling with color scales. Our visual edit
 1. Start by selecting the "Colors" tab and add your primary brand colors
 2. Use the color picker or choose from theme presets
 3. Use the "Image Color" tab to extract colors from uploaded images
-4. Move to the "Typography" tab to set up your font styles
 5. Configure spacing values in the "Spacing" tab
 6. Adjust border radius and shadows in the "Borders & Shadows" tab
 7. Preview theme elements in the "Cards & Layouts" tab
@@ -111,25 +104,6 @@ The Colors tab provides a unified interface for creating and managing color pale
 - Explore themed inspiration palettes like "Summer Breeze," "Retro Wave," or "Cosmic Voyage"
 - Name your color (e.g., "primary", "accent", "brand")
 - The editor automatically generates a full color palette with shades
-
-### Typography Settings
-
-- Browse and select from Google Fonts (requires API key)
-- Set different fonts for heading, body, and monospace text
-- Adjust font sizes, weights, and other typography settings
-
-
-### Google Fonts Integration
-
-To use Google Fonts integration:
-
-1. Create a `.env` file in the project root
-2. Add your Google Fonts API key:
-   ```
-   GOOGLE_FONTS_API_KEY=your_api_key_here
-   GATSBY_GOOGLE_FONTS_API_KEY=your_api_key_here
-   ```
-3. Restart the development server
 
 ## Project Structure
 
@@ -149,7 +123,6 @@ src/
 │   │   │   ├── PaletteGenerator.tsx
 │   │   │   ├── PalettePreview.tsx
 │   │   │   ├── ThemeColorSwatch.tsx
-│   │   │   ├── ThemePresets.tsx
 │   │   │   ├── preview/      # Component preview elements
 │   │   │   │   ├── AlertElements.tsx
 │   │   │   │   ├── AvatarElements.tsx
@@ -177,7 +150,6 @@ src/
 │   │   │   ├── ImageColorTab.tsx
 │   │   │   ├── SpacingTab.tsx
 │   │   │   ├── ThemePresetsTab.tsx
-│   │   │   └── TypographyTab.tsx
 │   │   └── index.tsx         # Main ThemeEditor component
 │   ├── Layout.tsx            # Site layout component
 │   ├── Header.tsx            # Site header component
@@ -189,7 +161,6 @@ src/
 │   ├── useImageColorExtraction.ts     # Extract colors from images
 │   ├── useSpacingAndRadius.ts         # Spacing and border radius logic
 │   ├── useThemeValues.ts              # Default theme values
-│   └── useTypographyManagement.ts     # Typography management logic
 ├── pages/                    # Gatsby pages
 │   ├── index.tsx             # Home page with theme editor
 │   └── 404.tsx               # Not found page

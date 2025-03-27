@@ -1,9 +1,18 @@
-import React from "react";
-import { Box, Text, Flex, HStack, SimpleGrid, VStack, useColorModeValue } from "@chakra-ui/react";
 import { ColorSwatch as ColorSwatchType } from "@/types";
+import {
+  Box,
+  Flex,
+  HStack,
+  Icon,
+  SimpleGrid,
+  Text,
+  VStack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import ThemeColorSwatch from "./ThemeColorSwatch";
+import React from "react";
 import { PaletteShade } from "./PaletteShade";
+import ThemeColorSwatch from "./ThemeColorSwatch";
 
 // Simple color swatch component for use in dialogs, tooltips, etc.
 interface BasicColorSwatchProps {
@@ -81,7 +90,7 @@ export const ExpandableColorSwatch: React.FC<ExpandableColorSwatchProps> = ({
         <Box flex="1">
           <Flex justifyContent="space-between" alignItems="center">
             <Text fontWeight="medium">{colorSwatch.colorKey}</Text>
-            {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            {isOpen ? <Icon as={ChevronUp} /> : <Icon as={ChevronDown} />}
           </Flex>
           <HStack spacing={3} mt={2}>
             {/* Color swatch preview */}
@@ -99,13 +108,7 @@ export const ExpandableColorSwatch: React.FC<ExpandableColorSwatchProps> = ({
 
       {/* Expanded content - Paint Chip Style */}
       {isOpen && (
-        <Box
-          p={4}
-          bg={useColorModeValue("white", "gray.800")}
-          borderWidth="1px"
-          borderColor={borderColor}
-          borderBottomRadius="md"
-        >
+        <Box p={4} borderWidth="1px" borderColor={borderColor} borderBottomRadius="md">
           <SimpleGrid columns={{ base: 2, sm: 5 }} spacing={4} maxWidth="100%">
             {Object.entries(colorSwatch.colorShades)
               .sort(([a], [b]) => parseInt(a) - parseInt(b))

@@ -37,11 +37,6 @@ export const useAnalytics = () => {
     trackEvent(EventCategory.COLOR, action, label, value);
   }, []);
 
-  // Track typography actions
-  const trackTypographyAction = useCallback((action: string, label?: string, value?: number) => {
-    trackEvent(EventCategory.THEME, action, label, value);
-  }, []);
-
   // Track theme actions
   const trackThemeAction = useCallback((action: string, label?: string, value?: number) => {
     trackEvent(EventCategory.THEME, action, label, value);
@@ -53,7 +48,6 @@ export const useAnalytics = () => {
     trackTab,
     trackDownload,
     trackColorAction,
-    trackTypographyAction,
     trackThemeAction,
   };
 };

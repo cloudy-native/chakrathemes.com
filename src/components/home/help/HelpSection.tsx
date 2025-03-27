@@ -1,23 +1,14 @@
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs, VStack } from "@chakra-ui/react";
 import React from "react";
-import {
-  Box,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  VStack,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import QuickStartTab from "./QuickStartTab";
-import DeepDiveTab from "./DeepDiveTab";
 import ColorScienceTab from "./ColorScienceTab";
+import DeepDiveTab from "./DeepDiveTab";
+import QuickStartTab from "./QuickStartTab";
 
 const HelpSection: React.FC = () => {
   return (
-    <Box borderWidth="1px" borderRadius="lg" p={6} bg={useColorModeValue("white", "gray.800")}>
+    <Box borderWidth="1px" borderRadius="lg" p={6}>
       <VStack spacing={8} align="stretch">
-        <Tabs colorScheme="blue">
+        <Tabs>
           <TabList>
             <Tab>Quick Start</Tab>
             <Tab>Deep Dive</Tab>

@@ -60,7 +60,12 @@ export default theme;`;
   };
 
   return (
-    <Button colorScheme="green" onClick={downloadTheme} leftIcon={<ArrowRight size={16} />} mb={4}>
+    <Button
+      onClick={downloadTheme}
+      colorScheme="primary"
+      leftIcon={<ArrowRight size={16} />}
+      mb={4}
+    >
       Download Theme
     </Button>
   );

@@ -10,15 +10,6 @@ export interface ThemeValues {
       [key: string]: string;
     };
   };
-  fonts: {
-    [key: string]: string;
-  };
-  fontSizes: {
-    [key: string]: string;
-  };
-  fontWeights: {
-    [key: string]: number;
-  };
   space: {
     [key: string]: string;
   };
@@ -49,16 +40,6 @@ export interface ExtractedColor {
 export interface ColorManagementState {
   newColorName: string;
   baseColor: string;
-}
-
-export interface GoogleFont {
-  family: string;
-  variants: string[];
-  category: string;
-}
-
-export interface GoogleFontsResponse {
-  items: GoogleFont[];
 }
 
 // Theme path and update types
