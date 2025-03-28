@@ -31,7 +31,7 @@ const Desktop = () => {
     <Tabs isLazy isFitted index={activeTabIndex} onChange={setActiveTabIndex}>
       <TabList mb="1em">
         <Tab>Palettes</Tab>
-        <Tab>Theme Preview</Tab>
+        <Tab>Preview & Download</Tab>
         <Tab>Typography</Tab>
         <Tab>Spacing</Tab>
         <Tab>Borders & Shadows</Tab>
@@ -80,7 +80,7 @@ const Mobile = () => {
       </AccordionItem>
       <AccordionItem>
         <AccordionButton>
-          Theme Preview <AccordionIcon />
+          Preview & Download <AccordionIcon />
         </AccordionButton>
         <AccordionPanel>
           <ComponentsPreviewTab />

@@ -83,16 +83,8 @@ export const PaletteShade: React.FC<{
   return (
     <Box
       borderWidth="1px"
-      borderColor={isSelected ? "primary.500" : borderColor}
       borderRadius="md"
       overflow="hidden"
-      boxShadow={
-        isSelected
-          ? "0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--chakra-colors-primary-500)"
-          : isLocked
-          ? "0 0 0 2px gold"
-          : "md"
-      }
       transition="all 0.2s ease-in-out"
       transform={isSelected ? "translateY(-4px) scale(1.02)" : "none"}
       _hover={{ transform: isSelected ? "translateY(-4px) scale(1.02)" : "translateY(-2px)" }}
@@ -127,7 +119,6 @@ export const PaletteShade: React.FC<{
           fontSize="lg"
           fontWeight="bold"
           color={isEditing ? (isLightColor(editColor) ? "black" : "white") : textColor}
-          textShadow="0px 1px 2px rgba(0,0,0,0.2)"
         >
           {shade}
         </Text>
@@ -141,7 +132,6 @@ export const PaletteShade: React.FC<{
               onChange={handleColorChange}
               style={{
                 width: "100%",
-                background: "rgba(255,255,255,0.9)",
                 border: "1px solid #ccc",
                 borderRadius: "4px",
                 padding: "2px 4px",

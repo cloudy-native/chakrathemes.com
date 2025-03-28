@@ -4,7 +4,7 @@ export type ColorPair = {
 };
 
 export const panelBackground: ColorPair = {
-  light: "background.100",
+  light: "background.50",
   dark: "background.900",
 };
 
@@ -14,8 +14,8 @@ export const panelBorder: ColorPair = {
 };
 
 export const featureBackground: ColorPair = {
-  light: "secondary.100",
-  dark: "secondary.900",
+  light: "primary.100",
+  dark: "primary.800",
 };
 
 export const featureText: ColorPair = {
@@ -29,8 +29,8 @@ export const featureBorder: ColorPair = {
 };
 
 export const headerBackground: ColorPair = {
-  light: "background.200",
-  dark: "background.800",
+  light: "primary.100",
+  dark: "primary.800",
 };
 
 export const headerText: ColorPair = {

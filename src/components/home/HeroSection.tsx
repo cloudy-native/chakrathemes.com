@@ -1,22 +1,41 @@
+import { Flex, Heading, HStack, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import React from "react";
-import { Heading, Text, VStack, useColorModeValue } from "@chakra-ui/react";
+import OptimizedImage from "../OptimizedImage";
 
 const HeroSection: React.FC = () => {
   return (
-    <VStack spacing={6} align="center" textAlign="center">
-      <Heading as="h1" size="2xl" color={useColorModeValue("deep-space.500", "pearl-shimmer.200")}>
+    <VStack spacing={6} align="center">
+      <Heading as="h1" size="2xl" textAlign="center" mb={4}>
         A Lovely Chakra UI Theme Editor
       </Heading>
-      <Text
-        fontSize="xl"
-        color={useColorModeValue("squid-ink.500", "pearl-shimmer.100")}
-        maxW="6xl"
-        mb="2"
-      >
-        Create and customize a unique and distinctive Chakra UI theme for your brand. Modify colors,
-        typography, spacing, and more, then export your theme file for direct integration without
-        extra steps.
-      </Text>
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8} w="100%" alignItems="start">
+        <Flex flexDir="column" align="flex-start" justify="flex-start" textAlign="left">
+          <Text fontSize="xl" maxW="6xl" mb="4">
+            Create and customize a unique and distinctive Chakra UI theme for your brand. Modify
+            colors, typography, spacing, and more, then export your theme file for direct
+            integration without extra steps.
+          </Text>
+          <Text fontSize="xl" maxW="6xl" mb="4">
+            The base colors for this application's theme were discovered using built-in color science
+            goodness from this image of the sun setting over Phuket, Thailand.
+          </Text>
+          <Text fontSize="xl" maxW="6xl" mb="4">
+            I'm happy to debate the color aesthetic of this application. I just wrote the code. And
+            I'm color blind. But it would be poor show indeed not to theme the application using the
+            application itself.
+          </Text>
+        </Flex>
+        <Flex align="flex-start" justify="center">
+          <HStack spacing={4} align="flex-start">
+            <OptimizedImage width="45%" filename="phuket.jpeg" alt="Source image for site design" />
+            <OptimizedImage
+              width="45%"
+              filename="color-source.png"
+              alt="Extract palette from image"
+            />
+          </HStack>
+        </Flex>
+      </SimpleGrid>
     </VStack>
   );
 };

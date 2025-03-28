@@ -121,7 +121,7 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="3xl">
         <ModalOverlay />
         <ModalContent bg={bg} borderColor={border}>
           <ModalHeader>Add New Palette</ModalHeader>
@@ -146,13 +146,6 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
                   <ImageColorExtractor
                     onSelectColor={color => {
                       setBaseColor(color);
-                      // Also set a default palette name
-                      if (!newColorName) {
-                        const paletteNames = ["primary", "accent", "highlight", "brand", "feature"];
-                        const randomName =
-                          paletteNames[Math.floor(Math.random() * paletteNames.length)];
-                        setNewColorName(randomName);
-                      }
                     }}
                   />
                 </TabPanel>

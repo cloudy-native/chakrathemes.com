@@ -67,12 +67,6 @@ export const AddColorModal: React.FC<NewColorModalProps> = ({ isOpen, onClose })
                 <ImageColorExtractor
                   onSelectColor={color => {
                     setBaseColor(color);
-                    // Also set the color name based on the extracted color
-                    if (!newColorName) {
-                      const colorNames = ["primary", "accent", "highlight", "brand", "feature"];
-                      const randomName = colorNames[Math.floor(Math.random() * colorNames.length)];
-                      setNewColorName(randomName);
-                    }
                   }}
                 />
               </TabPanel>

@@ -5,12 +5,18 @@ import {
   Image as ChakraImage,
   Flex,
   Icon,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  ModalCloseButton,
   SimpleGrid,
   Text,
+  useDisclosure,
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { Check, Plus } from "lucide-react";
+import { Check, Image as ImageIcon, Upload } from "lucide-react";
 import { Vibrant } from "node-vibrant/browser";
 import React, { useRef, useState } from "react";
 
@@ -24,6 +30,7 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
   const [selectedColorIndex, setSelectedColorIndex] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -95,33 +102,79 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
           direction="column"
           align="center"
           justify="center"
-          py={10}
+          py={12}
           borderWidth="2px"
           borderRadius="md"
           borderStyle="dashed"
           borderColor="gray.300"
-          _hover={{ cursor: "pointer" }}
+          bg="gray.50"
+          _hover={{ 
+            cursor: "pointer", 
+            borderColor: "primary.500", 
+            bg: "primary.50", 
+            transform: "translateY(-2px)",
+            boxShadow: "md"
+          }}
+          transition="all 0.2s"
           onClick={triggerFileInput}
         >
-          <Icon as={Plus} size={24} style={{ marginBottom: "12px" }} />
-          <Text mb={1} fontWeight="medium">
+          <Icon as={ImageIcon} boxSize={8} mb={4} color="gray.400" />
+          <Icon as={Upload} boxSize={6} mb={4} color="gray.500" />
+          <Text mb={2} fontWeight="bold" fontSize="lg">
             Upload an image
           </Text>
-          <Text fontSize="sm" color="gray.500">
+          <Text fontSize="sm" color="gray.500" textAlign="center" maxW="80%">
             Click to browse or drag and drop
+          </Text>
+          <Text fontSize="xs" color="gray.400" mt={4}>
+            JPG, PNG, GIF, or WEBP
           </Text>
         </Flex>
       ) : (
         <VStack spacing={6} align="stretch">
-          <Box maxH="250px" overflow="hidden" borderRadius="md">
-            <ChakraImage src={selectedImage} alt="Uploaded image" objectFit="cover" w="100%" />
+          <Box 
+            borderRadius="md" 
+            borderWidth="1px" 
+            borderColor="gray.200" 
+            cursor="pointer"
+            onClick={onOpen}
+            transition="all 0.2s"
+            _hover={{ boxShadow: "md", transform: "scale(1.01)" }}
+          >
+            <ChakraImage 
+              src={selectedImage} 
+              alt="Uploaded image" 
+              objectFit="contain" 
+              w="100%" 
+              maxH="400px"
+            />
+            <Text fontSize="xs" textAlign="center" p={1} color="gray.500">
+              Click to view full size
+            </Text>
           </Box>
+          
+          {/* Full size image modal */}
+          <Modal isOpen={isOpen} onClose={onClose} size="4xl">
+            <ModalOverlay />
+            <ModalContent>
+              <ModalCloseButton zIndex="10" />
+              <ModalBody p={0}>
+                <ChakraImage 
+                  src={selectedImage} 
+                  alt="Uploaded image full size" 
+                  w="100%" 
+                  objectFit="contain"
+                  maxH="80vh"
+                />
+              </ModalBody>
+            </ModalContent>
+          </Modal>
 
           <Box>
             <Text fontWeight="medium" mb={3}>
               Extracted Colors
             </Text>
-            <SimpleGrid columns={3} spacing={3}>
+            <SimpleGrid columns={{base: 3, md: 6}} spacing={4}>
               {extractedColors.map((color, index) => (
                 <Box
                   key={color.name}
@@ -131,29 +184,49 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
                   overflow="hidden"
                   borderRadius="md"
                   borderWidth="2px"
-                  borderColor={selectedColorIndex === index ? "accent.500" : "transparent"}
+                  boxShadow={selectedColorIndex === index ? "lg" : "sm"}
+                  borderColor={selectedColorIndex === index ? "primary.500" : "gray.200"}
+                  transform={selectedColorIndex === index ? "scale(1.05)" : "scale(1)"}
+                  transition="all 0.2s ease-in-out"
+                  _hover={{ transform: "scale(1.05)", boxShadow: "md" }}
                 >
-                  <Box bg={color.color} h="60px" w="100%" />
-                  <Text
-                    fontSize="xs"
-                    p={1}
-                    textAlign="center"
-                    bg={selectedColorIndex === index ? "accent.50" : "gray.50"}
+                  <Box bg={color.color} h="80px" w="100%" />
+                  <Box
+                    p={2}
+                    borderTopWidth="1px"
+                    borderColor="gray.200"
+                    bg={selectedColorIndex === index ? "primary.50" : "white"}
                   >
-                    {color.name}
-                  </Text>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="semibold"
+                      textAlign="center"
+                      mb={1}
+                    >
+                      {color.name}
+                    </Text>
+                    <Text
+                      fontSize="xs"
+                      textAlign="center"
+                      fontFamily="mono"
+                    >
+                      {color.color.toUpperCase()}
+                    </Text>
+                  </Box>
                   {selectedColorIndex === index && (
                     <Flex
                       position="absolute"
-                      top={1}
-                      right={1}
+                      top={2}
+                      right={2}
                       align="center"
                       justify="center"
-                      w="18px"
-                      h="18px"
+                      w="24px"
+                      h="24px"
                       borderRadius="full"
+                      bg="primary.500"
+                      color="white"
                     >
-                      <Icon as={Check} />
+                      <Icon as={Check} boxSize={4} />
                     </Flex>
                   )}
                 </Box>
@@ -161,7 +234,13 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
             </SimpleGrid>
           </Box>
 
-          <Button size="sm" onClick={triggerFileInput}>
+          <Button 
+            size="sm" 
+            onClick={triggerFileInput} 
+            leftIcon={<Icon as={Upload} size={16} />}
+            colorScheme="primary"
+            variant="outline"
+          >
             Choose Different Image
           </Button>
         </VStack>

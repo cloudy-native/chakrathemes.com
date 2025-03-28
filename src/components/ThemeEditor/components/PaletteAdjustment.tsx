@@ -54,9 +54,6 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
     }
   }, [isAdjusting]);
 
-  // Color functions
-  const baseColor = colorShades["500"];
-
   // UI Colors
   const panelBg = useColorModeValue("gray.50", "gray.700");
   const borderColor = useColorModeValue("gray.200", "gray.600");

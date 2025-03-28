@@ -1,30 +1,30 @@
 import { extendTheme } from "@chakra-ui/react";
 
 // Custom theme definition with jewel tones
-export const applicationTheme = extendTheme({
+export const applicationVividTheme = extendTheme({
   colors: {
     background: {
-      "50": "#f9f9f9",
-      "100": "#f7f7f7",
-      "200": "#f4f4f4",
-      "300": "#f1f1f1",
-      "400": "#ededed",
-      "500": "#ebebeb",
-      "600": "#c3c3c3",
-      "700": "#8f8f8f",
-      "800": "#5a5a5a",
-      "900": "#252525",
+      "50": "#fcf6ea",
+      "100": "#fbf2e1",
+      "200": "#f9edd5",
+      "300": "#f8e7c9",
+      "400": "#f6e2bd",
+      "500": "#f5deb4",
+      "600": "#edc47a",
+      "700": "#e3a22c",
+      "800": "#a27016",
+      "900": "#543a0b",
     },
     secondary: {
-      "50": "#fdcfaf",
+      "50": "#fdcfb0",
       "100": "#fcb788",
       "200": "#fb9854",
       "300": "#fa7820",
-      "400": "#e05d05",
-      "500": "#b94d04",
-      "600": "#a34404",
-      "700": "#853703",
-      "800": "#682b02",
+      "400": "#df5d05",
+      "500": "#b84d04",
+      "600": "#a24404",
+      "700": "#843703",
+      "800": "#672b02",
       "900": "#4a1f02",
     },
     primary: {
@@ -40,16 +40,16 @@ export const applicationTheme = extendTheme({
       "900": "#29323f",
     },
     accent: {
-      "50": "#fdcfb0",
-      "100": "#fcb788",
-      "200": "#fb9854",
-      "300": "#fa7820",
-      "400": "#df5d05",
-      "500": "#b84d04",
-      "600": "#a24404",
-      "700": "#843703",
-      "800": "#672b02",
-      "900": "#4a1f02",
+      "50": "#f9e2c3",
+      "100": "#f7d5a9",
+      "200": "#f3c487",
+      "300": "#f0b365",
+      "400": "#eda343",
+      "500": "#ea9629",
+      "600": "#dc8616",
+      "700": "#b46e12",
+      "800": "#8c550e",
+      "900": "#643d0a",
     },
   },
   fonts: {
@@ -103,4 +103,4 @@ export const applicationTheme = extendTheme({
   },
 });
 
-export default applicationTheme;
+export default applicationVividTheme;

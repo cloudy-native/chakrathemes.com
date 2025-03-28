@@ -25,8 +25,7 @@ export const TypographyTab: React.FC = () => {
       <Text>
         By the way, the word <em>typeface</em> refers to the overall design of a set of characters,
         like Open Sans, while <em>font</em> a particular variation, like bold. But font is commonly
-        used to mean both. And while we're at it, <em>italic</em> and <em>oblique</em> are
-        definitely not the same thing.
+        used to mean both. 
       </Text>
     </Box>
   );

@@ -625,7 +625,7 @@ export const ColorContrastExplorer: React.FC = () => {
         <Flex justifyContent="space-between" alignItems="center" mb={4}>
           <Heading size="sm">Generated TypeScript Code</Heading>
           <IconButton
-            icon={<Copy size={16} />}
+            icon={<Icon as={Copy} />}
             aria-label="Copy TypeScript"
             onClick={copyFullTSCode}
           />

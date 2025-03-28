@@ -1,9 +1,9 @@
 import {
   AccessibilityAnalysisModal,
   AddPaletteModal,
+  ColorContrastModal,
   ColorHarmonyModal,
   PaletteAdjustment,
-  PaletteColorContrast,
   PaletteShade,
   RenamePaletteModal,
 } from "@/components/ThemeEditor/components";
@@ -38,7 +38,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { Check, Edit2, Plus, RefreshCw, Trash } from "lucide-react";
+import { Check, Edit2, LayoutGrid, Plus, RefreshCw, Trash } from "lucide-react";
 import React from "react";
 
 export const PaletteManagementTab: React.FC = () => {
@@ -61,6 +61,11 @@ export const PaletteManagementTab: React.FC = () => {
   const [isHarmonyModalOpen, setIsHarmonyModalOpen] = React.useState(false);
   const [harmonyColorKey, setHarmonyColorKey] = React.useState<string>("");
   const [harmonyColorShades, setHarmonyColorShades] = React.useState<Record<string, string>>({});
+
+  // Color contrast modal state
+  const [isContrastModalOpen, setIsContrastModalOpen] = React.useState(false);
+  const [contrastColorKey, setContrastColorKey] = React.useState<string>("");
+  const [contrastColorShades, setContrastColorShades] = React.useState<Record<string, string>>({});
 
   // Delete confirmation dialog state
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
@@ -107,6 +112,16 @@ export const PaletteManagementTab: React.FC = () => {
 
     // Track analytics
     trackColorAction("open_color_harmony", colorKey);
+  };
+
+  // Handle opening the color contrast modal
+  const openContrastModal = (colorKey: string, colorShades: Record<string, string>) => {
+    setContrastColorKey(colorKey);
+    setContrastColorShades(colorShades);
+    setIsContrastModalOpen(true);
+
+    // Track analytics
+    trackColorAction("open_color_contrast", colorKey);
   };
 
   // Handle delete confirmation
@@ -168,7 +183,20 @@ export const PaletteManagementTab: React.FC = () => {
             <AccordionButton>
               <Box flex="1" textAlign="left">
                 <Flex justifyContent="space-between" alignItems="center">
-                  <Text fontWeight="medium">{palette.colorKey}</Text>
+                  <Flex alignItems="center" gap={2}>
+                    <Tooltip label="Rename palette" placement="top">
+                      <IconButton
+                        aria-label="Rename palette"
+                        icon={<Edit2 size={16} />}
+                        variant="ghost"
+                        onClick={e => {
+                          e.stopPropagation(); // Prevent accordion from toggling
+                          openRenameDialog(palette.colorKey);
+                        }}
+                      />
+                    </Tooltip>
+                    <Text fontWeight="medium">{palette.colorKey}</Text>
+                  </Flex>
                   <HStack spacing={1}>
                     {/* Accessibility Analysis Button */}
                     <Tooltip label="Accessibility Analysis" placement="top">
@@ -183,6 +211,19 @@ export const PaletteManagementTab: React.FC = () => {
                       />
                     </Tooltip>
 
+                    {/* Color Contrast Button */}
+                    <Tooltip label="Color Contrast Explorer" placement="top">
+                      <IconButton
+                        aria-label="Color Contrast Explorer"
+                        icon={<Icon as={LayoutGrid} size={16} />}
+                        variant="ghost"
+                        onClick={e => {
+                          e.stopPropagation(); // Prevent accordion from toggling
+                          openContrastModal(palette.colorKey, palette.colorShades);
+                        }}
+                      />
+                    </Tooltip>
+
                     {/* Color Harmony Button */}
                     <Tooltip label="Color Harmony" placement="top">
                       <IconButton
@@ -192,19 +233,6 @@ export const PaletteManagementTab: React.FC = () => {
                         onClick={e => {
                           e.stopPropagation(); // Prevent accordion from toggling
                           openHarmonyModal(palette.colorKey, palette.colorShades);
-                        }}
-                      />
-                    </Tooltip>
-
-                    {/* Rename Button */}
-                    <Tooltip label="Rename palette" placement="top">
-                      <IconButton
-                        aria-label="Rename palette"
-                        icon={<Edit2 size={16} />}
-                        variant="ghost"
-                        onClick={e => {
-                          e.stopPropagation(); // Prevent accordion from toggling
-                          openRenameDialog(palette.colorKey);
                         }}
                       />
                     </Tooltip>
@@ -251,9 +279,6 @@ export const PaletteManagementTab: React.FC = () => {
                     ))}
                 </SimpleGrid>
               </Box>
-
-              {/* Color Contrast Explorer for this palette */}
-              <PaletteColorContrast colorKey={palette.colorKey} colorShades={palette.colorShades} />
 
               {/* Palette Adjustment Tool */}
               <PaletteAdjustment colorKey={palette.colorKey} colorShades={palette.colorShades} />
@@ -333,6 +358,14 @@ export const PaletteManagementTab: React.FC = () => {
         isOpen={isRenameDialogOpen}
         onClose={() => setIsRenameDialogOpen(false)}
         currentName={paletteToRename}
+      />
+
+      {/* Color Contrast Modal */}
+      <ColorContrastModal
+        isOpen={isContrastModalOpen}
+        onClose={() => setIsContrastModalOpen(false)}
+        colorKey={contrastColorKey}
+        colorShades={contrastColorShades}
       />
     </Box>
   );

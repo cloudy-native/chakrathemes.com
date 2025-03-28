@@ -32,7 +32,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onClose, src, alt }) =>
             <Image
               src={src}
               alt={alt}
-              objectFit="contain"
+              // objectFit="fill"
               maxH="90vh"
               margin="0 auto"
               cursor="pointer"

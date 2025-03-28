@@ -23,7 +23,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon, bad
             {title}
           </Heading>
           {badge && (
-            <Badge ml={2} variant="solid">
+            <Badge ml={2} variant="solid" colorScheme="accent">
               {badge}
             </Badge>
           )}
