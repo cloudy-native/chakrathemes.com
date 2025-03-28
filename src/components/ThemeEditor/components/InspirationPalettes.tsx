@@ -56,7 +56,6 @@ const ColorSwatch: React.FC<{
       borderRadius="md"
       p={3}
       cursor="pointer"
-      boxShadow="md"
       transition="transform 0.2s, box-shadow 0.2s"
       _hover={{ transform: "translateY(-2px)", boxShadow: "lg" }}
       onClick={onClick}

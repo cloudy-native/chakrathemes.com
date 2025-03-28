@@ -29,7 +29,7 @@ import {
 import { AlertTriangle, CheckCircle, Info } from "lucide-react";
 import React, { useMemo } from "react";
 import { ColorSwatch } from "./ColorSwatch";
-import { panelBackground } from "@/theme/themeConstants";
+import { panelBackground } from "@/theme/themeConfiguration";
 
 interface AccessibilityAnalysisModalProps {
   isOpen: boolean;

@@ -43,6 +43,32 @@ export const themeReducer = (state: ThemeValues, action: ThemeAction): ThemeValu
 
       return newState;
     }
+    
+    case "RENAME_COLOR_PALETTE": {
+      // Get the formatted names
+      const oldName = action.oldName.trim().toLowerCase();
+      const newName = action.newName.trim().toLowerCase().replace(/\s+/g, "-");
+      
+      // If names are the same or old palette doesn't exist, return unchanged state
+      if (oldName === newName || !state.colors || !state.colors[oldName]) {
+        return state;
+      }
+      
+      // Create a new state with renamed palette
+      const newState = { ...state };
+      const newColors = { ...newState.colors };
+      
+      // Copy the palette data from old name to new name
+      newColors[newName] = { ...newColors[oldName] };
+      
+      // Remove the old palette
+      delete newColors[oldName];
+      
+      // Update the state
+      newState.colors = newColors;
+      
+      return newState;
+    }
 
     case "UPDATE_COLOR_VALUE": {
       // Update a specific color value

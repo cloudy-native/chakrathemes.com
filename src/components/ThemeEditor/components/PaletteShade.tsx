@@ -20,7 +20,8 @@ export const PaletteShade: React.FC<{
   colorKey: string;
   shade: string;
   color: string;
-}> = ({ colorKey, shade, color }) => {
+  isSelected?: boolean;
+}> = ({ colorKey, shade, color, isSelected = false }) => {
   const { themeValues, setThemeValues } = useThemeContext();
   const { trackColorAction } = useAnalytics();
   const [copied, setCopied] = useState(false);
@@ -82,13 +83,21 @@ export const PaletteShade: React.FC<{
   return (
     <Box
       borderWidth="1px"
-      borderColor={borderColor}
+      borderColor={isSelected ? "primary.500" : borderColor}
       borderRadius="md"
       overflow="hidden"
-      boxShadow={isLocked ? "0 0 0 2px gold" : "md"}
-      transition="transform 0.2s"
-      _hover={{ transform: "translateY(-2px)" }}
+      boxShadow={
+        isSelected
+          ? "0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2), 0 0 0 2px var(--chakra-colors-primary-500)"
+          : isLocked
+          ? "0 0 0 2px gold"
+          : "md"
+      }
+      transition="all 0.2s ease-in-out"
+      transform={isSelected ? "translateY(-4px) scale(1.02)" : "none"}
+      _hover={{ transform: isSelected ? "translateY(-4px) scale(1.02)" : "translateY(-2px)" }}
       position="relative"
+      zIndex={isSelected ? 10 : 1}
     >
       {/* Lock indicator */}
       {isLocked && (

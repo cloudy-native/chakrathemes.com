@@ -1,5 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
-import { Copy } from "lucide-react";
+import { featureBackground } from "@/theme/themeConfiguration";
 import {
   Box,
   Button,
@@ -7,6 +7,7 @@ import {
   Flex,
   Grid,
   GridItem,
+  Icon,
   Input,
   SimpleGrid,
   Slider,
@@ -21,6 +22,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { Copy } from "lucide-react";
 import React, { useState } from "react";
 
 // Chakra UI default border radius values - used for reset
@@ -76,8 +78,7 @@ const ShadowControl: React.FC<{
   copiedValue: string | null;
   onCopy: (value: string) => void;
 }> = ({ shadowKey, shadowValue, onChange, copiedValue, onCopy }) => {
-  const bgColor = useColorModeValue("white", "gray.800");
-  const codeBg = useColorModeValue("gray.100", "gray.700");
+  const bgColor = useColorModeValue(featureBackground.light, featureBackground.dark);
   const copyValue = `boxShadow="${shadowKey}"`;
 
   const handleCopy = () => {
@@ -94,14 +95,14 @@ const ShadowControl: React.FC<{
       display="flex"
       flexDirection="column"
     >
-      <Flex mb={3} align="center" justify="space-between" bg={codeBg} p={2} borderRadius="md">
-        <Code colorScheme="primary" children={copyValue} />
+      <Flex mb={3} align="center" justify="space-between" p={2} borderRadius="md">
+        <Code children={copyValue} />
         <Button
           size="xs"
           variant="ghost"
           onClick={handleCopy}
           aria-label="Copy to clipboard"
-          leftIcon={<Copy size={14} />}
+          leftIcon={<Icon as={Copy} />}
         >
           {copiedValue === copyValue ? "Copied!" : ""}
         </Button>
@@ -110,7 +111,7 @@ const ShadowControl: React.FC<{
       <Box flex="1" display="flex" alignItems="center" justifyContent="center">
         <Box
           width="120px"
-          height="80px"
+          height="120px"
           bg={bgColor}
           borderRadius="md"
           boxShadow={shadowValue}
@@ -139,7 +140,8 @@ const BorderRadiusControl: React.FC<{
   copiedValue: string | null;
   onCopy: (value: string) => void;
 }> = ({ radiusKey, radiusValue, onChange, copiedValue, onCopy }) => {
-  const codeBg = useColorModeValue("gray.100", "gray.700");
+  const bgColor = useColorModeValue(featureBackground.light, featureBackground.dark);
+
   const copyValue = `borderRadius="${radiusKey}"`;
 
   // Parse rem value for slider
@@ -190,21 +192,21 @@ const BorderRadiusControl: React.FC<{
       display="flex"
       flexDirection="column"
     >
-      <Flex mb={3} align="center" justify="space-between" bg={codeBg} p={2} borderRadius="md">
-        <Code colorScheme="primary" children={copyValue} />
+      <Flex mb={3} align="center" justify="space-between" p={2} borderRadius="md">
+        <Code children={copyValue} />
         <Button
           size="xs"
           variant="ghost"
           onClick={handleCopy}
           aria-label="Copy to clipboard"
-          leftIcon={<Copy size={14} />}
+          leftIcon={<Icon as={Copy} />}
         >
           {copiedValue === copyValue ? "Copied!" : ""}
         </Button>
       </Flex>
 
       <Flex justify="space-between" align="center" mb={4} flex="1">
-        <Box width="80px" height="80px" bg="primary.500" borderRadius={radiusValue} />
+        <Box width="120px" height="120px" bg={bgColor} borderRadius={radiusValue} />
 
         {showInput && (
           <Input

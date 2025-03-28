@@ -21,7 +21,7 @@ export const featureList: FeatureCardProps[] = [
   {
     title: "Comprehensive Preview",
     description:
-      "See your theme in action with our extensive component previews. Test multiple card layouts, table styles, form elements, and interactive components to ensure visual consistency across your entire application before exporting.",
+      `You can even theme this application interactively. Just name your color palettes "primary", "secondary", "accent", or "background" to see your changes instantly in the Theme Preview tab below. It's an easy way to realise you need to dial bright colors back a smidge.`,
     icon: Eye,
   },
   {

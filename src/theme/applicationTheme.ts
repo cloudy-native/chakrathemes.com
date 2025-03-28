@@ -42,6 +42,18 @@ export const applicationTheme = extendTheme({
       "800": "#7d0a35",
       "900": "#5a0726",
     },
+    background: {
+      "50": "#f4f4f4",
+      "100": "#efefef",
+      "200": "#e8e8e8",
+      "300": "#e1e1e1",
+      "400": "#dbdbdb",
+      "500": "#d6d6d6",
+      "600": "#b5b5b5",
+      "700": "#888888",
+      "800": "#5c5c5c",
+      "900": "#2f2f2f",
+    },
   },
   fonts: {
     heading: `'Open Sans', sans-serif`,
@@ -83,7 +95,12 @@ export const applicationTheme = extendTheme({
     },
     Tabs: {
       defaultProps: {
-        colorScheme: "secondary",
+        colorScheme: "primary",
+      },
+    },
+    Tag: {
+      defaultProps: {
+        colorScheme: "primary",
       },
     },
   },

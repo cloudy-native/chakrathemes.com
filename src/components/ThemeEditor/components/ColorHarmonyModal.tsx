@@ -43,7 +43,7 @@ import {
 import { Check, Plus } from "lucide-react";
 import React, { useCallback, useMemo, useState } from "react";
 import { ColorSwatch } from "./ColorSwatch";
-import { panelBackground } from "@/theme/themeConstants";
+import { panelBackground } from "@/theme/themeConfiguration";
 
 interface ColorHarmonyModalProps {
   isOpen: boolean;

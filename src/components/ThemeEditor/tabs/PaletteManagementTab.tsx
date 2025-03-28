@@ -5,6 +5,7 @@ import {
   PaletteAdjustment,
   PaletteColorContrast,
   PaletteShade,
+  RenamePaletteModal,
 } from "@/components/ThemeEditor/components";
 import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
@@ -37,7 +38,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { Check, Plus, RefreshCw, Trash } from "lucide-react";
+import { Check, Edit2, Plus, RefreshCw, Trash } from "lucide-react";
 import React from "react";
 
 export const PaletteManagementTab: React.FC = () => {
@@ -66,6 +67,10 @@ export const PaletteManagementTab: React.FC = () => {
   const [paletteToDelete, setPaletteToDelete] = React.useState<string | null>(null);
   const cancelRef = React.useRef<HTMLButtonElement>(null);
 
+  // Rename palette dialog state
+  const [isRenameDialogOpen, setIsRenameDialogOpen] = React.useState(false);
+  const [paletteToRename, setPaletteToRename] = React.useState("");
+
   // Get all palettes
   const palettes = getColors();
 
@@ -73,6 +78,15 @@ export const PaletteManagementTab: React.FC = () => {
   const openDeleteDialog = (colorKey: string) => {
     setPaletteToDelete(colorKey);
     setIsDeleteDialogOpen(true);
+  };
+
+  // Handle rename button click
+  const openRenameDialog = (colorKey: string) => {
+    setPaletteToRename(colorKey);
+    setIsRenameDialogOpen(true);
+
+    // Track analytics
+    trackColorAction("open_rename_palette", colorKey);
   };
 
   // Handle opening the accessibility modal
@@ -182,6 +196,19 @@ export const PaletteManagementTab: React.FC = () => {
                       />
                     </Tooltip>
 
+                    {/* Rename Button */}
+                    <Tooltip label="Rename palette" placement="top">
+                      <IconButton
+                        aria-label="Rename palette"
+                        icon={<Edit2 size={16} />}
+                        variant="ghost"
+                        onClick={e => {
+                          e.stopPropagation(); // Prevent accordion from toggling
+                          openRenameDialog(palette.colorKey);
+                        }}
+                      />
+                    </Tooltip>
+
                     {/* Delete Button */}
                     <Tooltip label="Delete palette" placement="top">
                       <IconButton
@@ -250,9 +277,6 @@ export const PaletteManagementTab: React.FC = () => {
           <Text mb={4} color={useColorModeValue("gray.500", "gray.400")}>
             No palettes in your theme yet
           </Text>
-          <Button size="sm" colorScheme="primary" leftIcon={<Icon as={Plus} />} onClick={onOpen}>
-            Add Your First Palette
-          </Button>
         </Flex>
       )}
 
@@ -302,6 +326,13 @@ export const PaletteManagementTab: React.FC = () => {
         onClose={() => setIsHarmonyModalOpen(false)}
         colorKey={harmonyColorKey}
         colorShades={harmonyColorShades}
+      />
+
+      {/* Rename Palette Modal */}
+      <RenamePaletteModal
+        isOpen={isRenameDialogOpen}
+        onClose={() => setIsRenameDialogOpen(false)}
+        currentName={paletteToRename}
       />
     </Box>
   );

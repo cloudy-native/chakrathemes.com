@@ -17,6 +17,7 @@ import {
 import { Link as GatsbyLink } from "gatsby";
 import React from "react";
 import { Github, Menu, Moon, Sun, X } from "lucide-react";
+import { headerBackground, headerText } from "@/theme/themeConfiguration";
 
 interface NavItem {
   label: string;
@@ -36,8 +37,8 @@ const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   // Use specific colors to ensure opacity in both modes
-  const bgColor = useColorModeValue("gray.50", "gray.900");
-  const textColor = useColorModeValue("gray.800", "gray.100");
+  const bgColor = useColorModeValue(headerBackground.light, headerBackground.dark);
+  const textColor = useColorModeValue(headerText.light, headerText.dark);
   const borderColor = useColorModeValue("gray.200", "gray.700");
 
   return (
@@ -57,6 +58,7 @@ const Header = () => {
           {/* Logo */}
           <Text
             as={GatsbyLink}
+            color={textColor}
             to="/"
             fontFamily="heading"
             fontWeight="bold"
@@ -92,6 +94,7 @@ const Header = () => {
 
             <HStack spacing={4}>
               <IconButton
+                color={textColor}
                 aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
                 variant="ghost"
                 size="lg"
@@ -99,6 +102,7 @@ const Header = () => {
                 onClick={toggleColorMode}
               />
               <Button
+                color={textColor}
                 as="a"
                 href="https://github.com/cloudy-native/chakrathemes.com"
                 target="_blank"

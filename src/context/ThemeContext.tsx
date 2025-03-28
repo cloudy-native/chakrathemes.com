@@ -18,9 +18,10 @@ interface ThemeContextType {
   setNewColorName: (name: string) => void;
   baseColor: string;
   setBaseColor: (color: string) => void;
-  addNewColorPalette: () => void;
+  addNewColorPalette: (overwrite?: boolean) => void;
   updateColorPalette: (colorKey: string, newBaseColor: string) => void;
   updateColorValue: (colorCategory: string, shade: string, value: string) => void;
+  renameColorPalette: (oldName: string, newName: string) => void;
   getColors: () => ColorSwatch[];
 
   // UI state for theme preview
@@ -57,7 +58,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   // Add a new color palette from manual color picker
-  const addNewColorPalette = () => {
+  const addNewColorPalette = (overwrite = false) => {
     if (!newColorName) {
       toast({
         title: "Color name is required",
@@ -69,6 +70,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
 
     const colorName = newColorName.trim().toLowerCase().replace(/\s+/g, "-");
+    
+    // Check if a palette with this name already exists
+    const existingColors = themeValues.colors || {};
+    if (existingColors[colorName] && !overwrite) {
+      // If we're not in overwrite mode, this should be handled by the AddPaletteModal component
+      return;
+    }
 
     // Dispatch the action
     dispatch({ type: "ADD_COLOR_PALETTE", name: colorName, baseColor });
@@ -77,10 +85,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setNewColorName("");
 
     // Track the event
-    trackEvent(EventCategory.COLOR, "add_palette", colorName);
+    const eventAction = overwrite ? "overwrite_palette" : "add_palette";
+    trackEvent(EventCategory.COLOR, eventAction, colorName);
 
     toast({
-      title: `Added color palette: ${colorName}`,
+      title: overwrite 
+        ? `Overwrote existing palette: ${colorName}` 
+        : `Added color palette: ${colorName}`,
       status: "success",
       duration: 2000,
       isClosable: true,
@@ -115,6 +126,47 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // Track the event
     trackEvent(EventCategory.COLOR, "update_color", `${colorCategory}.${shade}`);
   };
+  
+  // Rename a color palette
+  const renameColorPalette = (oldName: string, newName: string) => {
+    if (!newName.trim()) {
+      toast({
+        title: "Palette name is required",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+    
+    const formattedNewName = newName.trim().toLowerCase().replace(/\s+/g, "-");
+    
+    // Check if the new name already exists
+    const existingColors = themeValues.colors || {};
+    if (existingColors[formattedNewName] && oldName !== formattedNewName) {
+      toast({
+        title: `Palette name "${formattedNewName}" already exists`,
+        description: "Please choose a different name",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    
+    // Dispatch the action
+    dispatch({ type: "RENAME_COLOR_PALETTE", oldName, newName: formattedNewName });
+    
+    // Track the event
+    trackEvent(EventCategory.COLOR, "rename_palette", `${oldName} to ${formattedNewName}`);
+    
+    toast({
+      title: `Renamed palette: ${oldName} → ${formattedNewName}`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+  };
 
   // Extract colors from the theme
   const getColors = () => {
@@ -136,6 +188,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     addNewColorPalette,
     updateColorPalette,
     updateColorValue,
+    renameColorPalette,
     getColors,
     themeString,
     setThemeString,

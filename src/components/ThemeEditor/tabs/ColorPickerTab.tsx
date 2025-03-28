@@ -106,7 +106,7 @@ export const ColorPickerTab: React.FC = () => {
         {/* Generate Button */}
         <Box mt={4} textAlign="right">
           <Button
-            onClick={addNewColorPalette}
+            onClick={() => addNewColorPalette()}
             disabled={!baseColor || !newColorName}
             colorScheme="primary"
           >

@@ -26,7 +26,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import chroma from "chroma-js";
-import { Check, Info, Moon, RotateCcw, Sun, Palette } from "lucide-react";
+import { Check, Info, Moon, RotateCcw, SlidersHorizontal, Sun } from "lucide-react";
 import React, { useState } from "react";
 
 interface PaletteAdjustmentProps {
@@ -195,7 +195,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
         <Button
           colorScheme="primary"
           variant="ghost"
-          leftIcon={<Icon as={Palette} />}
+          leftIcon={<Icon as={SlidersHorizontal} />}
           onClick={() => {
             setIsAdjusting(true);
             updatePreview();

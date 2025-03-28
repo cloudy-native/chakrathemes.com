@@ -80,4 +80,5 @@ export type ThemeAction =
   | { type: "UPDATE_THEME_VALUE"; path: ThemePath; value: ThemeValueType }
   | { type: "ADD_COLOR_PALETTE"; name: string; baseColor: string }
   | { type: "UPDATE_COLOR_PALETTE"; colorKey: string; newBaseColor: string }
-  | { type: "UPDATE_COLOR_VALUE"; colorCategory: string; shade: string; value: string };
+  | { type: "UPDATE_COLOR_VALUE"; colorCategory: string; shade: string; value: string }
+  | { type: "RENAME_COLOR_PALETTE"; oldName: string; newName: string };

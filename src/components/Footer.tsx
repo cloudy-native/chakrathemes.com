@@ -2,6 +2,7 @@ import {
   Box,
   Container,
   Divider,
+  Icon,
   IconButton,
   Link,
   SimpleGrid,
@@ -9,12 +10,13 @@ import {
   Text,
   VisuallyHidden,
   useColorModeValue,
-  Icon,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
-import React from "react";
 import { ExternalLink, Github, Linkedin } from "lucide-react";
+import React from "react";
+import version from "../version.json";
 import BuyMeCoffeeButton from "./BuyMeCoffeeButton";
+import { headerBackground } from "@/theme/themeConfiguration";
 
 const SocialButton = ({
   children,
@@ -48,7 +50,8 @@ const ListHeader = ({ children }: { children: React.ReactNode }) => {
 };
 
 const Footer = () => {
-  const bgColor = useColorModeValue("gray.50", "gray.900");
+  // Remove console.log to avoid seeing double renders during SSR and hydration
+  const bgColor = useColorModeValue(headerBackground.light, headerBackground.dark);
   const borderColor = useColorModeValue("gray.200", "gray.700");
 
   return (
@@ -114,7 +117,7 @@ const Footer = () => {
             </Link>
           </Text>
           <Text fontSize="xs">
-            Version 0.1.1 (March 25, 2025) |
+            Version {version.version} ({version.buildDate}) |
             <Link href="https://github.com/cloudy-native/chakrathemes.com/issues" ml={1} isExternal>
               Report Issues <Icon as={ExternalLink} boxSize={3} />
             </Link>{" "}
