@@ -7,6 +7,8 @@ import {
   Flex,
   Box,
   useColorModeValue,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import { GoogleFont } from "@/types";
 
@@ -31,47 +33,56 @@ export const FontSelector: React.FC<FontSelectorProps> = ({
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
   return (
-    <FormControl mb={6}>
-      <FormLabel fontWeight="medium">{label}</FormLabel>
-      {description && (
-        <Text fontSize="sm" color="gray.500" mb={2}>
-          {description}
-        </Text>
-      )}
+    <FormControl mb={4}>
+      <Grid templateColumns="1fr 1.5fr" gap={4} alignItems="flex-start">
+        <GridItem>
+          <FormLabel fontWeight="medium" mb={1}>
+            {label}
+          </FormLabel>
+          {description && (
+            <Text fontSize="xs" color="gray.500" mb={2}>
+              {description}
+            </Text>
+          )}
 
-      <Select value={selectedFont} onChange={e => onChange(e.target.value)} mb={3}>
-        {fonts.map(font => (
-          <option key={font.family} value={font.family}>
-            {font.family} ({font.category})
-          </option>
-        ))}
-      </Select>
+          <Select value={selectedFont} onChange={e => onChange(e.target.value)} size="sm">
+            {fonts.map(font => (
+              <option key={font.family} value={font.family}>
+                {font.family} ({font.category})
+              </option>
+            ))}
+          </Select>
+        </GridItem>
 
-      <Flex
-        direction="column"
-        p={4}
-        bg={bgColor}
-        borderRadius="md"
-        borderWidth="1px"
-        borderColor={borderColor}
-      >
-        <Text fontWeight="semibold" mb={1} fontSize="sm">
-          Preview
-        </Text>
-        <Box
-          p={2}
-          style={{
-            fontFamily: `'${selectedFont}', ${
-              fonts.find(f => f.family === selectedFont)?.category || "sans-serif"
-            }`,
-          }}
-        >
-          <Text fontSize="2xl" fontWeight="bold" mb={1}>
-            {selectedFont}
-          </Text>
-          <Text fontSize="md">{previewText}</Text>
-        </Box>
-      </Flex>
+        <GridItem>
+          <Flex
+            direction="column"
+            p={3}
+            bg={bgColor}
+            borderRadius="md"
+            borderWidth="1px"
+            borderColor={borderColor}
+            h="100%"
+          >
+            <Text fontWeight="semibold" mb={1} fontSize="xs">
+              Preview
+            </Text>
+            <Box
+              p={2}
+              style={{
+                fontFamily: `'${selectedFont}', ${
+                  fonts.find(f => f.family === selectedFont)?.category || "sans-serif"
+                }`,
+              }}
+            >
+              <Text fontSize="lg" fontWeight="bold" mb={1}>
+                {selectedFont}
+              </Text>
+              <Text fontSize="sm">{previewText}</Text>
+            </Box>
+          </Flex>
+        </GridItem>
+      </Grid>
     </FormControl>
   );
 };

@@ -30,10 +30,7 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
 
   return (
     <Box mb={6}>
-      <Text fontWeight="medium" mb={3}>
-        Curated Font Combinations
-      </Text>
-      <Text fontSize="sm" color="gray.500" mb={4}>
+      <Text fontSize="sm" mb={4}>
         Select a pre-designed font combination for your brand style
       </Text>
 

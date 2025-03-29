@@ -159,28 +159,11 @@ export const PaletteManagementTab: React.FC = () => {
 
   return (
     <Box>
-      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-        <GridItem rowSpan={2} colSpan={4}>
-          <Text mb={6} fontSize="sm">
-            Create and manage palettes for your theme. Each palette is a range of shades derived
-            from a base color. Add palettes manually, extract from images, or check out the curated
-            Inspiration tab! You can have as many palettes as you like. Palettes are part of a
-            complete ChakraUI theme that also includes typography, space, borders, and so on.
-          </Text>
-          <Text mb={4} fontSize="sm">
-            <strong>Tip:</strong> Name your palettes "primary", "secondary", "accent", or
-            "background" to see them in action in this application, but only with the "Preview &
-            Download" tab selected.
-          </Text>
-        </GridItem>
-        <GridItem>
-          <Flex justify="right" mb={2}>
-            <Button colorScheme="primary" leftIcon={<Icon as={Plus} />} onClick={onOpen}>
-              Add Palette
-            </Button>
-          </Flex>
-        </GridItem>
-      </Grid>
+      <Flex justifyContent="flex-end" mb={4}>
+        <Button colorScheme="primary" leftIcon={<Icon as={Plus} />} onClick={onOpen}>
+          Add Palette
+        </Button>
+      </Flex>
 
       <Accordion allowMultiple defaultIndex={[]}>
         {palettes.map((palette, index) => (

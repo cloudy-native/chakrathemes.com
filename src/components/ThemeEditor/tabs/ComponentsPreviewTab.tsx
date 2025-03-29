@@ -39,10 +39,6 @@ export const ComponentsPreviewTab: React.FC = () => {
       <ChakraProvider theme={previewTheme}>
         {/* Full-width Color Palette Cards Section */}
         <Box p={5} borderWidth="1px" borderRadius="lg" boxShadow="md" width="100%">
-          <Text fontSize={"sm"} mb={4}>
-            <Icon as={Info} /> Add more palettes in the "Palettes" tab above.
-          </Text>
-
           <Tabs
             isLazy
             index={colorTabIndex}
