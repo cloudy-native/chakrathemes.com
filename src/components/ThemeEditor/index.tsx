@@ -32,21 +32,16 @@ const Desktop = () => {
     <Tabs isLazy isFitted index={activeTabIndex} onChange={setActiveTabIndex}>
       <TabList mb="1em">
         <Tab>Palettes</Tab>
-        <Tab>Preview & Download</Tab>
         <Tab>Typography</Tab>
         <Tab>Spacing</Tab>
         <Tab>Borders & Shadows</Tab>
+        <Tab>Preview & Download</Tab>
       </TabList>
 
       <TabPanels>
         {/* Palette Management Tab */}
         <TabPanel>
           <PaletteManagementTab />
-        </TabPanel>
-
-        {/* Components Preview Tab */}
-        <TabPanel>
-          <ComponentsPreviewTab />
         </TabPanel>
 
         {/* Typography Tab */}
@@ -63,54 +58,18 @@ const Desktop = () => {
         <TabPanel>
           <BordersAndShadowsTab />
         </TabPanel>
+
+        {/* Components Preview Tab */}
+        <TabPanel>
+          <ComponentsPreviewTab />
+        </TabPanel>
       </TabPanels>
     </Tabs>
   );
 };
 
 const Mobile = () => {
-  return (
-    <Accordion allowMultiple>
-      <AccordionItem>
-        <AccordionButton>
-          Palettes <AccordionIcon />
-        </AccordionButton>
-        <AccordionPanel>
-          <PaletteManagementTab />
-        </AccordionPanel>
-      </AccordionItem>
-      <AccordionItem>
-        <AccordionButton>
-          Preview & Download <AccordionIcon />
-        </AccordionButton>
-        <AccordionPanel>{/* <ComponentsPreviewTab /> */}</AccordionPanel>
-      </AccordionItem>
-      <AccordionItem>
-        <AccordionButton>
-          Typography <AccordionIcon />
-        </AccordionButton>
-        <AccordionPanel>
-          <TypographyTab />
-        </AccordionPanel>
-      </AccordionItem>
-      <AccordionItem>
-        <AccordionButton>
-          Spacing <AccordionIcon />
-        </AccordionButton>
-        <AccordionPanel>
-          <SpacingTab />
-        </AccordionPanel>
-      </AccordionItem>
-      <AccordionItem>
-        <AccordionButton>
-          Borders & Shadows <AccordionIcon />
-        </AccordionButton>
-        <AccordionPanel>
-          <BordersAndShadowsTab />
-        </AccordionPanel>
-      </AccordionItem>
-    </Accordion>
-  );
+  return <PaletteManagementTab />;
 };
 
 const ChooseUI = () => {

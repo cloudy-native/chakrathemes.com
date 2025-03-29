@@ -1,4 +1,4 @@
-import { ThemeAction, ThemeValues } from "@/types";
+import { FontCombination, ThemeAction, ThemeValues } from "@/types";
 import { generateColorPalette } from "@/utils/colorUtils";
 import { updateThemeProperty } from "@/utils/themeUtils";
 
@@ -77,6 +77,31 @@ export const themeReducer = (state: ThemeValues, action: ThemeAction): ThemeValu
         ["colors", action.colorCategory, action.shade],
         action.value
       );
+    }
+
+    case "UPDATE_FONT": {
+      // Create a new state with updated font
+      const newState = { ...state };
+      if (!newState.fonts) {
+        newState.fonts = {};
+      }
+      newState.fonts[action.fontCategory] = action.fontFamily;
+      return newState;
+    }
+
+    case "SET_FONT_COMBINATION": {
+      // Create a new state with the font combination
+      const newState = { ...state };
+      if (!newState.fonts) {
+        newState.fonts = {};
+      }
+
+      const combination: FontCombination = action.combination;
+      newState.fonts.heading = combination.heading;
+      newState.fonts.body = combination.body;
+      newState.fonts.mono = combination.mono;
+
+      return newState;
     }
 
     default:

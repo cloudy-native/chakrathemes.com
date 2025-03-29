@@ -1,5 +1,12 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
-import { ThemeValues, ThemePath, ThemeValueType, ColorSwatch, ThemeAction } from "@/types";
+import {
+  ThemeValues,
+  ThemePath,
+  ThemeValueType,
+  ColorSwatch,
+  ThemeAction,
+  FontCombination,
+} from "@/types";
 import { defaultTheme } from "@/hooks/useThemeValues";
 import { useToast } from "@chakra-ui/react";
 import { themeReducer } from "./ThemeReducer";
@@ -23,6 +30,10 @@ interface ThemeContextType {
   updateColorValue: (colorCategory: string, shade: string, value: string) => void;
   renameColorPalette: (oldName: string, newName: string) => void;
   getColors: () => ColorSwatch[];
+
+  // Typography management
+  updateFont: (fontCategory: "heading" | "body" | "mono", fontFamily: string) => void;
+  setFontCombination: (combination: FontCombination) => void;
 
   // UI state for theme preview
   themeString: string;
@@ -177,6 +188,42 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     });
   };
 
+  // Typography management
+  const updateFont = (fontCategory: "heading" | "body" | "mono", fontFamily: string) => {
+    dispatch({
+      type: "UPDATE_FONT",
+      fontCategory,
+      fontFamily,
+    });
+
+    // Track the event
+    trackEvent(EventCategory.TYPOGRAPHY, "update_font", `${fontCategory}: ${fontFamily}`);
+
+    toast({
+      title: `Updated ${fontCategory} font to ${fontFamily}`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+  };
+
+  const setFontCombination = (combination: FontCombination) => {
+    dispatch({
+      type: "SET_FONT_COMBINATION",
+      combination,
+    });
+
+    // Track the event
+    trackEvent(EventCategory.TYPOGRAPHY, "set_font_combination", combination.name);
+
+    toast({
+      title: `Applied font combination: ${combination.name}`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+  };
+
   const contextValue: ThemeContextType = {
     themeValues,
     setThemeValues,
@@ -190,6 +237,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     updateColorValue,
     renameColorPalette,
     getColors,
+    updateFont,
+    setFontCombination,
     themeString,
     setThemeString,
     showThemePreview,

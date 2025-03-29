@@ -25,6 +25,25 @@ export interface ThemeValues {
   lineHeights?: {
     [key: string]: string | number;
   };
+  fonts?: {
+    heading?: string;
+    body?: string;
+    mono?: string;
+  };
+  fontWeights?: {
+    hairline?: number;
+    thin?: number;
+    light?: number;
+    normal?: number;
+    medium?: number;
+    semibold?: number;
+    bold?: number;
+    extrabold?: number;
+    black?: number;
+  };
+  fontSizes?: {
+    [key: string]: string;
+  };
 }
 
 export interface ColorSwatch {
@@ -74,6 +93,21 @@ export interface ColorShade {
 
 export type ColorPalette = Record<string, string>;
 
+// Typography types
+export interface GoogleFont {
+  family: string;
+  category: string;
+  variants: string[];
+}
+
+export interface FontCombination {
+  name: string;
+  description: string;
+  heading: string;
+  body: string;
+  mono: string;
+}
+
 // Theme context action types
 export type ThemeAction =
   | { type: "SET_THEME_VALUES"; payload: ThemeValues }
@@ -81,4 +115,6 @@ export type ThemeAction =
   | { type: "ADD_COLOR_PALETTE"; name: string; baseColor: string }
   | { type: "UPDATE_COLOR_PALETTE"; colorKey: string; newBaseColor: string }
   | { type: "UPDATE_COLOR_VALUE"; colorCategory: string; shade: string; value: string }
-  | { type: "RENAME_COLOR_PALETTE"; oldName: string; newName: string };
+  | { type: "RENAME_COLOR_PALETTE"; oldName: string; newName: string }
+  | { type: "UPDATE_FONT"; fontCategory: "heading" | "body" | "mono"; fontFamily: string }
+  | { type: "SET_FONT_COMBINATION"; combination: FontCombination };

@@ -16,10 +16,8 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [
-          `Open Sans\:300,400,600`,
-        ],
-        display: 'swap',
+        fonts: [`Open Sans\:300,400,600`],
+        display: "swap",
       },
     },
     {
@@ -61,6 +59,13 @@ const config: GatsbyConfig = {
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-smartypants`,
         ],
+      },
+    },
+    // Add the Google Analytics plugin here:
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: ["G-9WVTLWDPQ3"],
       },
     },
   ],

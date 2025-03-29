@@ -17,6 +17,7 @@ export enum EventCategory {
   COLOR = "color",
   EDITOR = "editor",
   CONVERSION = "conversion",
+  TYPOGRAPHY = "typography",
 }
 
 /**
