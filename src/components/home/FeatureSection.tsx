@@ -20,8 +20,7 @@ export const featureList: FeatureCardProps[] = [
   },
   {
     title: "Comprehensive Preview",
-    description:
-      `You can even theme this application interactively. Just name your color palettes "primary", "secondary", "accent", or "background" to see your changes instantly in the Theme Preview tab below. It's an easy way to realise you need to dial bright colors back a smidge.`,
+    description: `You can even theme this application interactively. Just name your color palettes "primary", "secondary", "accent", or "background" to see your changes instantly in the Theme Preview tab below. It's an easy way to realise you need to dial bright colors back a smidge.`,
     icon: Eye,
   },
   {

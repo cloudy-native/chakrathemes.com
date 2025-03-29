@@ -28,7 +28,9 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon, bad
             </Badge>
           )}
         </Flex>
-        <Text fontSize="sm" color={textColor}>{description}</Text>
+        <Text fontSize="sm" color={textColor}>
+          {description}
+        </Text>
       </Flex>
     </Box>
   );

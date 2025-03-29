@@ -58,7 +58,7 @@ export const RenamePaletteModal: React.FC<RenamePaletteModalProps> = ({
             <FormLabel>New Name</FormLabel>
             <Input
               value={newName}
-              onChange={(e) => setNewName(e.target.value)}
+              onChange={e => setNewName(e.target.value)}
               placeholder="Enter new palette name"
               autoFocus
             />
@@ -69,8 +69,8 @@ export const RenamePaletteModal: React.FC<RenamePaletteModalProps> = ({
           <Button variant="outline" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button 
-            onClick={handleRename} 
+          <Button
+            onClick={handleRename}
             isDisabled={!newName.trim() || newName.trim() === currentName}
             colorScheme="primary"
           >

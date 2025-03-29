@@ -16,8 +16,8 @@ const HeroSection: React.FC = () => {
             integration without extra steps.
           </Text>
           <Text fontSize="xl" maxW="6xl" mb="4">
-            The base colors for this application's theme were discovered using built-in color science
-            goodness from this image of the sun setting over Phuket, Thailand.
+            The base colors for this application's theme were discovered using built-in color
+            science goodness from this image of the sun setting over Phuket, Thailand.
           </Text>
           <Text fontSize="xl" maxW="6xl" mb="4">
             I'm happy to debate the color aesthetic of this application. I just wrote the code. And

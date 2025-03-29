@@ -108,12 +108,12 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
           borderStyle="dashed"
           borderColor="gray.300"
           bg="gray.50"
-          _hover={{ 
-            cursor: "pointer", 
-            borderColor: "primary.500", 
-            bg: "primary.50", 
+          _hover={{
+            cursor: "pointer",
+            borderColor: "primary.500",
+            bg: "primary.50",
             transform: "translateY(-2px)",
-            boxShadow: "md"
+            boxShadow: "md",
           }}
           transition="all 0.2s"
           onClick={triggerFileInput}
@@ -132,37 +132,37 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
         </Flex>
       ) : (
         <VStack spacing={6} align="stretch">
-          <Box 
-            borderRadius="md" 
-            borderWidth="1px" 
-            borderColor="gray.200" 
+          <Box
+            borderRadius="md"
+            borderWidth="1px"
+            borderColor="gray.200"
             cursor="pointer"
             onClick={onOpen}
             transition="all 0.2s"
             _hover={{ boxShadow: "md", transform: "scale(1.01)" }}
           >
-            <ChakraImage 
-              src={selectedImage} 
-              alt="Uploaded image" 
-              objectFit="contain" 
-              w="100%" 
+            <ChakraImage
+              src={selectedImage}
+              alt="Uploaded image"
+              objectFit="contain"
+              w="100%"
               maxH="400px"
             />
             <Text fontSize="xs" textAlign="center" p={1} color="gray.500">
               Click to view full size
             </Text>
           </Box>
-          
+
           {/* Full size image modal */}
           <Modal isOpen={isOpen} onClose={onClose} size="4xl">
             <ModalOverlay />
             <ModalContent>
               <ModalCloseButton zIndex="10" />
               <ModalBody p={0}>
-                <ChakraImage 
-                  src={selectedImage} 
-                  alt="Uploaded image full size" 
-                  w="100%" 
+                <ChakraImage
+                  src={selectedImage}
+                  alt="Uploaded image full size"
+                  w="100%"
                   objectFit="contain"
                   maxH="80vh"
                 />
@@ -174,7 +174,7 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
             <Text fontWeight="medium" mb={3}>
               Extracted Colors
             </Text>
-            <SimpleGrid columns={{base: 3, md: 6}} spacing={4}>
+            <SimpleGrid columns={{ base: 3, md: 6 }} spacing={4}>
               {extractedColors.map((color, index) => (
                 <Box
                   key={color.name}
@@ -197,19 +197,10 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
                     borderColor="gray.200"
                     bg={selectedColorIndex === index ? "primary.50" : "white"}
                   >
-                    <Text
-                      fontSize="xs"
-                      fontWeight="semibold"
-                      textAlign="center"
-                      mb={1}
-                    >
+                    <Text fontSize="xs" fontWeight="semibold" textAlign="center" mb={1}>
                       {color.name}
                     </Text>
-                    <Text
-                      fontSize="xs"
-                      textAlign="center"
-                      fontFamily="mono"
-                    >
+                    <Text fontSize="xs" textAlign="center" fontFamily="mono">
                       {color.color.toUpperCase()}
                     </Text>
                   </Box>
@@ -234,9 +225,9 @@ const ImageColorExtractor: React.FC<ImageColorExtractorProps> = ({ onSelectColor
             </SimpleGrid>
           </Box>
 
-          <Button 
-            size="sm" 
-            onClick={triggerFileInput} 
+          <Button
+            size="sm"
+            onClick={triggerFileInput}
             leftIcon={<Icon as={Upload} size={16} />}
             colorScheme="primary"
             variant="outline"

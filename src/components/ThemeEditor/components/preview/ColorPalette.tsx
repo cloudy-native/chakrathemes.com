@@ -23,12 +23,12 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
   // Create a click handler for the PaletteShade component
   const handleShadeClick = (shade: string, color: string) => {
     setSelectedShade(prevShade => (prevShade === shade ? null : shade));
-    
+
     // Track the selection action
     if (selectedShade !== shade) {
       trackColorAction("select_shade", `${colorKey}.${shade}`);
     }
-    
+
     // Copy the color to clipboard when selected
     onCopy(color);
   };
@@ -38,8 +38,8 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
       {Object.entries(themeValues.colors[colorKey])
         .sort(([a], [b]) => parseInt(a) - parseInt(b))
         .map(([shade, colorValue]) => (
-          <Box 
-            key={shade} 
+          <Box
+            key={shade}
             onClick={() => handleShadeClick(shade, colorValue as string)}
             cursor="pointer"
           >

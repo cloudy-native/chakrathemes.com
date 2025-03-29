@@ -10,6 +10,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -82,9 +83,7 @@ const Mobile = () => {
         <AccordionButton>
           Preview & Download <AccordionIcon />
         </AccordionButton>
-        <AccordionPanel>
-          <ComponentsPreviewTab />
-        </AccordionPanel>
+        <AccordionPanel>{/* <ComponentsPreviewTab /> */}</AccordionPanel>
       </AccordionItem>
       <AccordionItem>
         <AccordionButton>

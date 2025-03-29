@@ -167,6 +167,11 @@ export const PaletteManagementTab: React.FC = () => {
             Inspiration tab! You can have as many palettes as you like. Palettes are part of a
             complete ChakraUI theme that also includes typography, space, borders, and so on.
           </Text>
+          <Text mb={4} fontSize="sm">
+            <strong>Tip:</strong> Name your palettes "primary", "secondary", "accent", or
+            "background" to see them in action in this application, but only with the "Preview &
+            Download" tab selected.
+          </Text>
         </GridItem>
         <GridItem>
           <Flex justify="right" mb={2}>

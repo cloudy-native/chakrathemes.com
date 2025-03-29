@@ -60,8 +60,8 @@ const OverwritePaletteConfirmation: React.FC<OverwritePaletteConfirmationProps> 
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            A palette named "{paletteName}" already exists. Do you want to overwrite it with your new
-            palette?
+            A palette named "{paletteName}" already exists. Do you want to overwrite it with your
+            new palette?
           </AlertDialogBody>
 
           <AlertDialogFooter>
@@ -85,13 +85,13 @@ interface AddPaletteModalProps {
 
 export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClose }) => {
   const [tabIndex, setTabIndex] = useState(0);
-  const { 
-    newColorName, 
-    setNewColorName, 
-    baseColor, 
-    setBaseColor, 
+  const {
+    newColorName,
+    setNewColorName,
+    baseColor,
+    setBaseColor,
     addNewColorPalette,
-    themeValues 
+    themeValues,
   } = useThemeContext();
   const [showOverwriteConfirmation, setShowOverwriteConfirmation] = useState(false);
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
@@ -99,20 +99,20 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
 
   const handleAddPalette = () => {
     if (!newColorName.trim() || !baseColor) return;
-    
+
     const colorName = newColorName.trim().toLowerCase().replace(/\s+/g, "-");
     const existingColors = themeValues.colors || {};
-    
+
     if (existingColors[colorName]) {
       setShowOverwriteConfirmation(true);
       return;
     }
-    
+
     // No conflict, proceed normally
     addNewColorPalette();
     onClose();
   };
-  
+
   const handleOverwritePalette = () => {
     addNewColorPalette(true); // true = overwrite existing
     setShowOverwriteConfirmation(false);
@@ -188,7 +188,7 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
           </ModalFooter>
         </ModalContent>
       </Modal>
-      
+
       {/* Confirmation dialog for overwriting existing palettes */}
       <OverwritePaletteConfirmation
         isOpen={showOverwriteConfirmation}

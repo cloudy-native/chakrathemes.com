@@ -37,4 +37,3 @@ export const headerText: ColorPair = {
   light: "gray.900",
   dark: "gray.100",
 };
-

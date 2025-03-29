@@ -70,7 +70,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
 
     const colorName = newColorName.trim().toLowerCase().replace(/\s+/g, "-");
-    
+
     // Check if a palette with this name already exists
     const existingColors = themeValues.colors || {};
     if (existingColors[colorName] && !overwrite) {
@@ -89,8 +89,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     trackEvent(EventCategory.COLOR, eventAction, colorName);
 
     toast({
-      title: overwrite 
-        ? `Overwrote existing palette: ${colorName}` 
+      title: overwrite
+        ? `Overwrote existing palette: ${colorName}`
         : `Added color palette: ${colorName}`,
       status: "success",
       duration: 2000,
@@ -126,7 +126,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // Track the event
     trackEvent(EventCategory.COLOR, "update_color", `${colorCategory}.${shade}`);
   };
-  
+
   // Rename a color palette
   const renameColorPalette = (oldName: string, newName: string) => {
     if (!newName.trim()) {
@@ -138,9 +138,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       });
       return;
     }
-    
+
     const formattedNewName = newName.trim().toLowerCase().replace(/\s+/g, "-");
-    
+
     // Check if the new name already exists
     const existingColors = themeValues.colors || {};
     if (existingColors[formattedNewName] && oldName !== formattedNewName) {
@@ -153,13 +153,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       });
       return;
     }
-    
+
     // Dispatch the action
     dispatch({ type: "RENAME_COLOR_PALETTE", oldName, newName: formattedNewName });
-    
+
     // Track the event
     trackEvent(EventCategory.COLOR, "rename_palette", `${oldName} to ${formattedNewName}`);
-    
+
     toast({
       title: `Renamed palette: ${oldName} → ${formattedNewName}`,
       status: "success",
