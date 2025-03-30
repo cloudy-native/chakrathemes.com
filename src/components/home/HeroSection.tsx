@@ -11,10 +11,7 @@ const HeroSection: React.FC = () => {
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8} w="100%" alignItems="start">
         <Flex flexDir="column" align="flex-start" justify="flex-start" textAlign="left">
           <Text fontSize="xl" maxW="6xl" mb="4">
-            Create and customize a unique and distinctive Chakra UI theme for your brand. Modify
-            colors, typography, spacing, and more, then export your theme file for direct
-            integration without extra steps.
-          </Text>
+          Create your perfect Chakra UI theme. Customize colors, typography, spacing, and export directly.          </Text>
           <Text fontSize="xl" maxW="6xl" mb="4">
             The base colors for this application's theme were discovered using built-in color
             science goodness from this image of the sun setting over Phuket, Thailand.

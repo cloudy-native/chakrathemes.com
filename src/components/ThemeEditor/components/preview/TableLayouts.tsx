@@ -21,7 +21,6 @@ import {
   Tbody,
   Td,
   Text,
-  Tfoot,
   Th,
   Thead,
   Tooltip,
@@ -71,13 +70,14 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
   };
 
   // UI colors based on color mode
-  const bgColor = useColorModeValue("white", "gray.800");
-  const altBgColor = useColorModeValue("gray.50", "gray.700");
+  const bgColor = useColorModeValue("background.100", "background.800");
+  const altBgColor = useColorModeValue("primary.50", "primary.900");
   const borderColor = useColorModeValue("gray.200", "gray.600");
-  const headerBgColor = useColorModeValue(getLightShade(), "gray.700");
-  const hoverBgColor = useColorModeValue(getLightShade(), "gray.700");
+  const headerBgColor = useColorModeValue("gray.100", "gray.700"); // Use gray shades for header
+  const hoverBgColor = useColorModeValue("gray.100", "gray.700"); // Use gray shades for hover
   const textColor = useColorModeValue("gray.800", "white");
   const subTextColor = useColorModeValue("gray.600", "gray.400");
+  const tableBorderColor = useColorModeValue("gray.200", "gray.700");
 
   type User = {
     id: number;
@@ -191,13 +191,14 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
         </Text>
         <TableContainer
           border="1px solid"
-          borderColor={borderColor}
+          borderColor={tableBorderColor}
           borderRadius={themeValues.radii?.md || "md"}
           boxShadow={themeValues.shadows?.sm || "sm"}
         >
-          <Table variant="striped" colorScheme={colorKey}>
+          {/* TODO: we need to define better stripe colors */}
+          <Table variant="striped" colorScheme={colorKey} >
             <TableCaption>Product Inventory Summary</TableCaption>
-            <Thead bg={headerBgColor}>
+            <Thead >
               <Tr>
                 <Th>Product ID</Th>
                 <Th>Name</Th>
@@ -225,14 +226,6 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
                 </Tr>
               ))}
             </Tbody>
-            <Tfoot bg={headerBgColor}>
-              <Tr>
-                <Th colSpan={3}>Total Products: {products.length}</Th>
-                <Th isNumeric>Avg: $176.24</Th>
-                <Th isNumeric>Total: 103</Th>
-                <Th isNumeric>Avg: 4.6</Th>
-              </Tr>
-            </Tfoot>
           </Table>
         </TableContainer>
       </Box>
@@ -244,10 +237,9 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
         </Text>
         <TableContainer
           border="1px solid"
-          borderColor={borderColor}
+          borderColor={tableBorderColor}
           borderRadius={themeValues.radii?.md || "md"}
           boxShadow={themeValues.shadows?.sm || "sm"}
-          bg={bgColor}
         >
           <Table size="md">
             <Thead bg={headerBgColor} position="sticky" top={0} zIndex={1}>
@@ -377,23 +369,11 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
         </Text>
         <TableContainer
           border="1px solid"
-          borderColor={borderColor}
+          borderColor={tableBorderColor}
           borderRadius={themeValues.radii?.md || "md"}
           bg={bgColor}
         >
-          <Box py={3} px={4} borderBottom="1px solid" borderColor={borderColor} bg={headerBgColor}>
-            <Flex justifyContent="space-between" alignItems="center">
-              <Text fontWeight="medium">Files (4)</Text>
-              <HStack>
-                <Button size="xs" variant="ghost">
-                  Select All
-                </Button>
-                <Button size="xs" variant="ghost" colorScheme="red">
-                  Clear
-                </Button>
-              </HStack>
-            </Flex>
-          </Box>
+         
           <Table size="sm" variant="simple">
             <Thead bg={altBgColor}>
               <Tr>
@@ -464,7 +444,7 @@ const TableLayouts: React.FC<TableLayoutsProps> = ({ colorKey, themeValues }) =>
               ))}
             </Tbody>
           </Table>
-          <Box py={2} px={4} borderTop="1px solid" borderColor={borderColor} bg={altBgColor}>
+          <Box py={2} px={4} borderTop="1px solid" borderColor={tableBorderColor} bg={altBgColor}>
             <Flex justify="space-between" align="center">
               <Text fontSize="xs" color={subTextColor}>
                 Showing 4 of 4 files

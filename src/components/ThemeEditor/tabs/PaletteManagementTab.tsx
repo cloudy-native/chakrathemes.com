@@ -10,7 +10,9 @@ import {
 import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { ThemeValues } from "@/types";
+import { ThemeValues, ColorPalette } from "@/types";
+import { themeGroups, ThemeGroup, ThemePalette } from "@/utils/curatedThemes";
+import { generateColorPalette } from "@/utils/colorUtils";
 import {
   Accordion,
   AccordionButton,
@@ -26,11 +28,16 @@ import {
   Box,
   Button,
   Flex,
-  Grid,
-  GridItem,
   HStack,
   Icon,
   IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   SimpleGrid,
   Text,
   Tooltip,
@@ -38,8 +45,8 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { Check, Edit2, LayoutGrid, Plus, RefreshCw, Trash } from "lucide-react";
-import React from "react";
+import { Check, Edit2, LayoutGrid, Plus, RefreshCw, SwatchBook, Trash } from "lucide-react";
+import React, { useState } from "react";
 
 export const PaletteManagementTab: React.FC = () => {
   // Get theme context and functions
@@ -49,6 +56,20 @@ export const PaletteManagementTab: React.FC = () => {
 
   // Add palette modal state
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Collections modal state
+  const {
+    isOpen: isCollectionsModalOpen,
+    onOpen: onCollectionsModalOpen,
+    onClose: onCollectionsModalClose,
+  } = useDisclosure();
+
+  // Overwrite confirmation modal state
+  const {
+    isOpen: isOverwriteModalOpen,
+    onOpen: onOverwriteModalOpen,
+    onClose: onOverwriteModalClose,
+  } = useDisclosure();
 
   // Accessibility analysis modal state
   const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] = React.useState(false);
@@ -75,6 +96,9 @@ export const PaletteManagementTab: React.FC = () => {
   // Rename palette dialog state
   const [isRenameDialogOpen, setIsRenameDialogOpen] = React.useState(false);
   const [paletteToRename, setPaletteToRename] = React.useState("");
+
+  // State to hold the collection to apply and check for overwrites
+  const [collectionToApply, setCollectionToApply] = React.useState<string | null>(null);
 
   // Get all palettes
   const palettes = getColors();
@@ -157,11 +181,90 @@ export const PaletteManagementTab: React.FC = () => {
     }
   };
 
+  const handleApplyCollection = (collection: ThemePalette) => {
+    // Check if any palette in the collection already exists
+    const existingPaletteNames = Object.keys(
+      getColors().reduce(
+        (acc, curr) => {
+          acc[curr.colorKey] = true;
+          return acc;
+        },
+        {} as Record<string, boolean>
+      )
+    );
+
+    const generatedPalette = applyGenerateColorPalette(collection);
+    const collectionPaletteNames = Object.keys(generatedPalette);
+    const hasOverlappingPalettes = collectionPaletteNames.some(name =>
+      existingPaletteNames.includes(name)
+    );
+
+    if (hasOverlappingPalettes) {
+      // Open the overwrite confirmation modal
+      setCollectionToApply(collection.name);
+      onOverwriteModalOpen();
+    } else {
+      // Apply the collection directly
+      applyCollection(collection);
+    }
+  };
+
+  const applyCollection = (collection: ThemePalette) => {
+    const generatedPalette = applyGenerateColorPalette(collection);
+    const newTheme: ThemeValues = JSON.parse(JSON.stringify(themeValues));
+
+    // Add the new palette to the theme
+    newTheme.colors = {
+      ...newTheme.colors,
+      ...generatedPalette,
+    };
+
+    setThemeValues(newTheme);
+    toast({
+      title: "Collection Applied",
+      description: `The ${collection.name} collection has been applied`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+    onCollectionsModalClose();
+    onOverwriteModalClose();
+  };
+
+  const applyGenerateColorPalette = (collection: ThemePalette): Record<string, ColorPalette> => {
+    const generatedPalette: Record<string, ColorPalette> = {};
+    Object.keys(collection.colors).forEach(colorKey => {
+      const baseColor = collection.colors[colorKey as keyof typeof collection.colors];
+      if (typeof baseColor === 'string') {
+        generatedPalette[colorKey] = generateColorPalette(baseColor);
+      }
+    });
+    return generatedPalette;
+  };
+
+  const handleConfirmOverwrite = () => {
+    if (collectionToApply) {
+      const selectedCollection = themeGroups.flatMap(group => group.palettes).find(
+        collection => collection.name === collectionToApply
+      );
+      if (selectedCollection) {
+        applyCollection(selectedCollection);
+      }
+    }
+  };
+
   return (
     <Box>
-      <Flex justifyContent="flex-end" mb={4}>
+      <Flex justifyContent="flex-end" mb={4} gap={2}>
         <Button colorScheme="primary" leftIcon={<Icon as={Plus} />} onClick={onOpen}>
           Add Palette
+        </Button>
+        <Button
+          colorScheme="primary"
+          leftIcon={<Icon as={SwatchBook} />}
+          onClick={onCollectionsModalOpen}
+        >
+          Palette Collections
         </Button>
       </Flex>
 
@@ -355,6 +458,101 @@ export const PaletteManagementTab: React.FC = () => {
         colorKey={contrastColorKey}
         colorShades={contrastColorShades}
       />
+
+      {/* Collections Modal */}
+      <Modal isOpen={isCollectionsModalOpen} onClose={onCollectionsModalClose} size="2xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Curated Color Collections</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Accordion allowMultiple>
+              {themeGroups.map(group => (
+                <AccordionItem key={group.groupName}>
+                  <h2>
+                    <AccordionButton>
+                      <Box as="span" flex='1' textAlign='left'>
+                        {group.groupName}
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
+                      {group.palettes.map(collection => (
+                        <Box
+                          key={collection.name}
+                          p={4}
+                          borderWidth="1px"
+                          borderRadius="md"
+                          cursor="pointer"
+                          _hover={{ shadow: "md" }}
+                          onClick={() => handleApplyCollection(collection)}
+                          transition="all 0.2s"
+                        >
+                          <Text fontWeight="bold" mb={2}>
+                            {collection.name}
+                          </Text>
+                          <SimpleGrid columns={4} spacing={2}>
+                            {Object.keys(collection.colors).map(colorKey => (
+                              <Box key={colorKey} >
+                                {
+                                  Object.values(generateColorPalette(collection.colors[colorKey as keyof typeof collection.colors])).slice(4,5).map(color => (
+                                <Box
+                                  w="100%"
+                                  h="20px"
+                                  bg={color}
+                                  borderRadius="sm"
+                                />
+                                  ))}
+                              </Box>
+                            ))}
+                          </SimpleGrid>
+                          <Text fontSize="sm" mb={4}>
+                            {collection.description}
+                          </Text>
+                        </Box>
+                      ))}
+                    </SimpleGrid>
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onCollectionsModalClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Overwrite Confirmation Modal */}
+      <AlertDialog
+        isOpen={isOverwriteModalOpen}
+        onClose={onOverwriteModalClose}
+        leastDestructiveRef={cancelRef}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Overwrite Existing Palettes?
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              This collection contains palettes with names that already exist in your theme. Do you
+              want to overwrite the existing palettes with the new ones?
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onOverwriteModalClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="red" onClick={handleConfirmOverwrite} ml={3}>
+                Overwrite
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Box>
   );
 };

@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Box,
-  Button,
   Text,
   SimpleGrid,
   useColorModeValue,
@@ -27,6 +26,7 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
   const hoverBg = useColorModeValue("gray.50", "gray.600");
   const activeBg = useColorModeValue("gray.100", "gray.500");
   const codeBlockBg = useColorModeValue("gray.100", "gray.800");
+  const shadow = useColorModeValue("md", "md")
 
   return (
     <Box mb={6}>
@@ -44,9 +44,10 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
             borderColor={selectedCombination === combo.name ? "blue.400" : borderColor}
             borderRadius="md"
             cursor="pointer"
-            _hover={{ bg: hoverBg }}
+            _hover={{ bg: hoverBg, shadow: shadow }}
             onClick={() => onSelect(combo)}
             transition="all 0.2s"
+            shadow={selectedCombination === combo.name ? shadow : "none"}
           >
             <VStack align="start" spacing={3}>
               <Box>
@@ -110,16 +111,6 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
                   {`const example = () => console.log("Hello!");`}
                 </Text>
               </Box>
-
-              <Button
-                size="sm"
-                colorScheme="blue"
-                width="full"
-                variant={selectedCombination === combo.name ? "solid" : "outline"}
-                onClick={() => onSelect(combo)}
-              >
-                {selectedCombination === combo.name ? "Selected" : "Select"}
-              </Button>
             </VStack>
           </Box>
         ))}

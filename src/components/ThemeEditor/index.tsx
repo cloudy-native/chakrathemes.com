@@ -1,6 +1,7 @@
 import {
   Alert,
   AlertIcon,
+  Avatar,
   Box,
   Flex,
   Icon,
@@ -12,7 +13,7 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { Info } from "lucide-react";
+import { ArrowBigRight, ArrowRight, Info } from "lucide-react";
 import React, { useState } from "react";
 
 // Import tabs
@@ -29,13 +30,13 @@ const HelpSection = () => {
   return (
     <Alert status="info" mb={4} borderRadius={"md"}>
       <Text fontSize="sm">
-        Work left to right. Add colors in the <strong>Palettes</strong> tab from a color picker, an
-        image, or curated color inspiration. Name your palettes "primary", "secondary", "accent",
-        and "background" if you want the preview tab to use them. Select fonts in the{" "}
-        <strong>Typography</strong> tab. Change <strong>Spacing</strong> and{" "}
-        <strong>Borders & Shadows</strong> if you need, but the defaults are plenty good enough. Now{" "}
-        <strong>Preview & Download </strong> your theme using your colors and fonts.{" "}
-      </Text>
+        <strong>Add</strong> colors in the Palettes tab from a color picker, an image, or curated
+        color inspiration. <strong>Name</strong> your palettes "primary", "secondary", "accent", and
+        "background" if you want the preview tab to use them. <strong>Select</strong> fonts in the{" "}
+        <strong>Typography</strong> tab. <strong>Change</strong> Spacing and Borders & Shadows if
+        you need, but the defaults are plenty good enough. <strong>Preview & Download </strong> your
+        theme using your colors and fonts.{" "}
+      </Text>{" "}
     </Alert>
   );
 };

@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import { useThemeContext } from "@/context/ThemeContext";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { ThemeValues } from "@/types";
+import { isLightColor } from "@/utils/colorUtils";
 import {
   Box,
-  Text,
   Flex,
-  useColorModeValue,
-  Tooltip,
-  IconButton,
   HStack,
   Icon,
+  IconButton,
+  Text,
+  Tooltip,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { Copy, Lock, Unlock, Pencil } from "lucide-react";
-import { isLightColor } from "@/utils/colorUtils";
-import { useThemeContext } from "@/context/ThemeContext";
-import { ThemeValues } from "@/types";
-import { useAnalytics } from "@/hooks/useAnalytics";
+import { Copy, Lock, Pencil, Unlock } from "lucide-react";
+import React, { useState } from "react";
 
 // Component to display a single shade from a palette
 export const PaletteShade: React.FC<{
@@ -144,7 +144,7 @@ export const PaletteShade: React.FC<{
       </Box>
 
       {/* Color hex value with controls */}
-      <Box p={2} bg={useColorModeValue("gray.50", "gray.700")}>
+      <Box p={2}>
         <Flex align="center" justify="space-between">
           <Text fontFamily="mono" fontSize="sm" flex="1">
             {isEditing ? editColor : color}
@@ -157,7 +157,7 @@ export const PaletteShade: React.FC<{
                 icon={isLocked ? <Icon as={Unlock} /> : <Icon as={Lock} />}
                 aria-label={isLocked ? "Unlock shade" : "Lock shade"}
                 variant="ghost"
-                colorScheme={isLocked ? "yellow" : "gray"}
+                colorScheme="primary"
                 onClick={toggleLocked}
               />
             </Tooltip>
@@ -169,7 +169,7 @@ export const PaletteShade: React.FC<{
                 icon={<Icon as={Pencil} />}
                 aria-label={isEditing ? "Save color" : "Edit color"}
                 variant="ghost"
-                colorScheme={isEditing ? "green" : "gray"}
+                colorScheme="primary"
                 onClick={toggleEdit}
               />
             </Tooltip>
