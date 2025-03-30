@@ -10,9 +10,9 @@ import {
 import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { ThemeValues, ColorPalette } from "@/types";
-import { themeGroups, ThemeGroup, ThemePalette } from "@/utils/curatedThemes";
+import { ColorPalette, ThemeValues } from "@/types";
 import { generateColorPalette } from "@/utils/colorUtils";
+import { themeGroups, ThemePalette } from "@/utils/curatedThemes";
 import {
   Accordion,
   AccordionButton,
@@ -46,7 +46,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Check, Edit2, LayoutGrid, Plus, RefreshCw, SwatchBook, Trash } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 
 export const PaletteManagementTab: React.FC = () => {
   // Get theme context and functions

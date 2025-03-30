@@ -108,6 +108,12 @@ export interface FontCombination {
   mono: string;
 }
 
+export interface FontCategory {
+  name: string;
+  description: string;
+  combinations: FontCombination[];
+}
+
 // Theme context action types
 export type ThemeAction =
   | { type: "SET_THEME_VALUES"; payload: ThemeValues }

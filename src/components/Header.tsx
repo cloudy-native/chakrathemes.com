@@ -1,3 +1,4 @@
+import { headerBackground, headerText } from "@/theme/themeConfiguration";
 import {
   Box,
   Button,
@@ -15,9 +16,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Link as GatsbyLink } from "gatsby";
-import React from "react";
 import { Github, Menu, Moon, Sun, X } from "lucide-react";
-import { headerBackground, headerText } from "@/theme/themeConfiguration";
+import React from "react";
+import BuyMeCoffeeButton from "./BuyMeCoffeeButton";
 
 interface NavItem {
   label: string;
@@ -93,14 +94,6 @@ const Header = () => {
             </HStack>
 
             <HStack spacing={4}>
-              <IconButton
-                color={textColor}
-                aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
-                variant="ghost"
-                size="lg"
-                icon={colorMode === "light" ? <Icon as={Moon} /> : <Icon as={Sun} />}
-                onClick={toggleColorMode}
-              />
               <Button
                 color={textColor}
                 as="a"
@@ -112,6 +105,15 @@ const Header = () => {
               >
                 Fork me on GitHub
               </Button>
+              <BuyMeCoffeeButton />
+              <IconButton
+                color={textColor}
+                aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
+                variant="ghost"
+                size="lg"
+                icon={colorMode === "light" ? <Icon as={Moon} /> : <Icon as={Sun} />}
+                onClick={toggleColorMode}
+              />
             </HStack>
           </HStack>
 
@@ -146,17 +148,6 @@ const Header = () => {
                   {navItem.label}
                 </Link>
               ))}
-              <Button
-                size="sm"
-                leftIcon={colorMode === "light" ? <Moon size={16} /> : <Sun size={16} />}
-                onClick={toggleColorMode}
-                variant="outline"
-                justifyContent="flex-start"
-                width="fit-content"
-                mb={2}
-              >
-                Switch to {colorMode === "light" ? "Dark" : "Light"} Mode
-              </Button>
 
               <Button
                 as="a"
@@ -171,6 +162,18 @@ const Header = () => {
                 width="fit-content"
               >
                 Fork me on GitHub
+              </Button>
+              <BuyMeCoffeeButton />
+              <Button
+                size="sm"
+                leftIcon={colorMode === "light" ? <Moon size={16} /> : <Sun size={16} />}
+                onClick={toggleColorMode}
+                variant="outline"
+                justifyContent="flex-start"
+                width="fit-content"
+                mb={2}
+              >
+                Switch to {colorMode === "light" ? "Dark" : "Light"} Mode
               </Button>
             </Stack>
           </Box>

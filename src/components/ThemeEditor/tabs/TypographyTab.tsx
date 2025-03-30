@@ -1,12 +1,16 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import { EventCategory, trackEvent } from "@/utils/analytics";
 import {
-  fontCombinations,
   getBodyFonts,
   getHeadingFonts,
   getMonoFonts,
 } from "@/utils/typographyUtils";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Badge,
   Box,
   Divider,
@@ -27,6 +31,7 @@ import FontCombinationSelector from "../components/FontCombinationSelector";
 import FontPreview from "../components/FontPreview";
 import FontSelector from "../components/FontSelector";
 import GoogleFontsLoader from "../components/GoogleFontsLoader";
+import { fontCategories } from "@/utils/curatedFonts"; // Import the new data structure
 
 export const TypographyTab: React.FC = () => {
   const { themeValues, updateFont, setFontCombination } = useThemeContext();
@@ -43,13 +48,20 @@ export const TypographyTab: React.FC = () => {
   );
 
   const [selectedCombination, setSelectedCombination] = useState<string | undefined>();
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
 
   // Keep track of which combination was last selected
   useEffect(() => {
-    const matchingCombination = fontCombinations.find(
-      combo => combo.heading === headingFont && combo.body === bodyFont && combo.mono === monoFont
-    );
-
+    let matchingCombination: any;
+    for (const category of fontCategories) {
+      matchingCombination = category.combinations.find(
+        combo => combo.heading === headingFont && combo.body === bodyFont && combo.mono === monoFont
+      );
+      if (matchingCombination) {
+        setSelectedCategory(category.name);
+        break;
+      }
+    }
     setSelectedCombination(matchingCombination?.name);
   }, [headingFont, bodyFont, monoFont]);
 
@@ -73,12 +85,13 @@ export const TypographyTab: React.FC = () => {
   };
 
   // Handle combination selection
-  const handleCombinationSelect = (combo: any) => {
+  const handleCombinationSelect = (combo: any, categoryName: string) => {
     setHeadingFont(combo.heading);
     setBodyFont(combo.body);
     setMonoFont(combo.mono);
     setFontCombination(combo);
     setSelectedCombination(combo.name);
+    setSelectedCategory(categoryName);
   };
 
   return (
@@ -95,11 +108,31 @@ export const TypographyTab: React.FC = () => {
 
         <TabPanels>
           <TabPanel>
-            <FontCombinationSelector
-              combinations={fontCombinations}
-              onSelect={handleCombinationSelect}
-              selectedCombination={selectedCombination}
-            />
+            <Accordion allowMultiple>
+              {fontCategories.map((category) => (
+                <AccordionItem key={category.name}>
+                  <h2>
+                    <AccordionButton>
+                      <Box as="span" flex="1" textAlign="left" fontWeight="bold">
+                        {category.name}
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <Text fontSize="sm" mb={4}>
+                      {category.description}
+                    </Text>
+                    <FontCombinationSelector
+                      combinations={category.combinations}
+                      onSelect={(combo) => handleCombinationSelect(combo, category.name)}
+                      selectedCombination={selectedCombination}
+                      // selectedCategory={selectedCategory}
+                    />
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </TabPanel>
 
           <TabPanel>
@@ -168,6 +201,11 @@ export const TypographyTab: React.FC = () => {
                     {selectedCombination && (
                       <Badge ml={2} colorScheme="blue" fontSize="xs">
                         {selectedCombination}
+                      </Badge>
+                    )}
+                    {selectedCategory && (
+                      <Badge ml={2} colorScheme="green" fontSize="xs">
+                        {selectedCategory}
                       </Badge>
                     )}
                   </Text>
