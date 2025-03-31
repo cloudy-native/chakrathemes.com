@@ -13,4 +13,3 @@ export { default as ProgressElements } from "./ProgressElements";
 export { default as ShadowElements } from "./ShadowElements";
 export { default as TagElements } from "./TagElements";
 export { default as ThemeDownloader } from "./ThemeDownloader";
-export { default as ThemePreviewHeader } from "./ThemePreviewHeader";

@@ -2,12 +2,6 @@
 
 A powerful visual editor for creating and customizing Chakra UI themes. Build beautiful, consistent design systems without writing code.
 
-<p align="center">
-  <a href="https://chakra-ui.com/">
-    <img src="https://raw.githubusercontent.com/chakra-ui/chakra-ui/main/logo/logo-colored@2x.png?raw=true" alt="Chakra UI logo" width="300" />
-  </a>
-</p>
-
 ## What is ChakraThemes.com?
 
 ChakraThemes.com is an interactive web application that helps designers and developers create custom Chakra UI themes through a visual interface. It allows you to:

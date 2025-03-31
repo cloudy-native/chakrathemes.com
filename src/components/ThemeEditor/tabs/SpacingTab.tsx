@@ -213,6 +213,9 @@ export const SpacingTab: React.FC = () => {
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
         <GridItem rowSpan={2} colSpan={4}>
           <Text mb={6} fontSize="sm">
+            <strong>Tip: leave these values as defaults until you need to adjust them.</strong>
+            <br />
+            <br />
             Spacing values are used for margins, padding, and layout sizing across your theme.
           </Text>
         </GridItem>

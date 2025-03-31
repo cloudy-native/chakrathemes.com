@@ -51,7 +51,7 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
                 >
                   {combo.name}
                   {selectedCombination === combo.name && (
-                    <Badge ml={2} colorScheme="blue" fontSize="0.7em">
+                    <Badge ml={2} colorScheme="primary" fontSize="0.7em">
                       Selected
                     </Badge>
                   )}

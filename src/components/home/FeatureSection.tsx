@@ -46,7 +46,11 @@ export const featureList: FeatureCardProps[] = [
 const FeatureSection: React.FC = () => {
   return (
     <Box>
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 3 }}
+        spacing={{ base: 6, md: 8 }}
+        px={{ base: 0, md: 4 }}
+      >
         {featureList.map((feature, index) => (
           <FeatureCard
             key={index}

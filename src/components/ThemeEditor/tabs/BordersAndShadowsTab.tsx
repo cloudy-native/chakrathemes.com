@@ -5,8 +5,6 @@ import {
   Button,
   Code,
   Flex,
-  Grid,
-  GridItem,
   Icon,
   Input,
   SimpleGrid,
@@ -290,6 +288,13 @@ export const BordersAndShadowsTab: React.FC = () => {
 
   return (
     <Box>
+      <Text mb={6} fontSize="sm">
+        <strong>Tip: leave these values as defaults until you need to adjust them.</strong>
+        <br />
+        <br />
+        Borders and shadows create depth and structure in your interface. They help define
+        boundaries between elements and establish visual hierarchy in your design.
+      </Text>
       <Tabs index={tabIndex} onChange={setTabIndex} mb={6} isFitted isLazy>
         <TabList>
           <Tab>Border Radius</Tab>
@@ -299,20 +304,11 @@ export const BordersAndShadowsTab: React.FC = () => {
         <TabPanels>
           {/* Border Radius Panel */}
           <TabPanel p={0} pt={5}>
-            <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-              <GridItem rowSpan={2} colSpan={4}>
-                <Text mb={6} fontSize={"sm"}>
-                  Border radius values define the roundness of corners across your components.
-                </Text>
-              </GridItem>
-              <GridItem>
-                <Flex justify="right" mb={2}>
-                  <Button colorScheme="primary" size="sm" onClick={handleResetRadii}>
-                    Reset All Radii
-                  </Button>
-                </Flex>
-              </GridItem>
-            </Grid>
+            <Flex justify="right" mb={2}>
+              <Button colorScheme="primary" size="sm" onClick={handleResetRadii}>
+                Reset All Radii
+              </Button>
+            </Flex>
 
             <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} mb={8}>
               {Object.entries(themeValues.radii || {})
@@ -347,20 +343,11 @@ export const BordersAndShadowsTab: React.FC = () => {
 
           {/* Shadow Panel */}
           <TabPanel p={0} pt={5}>
-            <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-              <GridItem rowSpan={2} colSpan={4}>
-                <Text mb={6} fontSize={"sm"}>
-                  Shadow values define the appearance of shadows across your components.
-                </Text>
-              </GridItem>
-              <GridItem>
-                <Flex justify="right" mb={2}>
-                  <Button colorScheme="primary" size="sm" onClick={handleResetShadows}>
-                    Reset All Shadows
-                  </Button>
-                </Flex>
-              </GridItem>
-            </Grid>
+            <Flex justify="right" mb={2}>
+              <Button colorScheme="primary" size="sm" onClick={handleResetShadows}>
+                Reset All Shadows
+              </Button>
+            </Flex>
 
             <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} mb={8}>
               {Object.entries(themeValues.shadows || {})

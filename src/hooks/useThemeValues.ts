@@ -8,7 +8,7 @@ export const defaultTheme: ThemeValues = {
     useSystemColorMode: false,
   },
   colors: {
-    brand: {
+    primary: {
       50: "#E6F6FF",
       100: "#BCDEFA",
       200: "#91C5F5",

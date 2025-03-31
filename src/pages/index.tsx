@@ -1,6 +1,15 @@
 import { ThemeEditor } from "@/components";
-import { FeatureSection, HelpSection, HeroSection, SectionDivider } from "@/components/home";
-import { Box, Container, useBreakpointValue, VStack, Button, Flex } from "@chakra-ui/react";
+import Layout from "@/components/Layout";
+import { FeatureSection, HelpSection, HeroSection } from "@/components/home";
+import {
+  Box,
+  Container,
+  useBreakpointValue,
+  VStack,
+  Button,
+  Flex,
+  Heading,
+} from "@chakra-ui/react";
 import { HeadFC, PageProps } from "gatsby";
 import * as React from "react";
 
@@ -9,35 +18,65 @@ const IndexPage: React.FC<PageProps> = () => {
   const [showFullContent, setShowFullContent] = React.useState(false);
 
   return (
-    <Box pt={10} pb={10}>
-      <Container maxW="6xl">
-        <VStack spacing={12} align="stretch">
+    <Layout>
+      <Box>
+        {/* Hero section takes full width */}
+        <Container maxW="8xl" px={{ base: 4, md: 6 }}>
           <HeroSection />
+        </Container>
 
-          {/* Always show the theme editor */}
-          <SectionDivider title="Start Here" />
-          <ThemeEditor />
+        {/* Theme Editor Section */}
+        <Box py={16} id="theme-editor-section">
+          <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+            <VStack spacing={8} align="stretch">
+              <Heading fontSize={{ base: "2xl", md: "3xl" }} textAlign="center">
+                Design Your Perfect Theme
+              </Heading>
+              <ThemeEditor />
+            </VStack>
+          </Container>
+        </Box>
 
-          {/* On mobile, conditionally show the rest of content */}
-          {(!isMobile || showFullContent) && (
-            <>
-              <FeatureSection />
-              <SectionDivider title="Guide for Designers" />
-              <HelpSection />
-            </>
-          )}
+        {/* Features Section */}
+        {(!isMobile || showFullContent) && (
+          <Box py={16}>
+            <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+              <VStack spacing={12} align="stretch">
+                <Heading fontSize={{ base: "2xl", md: "3xl" }} textAlign="center">
+                  Powerful Features
+                </Heading>
+                <FeatureSection />
+              </VStack>
+            </Container>
+          </Box>
+        )}
 
-          {/* Show "View more" button on mobile */}
-          {isMobile && !showFullContent && (
-            <Flex justify="center" mt={4}>
-              <Button colorScheme="blue" onClick={() => setShowFullContent(true)}>
+        {/* Help Section */}
+        {(!isMobile || showFullContent) && (
+          <Box bg="gray.50" _dark={{ bg: "gray.900" }} py={16}>
+            <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+              <VStack spacing={8} align="stretch">
+                <Heading fontSize={{ base: "2xl", md: "3xl" }} textAlign="center">
+                  Guide for Designers
+                </Heading>
+                <HelpSection />
+              </VStack>
+            </Container>
+          </Box>
+        )}
+
+        {/* Show "View more" button on mobile */}
+        {isMobile && !showFullContent && (
+          <Box py={8}>
+            <Flex justify="center">
+              <Button colorScheme="primary" onClick={() => setShowFullContent(true)} size="lg">
                 View more content
               </Button>
             </Flex>
-          )}
-        </VStack>
-      </Container>
-    </Box>
+          </Box>
+        )}
+      </Box>
+    </Layout>
   );
 };
 

@@ -61,6 +61,7 @@ export default theme;`;
 
   return (
     <Button
+      size="sm"
       onClick={downloadTheme}
       colorScheme="primary"
       leftIcon={<ArrowRight size={16} />}

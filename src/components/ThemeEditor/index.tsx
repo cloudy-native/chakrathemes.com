@@ -1,14 +1,4 @@
-import {
-  Alert,
-  Box,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-  useBreakpointValue,
-} from "@chakra-ui/react";
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs, useBreakpointValue } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 // Import tabs
@@ -21,30 +11,13 @@ import TypographyTab from "./tabs/TypographyTab";
 // Import context provider
 import { ThemeProvider } from "@/context/ThemeContext";
 
-const HelpSection = () => {
-  return (
-    <Alert status="info" mb={4} borderRadius={"md"}>
-      <Text fontSize="sm">
-        <strong>Add</strong> colors in the Palettes tab from a color picker, an image, or curated
-        color inspiration. <strong>Name</strong> your palettes &quot;primary&quot;,
-        &quot;secondary&quot;, &quot;accent&quot;, and &quot;background&quot; if you want the
-        preview tab to use them. <strong>Select</strong> fonts in the <strong>Typography</strong>{" "}
-        tab. <strong>Change</strong> Spacing and Borders & Shadows if you need, but the defaults are
-        plenty good enough. <strong>Preview & Download </strong> your theme using your colors and
-        fonts.{" "}
-      </Text>{" "}
-    </Alert>
-  );
-};
-
 const Desktop = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   return (
-    <Box>
-      <HelpSection />
+    <Box id="theme-editor-section">
       <Tabs isLazy isFitted index={activeTabIndex} onChange={setActiveTabIndex}>
-        <TabList mb="1em">
+        <TabList>
           <Tab>Palettes</Tab>
           <Tab>Typography</Tab>
           <Tab>Spacing</Tab>
@@ -53,27 +26,22 @@ const Desktop = () => {
         </TabList>
 
         <TabPanels>
-          {/* Palette Management Tab */}
           <TabPanel>
             <PaletteManagementTab />
           </TabPanel>
 
-          {/* Typography Tab */}
           <TabPanel>
             <TypographyTab />
           </TabPanel>
 
-          {/* Spacing Tab */}
           <TabPanel>
             <SpacingTab />
           </TabPanel>
 
-          {/* Borders & Shadows Tab */}
           <TabPanel>
             <BordersAndShadowsTab />
           </TabPanel>
 
-          {/* Components Preview Tab */}
           <TabPanel>
             <ComponentsPreviewTab />
           </TabPanel>
@@ -96,7 +64,7 @@ const ChooseUI = () => {
 export const ThemeEditor: React.FC = () => {
   return (
     <ThemeProvider>
-      <Box p={5} borderWidth="1px">
+      <Box p={5} borderWidth="0px">
         <ChooseUI />
       </Box>
     </ThemeProvider>

@@ -9,10 +9,13 @@ import {
   TabPanels,
   Tabs,
   extendTheme,
+  Text,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { ColorTabContent, ThemePreviewHeader } from "@/components/ThemeEditor/components/preview";
+import { ColorTabContent, ThemeDownloader } from "@/components/ThemeEditor/components/preview";
 
 export const ComponentsPreviewTab: React.FC = () => {
   const { themeValues } = useThemeContext();
@@ -30,8 +33,19 @@ export const ComponentsPreviewTab: React.FC = () => {
 
   return (
     <Box>
-      {/* Header with instructions and download button */}
-      <ThemePreviewHeader themeValues={themeValues} />
+      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+        <GridItem rowSpan={2} colSpan={4}>
+          <Text mb={6} fontSize="sm">
+            Preview how your theme will look with real UI components. Your palette names control
+            which colors are used - &quot;primary&quot; for buttons and accents,
+            &quot;background&quot; for surface colors, and &quot;accent&quot; for highlighting
+            elements.
+          </Text>
+        </GridItem>
+        <GridItem rowSpan={2} colSpan={1}>
+          <ThemeDownloader themeValues={themeValues} />
+        </GridItem>
+      </Grid>
 
       <ChakraProvider theme={previewTheme}>
         {/* Full-width Color Palette Cards Section */}

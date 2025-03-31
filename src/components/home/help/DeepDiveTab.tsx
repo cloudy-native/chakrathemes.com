@@ -1,342 +1,308 @@
-import { OptimizedImage } from "@/components";
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Alert,
-  AlertIcon,
-  Box,
-  Divider,
-  Heading,
-  HStack,
-  Icon,
-  Link,
-  SimpleGrid,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { ExternalLink, Check } from "lucide-react";
+import OptimizedImage from "@/components/OptimizedImage";
+import { Alert, AlertIcon, Box, Card, HStack, SimpleGrid } from "@chakra-ui/react";
+import { Heading, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 
 const DeepDiveTab: React.FC = () => {
   return (
     <VStack spacing={8} align="stretch">
       <Box>
-        <Heading size="md" mb={3}>
-          Working with Color Palettes
-        </Heading>
-        <Text mb={4}>
-          Color palettes are the foundation of your theme. Each palette consists of 10 shades (from
-          50 to 900) that provide a complete range from light to dark.
-        </Text>
-
-        <Accordion allowMultiple>
-          <AccordionItem>
-            <AccordionButton>
-              <Box flex="1" textAlign="left" fontWeight="medium">
-                Creating palettes from existing colors
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-            <AccordionPanel pb={4}>
-              <Text mb={3}>
-                To create a palette from an existing color, navigate to the Palettes tab and click
-                &quot;Add Palette&quot;. You can input a hex color code or use the color picker to
-                select your base color. The editor will automatically generate lighter and darker
-                shades.
-              </Text>
-              <OptimizedImage
-                filename="help/palette-from-base-color.png"
-                alt="Palette from base color"
-                caption="The simple case: Create a palette from a base color"
-              />
-            </AccordionPanel>
-          </AccordionItem>
-
-          <AccordionItem>
-            <AccordionButton>
-              <Box flex="1" textAlign="left" fontWeight="medium">
-                Extracting colors from images
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-
-            <AccordionPanel pb={4}>
-              <Text mb={3}>
-                You can extract color palettes directly from images. This is useful for matching
-                your theme to existing brand assets or inspiration images. The tool will identify
-                key colors and create balanced palettes.
-              </Text>
-              <HStack>
-                <OptimizedImage
-                  filename="help/palette-from-cat-image.png"
-                  alt="Palette from cat image"
-                  caption="Extract colors from a cute cat"
-                />
-                <OptimizedImage
-                  filename="help/palette-from-dog-image.png"
-                  alt="Palette from chameleon image"
-                  caption="Interesting colors are from the garden, not the cute dog"
-                />
-              </HStack>
-              <Text mb={3}>
-                This tool extracts two kinds of colors—vibrant and muted—and two additional
-                variations for each in light and dark. This is not the same as finding average
-                colors. The color science behind this feature looks for key colors in the image.
-              </Text>
-            </AccordionPanel>
-          </AccordionItem>
-
-          <AccordionItem>
-            <AccordionButton>
-              <Box flex="1" textAlign="left" fontWeight="medium">
-                Finding inspiration
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-
-            <AccordionPanel pb={4}>
-              <Text mb={3}>
-                Need creative inspiration for your color schemes? The Inspiration tab provides
-                curated color palettes from various design categories and color harmony principles.
-                Browse through trendy color combinations, nature-inspired schemes, UI design sets,
-                and more.
-              </Text>
-              <Text mb={3}>
-                There are six related colors in each theme. Check back for updates and more ideas.
-                These colors all work great out of the box, even &quot;Neon Pink&quot; and
-                &quot;Cyber Purple&quot; if that&apos;s the look you&apos;re going for.
-              </Text>
-              <HStack>
-                <OptimizedImage
-                  filename="help/palette-from-inspiration-1.png"
-                  alt="Palette from curated examples"
-                  caption="Pick colors from out curated sample, vibrant in this case"
-                />
-                <OptimizedImage
-                  filename="help/palette-from-inspiration-2.png"
-                  alt="Palette from curated examples"
-                  caption="Maybe dial that back a bit"
-                />
-              </HStack>
-            </AccordionPanel>
-          </AccordionItem>
-
-          <AccordionItem>
-            <AccordionButton>
-              <Box flex="1" textAlign="left" fontWeight="medium">
-                Adjusting individual shades
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-
-            <AccordionPanel pb={4}>
-              <Text mb={3}>
-                After generating a palette, you can fine-tune it. Open the palette details to see
-                the exact HEX values that were generated. You can change these, but we strongly
-                advise against second-guessing the algorithm.
-              </Text>
-              <Text mb={3}>
-                Start to explore how different shades of the palette will look in light and dark
-                mode. As you select different shades, the dark-mode and text colors are calculated
-                automatically, using perceptual measures of contrast and luminance. When you like
-                the result, you can copy the TypeScript code and add directly to your ChakraUI React
-                application.
-              </Text>
-              <OptimizedImage
-                filename="help/open-palette.png"
-                alt="Open palette"
-                caption="Open the palette to start exploring and adjusting"
-              />
-              <Text mb={3}>
-                Clicking &quot;Adjust Palette&quot; brings up more tools for fine tuning. These
-                image tools will be familiar to you from PhotoShop and other image editors.
-              </Text>
-              <OptimizedImage
-                filename="help/adjust-palette.png"
-                alt="Adjust palette"
-                caption="Adjust the palette using familiar image manipulation tools"
-              />
-
-              <Alert status="info" variant="left-accent" mt={4}>
-                <AlertIcon />
-                <Box>
-                  <Text fontWeight="medium" fontSize="sm">
-                    What does the &quot;!&quot; warning mean?
-                  </Text>
-                  <Text fontSize="xs" mt={1}>
-                    When adjusting saturation or contrast, you might see a &quot;!&quot; warning
-                    icon. This indicates that your adjustments have pushed the color beyond normal
-                    limits, potentially causing &quot;color clipping&quot; where details are lost in
-                    extremely light or dark areas.
-                  </Text>
-                  <Text fontSize="xs" mt={1}>
-                    To resolve this, try reducing the intensity of your adjustment or start with a
-                    different base color. For best results, keep your adjustments within ranges that
-                    don&apos;t trigger the warning indicator.
-                  </Text>
-                </Box>
-              </Alert>
-            </AccordionPanel>
-          </AccordionItem>
-
-          <AccordionItem>
-            <AccordionButton>
-              <Box flex="1" textAlign="left" fontWeight="medium">
-                Validating accessibility
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-
-            <AccordionPanel pb={4}>
-              <Text mb={3}>
-                Accessibility is more than just a buzzword. It&apos;s a hard requirement of websites
-                nowadays. Only of the main reasons ChakraUI has gained such popularity is its
-                accessibility-first approach.
-              </Text>
-              <Text mb={3}>
-                Accessibility in selecting colors for a website means choosing color combinations
-                that ensure sufficient contrast and visibility for all users, including those with
-                visual impairments, to easily read and navigate the content.{" "}
-              </Text>
-              <Text mb={3}>
-                Start with contrast analysis. Click <Icon as={Check} /> to open the contrast review.
-                First see how a palette performs with the
-                <Link href="https://www.w3.org/WAI/standards-guidelines/wcag/" isExternal>
-                  WCAG Standards Guidelines <Icon as={ExternalLink} />
-                </Link>
-                . That standard has two measures, AA and AAA: 10/10 is a good score for AA with its
-                4.5:1 contrast ratio, and 8/10 is not bad for AAA, with its more stringent
-                requirements of 7:1.
-              </Text>
-              <Text mb={3}>
-                Then see how the contrast between adjacent shades fares. The adjacent shade contrast
-                display shows the perceptual contrast ratio between neighboring shades in your color
-                palette, with higher numbers and green badges indicating good differentiation
-                between consecutive shades, while lower numbers and red badges suggest shades that
-                might be too similar for effective visual hierarchy.
-              </Text>
-              <HStack>
-                <OptimizedImage
-                  filename="help/contrast-analysis.png"
-                  alt="Contrast analysis"
-                  caption="Discover whether colors in this palette meet contrast standards"
-                />
-                <OptimizedImage
-                  filename="help/adjacent-shade-contrast.png"
-                  alt="Adjust shade contrast"
-                  caption="Discover the contrast between adjacent shade of a palette"
-                />
-              </HStack>
-              <Text mb={3}>
-                Color blindness is an issue for many people. People affected with color blindness
-                often identify pastel shades of color pairs like red/green and green/brown as being
-                too similar. (Try not to ask a color-blind person what color they see instead.
-                That&apos;s actually the point: They don&apos;t.)
-              </Text>
-              <Text mb={3}>
-                The three main types of color blindness are protanopia (difficulty distinguishing
-                red), deuteranopia (difficulty distinguishing green), and tritanopia (difficulty
-                distinguishing blue), each resulting from missing or defective cone cells in the
-                retina that detect those specific wavelengths of light.
-              </Text>
-              <OptimizedImage
-                filename="help/color-blindness.png"
-                alt="Color blindness"
-                caption="How people affected by color blindness may see your color palettes"
-              />
-              <Text mb={3}>Finally, see any accessibility recommendations.</Text>
-              <OptimizedImage
-                filename="help/accessibility-recommendations.png"
-                alt="Accessibility recommendations"
-                caption="See recommendations to improve accessibility"
-              />
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
-      </Box>
-
-      <Divider />
-
-      <Box>
-        <Heading size="md" mb={3}>
-          Preview your theme
-        </Heading>
-        <Text mb={4}>
-          The Theme Preview tab offers a view of how your theme affects various UI components. This
-          feature helps you evaluate and refine your theme design in context.
-        </Text>
-
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} mb={6}>
-          <Box borderWidth="1px" borderRadius="md" p={4}>
-            <Heading size="sm" mb={2}>
-              Review the color palette
+        <VStack spacing={8} align="stretch">
+          <Box>
+            <Heading as="h3" size="md" mb={4}>
+              Creating and customizing palettes
             </Heading>
-            <Text>
-              As reference, see the final palette after any adjustments you made in the Palettes
-              tab.
+            <Text mb={3}>
+              Navigate to the Palettes tab and click &quot;Add Palette&quot; to create a new color
+              set. You can select an RGB value directly using a color picker if you like that kind
+              of thing. Our algorithm will automatically generate a balanced set of shades from 50
+              to 900 for you. These are the numbered shades of a color that ChakraUI is expecting.
+              If you have a picture you&apos;d like to use as inspiration, you can upload it and
+              we&apos;ll extract the salient colors for you. If you&apos;d like some ideas, you can
+              also browse our curated inspiration palettes.
+            </Text>
+
+            <HStack>
+              <OptimizedImage
+                filename="color-from-picker.png"
+                alt="Create palette from color picker"
+              />
+              <OptimizedImage
+                filename="curated-palettes.png"
+                alt="Create palette from curated list"
+              />
+            </HStack>
+          </Box>
+
+          <Box>
+            <Heading as="h3" size="md" mb={4}>
+              Color extraction from images
+            </Heading>
+            <Text mb={3}>
+              You can extract color palettes directly from your brand images or design inspiration.
+              Our algorithm identifies key colors and creates balanced palettes that capture the
+              essence of your visual assets.
+            </Text>
+
+            <OptimizedImage filename="color-from-image.png" alt="Create palette from image" />
+
+            <Text mb={3}>
+              The extraction process creates both vibrant and muted color variations, giving you
+              options for different UI elements. These aren&apos;t simple averages but intelligently
+              selected colors that work well together in a design system.
+            </Text>
+          </Box>
+
+          <Box>
+            <Heading as="h3" size="md" mb={4}>
+              Browsing inspiration palettes
+            </Heading>
+            <Text mb={3}>
+              Our curated inspiration palettes provide quick starting points for your design. Browse
+              through categories ranging from modern minimalist to vibrant creative themes that
+              follow color harmony principles.
+            </Text>
+
+            <OptimizedImage
+              filename="select-inspiration-color.png"
+              alt="Create palette from curated list"
+            />
+
+            <Text mb={3}>
+              Each inspiration palette includes six harmonious colors that can be directly added to
+              your theme. Even bold choices like &quot;Neon Pink&quot; and &quot;Cyber Purple&quot;
+              are carefully balanced to work well when implemented in your UI.
+            </Text>
+          </Box>
+
+          <Box>
+            <Heading as="h3" size="md" mb={4}>
+              Advanced palette adjustments (not recommended)
+            </Heading>
+            <Text mb={3}>
+              After generating a palette, you can event fine-tune it with our visual editing tools
+              if you really want to. Open the palette details to see the exact HEX values and
+              preview how colors will look in both light and dark modes.
+            </Text>
+
+            <OptimizedImage filename="advanced-adjustments.png" alt="Advanced color adjustments" />
+
+            <Text mb={3}>
+              The &quot;Adjust Palette&quot; feature provides intuitive controls for saturation,
+              brightness, and contrast that affect the entire palette while maintaining color
+              relationships. These tools will feel familiar to anyone who has used image editing
+              software.
+            </Text>
+
+            <Alert status="info" variant="left-accent" mt={4}>
+              <AlertIcon />
+              <Box>
+                <Text fontWeight="medium" fontSize="sm">
+                  Understanding adjustment warnings
+                </Text>
+                <Text fontSize="xs" mt={1}>
+                  A yellow warning indicator appears when your adjustments push colors beyond
+                  optimal ranges. This can lead to &quot;color clipping&quot; where details are lost
+                  in extremely light or dark areas.
+                </Text>
+                <Text fontSize="xs" mt={1}>
+                  For best results, keep your adjustments within ranges that don&apos;t trigger the
+                  warning. If needed, try starting with a different base color or reducing
+                  adjustment intensity.
+                </Text>
+              </Box>
+            </Alert>
+          </Box>
+
+          <Box>
+            <Heading as="h3" size="md" mb={4}>
+              Accessibility validation
+            </Heading>
+            <OptimizedImage
+              filename="accessibility-icon.png"
+              alt="Accessibility Icon"
+              width={"50%"}
+            />
+            <Text mb={3}>
+              Accessibility is fundamental to modern web design, and it&apos;s one of the core
+              principles behind Chakra UI&apos;s popularity. Our theme editor incorporates
+              accessibility checking throughout the process.
+            </Text>
+            <Text mb={3}>
+              As you select colors for your theme, our built-in contrast tools automatically
+              evaluate whether your color choices provide sufficient contrast for all users,
+              including those with visual impairments. The system follows WCAG 2.1 guidelines for
+              minimum contrast ratios:
+            </Text>
+
+            <SimpleGrid columns={3} spacing={4} mb={4}>
+              <Card p={3}>
+                <Text fontWeight="bold" mb={1}>
+                  4.5:1
+                </Text>
+                <Text fontSize="sm">For normal text (below 18pt)</Text>
+              </Card>
+              <Card p={3}>
+                <Text fontWeight="bold" mb={1}>
+                  3:1
+                </Text>
+                <Text fontSize="sm">For large text (18pt+)</Text>
+              </Card>
+              <Card p={3}>
+                <Text fontWeight="bold" mb={1}>
+                  3:1
+                </Text>
+                <Text fontSize="sm">For UI components</Text>
+              </Card>
+            </SimpleGrid>
+
+            <HStack spacing={4} mb={4}>
+              <OptimizedImage filename="contrast-analysis.png" alt="Contrast analysis" />
+              <OptimizedImage filename="adjacent-shades.png" alt="Adjacent shades" />
+            </HStack>
+
+            <Text mb={3}>
+              The application also includes tools to visualize how your palettes appear to users
+              with color blindness, including protanopia (red blindness), deuteranopia (green
+              blindness), and tritanopia (blue blindness).
+            </Text>
+
+            <OptimizedImage filename="color-blindness.png" alt="Color blindness" />
+
+            <Text mb={3}>
+              Our intelligent system provides specific recommendations for improving color
+              accessibility when potential issues are detected.
+            </Text>
+
+            <OptimizedImage filename="accessibility-recommendations.png" alt="Color blindness" />
+          </Box>
+
+          <Box>
+            <Heading as="h3" size="md" mb={4}>
+              Color Contrast Explorer
+            </Heading>
+            <OptimizedImage
+              filename="color-contrast-explorer-button.png"
+              alt="Color contrast explorer button"
+              width={"50%"}
+            />
+
+            <Text mb={3}>
+              Our theme editor includes powerful tools for exploring color relationships and
+              ensuring your palette works harmoniously together. The Color Contrast Explorer
+              provides an interactive way to test foreground and background color combinations
+              across your entire palette.
+            </Text>
+
+            <OptimizedImage filename="color-contrast-explorer.png" alt="Color contrast explorer" />
+
+            <Heading as="h3" size="md" mb={4}>
+              Color Harmony
+            </Heading>
+            <OptimizedImage
+              filename="color-harmony-button.png"
+              alt="Color harmony tool"
+              width={"50%"}
+            />
+
+            <Text mb={5}>
+              The Color Harmony tool helps you understand the relationships between colors in your
+              palette using established color theory principles. It visualizes various color
+              relationships to help you create cohesive color schemes. Each tab represents a
+              different harmony method, giving you multiple perspectives on your palette&apos;s
+              balance and harmony.
+            </Text>
+
+            <Heading as="h4" size="sm" mb={3}>
+              Complementary Colors
+            </Heading>
+            <Text mb={3}>
+              Complementary colors sit opposite each other on the color wheel, creating high
+              contrast and visual vibrance. This harmony uses color pairs that are 180° apart, like
+              blue and orange or purple and yellow. Our tool automatically finds the complementary
+              color for any shade in your palette, helping you create eye-catching accent
+              combinations that draw attention to important UI elements.
             </Text>
             <OptimizedImage
-              filename="help/theme-preview-palette-tab.png"
-              alt="Review palette"
-              caption="See palette after any adjustments"
-              width="100%"
+              filename="color-harmony-complementary.png"
+              alt="Complementary color harmony"
+              mb={6}
             />
-          </Box>
-          <Box borderWidth="1px" borderRadius="md" p={4}>
-            <Heading size="sm" mb={2}>
-              Basic UI Elements
+
+            <Heading as="h4" size="sm" mb={3}>
+              Analogous Colors
             </Heading>
-            <Text>
-              Preview standard UI elements like buttons, inputs, checkboxes, switches, and other
-              form controls with your custom theme applied. This helps you ensure that basic
-              interactive elements maintain their usability while matching your design goals.
+            <Text mb={3}>
+              Analogous colors appear next to each other on the color wheel, creating harmonious and
+              serene combinations. This harmony uses colors within 30° of your selected color,
+              resulting in smooth transitions that work well for creating depth in interfaces
+              without stark contrasts. Perfect for navigation menus, progress indicators, or
+              anywhere you need subtle differentiation.
             </Text>
             <OptimizedImage
-              filename="help/theme-preview-basics.png"
-              alt="See basic UI components"
-              caption="See how basic UI components look with your palette"
-              width="100%"
+              filename="color-harmony-analogous.png"
+              alt="Analogous color harmony"
+              mb={6}
             />
-          </Box>
 
-          <Box borderWidth="1px" borderRadius="md" p={4}>
-            <Heading size="sm" mb={2}>
-              Card Variations
+            <Heading as="h4" size="sm" mb={3}>
+              Triadic Colors
             </Heading>
-            <Text>
-              We had some fun creating different card layouts. Compare palettes side by side. Try
-              dark mode.
+            <Text mb={3}>
+              Triadic harmony uses three colors equally spaced around the color wheel (120° apart),
+              creating a balanced yet vibrant palette. This arrangement provides high contrast while
+              maintaining color harmony, making it ideal for data visualizations, featured content
+              sections, or applications that need to visually distinguish between multiple
+              categories while ensuring the colors work well together.
             </Text>
             <OptimizedImage
-              filename="help/card-variations.png"
-              alt="Card variations"
-              caption="See how different card designs and layout might look in your application"
-              width="100%"
+              filename="color-harmony-triadic.png"
+              alt="Triadic color harmony"
+              mb={6}
             />
-          </Box>
 
-          <Box borderWidth="1px" borderRadius="md" p={4}>
-            <Heading size="sm" mb={2}>
-              Table Variations
+            <Heading as="h4" size="sm" mb={3}>
+              Monochromatic Colors
             </Heading>
-            <Text>We also made some tables</Text>
+            <Text mb={3}>
+              Monochromatic harmonies use variations of a single color by adjusting its saturation
+              and brightness. This creates a cohesive, elegant look that&apos;s perfect for
+              minimalist designs or when you want to emphasize content hierarchy without introducing
+              multiple hues. Our tool generates sophisticated monochromatic palettes that avoid the
+              flatness often associated with single-color designs, ensuring your UI maintains visual
+              interest.
+            </Text>
             <OptimizedImage
-              filename="help/table-variations.png"
-              alt="Table variations"
-              caption="See table you theme designs and layout might look in your application"
-              width="100%"
+              filename="color-harmony-monochromatic.png"
+              alt="Monochromatic color harmony"
+              mb={6}
             />
-          </Box>
-        </SimpleGrid>
 
-        <Text mt={3}>
-          Toggle between light and dark modes to ensure your theme provides excellent user
-          experience in both contexts. You can also view responsive behavior to confirm your theme
-          works well across different screen sizes.
-        </Text>
+            <Heading as="h4" size="sm" mb={3}>
+              Custom Gradient
+            </Heading>
+            <Text mb={3}>
+              The Custom Gradient option provides complete creative freedom, allowing you to create
+              transitions between any two colors. This unique tool lets you visualize smooth
+              gradient paths across the color space, helping you identify interesting intermediate
+              colors that might not be obvious in traditional color theory approaches. Perfect for
+              creating unique brand palettes, custom state indicators, or exploring unexpected color
+              relationships.
+            </Text>
+            <OptimizedImage
+              filename="color-harmony-custom-gradient.png"
+              alt="Custom gradient color harmony"
+              mb={6}
+            />
+
+            <Text mb={3}>
+              Together, these tools provide a comprehensive environment for creating professional
+              color palettes that are both aesthetically pleasing and accessible to all users. You
+              can quickly identify potential issues and make informed adjustments to your theme
+              colors.
+            </Text>
+          </Box>
+        </VStack>
       </Box>
     </VStack>
   );

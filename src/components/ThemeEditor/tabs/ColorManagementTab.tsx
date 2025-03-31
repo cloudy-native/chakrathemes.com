@@ -15,7 +15,13 @@ import {
   Flex,
   Grid,
   GridItem,
+  HStack,
   SimpleGrid,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   useColorModeValue,
   useDisclosure,
@@ -36,11 +42,59 @@ export const ColorManagementTab: React.FC = () => {
     <Box>
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
         <GridItem rowSpan={2} colSpan={4}>
-          <Text mb={6} fontSize="sm">
-            Create and manage color palettes for your theme. Add colors manually, extract from
-            images, or check out the curated Inspiration tab! You can always copy or tweak the color
-            values, but be careful because it&apos;s easy to get messed up.
-          </Text>
+          <HStack spacing={4} mb={6} overflow="hidden" position="relative" alignItems="center">
+            <Box
+              w="3px"
+              h="24px"
+              bgGradient="linear(to-b, primary.500, purple.500)"
+              borderRadius="full"
+            />
+            <Box flex="1">
+              <Tabs variant="unstyled" size="sm" colorScheme="primary" defaultIndex={0}>
+                <TabList>
+                  <Tab
+                    _selected={{ color: "primary.500", fontWeight: "semibold" }}
+                    fontSize="xs"
+                    px={2}
+                  >
+                    OVERVIEW
+                  </Tab>
+                  <Tab
+                    _selected={{ color: "primary.500", fontWeight: "semibold" }}
+                    fontSize="xs"
+                    px={2}
+                  >
+                    TIPS
+                  </Tab>
+                </TabList>
+                <TabPanels mt={1}>
+                  <TabPanel p={0}>
+                    <Text fontSize="sm" color={emptyStateTextColor} fontWeight="medium">
+                      Create custom color palettes for your theme. Name your palettes to see them
+                      applied instantly in the preview.
+                    </Text>
+                  </TabPanel>
+                  <TabPanel p={0}>
+                    <Text fontSize="sm" color={emptyStateTextColor} fontWeight="medium">
+                      Use{" "}
+                      <Text as="span" fontWeight="bold" color="primary.500">
+                        &quot;primary&quot;
+                      </Text>{" "}
+                      for main UI elements,
+                      <Text as="span" fontWeight="bold" color="primary.500">
+                        &quot;accent&quot;
+                      </Text>{" "}
+                      for highlights, and
+                      <Text as="span" fontWeight="bold" color="primary.500">
+                        &quot;gray&quot;
+                      </Text>{" "}
+                      for text and backgrounds.
+                    </Text>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </Box>
+          </HStack>
         </GridItem>
         <GridItem>
           <Flex justify="right" mb={2}>

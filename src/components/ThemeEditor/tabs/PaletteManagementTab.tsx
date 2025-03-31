@@ -27,7 +27,10 @@ import {
   AlertDialogOverlay,
   Box,
   Button,
+  ButtonGroup,
   Flex,
+  Grid,
+  GridItem,
   HStack,
   Icon,
   IconButton,
@@ -45,7 +48,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { Check, Edit2, LayoutGrid, Plus, RefreshCw, SwatchBook, Trash } from "lucide-react";
+import { Blend, CaptionsOff, Contrast, Edit2, Plus, SwatchBook, Trash } from "lucide-react";
 import React from "react";
 
 export const PaletteManagementTab: React.FC = () => {
@@ -259,146 +262,167 @@ export const PaletteManagementTab: React.FC = () => {
 
   return (
     <Box>
-      <Flex justifyContent="flex-end" mb={4} gap={2}>
-        <Button colorScheme="primary" leftIcon={<Icon as={Plus} />} onClick={onOpen}>
-          Add Palette
-        </Button>
-        <Button
-          colorScheme="primary"
-          leftIcon={<Icon as={SwatchBook} />}
-          onClick={onCollectionsModalOpen}
-        >
-          Palette Collections
-        </Button>
-      </Flex>
-
-      <Accordion allowMultiple defaultIndex={[]}>
-        {palettes.map((palette, _index) => (
-          <AccordionItem key={palette.colorKey}>
-            <AccordionButton>
-              <Box flex="1" textAlign="left">
-                <Flex justifyContent="space-between" alignItems="center">
-                  <Flex alignItems="center" gap={2}>
-                    <Tooltip label="Rename palette" placement="top">
-                      <IconButton
-                        aria-label="Rename palette"
-                        icon={<Edit2 size={16} />}
-                        variant="ghost"
-                        onClick={e => {
-                          e.stopPropagation(); // Prevent accordion from toggling
-                          openRenameDialog(palette.colorKey);
-                        }}
-                      />
-                    </Tooltip>
-                    <Text fontWeight="medium">{palette.colorKey}</Text>
-                  </Flex>
-                  <HStack spacing={1}>
-                    {/* Accessibility Analysis Button */}
-                    <Tooltip label="Accessibility Analysis" placement="top">
-                      <IconButton
-                        aria-label="Accessibility Analysis"
-                        icon={<Icon as={Check} />}
-                        variant="ghost"
-                        onClick={e => {
-                          e.stopPropagation(); // Prevent accordion from toggling
-                          openAccessibilityModal(palette.colorKey, palette.colorShades);
-                        }}
-                      />
-                    </Tooltip>
-
-                    {/* Color Contrast Button */}
-                    <Tooltip label="Color Contrast Explorer" placement="top">
-                      <IconButton
-                        aria-label="Color Contrast Explorer"
-                        icon={<Icon as={LayoutGrid} size={16} />}
-                        variant="ghost"
-                        onClick={e => {
-                          e.stopPropagation(); // Prevent accordion from toggling
-                          openContrastModal(palette.colorKey, palette.colorShades);
-                        }}
-                      />
-                    </Tooltip>
-
-                    {/* Color Harmony Button */}
-                    <Tooltip label="Color Harmony" placement="top">
-                      <IconButton
-                        aria-label="Color Harmony"
-                        icon={<RefreshCw size={16} />}
-                        variant="ghost"
-                        onClick={e => {
-                          e.stopPropagation(); // Prevent accordion from toggling
-                          openHarmonyModal(palette.colorKey, palette.colorShades);
-                        }}
-                      />
-                    </Tooltip>
-
-                    {/* Delete Button */}
-                    <Tooltip label="Delete palette" placement="top">
-                      <IconButton
-                        aria-label="Delete palette"
-                        icon={<Icon as={Trash} />}
-                        variant="ghost"
-                        colorScheme="red"
-                        onClick={e => {
-                          e.stopPropagation(); // Prevent accordion from toggling
-                          openDeleteDialog(palette.colorKey);
-                        }}
-                      />
-                    </Tooltip>
-                  </HStack>
-                </Flex>
-                <Box mt={2}>
-                  <ThemeColorSwatch
-                    colorKey={palette.colorKey}
-                    colorShades={palette.colorShades}
-                    isCompact={true}
-                    size="lg"
-                  />
-                </Box>
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-            <AccordionPanel pb={4}>
-              {/* Individual Color Shades */}
-              <Box mb={4}>
-                <SimpleGrid columns={{ base: 2, sm: 5 }} spacing={4} maxWidth="100%">
-                  {Object.entries(palette.colorShades)
-                    .sort(([a], [b]) => parseInt(a) - parseInt(b))
-                    .map(([shade, color]) => (
-                      <PaletteShade
-                        key={shade}
-                        colorKey={palette.colorKey}
-                        shade={shade}
-                        color={color as string}
-                      />
-                    ))}
-                </SimpleGrid>
-              </Box>
-
-              {/* Palette Adjustment Tool */}
-              <PaletteAdjustment colorKey={palette.colorKey} colorShades={palette.colorShades} />
-            </AccordionPanel>
-          </AccordionItem>
-        ))}
-      </Accordion>
-
-      {/* Empty state */}
-      {palettes.length === 0 && (
-        <Flex
-          direction="column"
-          align="center"
-          justify="center"
-          py={10}
-          borderWidth="1px"
-          borderRadius="md"
-          borderStyle="dashed"
-          borderColor={emptyStateBorderColor}
-        >
-          <Text mb={4} color={emptyStateTextColor}>
-            No palettes in your theme yet
+      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+        <GridItem rowSpan={2} colSpan={4}>
+          <Text mb={6} fontSize="sm">
+            Color palettes define the visual identity of your theme. Name your palettes
+            &quot;primary&quot;, &quot;secondary&quot;, &quot;accent&quot;, and
+            &quot;background&quot; to see them applied in Preview & Download tab.
           </Text>
-        </Flex>
-      )}
+        </GridItem>
+        <GridItem>
+          <Flex justify="right" mb={2}>
+            <ButtonGroup>
+              <Button
+                size="sm"
+                colorScheme="primary"
+                leftIcon={<Icon as={Plus} />}
+                onClick={onOpen}
+              >
+                Add Palette
+              </Button>
+              <Button
+                size="sm"
+                colorScheme="primary"
+                leftIcon={<Icon as={SwatchBook} />}
+                onClick={onCollectionsModalOpen}
+              >
+                Palette Collections
+              </Button>
+            </ButtonGroup>
+          </Flex>
+        </GridItem>
+      </Grid>
+
+      <Box mt={4}>
+        <Accordion allowMultiple defaultIndex={[]}>
+          {palettes.map((palette, _index) => (
+            <AccordionItem key={palette.colorKey}>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <Flex alignItems="center" gap={2}>
+                      <Tooltip label="Rename palette" placement="top">
+                        <IconButton
+                          aria-label="Rename palette"
+                          icon={<Edit2 size={16} />}
+                          variant="ghost"
+                          onClick={e => {
+                            e.stopPropagation(); // Prevent accordion from toggling
+                            openRenameDialog(palette.colorKey);
+                          }}
+                        />
+                      </Tooltip>
+                      <Text fontWeight="medium">{palette.colorKey}</Text>
+                    </Flex>
+                    <HStack spacing={1}>
+                      {/* Accessibility Analysis Button */}
+                      <Tooltip label="Accessibility Analysis" placement="top">
+                        <IconButton
+                          aria-label="Accessibility Analysis"
+                          icon={<Icon as={CaptionsOff} size={16} />}
+                          variant="ghost"
+                          onClick={e => {
+                            e.stopPropagation(); // Prevent accordion from toggling
+                            openAccessibilityModal(palette.colorKey, palette.colorShades);
+                          }}
+                        />
+                      </Tooltip>
+
+                      {/* Color Contrast Button */}
+                      <Tooltip label="Color Contrast Explorer" placement="top">
+                        <IconButton
+                          aria-label="Color Contrast Explorer"
+                          icon={<Icon as={Contrast} size={16} />}
+                          variant="ghost"
+                          onClick={e => {
+                            e.stopPropagation(); // Prevent accordion from toggling
+                            openContrastModal(palette.colorKey, palette.colorShades);
+                          }}
+                        />
+                      </Tooltip>
+
+                      {/* Color Harmony Button */}
+                      <Tooltip label="Color Harmony" placement="top">
+                        <IconButton
+                          aria-label="Color Harmony"
+                          icon={<Icon as={Blend} size={16} />}
+                          variant="ghost"
+                          onClick={e => {
+                            e.stopPropagation(); // Prevent accordion from toggling
+                            openHarmonyModal(palette.colorKey, palette.colorShades);
+                          }}
+                        />
+                      </Tooltip>
+
+                      {/* Delete Button */}
+                      <Tooltip label="Delete palette" placement="top">
+                        <IconButton
+                          aria-label="Delete palette"
+                          icon={<Icon as={Trash} />}
+                          variant="ghost"
+                          colorScheme="red"
+                          onClick={e => {
+                            e.stopPropagation(); // Prevent accordion from toggling
+                            openDeleteDialog(palette.colorKey);
+                          }}
+                        />
+                      </Tooltip>
+                    </HStack>
+                  </Flex>
+                  <Box mt={2}>
+                    <ThemeColorSwatch
+                      colorKey={palette.colorKey}
+                      colorShades={palette.colorShades}
+                      isCompact={true}
+                      size="lg"
+                    />
+                  </Box>
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                {/* Individual Color Shades */}
+                <Box mb={4}>
+                  <SimpleGrid columns={{ base: 2, sm: 5 }} spacing={4} maxWidth="100%">
+                    {Object.entries(palette.colorShades)
+                      .sort(([a], [b]) => parseInt(a) - parseInt(b))
+                      .map(([shade, color]) => (
+                        <PaletteShade
+                          key={shade}
+                          colorKey={palette.colorKey}
+                          shade={shade}
+                          color={color as string}
+                        />
+                      ))}
+                  </SimpleGrid>
+                </Box>
+
+                {/* Palette Adjustment Tool */}
+                <PaletteAdjustment colorKey={palette.colorKey} colorShades={palette.colorShades} />
+              </AccordionPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
+
+        {/* Empty state */}
+        {palettes.length === 0 && (
+          <Flex
+            direction="column"
+            align="center"
+            justify="center"
+            py={10}
+            borderWidth="1px"
+            borderRadius="md"
+            borderStyle="dashed"
+            borderColor={emptyStateBorderColor}
+          >
+            <Text mb={4} color={emptyStateTextColor}>
+              No palettes in your theme yet
+            </Text>
+          </Flex>
+        )}
+      </Box>
 
       {/* Add Palette Modal */}
       <AddPaletteModal isOpen={isOpen} onClose={onClose} />

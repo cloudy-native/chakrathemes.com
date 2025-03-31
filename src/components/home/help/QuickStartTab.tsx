@@ -1,69 +1,129 @@
 import { OptimizedImage } from "@/components";
-import { Box, Heading, ListItem, OrderedList, Text, VStack } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Heading,
+  HStack,
+  Icon,
+  Text,
+  Flex,
+  useColorModeValue,
+  VStack,
+  ListItem,
+  ListIcon,
+  List,
+} from "@chakra-ui/react";
 import React from "react";
+import { Palette, Eye, Layers, Type, Lightbulb } from "lucide-react";
+
+interface StepInfo {
+  title: string;
+  description: string;
+  icon: React.ElementType;
+  imageUrl?: string;
+  tips: string[];
+}
+
+const steps: StepInfo[] = [
+  {
+    title: "Create Color Palettes",
+    description: "Build your brand's color foundation with our streamlined palette tools",
+    icon: Palette,
+    imageUrl: "help/palettes-tab.png", // [IMAGE PLACEHOLDER: Screenshot of updated palette tab]
+    tips: [
+      "Select a base color and let the advanced color algorithm generate balanced shades automatically",
+      "Create distinct palettes from images, our color inspiration tool, or thoughtful presets for all-in-one palettes for a ready-made theme",
+      'Name your palettes "primary", "secondary", "accent", or "background" to see your changes instantly in the Theme Preview tab!',
+    ],
+  },
+  {
+    title: "Set Typography",
+    description: "Choose between curated font combinations or custom font selections",
+    icon: Type,
+    imageUrl: "help/typography-tab.png", // [IMAGE PLACEHOLDER: Screenshot of new simplified typography tab]
+    tips: [
+      "Use 'Curated Combinations' for pre-matched heading/body fonts",
+      "Switch to 'Custom Fonts' for full control over font selection",
+      "Preview your typography choices with real-time examples",
+      "Just like your color palettes, these fonts will be used in the Theme Preview tab",
+    ],
+  },
+  {
+    title: "(Don't configure Spacing and Borders & Shadows just yet)",
+    description: "Wait until you're sure about colors and typography",
+    icon: Layers,
+    tips: [],
+  },
+  {
+    title: "Preview & Download",
+    description: "Visualize your theme with real components in both light & dark modes",
+    icon: Eye,
+    imageUrl: "help/theme-preview.png", // [IMAGE PLACEHOLDER: Screenshot of theme preview section]
+    tips: [
+      "Theme preview uses the color palettes and typography your assigned",
+      "Toggle between light and dark modes to check color contrast",
+      "Test your theme on different UI patterns for compatibility",
+      "Export your theme as working code when you're ready to use it in your Chakra UI project",
+    ],
+  },
+];
 
 const QuickStartTab: React.FC = () => {
+  const mutedTextColor = useColorModeValue("gray.600", "gray.400");
+  const lightbulbColor = useColorModeValue("accent.500", "accent.300");
+
   return (
-    <VStack spacing={6} align="stretch">
-      <Box>
-        <Heading size="md" mb={3}>
-          Getting Started with the Theme Editor
-        </Heading>
-        <Text mb={4}>
-          The Chakra UI Theme Editor makes it easy to create a custom theme for your project. Follow
-          these steps to get started quickly:
+    <Box>
+      <VStack align="flex-start" mb={8}>
+        <HStack>
+          <Heading as="h2" fontSize={{ base: "2xl", md: "3xl" }}>
+            Create Your Theme in 5 Simple Steps
+          </Heading>
+          <Badge colorScheme="primary" fontSize="sm" variant="solid" py={1} px={2}>
+            New
+          </Badge>
+        </HStack>
+        <Text fontSize="lg" color={mutedTextColor}>
+          Follow our streamlined process to create a professional Chakra UI theme with our
+          redesigned interface.
         </Text>
+      </VStack>
 
-        <OrderedList spacing={3}>
-          <ListItem>
-            <Text fontWeight="bold">Create your first color palette</Text>
-            <Text>Navigate to the Palettes tab and click &quot;Add Palette&quot;.</Text>
-            <OptimizedImage
-              filename="help/palettes-tab.png"
-              alt="Palettes tab"
-              caption="View the Palettes tab"
-              width="70%"
-            />
-            <Text>
-              Name your palette (e.g., &quot;primary&quot;, &quot;brand&quot;) and choose a base
-              color. The editor will generate a full range of shades.
-            </Text>
-          </ListItem>
+      <VStack spacing={4} align="stretch">
+        {steps.map((step, index) => (
+          <Box key={index} mb={6}>
+            <Flex mb={4} align="center">
+              <Box bg="primary.500" p={2} borderRadius="md" color="white" mr={4}>
+                <Icon as={step.icon} boxSize={5} />
+              </Box>
+              <Box>
+                <Heading as="h3" size="md">
+                  {step.title}
+                </Heading>
+                <Text color={mutedTextColor}>{step.description}</Text>
+              </Box>
+            </Flex>
 
-          <ListItem>
-            <Text fontWeight="bold">Adjust spacing and borders</Text>
-            <Text>
-              Use the Spacing tab to set consistent spacing values, and the Borders & Shadows tab to
-              define border radiuses and box shadows.
-            </Text>
-          </ListItem>
+            <VStack align="stretch" spacing={4} pl={14}>
+              {step.tips.length > 0 && (
+                <Box width="100%">
+                  <List>
+                    {step.tips.map((tip, tipIndex) => (
+                      <ListItem key={tipIndex}>
+                        <ListIcon as={Lightbulb} color={lightbulbColor} />
+                        {tip}
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
+              )}
 
-          <ListItem>
-            <Text fontWeight="bold">Preview your theme</Text>
-            <Text>
-              Check the Theme Preview tab to see how your theme looks on real components. Toggle
-              between light and dark modes to ensure your theme works well in both.
-            </Text>
-            <OptimizedImage
-              filename="help/quick-theme-preview.png"
-              alt="Theme preview"
-              caption="Preview what your theme will look like in the palettes you created"
-              width="70%"
-            />
-          </ListItem>
-
-          <ListItem>
-            <Text fontWeight="bold">Export your theme</Text>
-            <Text>
-              When you&apos;re satisfied with your theme, click the &quot;Export Theme&quot; button
-              to download the theme as a JavaScript or TypeScript file ready to use in your Chakra
-              UI project.
-            </Text>
-          </ListItem>
-        </OrderedList>
-      </Box>
-    </VStack>
+              {step.imageUrl && <OptimizedImage filename={step.imageUrl} alt={step.title} />}
+            </VStack>
+          </Box>
+        ))}
+      </VStack>
+    </Box>
   );
 };
-
 export default QuickStartTab;

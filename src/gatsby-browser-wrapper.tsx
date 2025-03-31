@@ -1,9 +1,8 @@
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import React from "react";
-import Layout from "./components/Layout";
 import { applicationTheme as theme } from "./theme/";
 
-// Wrap all pages with the ChakraProvider
+// Wrap the root element with ChakraProvider
 export const wrapRootElement = ({ element }: { element: React.ReactNode }) => {
   return (
     <>
@@ -15,7 +14,10 @@ export const wrapRootElement = ({ element }: { element: React.ReactNode }) => {
   );
 };
 
-// Wrap all pages with the Layout component
+// Important: We're not using wrapPageElement anymore
+// This was causing duplicate Layout/Footer components in production builds
 export const wrapPageElement = ({ element }: { element: React.ReactNode }) => {
-  return <Layout>{element}</Layout>;
+  // Simply return the element without wrapping it in Layout
+  // The Layout component should be included in each page template instead
+  return element;
 };
