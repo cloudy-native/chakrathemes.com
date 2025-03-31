@@ -91,7 +91,7 @@ const PaletteDetailModal: React.FC<{
   onClose: () => void;
   onSelectColor: (name: string, color: string) => void;
 }> = ({ palette, isOpen, onClose, onSelectColor }) => {
-  const { newColorName, setNewColorName } = useThemeContext();
+  const { setNewColorName } = useThemeContext();
   const [selectedColorName, setSelectedColorName] = useState<string>("");
   const [selectedHexValue, setSelectedHexValue] = useState<string>("");
 
@@ -104,6 +104,9 @@ const PaletteDetailModal: React.FC<{
 
     onSelectColor(name, color);
   };
+
+  // Move the hook call to the top level of the component to avoid rules of hooks violation
+  const detailBgColor = useColorModeValue("gray.50", "gray.700");
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -147,7 +150,7 @@ const PaletteDetailModal: React.FC<{
               borderWidth="1px"
               borderRadius="md"
               align="center"
-              bg={useColorModeValue("gray.50", "gray.700")}
+              bg={detailBgColor}
             >
               <Box
                 width="40px"

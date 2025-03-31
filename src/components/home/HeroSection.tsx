@@ -11,15 +11,17 @@ const HeroSection: React.FC = () => {
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8} w="100%" alignItems="start">
         <Flex flexDir="column" align="flex-start" justify="flex-start" textAlign="left">
           <Text fontSize="xl" maxW="6xl" mb="4">
-          Create your perfect Chakra UI theme. Customize colors, typography, spacing, and export directly.          </Text>
+            Create your perfect Chakra UI theme. Customize colors, typography, spacing, and export
+            directly.{" "}
+          </Text>
           <Text fontSize="xl" maxW="6xl" mb="4">
-            The base colors for this application's theme were discovered using built-in color
+            The base colors for this application&apos;s theme were discovered using built-in color
             science goodness from this image of the sun setting over Phuket, Thailand.
           </Text>
           <Text fontSize="xl" maxW="6xl" mb="4">
-            I'm happy to debate the color aesthetic of this application. I just wrote the code. And
-            I'm color blind. But it would be poor show indeed not to theme the application using the
-            application itself.
+            I&apos;m happy to debate the color aesthetic of this application. I just wrote the code.
+            And I&apos;m color blind. But it would be poor show indeed not to theme the application
+            using the application itself.
           </Text>
         </Flex>
         <Flex align="flex-start" justify="center">

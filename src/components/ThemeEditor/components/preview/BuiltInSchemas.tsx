@@ -1,10 +1,7 @@
-import { ArrowRight } from "lucide-react";
 import {
   Alert,
   AlertIcon,
-  Box,
   Button,
-  ButtonGroup,
   Card,
   CardBody,
   CardHeader,
@@ -46,7 +43,7 @@ interface BuiltInSchemasProps {
 
 const BuiltInSchemas: React.FC<BuiltInSchemasProps> = ({ colorKey }) => {
   return (
-    <Card>
+    <Card key={colorKey}>
       <CardHeader>
         <Heading size="sm">ChakraUI Scheme Reference</Heading>
       </CardHeader>
@@ -58,7 +55,7 @@ const BuiltInSchemas: React.FC<BuiltInSchemasProps> = ({ colorKey }) => {
           </Text>
           <Wrap spacing={2}>
             {CHAKRAUI_COLORS.map(color => (
-              <WrapItem>
+              <WrapItem key={color}>
                 <Button key={color} colorScheme={color}>
                   {color}
                 </Button>
@@ -74,7 +71,7 @@ const BuiltInSchemas: React.FC<BuiltInSchemasProps> = ({ colorKey }) => {
           </Text>
           <Wrap spacing={2}>
             {CHAKRAUI_COLORS.map(color => (
-              <WrapItem>
+              <WrapItem key={color}>
                 <Tag key={color} colorScheme={color}>
                   {color}
                 </Tag>

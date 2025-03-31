@@ -7,16 +7,10 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 interface ColorPaletteProps {
   colorKey: string;
   themeValues: ThemeValues;
-  copiedValue: string | null;
   onCopy: (value: string) => void;
 }
 
-const ColorPalette: React.FC<ColorPaletteProps> = ({
-  colorKey,
-  themeValues,
-  copiedValue, // kept for compatibility but not used directly
-  onCopy,
-}) => {
+const ColorPalette: React.FC<ColorPaletteProps> = ({ colorKey, themeValues, onCopy }) => {
   const { trackColorAction } = useAnalytics();
   const [selectedShade, setSelectedShade] = useState<string | null>(null);
 

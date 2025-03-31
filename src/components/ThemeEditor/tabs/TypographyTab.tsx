@@ -1,10 +1,7 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import { EventCategory, trackEvent } from "@/utils/analytics";
-import {
-  getBodyFonts,
-  getHeadingFonts,
-  getMonoFonts,
-} from "@/utils/typographyUtils";
+import { FontCombination } from "@/types";
+import { getBodyFonts, getHeadingFonts, getMonoFonts } from "@/utils/typographyUtils";
 import {
   Accordion,
   AccordionButton,
@@ -52,7 +49,7 @@ export const TypographyTab: React.FC = () => {
 
   // Keep track of which combination was last selected
   useEffect(() => {
-    let matchingCombination: any;
+    let matchingCombination: FontCombination | undefined;
     for (const category of fontCategories) {
       matchingCombination = category.combinations.find(
         combo => combo.heading === headingFont && combo.body === bodyFont && combo.mono === monoFont
@@ -85,7 +82,7 @@ export const TypographyTab: React.FC = () => {
   };
 
   // Handle combination selection
-  const handleCombinationSelect = (combo: any, categoryName: string) => {
+  const handleCombinationSelect = (combo: FontCombination, categoryName: string) => {
     setHeadingFont(combo.heading);
     setBodyFont(combo.body);
     setMonoFont(combo.mono);
@@ -109,7 +106,7 @@ export const TypographyTab: React.FC = () => {
         <TabPanels>
           <TabPanel>
             <Accordion allowMultiple>
-              {fontCategories.map((category) => (
+              {fontCategories.map(category => (
                 <AccordionItem key={category.name}>
                   <h2>
                     <AccordionButton>
@@ -125,7 +122,7 @@ export const TypographyTab: React.FC = () => {
                     </Text>
                     <FontCombinationSelector
                       combinations={category.combinations}
-                      onSelect={(combo) => handleCombinationSelect(combo, category.name)}
+                      onSelect={combo => handleCombinationSelect(combo, category.name)}
                       selectedCombination={selectedCombination}
                       // selectedCategory={selectedCategory}
                     />
@@ -226,8 +223,8 @@ export const TypographyTab: React.FC = () => {
             <Divider my={6} />
 
             <Text fontSize="sm" color="gray.500">
-              These fonts are loaded from Google Fonts. To use them in your project, you'll need to
-              add them to your theme configuration. Check the{" "}
+              These fonts are loaded from Google Fonts. To use them in your project, you&apos;ll
+              need to add them to your theme configuration. Check the{" "}
               <Link href="https://v2.chakra-ui.com/community/recipes/using-fonts" isExternal>
                 Chakra UI theming documentation <Icon as={ExternalLink} boxSize={3} />
               </Link>{" "}

@@ -106,7 +106,19 @@ export const trackExternalLinkClick = (destination: string) => {
 
 // Add to Window for debugging in development
 if (process.env.NODE_ENV === "development" && typeof window !== "undefined") {
-  (window as any).analyticsDebug = {
+  (
+    window as Window & {
+      analyticsDebug?: {
+        trackEvent: typeof trackEvent;
+        trackPageView: typeof trackPageView;
+        trackThemeDownload: typeof trackThemeDownload;
+        trackFeatureUsage: typeof trackFeatureUsage;
+        trackPaletteCreation: typeof trackPaletteCreation;
+        trackTabChange: typeof trackTabChange;
+        trackExternalLinkClick: typeof trackExternalLinkClick;
+      };
+    }
+  ).analyticsDebug = {
     trackEvent,
     trackPageView,
     trackThemeDownload,

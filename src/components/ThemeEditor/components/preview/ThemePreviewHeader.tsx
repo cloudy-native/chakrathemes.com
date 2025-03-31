@@ -1,19 +1,5 @@
 import { ThemeValues } from "@/types";
-import {
-  Alert,
-  AlertIcon,
-  Button,
-  ButtonGroup,
-  Flex,
-  Grid,
-  GridItem,
-  HStack,
-  Icon,
-  Link,
-  Spacer,
-  Text,
-} from "@chakra-ui/react";
-import { ExternalLinkIcon, Pointer } from "lucide-react";
+import { Flex } from "@chakra-ui/react";
 import React from "react";
 import ThemeDownloader from "./ThemeDownloader";
 

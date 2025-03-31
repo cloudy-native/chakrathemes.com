@@ -4,11 +4,8 @@ import {
   Button,
   Divider,
   Flex,
-  FormControl,
-  FormLabel,
   Grid,
   GridItem,
-  Heading,
   HStack,
   Input,
   SimpleGrid,
@@ -22,7 +19,6 @@ import {
   TabPanels,
   Tabs,
   Text,
-  VStack,
 } from "@chakra-ui/react";
 import { useThemeContext } from "@/context/ThemeContext";
 

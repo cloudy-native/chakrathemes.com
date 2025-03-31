@@ -1,16 +1,9 @@
-import React, { createContext, useContext, useReducer, useState } from "react";
-import {
-  ThemeValues,
-  ThemePath,
-  ThemeValueType,
-  ColorSwatch,
-  ThemeAction,
-  FontCombination,
-} from "@/types";
 import { defaultTheme } from "@/hooks/useThemeValues";
-import { useToast } from "@chakra-ui/react";
-import { themeReducer } from "./ThemeReducer";
+import { ColorSwatch, FontCombination, ThemePath, ThemeValues, ThemeValueType } from "@/types";
 import { EventCategory, trackEvent } from "@/utils/analytics";
+import { useToast } from "@chakra-ui/react";
+import React, { createContext, useContext, useReducer, useState } from "react";
+import { themeReducer } from "./ThemeReducer";
 
 interface ThemeContextType {
   // Theme state

@@ -1,16 +1,13 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import { isLightColor } from "@/utils/colorUtils";
-import { Info } from "lucide-react";
 import {
   Box,
   ChakraProvider,
-  Icon,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
   extendTheme,
 } from "@chakra-ui/react";
 import React, { useState } from "react";

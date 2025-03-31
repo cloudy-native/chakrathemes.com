@@ -60,8 +60,8 @@ const OverwritePaletteConfirmation: React.FC<OverwritePaletteConfirmationProps> 
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            A palette named "{paletteName}" already exists. Do you want to overwrite it with your
-            new palette?
+            A palette named &quot;{paletteName}&quot; already exists. Do you want to overwrite it
+            with your new palette?
           </AlertDialogBody>
 
           <AlertDialogFooter>

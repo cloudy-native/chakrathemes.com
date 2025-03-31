@@ -21,8 +21,11 @@ export const isLightColor = (color: string): boolean => {
 
     // Color is considered light if luminance is > 0.5
     return luminance > 0.5;
-  } catch (error: any) {
-    console.error("Error calculating color luminance:", error.message || error);
+  } catch (error: unknown) {
+    console.error(
+      "Error calculating color luminance:",
+      error instanceof Error ? error.message : error
+    );
     return false;
   }
 };
@@ -39,9 +42,10 @@ export const normalizeHex = (hex: string): string => {
   try {
     // Let chroma handle the normalization
     return chroma(hex).hex();
-  } catch (error: any) {
-    // Use any type for error because we need to access the message property
-    throw new Error(`Invalid color format: ${hex}. ${error.message || "Unknown error"}`);
+  } catch (error: unknown) {
+    throw new Error(
+      `Invalid color format: ${hex}. ${error instanceof Error ? error.message : "Unknown error"}`
+    );
   }
 };
 
@@ -51,8 +55,8 @@ export const normalizeHex = (hex: string): string => {
 export const calculateLuminance = (r: number, g: number, b: number): number => {
   try {
     return chroma(r, g, b).luminance();
-  } catch (error: any) {
-    console.error("Error calculating luminance:", error.message || error);
+  } catch (error: unknown) {
+    console.error("Error calculating luminance:", error instanceof Error ? error.message : error);
     return 0;
   }
 };
@@ -64,8 +68,8 @@ export const hexToRgb = (hex: string): RGBColor => {
   try {
     const [r, g, b] = chroma(hex).rgb();
     return { r, g, b };
-  } catch (error: any) {
-    console.error("Error converting hex to RGB:", error.message || error);
+  } catch (error: unknown) {
+    console.error("Error converting hex to RGB:", error instanceof Error ? error.message : error);
     return { r: 0, g: 0, b: 0 };
   }
 };
@@ -76,8 +80,8 @@ export const hexToRgb = (hex: string): RGBColor => {
 export const rgbToHex = (r: number, g: number, b: number): string => {
   try {
     return chroma(r, g, b).hex();
-  } catch (error: any) {
-    console.error("Error converting RGB to hex:", error.message || error);
+  } catch (error: unknown) {
+    console.error("Error converting RGB to hex:", error instanceof Error ? error.message : error);
     return "#000000";
   }
 };
@@ -93,8 +97,8 @@ export const rgbToHsl = ({ r, g, b }: RGBColor): HSLColor => {
       s: Math.round(s * 100),
       l: Math.round(l * 100),
     };
-  } catch (error: any) {
-    console.error("Error converting RGB to HSL:", error.message || error);
+  } catch (error: unknown) {
+    console.error("Error converting RGB to HSL:", error instanceof Error ? error.message : error);
     return { h: 0, s: 0, l: 0 };
   }
 };
@@ -111,8 +115,8 @@ export const hslToRgb = ({ h, s, l }: HSLColor): RGBColor => {
       g: Math.round(g),
       b: Math.round(b),
     };
-  } catch (error: any) {
-    console.error("Error converting HSL to RGB:", error.message || error);
+  } catch (error: unknown) {
+    console.error("Error converting HSL to RGB:", error instanceof Error ? error.message : error);
     return { r: 0, g: 0, b: 0 };
   }
 };
@@ -134,8 +138,8 @@ export const lighten = (hex: string, amount: number): string => {
     return chroma(hex)
       .set("hsl.l", baseL + scaledAmount)
       .hex();
-  } catch (error: any) {
-    console.error("Error lightening color:", error.message || error);
+  } catch (error: unknown) {
+    console.error("Error lightening color:", error instanceof Error ? error.message : error);
     return hex;
   }
 };
@@ -156,8 +160,8 @@ export const darken = (hex: string, amount: number): string => {
     return chroma(hex)
       .set("hsl.l", baseL - scaledAmount)
       .hex();
-  } catch (error: any) {
-    console.error("Error darkening color:", error.message || error);
+  } catch (error: unknown) {
+    console.error("Error darkening color:", error instanceof Error ? error.message : error);
     return hex;
   }
 };
@@ -190,8 +194,11 @@ export const generateColorPalette = (baseColor: string): ColorPalette => {
       800: darken(normalizedBase, 0.55 * darkScalingFactor), // Dark
       900: darken(normalizedBase, 0.75 * darkScalingFactor), // Very dark
     };
-  } catch (error: any) {
-    console.error("Error generating color palette:", error.message || error);
+  } catch (error: unknown) {
+    console.error(
+      "Error generating color palette:",
+      error instanceof Error ? error.message : error
+    );
     // Return a default gray palette as fallback
     return {
       50: "#F7FAFC",
@@ -214,8 +221,11 @@ export const generateColorPalette = (baseColor: string): ColorPalette => {
 export const getContrastRatio = (color1: string, color2: string): number => {
   try {
     return chroma.contrast(color1, color2);
-  } catch (error: any) {
-    console.error("Error calculating contrast ratio:", error.message || error);
+  } catch (error: unknown) {
+    console.error(
+      "Error calculating contrast ratio:",
+      error instanceof Error ? error.message : error
+    );
     return 1;
   }
 };
@@ -275,8 +285,8 @@ export const getPrimaryShade = (themeValues: ThemeValues, colorKey: string): str
 export const createColorScale = (color1: string, color2: string, steps: number): string[] => {
   try {
     return chroma.scale([color1, color2]).mode("lch").colors(steps);
-  } catch (error: any) {
-    console.error("Error creating color scale:", error.message || error);
+  } catch (error: unknown) {
+    console.error("Error creating color scale:", error instanceof Error ? error.message : error);
     return [color1, color2];
   }
 };
@@ -294,8 +304,11 @@ export const getAccessibleTextColor = (backgroundColor: string, minContrast = 4.
     const whiteContrast = chroma.contrast(backgroundColor, white);
 
     return blackContrast >= minContrast && blackContrast >= whiteContrast ? black : white;
-  } catch (error: any) {
-    console.error("Error determining accessible text color:", error.message || error);
+  } catch (error: unknown) {
+    console.error(
+      "Error determining accessible text color:",
+      error instanceof Error ? error.message : error
+    );
     return "#FFFFFF";
   }
 };
@@ -316,8 +329,11 @@ export const getAnalogousColors = (baseColor: string, count = 3, angle = 30): st
     }
 
     return colors;
-  } catch (error: any) {
-    console.error("Error generating analogous colors:", error.message || error);
+  } catch (error: unknown) {
+    console.error(
+      "Error generating analogous colors:",
+      error instanceof Error ? error.message : error
+    );
     return [baseColor];
   }
 };
@@ -331,8 +347,11 @@ export const getComplementaryColor = (baseColor: string): string => {
     return chroma(baseColor)
       .set("hsl.h", (baseHue + 180) % 360)
       .hex();
-  } catch (error: any) {
-    console.error("Error generating complementary color:", error.message || error);
+  } catch (error: unknown) {
+    console.error(
+      "Error generating complementary color:",
+      error instanceof Error ? error.message : error
+    );
     return baseColor;
   }
 };
@@ -352,8 +371,11 @@ export const getTriadicColors = (baseColor: string): string[] => {
         .set("hsl.h", (baseHue + 240) % 360)
         .hex(),
     ];
-  } catch (error: any) {
-    console.error("Error generating triadic colors:", error.message || error);
+  } catch (error: unknown) {
+    console.error(
+      "Error generating triadic colors:",
+      error instanceof Error ? error.message : error
+    );
     return [baseColor];
   }
 };
@@ -374,8 +396,11 @@ export const getMonochromaticColors = (baseColor: string, count = 5): string[] =
     }
 
     return colors;
-  } catch (error: any) {
-    console.error("Error generating monochromatic colors:", error.message || error);
+  } catch (error: unknown) {
+    console.error(
+      "Error generating monochromatic colors:",
+      error instanceof Error ? error.message : error
+    );
     return [baseColor];
   }
 };

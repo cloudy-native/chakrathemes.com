@@ -34,7 +34,7 @@ const AvatarElements: React.FC<AvatarElementsProps> = ({ colorKey }) => {
             {["xs", "sm", "md", "lg", "xl"].map(size => (
               <Avatar
                 key={size}
-                size={size as any}
+                size={size as "xs" | "sm" | "md" | "lg" | "xl"}
                 name={faker.person.fullName()}
                 src={faker.image.avatar()}
                 bg={`${colorKey}.500`}

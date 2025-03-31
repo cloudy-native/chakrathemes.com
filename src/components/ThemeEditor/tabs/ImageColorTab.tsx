@@ -4,7 +4,6 @@ import { ExtractedColor, ThemeValues } from "@/types";
 import { trackPaletteCreation } from "@/utils/analytics";
 import { generateColorPalette } from "@/utils/colorUtils";
 import {
-  Badge,
   Box,
   Button,
   Center,
@@ -18,11 +17,6 @@ import {
   SimpleGrid,
   Spinner,
   Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Text,
   VStack,
   useColorModeValue,
@@ -33,6 +27,9 @@ import React, { useRef, useState, ChangeEvent } from "react";
 export const ImageColorTab: React.FC = () => {
   const { themeValues, setThemeValues } = useThemeContext();
   const toast = useToast();
+
+  // Pre-compute color mode values to avoid hook rule violations
+  const stackBgColor = useColorModeValue("white", "gray.800");
 
   // Image and color state
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
@@ -295,7 +292,7 @@ export const ImageColorTab: React.FC = () => {
                             alignItems="flex-end"
                             p={2}
                           ></Box>
-                          <Stack p={2} spacing={1} bg={useColorModeValue("white", "gray.800")}>
+                          <Stack p={2} spacing={1} bg={stackBgColor}>
                             <Text fontSize="sm" fontWeight="medium" noOfLines={1}>
                               {color.name || `Color ${index + 1}`}
                             </Text>

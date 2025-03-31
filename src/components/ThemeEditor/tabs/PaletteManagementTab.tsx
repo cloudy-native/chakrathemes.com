@@ -54,6 +54,10 @@ export const PaletteManagementTab: React.FC = () => {
   const { trackColorAction } = useAnalytics();
   const toast = useToast();
 
+  // Define color mode values to avoid conditional hook calls
+  const emptyStateBorderColor = useColorModeValue("gray.200", "gray.600");
+  const emptyStateTextColor = useColorModeValue("gray.500", "gray.400");
+
   // Add palette modal state
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -235,7 +239,7 @@ export const PaletteManagementTab: React.FC = () => {
     const generatedPalette: Record<string, ColorPalette> = {};
     Object.keys(collection.colors).forEach(colorKey => {
       const baseColor = collection.colors[colorKey as keyof typeof collection.colors];
-      if (typeof baseColor === 'string') {
+      if (typeof baseColor === "string") {
         generatedPalette[colorKey] = generateColorPalette(baseColor);
       }
     });
@@ -244,9 +248,9 @@ export const PaletteManagementTab: React.FC = () => {
 
   const handleConfirmOverwrite = () => {
     if (collectionToApply) {
-      const selectedCollection = themeGroups.flatMap(group => group.palettes).find(
-        collection => collection.name === collectionToApply
-      );
+      const selectedCollection = themeGroups
+        .flatMap(group => group.palettes)
+        .find(collection => collection.name === collectionToApply);
       if (selectedCollection) {
         applyCollection(selectedCollection);
       }
@@ -269,7 +273,7 @@ export const PaletteManagementTab: React.FC = () => {
       </Flex>
 
       <Accordion allowMultiple defaultIndex={[]}>
-        {palettes.map((palette, index) => (
+        {palettes.map((palette, _index) => (
           <AccordionItem key={palette.colorKey}>
             <AccordionButton>
               <Box flex="1" textAlign="left">
@@ -388,9 +392,9 @@ export const PaletteManagementTab: React.FC = () => {
           borderWidth="1px"
           borderRadius="md"
           borderStyle="dashed"
-          borderColor={useColorModeValue("gray.200", "gray.600")}
+          borderColor={emptyStateBorderColor}
         >
-          <Text mb={4} color={useColorModeValue("gray.500", "gray.400")}>
+          <Text mb={4} color={emptyStateTextColor}>
             No palettes in your theme yet
           </Text>
         </Flex>
@@ -471,7 +475,7 @@ export const PaletteManagementTab: React.FC = () => {
                 <AccordionItem key={group.groupName}>
                   <h2>
                     <AccordionButton>
-                      <Box as="span" flex='1' textAlign='left'>
+                      <Box as="span" flex="1" textAlign="left">
                         {group.groupName}
                       </Box>
                       <AccordionIcon />
@@ -495,15 +499,21 @@ export const PaletteManagementTab: React.FC = () => {
                           </Text>
                           <SimpleGrid columns={4} spacing={2}>
                             {Object.keys(collection.colors).map(colorKey => (
-                              <Box key={colorKey} >
-                                {
-                                  Object.values(generateColorPalette(collection.colors[colorKey as keyof typeof collection.colors])).slice(4,5).map(color => (
-                                <Box
-                                  w="100%"
-                                  h="20px"
-                                  bg={color}
-                                  borderRadius="sm"
-                                />
+                              <Box key={colorKey}>
+                                {Object.values(
+                                  generateColorPalette(
+                                    collection.colors[colorKey as keyof typeof collection.colors]
+                                  )
+                                )
+                                  .slice(4, 5)
+                                  .map(color => (
+                                    <Box
+                                      key={color}
+                                      w="100%"
+                                      h="20px"
+                                      bg={color}
+                                      borderRadius="sm"
+                                    />
                                   ))}
                               </Box>
                             ))}

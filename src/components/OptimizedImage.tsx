@@ -13,6 +13,16 @@ interface ImageProps {
   width?: string | number;
 }
 
+interface ImageNode {
+  node: {
+    relativePath: string;
+    name: string;
+    childImageSharp: {
+      gatsbyImageData: unknown;
+    };
+  };
+}
+
 const OptimizedImage: React.FC<ImageProps> = ({
   filename,
   alt,
@@ -21,6 +31,7 @@ const OptimizedImage: React.FC<ImageProps> = ({
   mb = 4,
   width = "50%",
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const data = useStaticQuery(graphql`
     query {
       images: allFile {
@@ -37,7 +48,9 @@ const OptimizedImage: React.FC<ImageProps> = ({
     }
   `);
 
-  const imageNode = data.images.edges.find((n: any) => n.node.relativePath.includes(filename));
+  const imageNode = data.images.edges.find((n: ImageNode) =>
+    n.node.relativePath.includes(filename)
+  );
 
   if (!imageNode) {
     console.error(`Could not find image with filename: ${filename}`);
@@ -92,8 +105,6 @@ const OptimizedImage: React.FC<ImageProps> = ({
       </Box>
     );
   }
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Get the full-size image URL for the modal
   const fullSizeImageUrl = getSrc(imageNode.node);

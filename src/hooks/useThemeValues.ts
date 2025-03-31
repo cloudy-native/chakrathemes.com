@@ -133,13 +133,13 @@ export const useThemeValues = () => {
   const updateThemeValue = (path: ThemePath, value: ThemeValueType) => {
     setThemeValues(prev => {
       const newTheme = JSON.parse(JSON.stringify(prev));
-      let current: Record<string, any> = newTheme;
+      let current: Record<string, unknown> = newTheme;
 
       for (let i = 0; i < path.length - 1; i++) {
-        if (!current[path[i]]) {
+        if (!(path[i] in current) || !current[path[i]]) {
           current[path[i]] = {};
         }
-        current = current[path[i]];
+        current = current[path[i]] as Record<string, unknown>;
       }
 
       current[path[path.length - 1]] = value;

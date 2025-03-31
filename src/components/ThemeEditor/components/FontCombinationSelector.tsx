@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Text,
-  SimpleGrid,
-  useColorModeValue,
-  VStack,
-  Heading,
-  Badge,
-} from "@chakra-ui/react";
+import { Box, Text, SimpleGrid, useColorModeValue, VStack, Heading, Badge } from "@chakra-ui/react";
 import { FontCombination } from "@/types";
 
 interface FontCombinationSelectorProps {
@@ -26,7 +18,7 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
   const hoverBg = useColorModeValue("gray.50", "gray.600");
   const activeBg = useColorModeValue("gray.100", "gray.500");
   const codeBlockBg = useColorModeValue("gray.100", "gray.800");
-  const shadow = useColorModeValue("md", "md")
+  const shadow = useColorModeValue("md", "md");
 
   return (
     <Box mb={6}>

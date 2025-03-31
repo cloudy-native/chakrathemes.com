@@ -1,4 +1,4 @@
-import { extendTheme, ThemeConfig } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 
 // Custom theme definition with jewel tones
 export const emptyTheme = extendTheme({

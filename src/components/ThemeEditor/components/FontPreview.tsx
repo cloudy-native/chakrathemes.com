@@ -1,12 +1,12 @@
 import React from "react";
 import {
   Box,
+  Button,
   Heading,
   Text,
   useColorModeValue,
   VStack,
   Code,
-  Link,
   UnorderedList,
   ListItem,
 } from "@chakra-ui/react";
@@ -66,9 +66,18 @@ export const FontPreview: React.FC<FontPreviewProps> = ({ headingFont, bodyFont,
             within paragraphs to establish visual hierarchy and emphasis.
           </Text>
 
-          <Link color="blue.500" style={bodyStyle}>
+          <Button
+            variant="link"
+            color="blue.500"
+            style={bodyStyle}
+            p={0}
+            height="auto"
+            minWidth="auto"
+            fontWeight="normal"
+            textDecoration="underline"
+          >
             This is how links will appear in your content
-          </Link>
+          </Button>
 
           <UnorderedList mt={3} style={bodyStyle}>
             <ListItem>First list item example</ListItem>

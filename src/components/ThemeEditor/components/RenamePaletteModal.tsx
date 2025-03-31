@@ -60,7 +60,6 @@ export const RenamePaletteModal: React.FC<RenamePaletteModalProps> = ({
               value={newName}
               onChange={e => setNewName(e.target.value)}
               placeholder="Enter new palette name"
-              autoFocus
             />
           </FormControl>
         </ModalBody>

@@ -34,6 +34,8 @@ export const ColorPickerTab: React.FC = () => {
 
   const colors = getColors();
   const borderColor = useColorModeValue("gray.200", "gray.700");
+  // Pre-compute color values to avoid hook rule violations
+  const generatorBoxBgColor = useColorModeValue("gray.50", "gray.700");
 
   // Initialize with first color swatch open
   const [openColorSwatches, setOpenColorSwatches] = useState<{
@@ -150,7 +152,7 @@ export const ColorPickerTab: React.FC = () => {
             }}
           >
             {/* Auto-generate button */}
-            <Box mb={4} p={3} bg={useColorModeValue("gray.50", "gray.700")} borderRadius="md">
+            <Box mb={4} p={3} bg={generatorBoxBgColor} borderRadius="md">
               <FormLabel mb={2}>Regenerate Entire Palette</FormLabel>
               <HStack>
                 <InputGroup size="sm">

@@ -17,7 +17,7 @@ const QuickStartTab: React.FC = () => {
         <OrderedList spacing={3}>
           <ListItem>
             <Text fontWeight="bold">Create your first color palette</Text>
-            <Text>Navigate to the Palettes tab and click "Add Palette".</Text>
+            <Text>Navigate to the Palettes tab and click &quot;Add Palette&quot;.</Text>
             <OptimizedImage
               filename="help/palettes-tab.png"
               alt="Palettes tab"
@@ -25,8 +25,8 @@ const QuickStartTab: React.FC = () => {
               width="70%"
             />
             <Text>
-              Name your palette (e.g., "primary", "brand") and choose a base color. The editor will
-              generate a full range of shades.
+              Name your palette (e.g., &quot;primary&quot;, &quot;brand&quot;) and choose a base
+              color. The editor will generate a full range of shades.
             </Text>
           </ListItem>
 
@@ -55,8 +55,9 @@ const QuickStartTab: React.FC = () => {
           <ListItem>
             <Text fontWeight="bold">Export your theme</Text>
             <Text>
-              When you're satisfied with your theme, click the "Export Theme" button to download the
-              theme as a JavaScript or TypeScript file ready to use in your Chakra UI project.
+              When you&apos;re satisfied with your theme, click the &quot;Export Theme&quot; button
+              to download the theme as a JavaScript or TypeScript file ready to use in your Chakra
+              UI project.
             </Text>
           </ListItem>
         </OrderedList>

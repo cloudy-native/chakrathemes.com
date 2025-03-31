@@ -1,14 +1,5 @@
 import { ThemeValues } from "@/types";
-import {
-  Box,
-  Card,
-  CardBody,
-  CardHeader,
-  Heading,
-  SimpleGrid,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Card, CardBody, CardHeader, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import React from "react";
 
 interface BorderElementsProps {
@@ -17,14 +8,6 @@ interface BorderElementsProps {
 }
 
 const BorderElements: React.FC<BorderElementsProps> = ({ themeValues, colorKey }) => {
-  const bgColor = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
-
-  // Get the available shadow keys
-  const shadowKeys = Object.keys(themeValues.shadows || {}).filter(
-    key => key !== "outline" && key !== "inner" && key !== "none"
-  );
-
   // Get the border radius keys
   const radiusKeys = Object.keys(themeValues.radii || {}).filter(
     key => key !== "none" && key !== "full"

@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/react";
 import chroma from "chroma-js";
 import { Check, Info, Moon, RotateCcw, SlidersHorizontal, Sun } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 interface PaletteAdjustmentProps {
   colorKey: string;
@@ -47,19 +47,12 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
   const [contrastAmount, setContrastAmount] = useState(0);
   const [gammaValue, setGammaValue] = useState(1);
 
-  // Initialize preview on first render
-  React.useEffect(() => {
-    if (isAdjusting) {
-      updatePreview();
-    }
-  }, [isAdjusting]);
-
   // UI Colors
   const panelBg = useColorModeValue("gray.50", "gray.700");
   const borderColor = useColorModeValue("gray.200", "gray.600");
 
   // Calculate adjustments for preview
-  const updatePreview = () => {
+  const updatePreview = useCallback(() => {
     const newShades: Record<string, string> = {};
 
     Object.entries(colorShades).forEach(([shade, color]) => {
@@ -125,7 +118,14 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
     });
 
     setPreviewShades(newShades);
-  };
+  }, [brightness, saturation, temperature, contrastAmount, gammaValue, colorShades]);
+
+  // Initialize preview on first render
+  React.useEffect(() => {
+    if (isAdjusting) {
+      updatePreview();
+    }
+  }, [isAdjusting, updatePreview]);
 
   // Reset all adjustments
   const resetAdjustments = () => {

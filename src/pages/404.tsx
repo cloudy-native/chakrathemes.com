@@ -22,6 +22,10 @@ const NotFoundPage: React.FC<PageProps> = () => {
   const textColor = useColorModeValue("gray.600", "gray.400");
   const headingColor = useColorModeValue("gray.800", "white");
 
+  // Colors for development message (moved out of conditional rendering)
+  const devMessageBgColor = useColorModeValue("primary.50", "primary.900");
+  const devMessageTextColor = useColorModeValue("primary.700", "primary.100");
+
   return (
     <Container maxW="container.md">
       <Center>
@@ -49,20 +53,14 @@ const NotFoundPage: React.FC<PageProps> = () => {
               Page Not Found
             </Heading>
             <Text fontSize="lg" maxW="md" textAlign="center" color={textColor}>
-              Oops! The page you're looking for doesn't seem to exist.
+              Oops! The page you&apos;re looking for doesn&apos;t seem to exist.
             </Text>
           </Flex>
 
           {/* Developer message in development */}
           {process.env.NODE_ENV === "development" && (
-            <Box
-              bg={useColorModeValue("primary.50", "primary.900")}
-              p={4}
-              borderRadius="md"
-              borderLeft="4px solid"
-              maxW="full"
-            >
-              <Text color={useColorModeValue("primary.700", "primary.100")} fontSize="sm">
+            <Box bg={devMessageBgColor} p={4} borderRadius="md" borderLeft="4px solid" maxW="full">
+              <Text color={devMessageTextColor} fontSize="sm">
                 Developer Note: You can create new pages in the <code>src/pages/</code> directory.
               </Text>
             </Box>

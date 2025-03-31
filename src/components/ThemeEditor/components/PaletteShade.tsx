@@ -2,16 +2,7 @@ import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ThemeValues } from "@/types";
 import { isLightColor } from "@/utils/colorUtils";
-import {
-  Box,
-  Flex,
-  HStack,
-  Icon,
-  IconButton,
-  Text,
-  Tooltip,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Icon, IconButton, Text, Tooltip } from "@chakra-ui/react";
 import { Copy, Lock, Pencil, Unlock } from "lucide-react";
 import React, { useState } from "react";
 
@@ -31,7 +22,6 @@ export const PaletteShade: React.FC<{
 
   // Use the standardized color utils function to determine text color
   const textColor = isLightColor(color) ? "black" : "white";
-  const borderColor = useColorModeValue("gray.200", "gray.600");
 
   // Copy color hex to clipboard
   const copyToClipboard = () => {

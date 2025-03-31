@@ -4,30 +4,17 @@ import {
   FormControl,
   FormLabel,
   Input,
-  HStack,
   Text,
   InputGroup,
   InputRightElement,
-  useColorModeValue,
 } from "@chakra-ui/react";
-import { generateColorPalette } from "@/utils/colorUtils";
-import ThemeColorSwatch from "./ThemeColorSwatch";
 
 interface PaletteGeneratorProps {
   baseColor: string;
   setBaseColor: (color: string) => void;
-  colorName?: string;
-  setColorName?: (name: string) => void;
-  onGenerate?: () => void;
 }
 
-export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({
-  baseColor,
-  setBaseColor,
-  colorName = "",
-  setColorName = () => {},
-  onGenerate = () => {},
-}) => {
+export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({ baseColor, setBaseColor }) => {
   return (
     <Box p={4} borderWidth="1px" borderRadius="md">
       <Text fontWeight="bold" mb={4}>
@@ -57,8 +44,6 @@ export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({
           </InputRightElement>
         </InputGroup>
       </FormControl>
-
-      {/* Preview is now handled by the parent component */}
     </Box>
   );
 };

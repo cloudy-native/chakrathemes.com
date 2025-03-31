@@ -43,8 +43,9 @@ const DeepDiveTab: React.FC = () => {
             <AccordionPanel pb={4}>
               <Text mb={3}>
                 To create a palette from an existing color, navigate to the Palettes tab and click
-                "Add Palette". You can input a hex color code or use the color picker to select your
-                base color. The editor will automatically generate lighter and darker shades.
+                &quot;Add Palette&quot;. You can input a hex color code or use the color picker to
+                select your base color. The editor will automatically generate lighter and darker
+                shades.
               </Text>
               <OptimizedImage
                 filename="help/palette-from-base-color.png"
@@ -105,8 +106,8 @@ const DeepDiveTab: React.FC = () => {
               </Text>
               <Text mb={3}>
                 There are six related colors in each theme. Check back for updates and more ideas.
-                These colors all work great out of the box, even "Neon Pink" and "Cyber Purple" if
-                that's the look you're going for.
+                These colors all work great out of the box, even &quot;Neon Pink&quot; and
+                &quot;Cyber Purple&quot; if that&apos;s the look you&apos;re going for.
               </Text>
               <HStack>
                 <OptimizedImage
@@ -150,8 +151,8 @@ const DeepDiveTab: React.FC = () => {
                 caption="Open the palette to start exploring and adjusting"
               />
               <Text mb={3}>
-                Clicking "Adjust Palette" brings up more tools for fine tuning. These image tools
-                will be familiar to you from PhotoShop and other image editors.
+                Clicking &quot;Adjust Palette&quot; brings up more tools for fine tuning. These
+                image tools will be familiar to you from PhotoShop and other image editors.
               </Text>
               <OptimizedImage
                 filename="help/adjust-palette.png"
@@ -163,13 +164,13 @@ const DeepDiveTab: React.FC = () => {
                 <AlertIcon />
                 <Box>
                   <Text fontWeight="medium" fontSize="sm">
-                    What does the "!" warning mean?
+                    What does the &quot;!&quot; warning mean?
                   </Text>
                   <Text fontSize="xs" mt={1}>
-                    When adjusting saturation or contrast, you might see a "!" warning icon. This
-                    indicates that your adjustments have pushed the color beyond normal limits,
-                    potentially causing "color clipping" where details are lost in extremely light
-                    or dark areas.
+                    When adjusting saturation or contrast, you might see a &quot;!&quot; warning
+                    icon. This indicates that your adjustments have pushed the color beyond normal
+                    limits, potentially causing &quot;color clipping&quot; where details are lost in
+                    extremely light or dark areas.
                   </Text>
                   <Text fontSize="xs" mt={1}>
                     To resolve this, try reducing the intensity of your adjustment or start with a
@@ -191,7 +192,7 @@ const DeepDiveTab: React.FC = () => {
 
             <AccordionPanel pb={4}>
               <Text mb={3}>
-                Accessibility is more than just a buzzword. It's a hard requirement of websites
+                Accessibility is more than just a buzzword. It&apos;s a hard requirement of websites
                 nowadays. Only of the main reasons ChakraUI has gained such popularity is its
                 accessibility-first approach.
               </Text>
@@ -233,7 +234,7 @@ const DeepDiveTab: React.FC = () => {
                 Color blindness is an issue for many people. People affected with color blindness
                 often identify pastel shades of color pairs like red/green and green/brown as being
                 too similar. (Try not to ask a color-blind person what color they see instead.
-                That's actually the point: They don't.)
+                That&apos;s actually the point: They don&apos;t.)
               </Text>
               <Text mb={3}>
                 The three main types of color blindness are protanopia (difficulty distinguishing
@@ -261,7 +262,7 @@ const DeepDiveTab: React.FC = () => {
 
       <Box>
         <Heading size="md" mb={3}>
-          Preview you theme
+          Preview your theme
         </Heading>
         <Text mb={4}>
           The Theme Preview tab offers a view of how your theme affects various UI components. This

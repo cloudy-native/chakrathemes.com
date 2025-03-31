@@ -2,7 +2,7 @@ import { ThemeValues } from "@/types";
 
 export const useSpacingAndRadius = (
   themeValues: ThemeValues,
-  updateThemeValue: (path: string[], value: any) => void
+  updateThemeValue: (path: string[], value: string | number | Record<string, unknown>) => void
 ) => {
   // Handle spacing change
   const handleSpacingChange = (spacingKey: string, value: string) => {

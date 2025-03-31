@@ -26,7 +26,7 @@ interface ButtonStylesProps {
 
 const ButtonStyles: React.FC<ButtonStylesProps> = ({ colorKey }) => {
   return (
-    <Card>
+    <Card key={colorKey}>
       <CardHeader>
         <Heading size="sm">Button & Tag Styles</Heading>
       </CardHeader>
@@ -38,17 +38,17 @@ const ButtonStyles: React.FC<ButtonStylesProps> = ({ colorKey }) => {
           </Text>
           <Wrap spacing={2}>
             {BUTTON_SIZES.map(size => (
-              <WrapItem>
-                <Button key={size} size={size as any} colorScheme={colorKey}>
+              <WrapItem key={size}>
+                <Button key={size} size={size as "xs" | "sm" | "md" | "lg"} colorScheme={colorKey}>
                   {size.toUpperCase()} Button
                 </Button>
               </WrapItem>
             ))}
             {BUTTON_VARIANTS.map(variant => (
-              <WrapItem>
+              <WrapItem key={variant}>
                 <Button
                   key={variant}
-                  variant={variant as any}
+                  variant={variant as "solid" | "outline" | "ghost" | "link"}
                   colorScheme={colorKey}
                   isDisabled={variant === "disabled"}
                 >
@@ -56,23 +56,23 @@ const ButtonStyles: React.FC<ButtonStylesProps> = ({ colorKey }) => {
                 </Button>
               </WrapItem>
             ))}
-            <WrapItem>
+            <WrapItem key="left-icon">
               <Button leftIcon={<MailIcon />} colorScheme={colorKey}>
                 Left Icon
               </Button>
             </WrapItem>
-            <WrapItem>
+            <WrapItem key="right-icon">
               <Button rightIcon={<ArrowRight />} colorScheme={colorKey} variant="outline">
                 Right Icon
               </Button>
             </WrapItem>
-            <WrapItem>
+            <WrapItem key="button-group">
               <ButtonGroup isAttached variant="outline">
                 <Button colorScheme={colorKey}>Button Group</Button>
                 <Button colorScheme={colorKey}>Group</Button>
               </ButtonGroup>
             </WrapItem>
-            <WrapItem>
+            <WrapItem key="loading">
               <Button isLoading loadingText="Loading" colorScheme={colorKey} variant="solid">
                 Loading
               </Button>
@@ -88,38 +88,22 @@ const ButtonStyles: React.FC<ButtonStylesProps> = ({ colorKey }) => {
           <Box width="100%">
             <VStack align="flex-start" spacing={4} width="100%">
               <Wrap spacing={2}>
-                <WrapItem>
-                  <Tag colorScheme={colorKey} size="sm">
-                    Small
-                  </Tag>
-                </WrapItem>
-                <WrapItem>
-                  <Tag colorScheme={colorKey} size="md">
-                    Medium
-                  </Tag>
-                </WrapItem>
-                <WrapItem>
-                  <Tag colorScheme={colorKey} size="lg">
-                    Large
-                  </Tag>
-                </WrapItem>
+                {["sm", "md", "lg"].map(size => (
+                  <WrapItem key={size}>
+                    <Tag colorScheme={colorKey} size={size as "sm" | "md" | "lg"}>
+                      {size.toUpperCase()}
+                    </Tag>
+                  </WrapItem>
+                ))}
               </Wrap>
               <Wrap spacing={2}>
-                <WrapItem>
-                  <Tag colorScheme={colorKey} variant="solid">
-                    Solid
-                  </Tag>
-                </WrapItem>
-                <WrapItem>
-                  <Tag colorScheme={colorKey} variant="subtle">
-                    Subtle
-                  </Tag>
-                </WrapItem>
-                <WrapItem>
-                  <Tag colorScheme={colorKey} variant="outline">
-                    Outline
-                  </Tag>
-                </WrapItem>
+                {["solid", "subtle", "outline"].map(variant => (
+                  <WrapItem key={variant}>
+                    <Tag colorScheme={colorKey} variant={variant as "solid" | "subtle" | "outline"}>
+                      {variant.charAt(0).toUpperCase() + variant.slice(1)}
+                    </Tag>
+                  </WrapItem>
+                ))}
               </Wrap>
             </VStack>
           </Box>

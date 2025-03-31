@@ -25,6 +25,11 @@ import React from "react";
 export const ColorManagementTab: React.FC = () => {
   const { getColors } = useThemeContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Pre-compute color mode values to avoid hook rule violations
+  const emptyStateBorderColor = useColorModeValue("gray.200", "gray.600");
+  const emptyStateTextColor = useColorModeValue("gray.500", "gray.400");
+
   const colors = getColors();
 
   return (
@@ -34,7 +39,7 @@ export const ColorManagementTab: React.FC = () => {
           <Text mb={6} fontSize="sm">
             Create and manage color palettes for your theme. Add colors manually, extract from
             images, or check out the curated Inspiration tab! You can always copy or tweak the color
-            values., but be careful because it's easy to get messed up.
+            values, but be careful because it&apos;s easy to get messed up.
           </Text>
         </GridItem>
         <GridItem>
@@ -94,9 +99,9 @@ export const ColorManagementTab: React.FC = () => {
           borderWidth="1px"
           borderRadius="md"
           borderStyle="dashed"
-          borderColor={useColorModeValue("gray.200", "gray.600")}
+          borderColor={emptyStateBorderColor}
         >
-          <Text mb={4} color={useColorModeValue("gray.500", "gray.400")}>
+          <Text mb={4} color={emptyStateTextColor}>
             No colors in your palette yet
           </Text>
           <Button size="sm" colorScheme="primary" leftIcon={<Plus size={16} />} onClick={onOpen}>

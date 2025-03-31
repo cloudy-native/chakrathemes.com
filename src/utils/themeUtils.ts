@@ -14,14 +14,14 @@ export const updateThemeProperty = (
 ): ThemeValues => {
   // Create a deep clone to avoid mutating the original
   const newTheme = JSON.parse(JSON.stringify(theme));
-  let current: Record<string, any> = newTheme;
+  let current: Record<string, unknown> = newTheme;
 
   // Navigate to the nested property
   for (let i = 0; i < path.length - 1; i++) {
-    if (!current[path[i]]) {
+    if (!(path[i] in current) || !current[path[i]]) {
       current[path[i]] = {};
     }
-    current = current[path[i]];
+    current = current[path[i]] as Record<string, unknown>;
   }
 
   // Set the value at the final path
@@ -37,17 +37,17 @@ export const updateThemeProperty = (
  * @returns The value at the specified path or the default value
  */
 export const getThemeProperty = <T>(theme: ThemeValues, path: ThemePath, defaultValue: T): T => {
-  let current: any = theme;
+  let current: Record<string, unknown> = theme as unknown as Record<string, unknown>;
 
   // Navigate through the path
   for (let i = 0; i < path.length; i++) {
-    if (current === undefined || current === null || !current[path[i]]) {
+    if (current === undefined || current === null || !(path[i] in current)) {
       return defaultValue;
     }
-    current = current[path[i]];
+    current = current[path[i]] as Record<string, unknown>;
   }
 
-  return current as T;
+  return current as unknown as T;
 };
 
 /**

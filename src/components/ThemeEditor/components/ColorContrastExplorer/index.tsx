@@ -80,7 +80,7 @@ interface ColorControlsProps {
   trackColorAction?: (action: string, label?: string, value?: number) => void;
 }
 
-const ColorControls: React.FC<ColorControlsProps> = ({
+const _ColorControls: React.FC<ColorControlsProps> = ({
   colorKey,
   shadeLight,
   shadeDark,
@@ -322,7 +322,7 @@ export const ColorContrastExplorer: React.FC = () => {
   }, [trackFeature]);
 
   // Handle color mode toggle with tracking
-  const handleColorModeToggle = () => {
+  const _handleColorModeToggle = () => {
     toggleColorMode();
     trackFeature("contrast_explorer", `switch_to_${colorMode === "light" ? "dark" : "light"}_mode`);
   };
@@ -349,7 +349,7 @@ export const ColorContrastExplorer: React.FC = () => {
 
   return (
     <Box borderWidth="1px" borderRadius="md" p={4} mb={6}>
-      // Split view mode - shows both light and dark simultaneously
+      {/* Split view mode - shows both light and dark simultaneously */}
       <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         {/* Light Mode Panel */}
         <Box p={4} borderWidth="1px" borderRadius="md">
@@ -670,7 +670,7 @@ export const PaletteColorContrast: React.FC<PaletteColorContrastProps> = ({
   const textColorKey = "gray";
 
   // Get all palettes for text color selection
-  const palettes = Object.entries(themeValues.colors || {}).map(([key, shades]) => ({
+  const _palettes = Object.entries(themeValues.colors || {}).map(([key, shades]) => ({
     colorKey: key,
     colorShades: shades as Record<string, string>,
   }));

@@ -77,7 +77,7 @@ const ShadowControl: React.FC<{
   onChange: (shadowKey: string, value: string) => void;
   copiedValue: string | null;
   onCopy: (value: string) => void;
-}> = ({ shadowKey, shadowValue, onChange, copiedValue, onCopy }) => {
+}> = ({ shadowKey, shadowValue, onChange: _onChange, copiedValue, onCopy }) => {
   const bgColor = useColorModeValue(featureBackground.light, featureBackground.dark);
   const copyValue = `boxShadow="${shadowKey}"`;
 
@@ -96,7 +96,7 @@ const ShadowControl: React.FC<{
       flexDirection="column"
     >
       <Flex mb={3} align="center" justify="space-between" p={2} borderRadius="md">
-        <Code children={copyValue} />
+        <Code>{copyValue}</Code>
         <Button
           size="xs"
           variant="ghost"
@@ -193,7 +193,7 @@ const BorderRadiusControl: React.FC<{
       flexDirection="column"
     >
       <Flex mb={3} align="center" justify="space-between" p={2} borderRadius="md">
-        <Code children={copyValue} />
+        <Code>{copyValue}</Code>
         <Button
           size="xs"
           variant="ghost"

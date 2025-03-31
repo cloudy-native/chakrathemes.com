@@ -9,7 +9,6 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverBody,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import ColorTooltip from "./ColorTooltip";
 
@@ -20,8 +19,6 @@ interface ColorInputProps {
 }
 
 export const ColorInput: React.FC<ColorInputProps> = ({ label, value, onChange }) => {
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-
   return (
     <FormControl>
       <FormLabel>{label}</FormLabel>

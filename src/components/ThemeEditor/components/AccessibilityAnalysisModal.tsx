@@ -331,8 +331,8 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
               <TabPanel>
                 {/* Color Blindness Simulation Tab */}
                 <Text mb={4}>
-                  Color blindness affects approximately 8% of men and 0.5% of women. Here's how your
-                  palette appears to users with different types of color vision deficiency:
+                  Color blindness affects approximately 8% of men and 0.5% of women. Here&apos;s how
+                  your palette appears to users with different types of color vision deficiency:
                 </Text>
 
                 <Box mb={6}>
@@ -550,8 +550,8 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
                   </Text>
                   <Box fontSize="sm">
                     <Text mb={2}>
-                      • Don't rely on color alone to convey information. Use icons, patterns, or
-                      text labels.
+                      • Don&apos;t rely on color alone to convey information. Use icons, patterns,
+                      or text labels.
                     </Text>
                     <Text mb={2}>
                       • Ensure adequate lightness contrast between adjacent colors.
