@@ -53,7 +53,7 @@ const IndexPage: React.FC<PageProps> = () => {
 
         {/* Help Section */}
         {(!isMobile || showFullContent) && (
-          <Box bg="gray.50" _dark={{ bg: "gray.900" }} py={16}>
+          <Box py={16}>
             <Container maxW="7xl" px={{ base: 4, md: 6 }}>
               <VStack spacing={8} align="stretch">
                 <Heading fontSize={{ base: "2xl", md: "3xl" }} textAlign="center" color="secondary.500">

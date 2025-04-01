@@ -50,6 +50,22 @@ export const ComponentsPreviewTab: React.FC = () => {
       <ChakraProvider theme={previewTheme}>
         {/* Full-width Color Palette Cards Section */}
         <Box p={5} borderWidth="1px" borderRadius="lg" boxShadow="md" width="100%">
+          {colorKeys.length === 0 && (
+            <Box 
+              textAlign="center" 
+              p={6} 
+              borderWidth="2px" 
+              borderRadius="md" 
+              mb={4}
+            >
+              <Text fontSize="lg" fontWeight="bold" mb={2}>
+                No color palettes found
+              </Text>
+              <Text fontSize="sm">
+                Go to the "Palettes" tab and add a primary, secondary, accent, or background palette. Then come back here to see it in action.
+              </Text>
+            </Box>
+          )}
           <Tabs
             isLazy
             index={colorTabIndex}
