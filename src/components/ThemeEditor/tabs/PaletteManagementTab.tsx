@@ -10,8 +10,17 @@ import {
 import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { ColorPalette, ThemeValues } from "@/types";
+import { ColorPalette, ThemeValues, ColorSwatch } from "@/types";
 import { generateColorPalette } from "@/utils/colorUtils";
+import { EventCategory, trackEvent } from "@/utils/analytics";
+
+interface AITheme {
+  description: string;
+  primary: string;
+  secondary: string;
+  accent: string;
+  background: string;
+}
 import { themeGroups, ThemePalette } from "@/utils/curatedThemes";
 import {
   Accordion,
@@ -29,8 +38,17 @@ import {
   Button,
   ButtonGroup,
   Flex,
+  FormControl,
+  FormLabel,
   Grid,
   GridItem,
+  Input,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
   HStack,
   Icon,
   IconButton,
@@ -48,12 +66,51 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { Blend, CaptionsOff, Contrast, Edit2, Plus, SwatchBook, Trash } from "lucide-react";
+import {
+  Blend,
+  CaptionsOff,
+  Contrast,
+  Edit2,
+  Plus,
+  SwatchBook,
+  Trash,
+  BotMessageSquare,
+} from "lucide-react";
 import React from "react";
 
-export const PaletteManagementTab: React.FC = () => {
+// Reusable color chip component
+interface ColorChipProps {
+  color: string;
+  size?: string;
+}
+
+const ColorChip: React.FC<ColorChipProps> = ({ color, size = "80px" }) => {
+  return (
+    <Tooltip label={color} placement="top">
+      <Box
+        width={size}
+        height={size}
+        bg={color}
+        borderWidth="1px"
+        borderColor="gray.300"
+        borderRadius="sm"
+        boxShadow="md"
+        cursor="pointer"
+      />
+    </Tooltip>
+  );
+};
+
+const PaletteManagementTab = () => {
   // Get theme context and functions
-  const { getColors, setThemeValues, themeValues } = useThemeContext();
+  const {
+    getColors,
+    setThemeValues,
+    themeValues,
+    setNewColorName,
+    setBaseColor,
+    addNewColorPalette,
+  } = useThemeContext();
   const { trackColorAction } = useAnalytics();
   const toast = useToast();
 
@@ -70,6 +127,32 @@ export const PaletteManagementTab: React.FC = () => {
     onOpen: onCollectionsModalOpen,
     onClose: onCollectionsModalClose,
   } = useDisclosure();
+
+  // AI dialog state
+  const {
+    isOpen: isAIModalOpen,
+    onOpen: onAIModalOpen,
+    onClose: _onAIModalClose, // Rename the original handler
+  } = useDisclosure();
+
+  // Custom modal close handler that doesn't clear the AI prompt or results
+  const onAIModalClose = () => {
+    // Just close the modal without clearing state
+    _onAIModalClose();
+  };
+  const [aiPrompt, setAIPrompt] = React.useState("");
+  const [aiThemeResults, setAIThemeResults] = React.useState<AITheme[]>([]);
+  const [isGenerating, setIsGenerating] = React.useState(false);
+  const [generationError, setGenerationError] = React.useState<string | null>(null);
+
+  // State for palette selection from AI results
+  const {
+    isOpen: isPaletteNameModalOpen,
+    onClose: onPaletteNameModalClose,
+  } = useDisclosure();
+  const [selectedPaletteName, setSelectedPaletteName] = React.useState("");
+  const [selectedBaseColor, setSelectedBaseColor] = React.useState("");
+  const [selectedTheme, setSelectedTheme] = React.useState<AITheme | null>(null);
 
   // Overwrite confirmation modal state
   const {
@@ -108,7 +191,7 @@ export const PaletteManagementTab: React.FC = () => {
   const [collectionToApply, setCollectionToApply] = React.useState<string | null>(null);
 
   // Get all palettes
-  const palettes = getColors();
+  const palettes = getColors ? getColors() : [];
 
   // Handle delete button click
   const openDeleteDialog = (colorKey: string) => {
@@ -133,6 +216,70 @@ export const PaletteManagementTab: React.FC = () => {
 
     // Track analytics
     trackColorAction("open_accessibility_analysis", colorKey);
+  };
+
+  // Function to handle palette selection from AI results - adds all four palettes directly
+  const handleSelectPalette = (theme: AITheme) => {
+    // Create a new theme object directly with all four palettes added
+    const newTheme: ThemeValues = JSON.parse(JSON.stringify(themeValues));
+
+    // Define the four palettes to add
+    const palettes = [
+      { name: "primary", value: theme.primary },
+      { name: "secondary", value: theme.secondary },
+      { name: "accent", value: theme.accent },
+      { name: "background", value: theme.background },
+    ];
+
+    // Process and add each palette to the theme
+    palettes.forEach(palette => {
+      // Generate color shades for this palette
+      const colorPalette = generateColorPalette(palette.value);
+
+      // Add the color palette to the theme
+      if (newTheme.colors) {
+        newTheme.colors[palette.name] = colorPalette;
+      }
+
+      // Track the event
+      trackEvent(EventCategory.COLOR, "add_ai_generated_palette", palette.name);
+    });
+
+    // Update the theme with all new palettes at once
+    setThemeValues(newTheme);
+
+    toast({
+      title: `Added all palettes from theme`,
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
+  // Function to add the selected palette to the theme
+  const handleAddSelectedPalette = () => {
+    if (!selectedPaletteName || !selectedPaletteName.trim() || !selectedBaseColor || !selectedTheme)
+      return;
+
+    // Set the theme context values (this will trigger the addNewColorPalette function)
+    setNewColorName(selectedPaletteName);
+    setBaseColor(selectedBaseColor);
+
+    // Add the palette
+    addNewColorPalette();
+
+    // Track the event
+    trackEvent(EventCategory.COLOR, "add_ai_generated_palette", selectedPaletteName);
+
+    // Close the dialogs
+    onPaletteNameModalClose();
+
+    toast({
+      title: `Added AI-generated palette: ${selectedPaletteName}`,
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   // Handle opening the color harmony modal
@@ -162,7 +309,7 @@ export const PaletteManagementTab: React.FC = () => {
       const newTheme: ThemeValues = JSON.parse(JSON.stringify(themeValues));
 
       // Remove the color palette
-      if (newTheme.colors && paletteToDelete in newTheme.colors) {
+      if (newTheme.colors && paletteToDelete && paletteToDelete in newTheme.colors) {
         const { [paletteToDelete]: _, ...remainingColors } = newTheme.colors;
         newTheme.colors = remainingColors;
       }
@@ -191,8 +338,8 @@ export const PaletteManagementTab: React.FC = () => {
   const handleApplyCollection = (collection: ThemePalette) => {
     // Check if any palette in the collection already exists
     const existingPaletteNames = Object.keys(
-      getColors().reduce(
-        (acc, curr) => {
+      getColors().reduce<Record<string, boolean>>(
+        (acc: Record<string, boolean>, curr: ColorSwatch) => {
           acc[curr.colorKey] = true;
           return acc;
         },
@@ -288,6 +435,14 @@ export const PaletteManagementTab: React.FC = () => {
                 onClick={onCollectionsModalOpen}
               >
                 Palette Collections
+              </Button>
+              <Button
+                size="sm"
+                colorScheme="primary"
+                leftIcon={<Icon as={BotMessageSquare} />}
+                onClick={onAIModalOpen}
+              >
+                AI
               </Button>
             </ButtonGroup>
           </Flex>
@@ -426,6 +581,266 @@ export const PaletteManagementTab: React.FC = () => {
 
       {/* Add Palette Modal */}
       <AddPaletteModal isOpen={isOpen} onClose={onClose} />
+
+      {/* AI Dialog */}
+      <Modal isOpen={isAIModalOpen} onClose={onAIModalClose} size="6xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>AI Theme Generator</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text mb={4}>
+              Describe the theme you want to create, and AI will suggest color palettes for you.
+            </Text>
+            <Box mb={6}>
+              <Flex>
+                <Input
+                  placeholder="Describe your theme idea..."
+                  value={aiPrompt}
+                  onChange={e => setAIPrompt(e.target.value)}
+                  mr={2}
+                />
+                <Button
+                  colorScheme="primary"
+                  isLoading={isGenerating}
+                  loadingText="Generating"
+                  onClick={async () => {
+                    if (!aiPrompt.trim()) {
+                      toast({
+                        title: "Error",
+                        description: "Please enter a description for your theme",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                      return;
+                    }
+
+                    setIsGenerating(true);
+                    setGenerationError(null);
+
+                    try {
+                      const response = await fetch(
+                        "https://pnl3jv9t9f.execute-api.ap-southeast-1.amazonaws.com/prod/generate-theme",
+                        {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({ prompt: aiPrompt }),
+                        }
+                      );
+
+                      if (!response.ok) {
+                        throw new Error(`API error: ${response.status}`);
+                      }
+
+                      const data = await response.json();
+                      setAIThemeResults(data);
+
+                      // Track analytics
+                      trackColorAction("ai_generate_theme", aiPrompt);
+                    } catch (error) {
+                      const errorMessage = error instanceof Error ? error.message : String(error);
+                      setGenerationError(errorMessage);
+                      toast({
+                        title: "Error generating theme",
+                        description: errorMessage,
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                      });
+                      console.error("Error generating theme:", error);
+                    } finally {
+                      setIsGenerating(false);
+                    }
+                  }}
+                >
+                  Generate
+                </Button>
+              </Flex>
+            </Box>
+
+            {generationError && (
+              <Box mt={4} p={3} bg="red.50" color="red.600" borderRadius="md">
+                <Text fontWeight="medium">Error generating theme:</Text>
+                <Text>{generationError}</Text>
+              </Box>
+            )}
+
+            {!generationError && isGenerating && (
+              <Flex justifyContent="center" mt={6} mb={6}>
+                <Text>Generating theme suggestions...</Text>
+              </Flex>
+            )}
+
+            {!generationError && !isGenerating && aiThemeResults && aiThemeResults.length > 0 && (
+              <Box overflowX="auto">
+                <Table variant="simple">
+                  <Thead>
+                    <Tr>
+                      <Th>Description</Th>
+                      <Th>Primary</Th>
+                      <Th>Secondary</Th>
+                      <Th>Accent</Th>
+                      <Th>Background</Th>
+                      <Th>Action</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {aiThemeResults.map((theme, index) => (
+                      <Tr key={index}>
+                        <Td maxWidth="500px">{theme.description}</Td>
+                        <Td>
+                          <ColorChip color={theme.primary} />
+                        </Td>
+                        <Td>
+                          <ColorChip color={theme.secondary} />
+                        </Td>
+                        <Td>
+                          <ColorChip color={theme.accent} />
+                        </Td>
+                        <Td>
+                          <ColorChip color={theme.background} />
+                        </Td>
+                        <Td>
+                          <Button
+                            size="sm"
+                            colorScheme="primary"
+                            onClick={() => handleSelectPalette(theme)}
+                          >
+                            Select
+                          </Button>
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </Box>
+            )}
+
+            {!generationError &&
+              !isGenerating &&
+              aiThemeResults &&
+              aiThemeResults.length === 0 &&
+              aiPrompt &&
+              aiPrompt.trim() !== "" && (
+                <Box mt={4} p={4} borderWidth="1px" borderRadius="md" borderStyle="dashed">
+                  <Text textAlign="center" color="gray.500">
+                    No theme suggestions generated yet. Click the Generate button to get started.
+                  </Text>
+                </Box>
+              )}
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" onClick={onAIModalClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal for entering palette name when selecting from AI results */}
+      <Modal isOpen={isPaletteNameModalOpen} onClose={onPaletteNameModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add Selected Palette</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl mb={4}>
+              <FormLabel>Palette Name</FormLabel>
+              <Input
+                value={selectedPaletteName}
+                onChange={e => setSelectedPaletteName(e.target.value)}
+                placeholder="E.g., primary, secondary, accent"
+              />
+            </FormControl>
+
+            <FormControl mb={4}>
+              <FormLabel>Base Color</FormLabel>
+              <Flex>
+                <Button
+                  mr={2}
+                  leftIcon={
+                    <Box w="16px" h="16px" bg={selectedTheme?.primary || ""} borderRadius="sm" />
+                  }
+                  onClick={() => setSelectedBaseColor(selectedTheme?.primary || "")}
+                  variant={selectedBaseColor === selectedTheme?.primary ? "solid" : "outline"}
+                  colorScheme="gray"
+                >
+                  Primary
+                </Button>
+                <Button
+                  mr={2}
+                  leftIcon={
+                    <Box w="16px" h="16px" bg={selectedTheme?.secondary || ""} borderRadius="sm" />
+                  }
+                  onClick={() => setSelectedBaseColor(selectedTheme?.secondary || "")}
+                  variant={selectedBaseColor === selectedTheme?.secondary ? "solid" : "outline"}
+                  colorScheme="gray"
+                >
+                  Secondary
+                </Button>
+                <Button
+                  mr={2}
+                  leftIcon={
+                    <Box w="16px" h="16px" bg={selectedTheme?.accent || ""} borderRadius="sm" />
+                  }
+                  onClick={() => setSelectedBaseColor(selectedTheme?.accent || "")}
+                  variant={selectedBaseColor === selectedTheme?.accent ? "solid" : "outline"}
+                  colorScheme="gray"
+                >
+                  Accent
+                </Button>
+                <Button
+                  leftIcon={
+                    <Box w="16px" h="16px" bg={selectedTheme?.background || ""} borderRadius="sm" />
+                  }
+                  onClick={() => setSelectedBaseColor(selectedTheme?.background || "")}
+                  variant={selectedBaseColor === selectedTheme?.background ? "solid" : "outline"}
+                  colorScheme="gray"
+                >
+                  Background
+                </Button>
+              </Flex>
+            </FormControl>
+
+            {selectedBaseColor && (
+              <Box mt={4} mb={4}>
+                <Text fontWeight="medium" mb={2}>
+                  Preview of generated palette:
+                </Text>
+                <Box overflowX="auto">
+                  <Flex>
+                    {Object.entries(generateColorPalette(selectedBaseColor)).map(
+                      ([shade, color]) => (
+                        <Box key={shade} mr={2}>
+                          <ColorChip color={color} size="32px" />
+                          <Text fontSize="xs" textAlign="center" mt={1}>
+                            {shade}
+                          </Text>
+                        </Box>
+                      )
+                    )}
+                  </Flex>
+                </Box>
+              </Box>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" mr={3} onClick={onPaletteNameModalClose}>
+              Cancel
+            </Button>
+            <Button
+              colorScheme="primary"
+              onClick={handleAddSelectedPalette}
+              isDisabled={!selectedPaletteName.trim() || !selectedBaseColor}
+            >
+              Add to Theme
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog
