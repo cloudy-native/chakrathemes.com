@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { ColorTabContent, ThemeDownloader } from "@/components/ThemeEditor/components/preview";
+import { ColorTabContent } from "@/components/ThemeEditor/components/preview";
 
 export const ComponentsPreviewTab: React.FC = () => {
   const { themeValues } = useThemeContext();
@@ -33,8 +33,8 @@ export const ComponentsPreviewTab: React.FC = () => {
 
   return (
     <Box>
-      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-        <GridItem rowSpan={2} colSpan={4}>
+      <Grid templateColumns="repeat(1, 1fr)" gap={4}>
+        <GridItem>
           <Text mb={6} fontSize="sm">
             Preview how your theme will look with real UI components. Your palette names control
             which colors are used - &quot;primary&quot; for buttons and accents,
@@ -42,27 +42,19 @@ export const ComponentsPreviewTab: React.FC = () => {
             elements.
           </Text>
         </GridItem>
-        <GridItem rowSpan={2} colSpan={1}>
-          <ThemeDownloader themeValues={themeValues} />
-        </GridItem>
       </Grid>
 
       <ChakraProvider theme={previewTheme}>
         {/* Full-width Color Palette Cards Section */}
         <Box p={5} borderWidth="1px" borderRadius="lg" boxShadow="md" width="100%">
           {colorKeys.length === 0 && (
-            <Box 
-              textAlign="center" 
-              p={6} 
-              borderWidth="2px" 
-              borderRadius="md" 
-              mb={4}
-            >
+            <Box textAlign="center" p={6} borderWidth="2px" borderRadius="md" mb={4}>
               <Text fontSize="lg" fontWeight="bold" mb={2}>
                 No color palettes found
               </Text>
               <Text fontSize="sm">
-                Go to the "Palettes" tab and add a primary, secondary, accent, or background palette. Then come back here to see it in action.
+                Go to the &quot;Palettes&quot; tab and add a primary, secondary, accent, or
+                background palette. Then come back here to see it in action.
               </Text>
             </Box>
           )}

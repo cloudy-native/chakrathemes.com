@@ -67,7 +67,7 @@ export default theme;`;
       leftIcon={<ArrowRight size={16} />}
       mb={4}
     >
-      Download Theme
+      Download
     </Button>
   );
 };

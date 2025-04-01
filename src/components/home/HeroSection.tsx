@@ -1,11 +1,21 @@
-import { Box, Button, Flex, Heading, HStack, SimpleGrid, Text, useColorModeValue, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  HStack,
+  SimpleGrid,
+  Text,
+  useColorModeValue,
+  VStack,
+} from "@chakra-ui/react";
 import React from "react";
 import OptimizedImage from "../OptimizedImage";
 import { ArrowRight } from "lucide-react";
 
 const HeroSection: React.FC = () => {
   const headingColor = useColorModeValue("secondary.500", "secondary.300");
-  
+
   return (
     <Box position="relative" py={16} px={8} mb={12}>
       <SimpleGrid columns={{ base: 1, lg: 12 }} gap={8} position="relative" zIndex="1">

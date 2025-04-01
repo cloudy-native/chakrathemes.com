@@ -23,14 +23,8 @@ import {
 import { trackEvent, EventCategory } from "@/utils/analytics";
 
 // ColorChip component for displaying color swatches
-const ColorChip: React.FC<{ color: string; size?: string }> = ({ color, size = "24px" }) => (
-  <Box
-    w={size}
-    h={size}
-    borderRadius="sm"
-    bg={color}
-    boxShadow="inset 0 0 0 1px rgba(0,0,0,0.1)"
-  />
+const ColorChip: React.FC<{ color: string; size?: string }> = ({ color, size = "60px" }) => (
+  <Box w={size} h={size} borderRadius="sm" bg={color} boxShadow="inset 0 0 0 1px rgba(0,0,0,0.1)" />
 );
 
 interface AITheme {

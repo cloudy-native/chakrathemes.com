@@ -27,13 +27,7 @@ interface AITheme {
 
 // ColorChip component for displaying color swatches
 const ColorChip: React.FC<{ color: string; size?: string }> = ({ color, size = "24px" }) => (
-  <Box
-    w={size}
-    h={size}
-    borderRadius="sm"
-    bg={color}
-    boxShadow="inset 0 0 0 1px rgba(0,0,0,0.1)"
-  />
+  <Box w={size} h={size} borderRadius="sm" bg={color} boxShadow="inset 0 0 0 1px rgba(0,0,0,0.1)" />
 );
 
 interface PaletteSelectionModalProps {
@@ -83,9 +77,7 @@ export const PaletteSelectionModal: React.FC<PaletteSelectionModalProps> = ({
               <Flex>
                 <Button
                   mr={2}
-                  leftIcon={
-                    <Box w="16px" h="16px" bg={theme.primary} borderRadius="sm" />
-                  }
+                  leftIcon={<Box w="16px" h="16px" bg={theme.primary} borderRadius="sm" />}
                   onClick={() => setSelectedBaseColor(theme.primary)}
                   variant={selectedBaseColor === theme.primary ? "solid" : "outline"}
                   colorScheme="gray"
@@ -94,9 +86,7 @@ export const PaletteSelectionModal: React.FC<PaletteSelectionModalProps> = ({
                 </Button>
                 <Button
                   mr={2}
-                  leftIcon={
-                    <Box w="16px" h="16px" bg={theme.secondary} borderRadius="sm" />
-                  }
+                  leftIcon={<Box w="16px" h="16px" bg={theme.secondary} borderRadius="sm" />}
                   onClick={() => setSelectedBaseColor(theme.secondary)}
                   variant={selectedBaseColor === theme.secondary ? "solid" : "outline"}
                   colorScheme="gray"
@@ -105,9 +95,7 @@ export const PaletteSelectionModal: React.FC<PaletteSelectionModalProps> = ({
                 </Button>
                 <Button
                   mr={2}
-                  leftIcon={
-                    <Box w="16px" h="16px" bg={theme.accent} borderRadius="sm" />
-                  }
+                  leftIcon={<Box w="16px" h="16px" bg={theme.accent} borderRadius="sm" />}
                   onClick={() => setSelectedBaseColor(theme.accent)}
                   variant={selectedBaseColor === theme.accent ? "solid" : "outline"}
                   colorScheme="gray"
@@ -115,9 +103,7 @@ export const PaletteSelectionModal: React.FC<PaletteSelectionModalProps> = ({
                   Accent
                 </Button>
                 <Button
-                  leftIcon={
-                    <Box w="16px" h="16px" bg={theme.background} borderRadius="sm" />
-                  }
+                  leftIcon={<Box w="16px" h="16px" bg={theme.background} borderRadius="sm" />}
                   onClick={() => setSelectedBaseColor(theme.background)}
                   variant={selectedBaseColor === theme.background ? "solid" : "outline"}
                   colorScheme="gray"
@@ -135,16 +121,14 @@ export const PaletteSelectionModal: React.FC<PaletteSelectionModalProps> = ({
               </Text>
               <Box overflowX="auto">
                 <Flex>
-                  {Object.entries(generateColorPalette(selectedBaseColor)).map(
-                    ([shade, color]) => (
-                      <Box key={shade} mr={2}>
-                        <ColorChip color={color} size="32px" />
-                        <Text fontSize="xs" textAlign="center" mt={1}>
-                          {shade}
-                        </Text>
-                      </Box>
-                    )
-                  )}
+                  {Object.entries(generateColorPalette(selectedBaseColor)).map(([shade, color]) => (
+                    <Box key={shade} mr={2}>
+                      <ColorChip color={color} size="32px" />
+                      <Text fontSize="xs" textAlign="center" mt={1}>
+                        {shade}
+                      </Text>
+                    </Box>
+                  ))}
                 </Flex>
               </Box>
             </Box>

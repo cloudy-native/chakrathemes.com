@@ -22,25 +22,19 @@ export const ConfirmOverwriteModal: React.FC<ConfirmOverwriteModalProps> = ({
   onClose,
   onConfirm,
   title = "Overwrite Existing Palettes?",
-  message = "This will replace any existing primary, secondary, accent, and background colors. Do you want to overwrite the existing color palettes with the new ones?"
+  message = "This will replace any existing primary, secondary, accent, and background colors. Do you want to overwrite the existing color palettes with the new ones?",
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <AlertDialog
-      isOpen={isOpen}
-      onClose={onClose}
-      leastDestructiveRef={cancelRef}
-    >
+    <AlertDialog isOpen={isOpen} onClose={onClose} leastDestructiveRef={cancelRef}>
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">
             {title}
           </AlertDialogHeader>
 
-          <AlertDialogBody>
-            {message}
-          </AlertDialogBody>
+          <AlertDialogBody>{message}</AlertDialogBody>
 
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onClose}>

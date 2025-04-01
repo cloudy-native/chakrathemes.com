@@ -98,7 +98,7 @@ const QuickStartTab: React.FC = () => {
                 <Icon as={step.icon} boxSize={5} />
               </Box>
               <Box>
-                <Heading as="h3" size="md" color={headingColor} >
+                <Heading as="h3" size="md" color={headingColor}>
                   {step.title}
                 </Heading>
                 <Text color={mutedTextColor}>{step.description}</Text>

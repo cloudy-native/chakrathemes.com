@@ -6,11 +6,9 @@ import {
   PaletteAdjustment,
   PaletteShade,
   RenamePaletteModal,
+  ThemeColorSwatch,
 } from "@/components/ThemeEditor/components";
 import AIThemeGeneratorModal from "@/components/ThemeEditor/components/AIThemeGeneratorModal";
-import ConfirmOverwriteModal from "@/components/ThemeEditor/components/ConfirmOverwriteModal";
-import PaletteSelectionModal from "@/components/ThemeEditor/components/PaletteSelectionModal";
-import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ColorPalette, ThemeValues, ColorSwatch } from "@/types";
@@ -47,14 +45,6 @@ import {
   Grid,
   GridItem,
   Input,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  HStack,
-  Icon,
   IconButton,
   Modal,
   ModalBody,
@@ -63,12 +53,14 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  SimpleGrid,
   Text,
   Tooltip,
   useColorModeValue,
   useDisclosure,
   useToast,
+  Icon,
+  HStack,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import {
   Blend,
@@ -76,9 +68,9 @@ import {
   Contrast,
   Edit2,
   Plus,
-  SwatchBook,
   Trash,
   BotMessageSquare,
+  SwatchBook,
 } from "lucide-react";
 
 // Reusable color chip component
@@ -143,16 +135,9 @@ const PaletteManagementTab = () => {
     // Just close the modal without clearing state
     _onAIModalClose();
   };
-  const [aiPrompt, setAIPrompt] = React.useState("");
-  const [aiThemeResults, setAIThemeResults] = React.useState<AITheme[]>([]);
-  const [isGenerating, setIsGenerating] = React.useState(false);
-  const [generationError, setGenerationError] = React.useState<string | null>(null);
 
   // State for palette selection from AI results
-  const {
-    isOpen: isPaletteNameModalOpen,
-    onClose: onPaletteNameModalClose,
-  } = useDisclosure();
+  const { isOpen: isPaletteNameModalOpen, onClose: onPaletteNameModalClose } = useDisclosure();
   const [selectedPaletteName, setSelectedPaletteName] = React.useState("");
   const [selectedBaseColor, setSelectedBaseColor] = React.useState("");
   const [selectedTheme, setSelectedTheme] = React.useState<AITheme | null>(null);
@@ -228,8 +213,11 @@ const PaletteManagementTab = () => {
   const handleSelectPalette = (theme: AITheme) => {
     // Check if any of the palettes already exist in the theme
     const paletteNames = ["primary", "secondary", "accent", "background"];
-    const existingPalettes = paletteNames.filter(name => 
-      themeValues.colors && themeValues.colors[name] && Object.keys(themeValues.colors[name]).length > 0
+    const existingPalettes = paletteNames.filter(
+      name =>
+        themeValues.colors &&
+        themeValues.colors[name] &&
+        Object.keys(themeValues.colors[name]).length > 0
     );
 
     // If there are existing palettes, show confirmation dialog
@@ -639,10 +627,10 @@ const PaletteManagementTab = () => {
       <AddPaletteModal isOpen={isOpen} onClose={onClose} />
 
       {/* AI Theme Generator Modal */}
-      <AIThemeGeneratorModal 
-        isOpen={isAIModalOpen} 
-        onClose={onAIModalClose} 
-        onSelectTheme={handleSelectPalette} 
+      <AIThemeGeneratorModal
+        isOpen={isAIModalOpen}
+        onClose={onAIModalClose}
+        onSelectTheme={handleSelectPalette}
       />
 
       {/* Modal for entering palette name when selecting from AI results */}
@@ -893,9 +881,8 @@ const PaletteManagementTab = () => {
 
             <AlertDialogBody>
               This collection contains palettes with names that already exist in your theme. Do you
-              want to overwrite the existing color palettes with the new ones?
-              
-              This will replace any existing primary, secondary, accent, and background colors.
+              want to overwrite the existing color palettes with the new ones? This will replace any
+              existing primary, secondary, accent, and background colors.
             </AlertDialogBody>
 
             <AlertDialogFooter>

@@ -22,7 +22,7 @@ export interface FeatureCardProps {
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon, badge = null }) => {
   const iconBg = useColorModeValue("background.50", "background.900");
   const iconColor = useColorModeValue("accent.500", "accent.300");
-  const bgColor = useColorModeValue(panelBackground.light, panelBackground.dark );
+  const bgColor = useColorModeValue(panelBackground.light, panelBackground.dark);
   const borderColor = useColorModeValue(panelBorder.light, panelBorder.dark);
   const textColor = useColorModeValue("gray.700", "gray.200");
   const headingColor = useColorModeValue("secondary.500", "secondary.300");

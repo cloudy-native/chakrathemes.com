@@ -29,7 +29,11 @@ const IndexPage: React.FC<PageProps> = () => {
         <Box py={16} id="theme-editor-section">
           <Container maxW="7xl" px={{ base: 4, md: 6 }}>
             <VStack spacing={8} align="stretch">
-              <Heading fontSize={{ base: "2xl", md: "3xl" }} textAlign="center" color="secondary.500">
+              <Heading
+                fontSize={{ base: "2xl", md: "3xl" }}
+                textAlign="center"
+                color="secondary.500"
+              >
                 Design Your Perfect Theme
               </Heading>
               <ThemeEditor />
@@ -42,7 +46,11 @@ const IndexPage: React.FC<PageProps> = () => {
           <Box py={16}>
             <Container maxW="7xl" px={{ base: 4, md: 6 }}>
               <VStack spacing={12} align="stretch">
-                <Heading fontSize={{ base: "2xl", md: "3xl" }} textAlign="center" color="secondary.500">
+                <Heading
+                  fontSize={{ base: "2xl", md: "3xl" }}
+                  textAlign="center"
+                  color="secondary.500"
+                >
                   Powerful Features
                 </Heading>
                 <FeatureSection />
@@ -56,7 +64,11 @@ const IndexPage: React.FC<PageProps> = () => {
           <Box py={16}>
             <Container maxW="7xl" px={{ base: 4, md: 6 }}>
               <VStack spacing={8} align="stretch">
-                <Heading fontSize={{ base: "2xl", md: "3xl" }} textAlign="center" color="secondary.500">
+                <Heading
+                  fontSize={{ base: "2xl", md: "3xl" }}
+                  textAlign="center"
+                  color="secondary.500"
+                >
                   Guide for Designers
                 </Heading>
                 <HelpSection />
