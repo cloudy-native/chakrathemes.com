@@ -1,3 +1,4 @@
+import { panelBackground, panelBorder } from "@/theme/themeConfiguration";
 import {
   Badge,
   Box,
@@ -19,12 +20,12 @@ export interface FeatureCardProps {
 }
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon, badge = null }) => {
-  const iconBg = useColorModeValue("blue.50", "blue.900");
-  const iconColor = useColorModeValue("blue.500", "blue.300");
-  const bgColor = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.100", "gray.700");
+  const iconBg = useColorModeValue("background.50", "background.900");
+  const iconColor = useColorModeValue("accent.500", "accent.300");
+  const bgColor = useColorModeValue(panelBackground.light, panelBackground.dark );
+  const borderColor = useColorModeValue(panelBorder.light, panelBorder.dark);
   const textColor = useColorModeValue("gray.700", "gray.200");
-  const headingColor = useColorModeValue("gray.800", "white");
+  const headingColor = useColorModeValue("secondary.500", "secondary.300");
 
   return (
     <Box
@@ -42,11 +43,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon, bad
       }}
     >
       <VStack align="start" spacing={4} height="100%">
-        <Circle size="50px" bg={iconBg} color={iconColor}>
-          <Icon as={icon} boxSize={6} />
-        </Circle>
-
         <Flex width="100%" align="center">
+          <Circle size="50px" bg={iconBg} color={iconColor}>
+            <Icon as={icon} boxSize={6} />
+          </Circle>
           <Heading color={headingColor} size="md" lineHeight="1.2">
             {title}
           </Heading>

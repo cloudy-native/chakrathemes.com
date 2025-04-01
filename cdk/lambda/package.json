@@ -11,8 +11,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-      "@aws-sdk/client-secrets-manager": "^3.465.0",
-      "axios": "^1.6.2"
+      "@aws-sdk/client-bedrock-runtime": "^3.511.0"
     },
     "devDependencies": {
       "@types/aws-lambda": "^8.10.126",

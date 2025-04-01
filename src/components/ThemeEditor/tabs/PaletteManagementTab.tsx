@@ -22,6 +22,7 @@ interface AITheme {
   background: string;
 }
 import { themeGroups, ThemePalette } from "@/utils/curatedThemes";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionButton,
@@ -76,7 +77,6 @@ import {
   Trash,
   BotMessageSquare,
 } from "lucide-react";
-import React from "react";
 
 // Reusable color chip component
 interface ColorChipProps {
@@ -218,8 +218,31 @@ const PaletteManagementTab = () => {
     trackColorAction("open_accessibility_analysis", colorKey);
   };
 
+  // Store the currently selected AI theme for confirm/cancel operations
+  const [pendingAITheme, setPendingAITheme] = useState<AITheme | null>(null);
+
   // Function to handle palette selection from AI results - adds all four palettes directly
   const handleSelectPalette = (theme: AITheme) => {
+    // Check if any of the palettes already exist in the theme
+    const paletteNames = ["primary", "secondary", "accent", "background"];
+    const existingPalettes = paletteNames.filter(name => 
+      themeValues.colors && themeValues.colors[name] && Object.keys(themeValues.colors[name]).length > 0
+    );
+
+    // If there are existing palettes, show confirmation dialog
+    if (existingPalettes.length > 0) {
+      // Store the selected theme for use after confirmation
+      setPendingAITheme(theme);
+      // Open the overwrite confirmation modal
+      onOverwriteModalOpen();
+    } else {
+      // No conflicts, apply the theme directly
+      applyAITheme(theme);
+    }
+  };
+
+  // Function to apply the AI-generated theme
+  const applyAITheme = (theme: AITheme) => {
     // Create a new theme object directly with all four palettes added
     const newTheme: ThemeValues = JSON.parse(JSON.stringify(themeValues));
 
@@ -247,6 +270,9 @@ const PaletteManagementTab = () => {
 
     // Update the theme with all new palettes at once
     setThemeValues(newTheme);
+
+    // Close the AI modal
+    onAIModalClose();
 
     toast({
       title: `Added all palettes from theme`,
@@ -398,13 +424,20 @@ const PaletteManagementTab = () => {
 
   const handleConfirmOverwrite = () => {
     if (collectionToApply) {
+      // Handle curated theme collection application
       const selectedCollection = themeGroups
         .flatMap(group => group.palettes)
         .find(collection => collection.name === collectionToApply);
       if (selectedCollection) {
         applyCollection(selectedCollection);
       }
+    } else if (pendingAITheme) {
+      // Handle AI-generated theme application
+      applyAITheme(pendingAITheme);
+      setPendingAITheme(null); // Clear pending theme
     }
+    // Close the confirm dialog
+    onOverwriteModalClose();
   };
 
   return (
@@ -421,7 +454,7 @@ const PaletteManagementTab = () => {
           <Flex justify="right" mb={2}>
             <ButtonGroup>
               <Button
-                size="sm"
+                size="md"
                 colorScheme="primary"
                 leftIcon={<Icon as={Plus} />}
                 onClick={onOpen}
@@ -429,21 +462,41 @@ const PaletteManagementTab = () => {
                 Add Palette
               </Button>
               <Button
-                size="sm"
+                size="md"
                 colorScheme="primary"
                 leftIcon={<Icon as={SwatchBook} />}
                 onClick={onCollectionsModalOpen}
               >
                 Palette Collections
               </Button>
-              <Button
-                size="sm"
-                colorScheme="primary"
-                leftIcon={<Icon as={BotMessageSquare} />}
-                onClick={onAIModalOpen}
-              >
-                AI
-              </Button>
+              <Box position="relative" display="inline-block">
+                <Button
+                  size="md"
+                  colorScheme="primary"
+                  leftIcon={<Icon as={BotMessageSquare} />}
+                  onClick={onAIModalOpen}
+                  px={4}
+                  fontWeight="bold"
+                >
+                  AI Theme Generator
+                </Button>
+                <Box
+                  position="absolute"
+                  top="-8px"
+                  right="-10px"
+                  bg="red.500"
+                  color="white"
+                  fontSize="xs"
+                  fontWeight="bold"
+                  px={2}
+                  py={1}
+                  borderRadius="full"
+                  boxShadow="md"
+                  zIndex={1}
+                >
+                  NEW
+                </Box>
+              </Box>
             </ButtonGroup>
           </Flex>
         </GridItem>
@@ -594,17 +647,23 @@ const PaletteManagementTab = () => {
             </Text>
             <Box mb={6}>
               <Flex>
-                <Input
-                  placeholder="Describe your theme idea..."
-                  value={aiPrompt}
-                  onChange={e => setAIPrompt(e.target.value)}
-                  mr={2}
-                />
+                <Box flex="1" mr={2}>
+                  <Input
+                    placeholder="Describe your theme idea..."
+                    value={aiPrompt}
+                    onChange={e => setAIPrompt(e.target.value.slice(0, 500))}
+                    maxLength={500}
+                  />
+                  <Text fontSize="xs" textAlign="right" color="gray.500" mt={1}>
+                    {aiPrompt.length}/500 characters
+                  </Text>
+                </Box>
                 <Button
                   colorScheme="primary"
                   isLoading={isGenerating}
                   loadingText="Generating"
                   onClick={async () => {
+                    console.log("AI Prompt:", aiPrompt);
                     if (!aiPrompt.trim()) {
                       toast({
                         title: "Error",
@@ -636,7 +695,14 @@ const PaletteManagementTab = () => {
                       }
 
                       const data = await response.json();
-                      setAIThemeResults(data);
+                      console.log("AI Response:", data);
+                      // Access the themes array from the response
+                      if (data.themes && Array.isArray(data.themes)) {
+                        setAIThemeResults(data.themes);
+                      } else {
+                        console.error("Unexpected response format:", data);
+                        setGenerationError("Received an invalid response format from the API");
+                      }
 
                       // Track analytics
                       trackColorAction("ai_generate_theme", aiPrompt);
@@ -709,7 +775,7 @@ const PaletteManagementTab = () => {
                             colorScheme="primary"
                             onClick={() => handleSelectPalette(theme)}
                           >
-                            Select
+                            Use theme
                           </Button>
                         </Td>
                       </Tr>
@@ -988,7 +1054,9 @@ const PaletteManagementTab = () => {
 
             <AlertDialogBody>
               This collection contains palettes with names that already exist in your theme. Do you
-              want to overwrite the existing palettes with the new ones?
+              want to overwrite the existing color palettes with the new ones?
+              
+              This will replace any existing primary, secondary, accent, and background colors.
             </AlertDialogBody>
 
             <AlertDialogFooter>

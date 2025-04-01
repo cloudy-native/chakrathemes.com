@@ -71,12 +71,13 @@ const steps: StepInfo[] = [
 const QuickStartTab: React.FC = () => {
   const mutedTextColor = useColorModeValue("gray.600", "gray.400");
   const lightbulbColor = useColorModeValue("accent.500", "accent.300");
+  const headingColor = useColorModeValue("secondary.500", "secondary.300");
 
   return (
     <Box>
       <VStack align="flex-start" mb={8}>
         <HStack>
-          <Heading as="h2" fontSize={{ base: "2xl", md: "3xl" }}>
+          <Heading as="h2" fontSize={{ base: "2xl", md: "3xl" }} color={headingColor}>
             Create Your Theme in 5 Simple Steps
           </Heading>
           <Badge colorScheme="primary" fontSize="sm" variant="solid" py={1} px={2}>
@@ -97,7 +98,7 @@ const QuickStartTab: React.FC = () => {
                 <Icon as={step.icon} boxSize={5} />
               </Box>
               <Box>
-                <Heading as="h3" size="md">
+                <Heading as="h3" size="md" color={headingColor} >
                   {step.title}
                 </Heading>
                 <Text color={mutedTextColor}>{step.description}</Text>
