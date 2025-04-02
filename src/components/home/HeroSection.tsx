@@ -1,29 +1,37 @@
 import {
   Box,
-  Button,
   Flex,
   Heading,
-  HStack,
   SimpleGrid,
   Text,
   useColorModeValue,
   VStack,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { featureHeading } from "@/theme/themeConfiguration";
 import React from "react";
 import OptimizedImage from "../OptimizedImage";
-import { ArrowRight } from "lucide-react";
 
 const HeroSection: React.FC = () => {
-  const headingColor = useColorModeValue("secondary.500", "secondary.300");
+  const headingColor = useColorModeValue(featureHeading.light, featureHeading.dark);
   const isMobile = useBreakpointValue({ base: true, md: false });
-  
+
   return (
-    <Box position="relative" py={{ base: 8, md: 16 }} px={{ base: 4, md: 8 }} mb={{ base: 6, md: 12 }}>
-      <SimpleGrid columns={{ base: 1, lg: 12 }} gap={{ base: 6, md: 8 }} position="relative" zIndex="1">
-        <VStack 
-          align={{ base: "center", lg: "flex-start" }} 
-          spacing={{ base: 4, md: 6 }} 
+    <Box
+      position="relative"
+      py={{ base: 8, md: 16 }}
+      px={{ base: 4, md: 8 }}
+      mb={{ base: 6, md: 12 }}
+    >
+      <SimpleGrid
+        columns={{ base: 1, lg: 12 }}
+        gap={{ base: 6, md: 8 }}
+        position="relative"
+        zIndex="1"
+      >
+        <VStack
+          align={{ base: "center", lg: "flex-start" }}
+          spacing={{ base: 4, md: 6 }}
           gridColumn={{ lg: "span 7" }}
           textAlign={{ base: "center", lg: "left" }}
           mb={{ base: 8, lg: 0 }}

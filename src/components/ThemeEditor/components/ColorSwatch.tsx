@@ -1,4 +1,5 @@
 import { ColorSwatch as ColorSwatchType } from "@/types";
+import { backgroundMedium, borderLight, emptyStateBorder } from "@/theme/themeConfiguration";
 import {
   Box,
   Flex,
@@ -47,7 +48,7 @@ export const ColorSwatch: React.FC<BasicColorSwatchProps> = ({
       bg={color}
       borderRadius={borderRadius}
       borderWidth="1px"
-      borderColor={useColorModeValue("gray.200", "gray.700")}
+      borderColor={useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark)}
       mr={mr}
       ml={ml}
     />
@@ -66,9 +67,9 @@ export const ExpandableColorSwatch: React.FC<ExpandableColorSwatchProps> = ({
   isOpen,
   toggleOpen,
 }) => {
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-  const bgColor = useColorModeValue("gray.100", "gray.700");
-  const hoverBgColor = useColorModeValue("gray.200", "gray.600");
+  const borderColor = useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark);
+  const bgColor = useColorModeValue(backgroundMedium.light, backgroundMedium.dark);
+  const hoverBgColor = useColorModeValue(borderLight.light, borderLight.dark);
 
   return (
     <VStack spacing={0} align="stretch">

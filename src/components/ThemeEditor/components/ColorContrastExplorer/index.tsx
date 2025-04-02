@@ -2,6 +2,16 @@ import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { getContrastRatio } from "@/utils/colorUtils";
 import {
+  panelBackground,
+  backgroundMedium,
+  primaryAccent,
+  backgroundLight,
+  successColor,
+  successBackground,
+  errorColor,
+  errorBackground,
+} from "@/theme/themeConfiguration";
+import {
   Badge,
   Box,
   Button,
@@ -18,6 +28,7 @@ import {
   Switch,
   Text,
   useColorMode,
+  useColorModeValue,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -462,7 +473,14 @@ export const ColorContrastExplorer: React.FC = () => {
             </FormControl>
           </Grid>
 
-          <Flex align="center" justify="space-between" mt={4} p={2} bg="gray.100" borderRadius="md">
+          <Flex
+            align="center"
+            justify="space-between"
+            mt={4}
+            p={2}
+            bg={useColorModeValue(backgroundMedium.light, backgroundMedium.dark)}
+            borderRadius="md"
+          >
             <Text fontSize="sm">Contrast: {lightContrast.toFixed(2)}:1</Text>
             <Badge colorScheme={lightContrast >= 4.5 ? "green" : "red"}>
               {lightContrast >= 4.5 ? "WCAG AA ✓" : "WCAG AA ✗"}
@@ -471,7 +489,12 @@ export const ColorContrastExplorer: React.FC = () => {
         </Box>
 
         {/* Dark Mode Panel */}
-        <Box p={4} borderWidth="1px" borderRadius="md" bg="gray.800">
+        <Box
+          p={4}
+          borderWidth="1px"
+          borderRadius="md"
+          bg={useColorModeValue(panelBackground.light, panelBackground.dark)}
+        >
           <Heading size="md" mb={4}>
             Dark Mode
           </Heading>
@@ -612,7 +635,14 @@ export const ColorContrastExplorer: React.FC = () => {
             </FormControl>
           </Grid>
 
-          <Flex align="center" justify="space-between" mt={4} p={2} bg="gray.700" borderRadius="md">
+          <Flex
+            align="center"
+            justify="space-between"
+            mt={4}
+            p={2}
+            bg={useColorModeValue(backgroundMedium.light, backgroundMedium.dark)}
+            borderRadius="md"
+          >
             <Text fontSize="sm">Contrast: {darkContrast.toFixed(2)}:1</Text>
             <Badge colorScheme={darkContrast >= 4.5 ? "green" : "red"}>
               {darkContrast >= 4.5 ? "WCAG AA ✓" : "WCAG AA ✗"}
@@ -651,6 +681,14 @@ export const PaletteColorContrast: React.FC<PaletteColorContrastProps> = ({
   const { themeValues } = useThemeContext();
   const { trackColorAction, trackFeature } = useAnalytics();
   const toast = useToast();
+
+  // Pre-compute all color mode values at the top level
+  const successColorValue = useColorModeValue(successColor.light, successColor.dark);
+  const primaryAccentValue = useColorModeValue(primaryAccent.light, primaryAccent.dark);
+  const successBgValue = useColorModeValue(successBackground.light, successBackground.dark);
+  const errorBgValue = useColorModeValue(errorBackground.light, errorBackground.dark);
+  const errorColorValue = useColorModeValue(errorColor.light, errorColor.dark);
+  const panelBgValue = useColorModeValue(panelBackground.light, panelBackground.dark);
 
   // Track component loaded
   useEffect(() => {
@@ -896,7 +934,15 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                 Text: gray.{textShadeLight}
               </Text>
               {autoSuggestText && (
-                <Badge ml={2} colorScheme="green" variant="outline" fontSize="9px" mb={1}>
+                <Badge
+                  ml={2}
+                  bg="transparent"
+                  color={successColorValue}
+                  borderColor={successColorValue}
+                  variant="outline"
+                  fontSize="9px"
+                  mb={1}
+                >
                   Auto
                 </Badge>
               )}
@@ -913,7 +959,7 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                     h="22px"
                     borderRadius="sm"
                     borderWidth="2px"
-                    borderColor={textShadeLight === shade ? "primary.500" : "transparent"}
+                    borderColor={textShadeLight === shade ? primaryAccentValue : "transparent"}
                     cursor={autoSuggestText ? "not-allowed" : "pointer"}
                     opacity={autoSuggestText ? 0.7 : 1}
                     _hover={{ transform: autoSuggestText ? "none" : "scale(1.1)" }}
@@ -926,7 +972,7 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
 
           {/* Light Mode Preview */}
           <Box borderWidth="1px" borderRadius="md" overflow="hidden">
-            <Box py={2} px={3} bg="gray.50" borderBottomWidth="1px">
+            <Box py={2} px={3} bg={panelBgValue} borderBottomWidth="1px">
               <Text fontWeight="medium" fontSize="sm">
                 Light Mode
               </Text>
@@ -948,10 +994,14 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                 Button
               </Button>
             </Box>
-            <Box py={2} px={3} bg="gray.50" borderTopWidth="1px">
+            <Box py={2} px={3} bg={panelBgValue} borderTopWidth="1px">
               <Flex justify="space-between" align="center">
                 <Text fontSize="xs">Contrast: {lightContrast.toFixed(2)}:1</Text>
-                <Badge size="sm" colorScheme={lightContrast >= 4.5 ? "green" : "red"}>
+                <Badge
+                  size="sm"
+                  bg={lightContrast >= 4.5 ? successBgValue : errorBgValue}
+                  color={lightContrast >= 4.5 ? successColorValue : errorColorValue}
+                >
                   WCAG {lightContrast >= 4.5 ? "AA ✓" : "AA ✗"}
                 </Badge>
               </Flex>
@@ -968,7 +1018,15 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                 Background: {colorKey}.{bgShadeDark}
               </Text>
               {autoSuggestDark && (
-                <Badge ml={2} colorScheme="primary" variant="outline" fontSize="9px" mb={1}>
+                <Badge
+                  ml={2}
+                  bg="transparent"
+                  color={primaryAccentValue}
+                  borderColor={primaryAccentValue}
+                  variant="outline"
+                  fontSize="9px"
+                  mb={1}
+                >
                   Auto
                 </Badge>
               )}
@@ -985,7 +1043,7 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                     h="22px"
                     borderRadius="sm"
                     borderWidth="2px"
-                    borderColor={bgShadeDark === shade ? "primary.500" : "transparent"}
+                    borderColor={bgShadeDark === shade ? primaryAccentValue : "transparent"}
                     cursor={autoSuggestDark ? "not-allowed" : "pointer"}
                     opacity={autoSuggestDark ? 0.7 : 1}
                     _hover={{ transform: autoSuggestDark ? "none" : "scale(1.1)" }}
@@ -1000,7 +1058,15 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                 Text: gray.{textShadeDark}
               </Text>
               {autoSuggestText && (
-                <Badge ml={2} colorScheme="green" variant="outline" fontSize="9px" mb={1}>
+                <Badge
+                  ml={2}
+                  bg="transparent"
+                  color={successColorValue}
+                  borderColor={successColorValue}
+                  variant="outline"
+                  fontSize="9px"
+                  mb={1}
+                >
                   Auto
                 </Badge>
               )}
@@ -1017,7 +1083,7 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                     h="22px"
                     borderRadius="sm"
                     borderWidth="2px"
-                    borderColor={textShadeDark === shade ? "primary.500" : "transparent"}
+                    borderColor={textShadeDark === shade ? primaryAccentValue : "transparent"}
                     cursor={autoSuggestText ? "not-allowed" : "pointer"}
                     opacity={autoSuggestText ? 0.7 : 1}
                     _hover={{ transform: autoSuggestText ? "none" : "scale(1.1)" }}
@@ -1030,7 +1096,12 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
 
           {/* Dark Mode Preview */}
           <Box borderWidth="1px" borderRadius="md" overflow="hidden">
-            <Box py={2} px={3} bg="gray.800" borderBottomWidth="1px">
+            <Box
+              py={2}
+              px={3}
+              bg={useColorModeValue(backgroundLight.light, panelBackground.dark)}
+              borderBottomWidth="1px"
+            >
               <Text fontWeight="medium" fontSize="sm">
                 Dark Mode
               </Text>
@@ -1052,10 +1123,19 @@ const textColor = useColorModeValue("${textColorKey}.${textShadeLight}", "${text
                 Button
               </Button>
             </Box>
-            <Box py={2} px={3} bg="gray.800" borderTopWidth="1px">
+            <Box
+              py={2}
+              px={3}
+              bg={useColorModeValue(backgroundLight.light, panelBackground.dark)}
+              borderTopWidth="1px"
+            >
               <Flex justify="space-between" align="center">
                 <Text fontSize="xs">Contrast: {darkContrast.toFixed(2)}:1</Text>
-                <Badge size="sm" colorScheme={darkContrast >= 4.5 ? "green" : "red"}>
+                <Badge
+                  size="sm"
+                  bg={darkContrast >= 4.5 ? successBgValue : errorBgValue}
+                  color={darkContrast >= 4.5 ? successColorValue : errorColorValue}
+                >
                   WCAG {darkContrast >= 4.5 ? "AA ✓" : "AA ✗"}
                 </Badge>
               </Flex>

@@ -1,4 +1,4 @@
-import { panelBackground, panelBorder } from "@/theme/themeConfiguration";
+import { panelBackground, borderLight } from "@/theme/themeConfiguration";
 import {
   Modal,
   ModalBody,
@@ -27,7 +27,7 @@ const ColorContrastModal: React.FC<ColorContrastModalProps> = ({
 }) => {
   const { trackColorAction } = useAnalytics();
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
-  const border = useColorModeValue(panelBorder.light, panelBorder.dark);
+  const border = useColorModeValue(borderLight.light, borderLight.dark);
 
   // Track modal opened
   React.useEffect(() => {

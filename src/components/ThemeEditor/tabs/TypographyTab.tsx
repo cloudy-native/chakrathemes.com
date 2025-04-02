@@ -4,6 +4,13 @@ import { FontCombination } from "@/types";
 import { getBodyFonts, getHeadingFonts, getMonoFonts } from "@/utils/typographyUtils";
 import { FontSelector } from "../components";
 import {
+  textMuted,
+  primaryAccent,
+  borderLight,
+  textSecondary,
+  linkDefault,
+} from "@/theme/themeConfiguration";
+import {
   Badge,
   Box,
   Button,
@@ -103,7 +110,12 @@ export const TypographyTab: React.FC = () => {
     trackEvent(EventCategory.TYPOGRAPHY, "select_font_combination", combo.name);
   };
 
-  const subtleColor = useColorModeValue("gray.500", "gray.400");
+  const subtleColor = useColorModeValue(textMuted.light, textMuted.dark);
+  const primaryAccentColor = useColorModeValue(primaryAccent.light, primaryAccent.dark);
+  const textSecondaryColor = useColorModeValue(textSecondary.light, textSecondary.dark);
+  const borderLightColor = useColorModeValue(borderLight.light, borderLight.dark);
+  const textMutedColor = useColorModeValue(textMuted.light, textMuted.dark);
+  const linkColor = useColorModeValue(linkDefault.light, linkDefault.dark);
 
   return (
     <Box>
@@ -117,7 +129,12 @@ export const TypographyTab: React.FC = () => {
         </GridItem>
         <GridItem>
           <Flex justify="right" mb={2}>
-            <Link href="https://fonts.google.com" isExternal fontSize="sm" color="primary.500">
+            <Link
+              href="https://fonts.google.com"
+              isExternal
+              fontSize="sm"
+              color={useColorModeValue(linkDefault.light, linkDefault.dark)}
+            >
               Browse Google Fonts <Icon as={ExternalLink} boxSize={3} ml="1" />
             </Link>
           </Flex>
@@ -133,14 +150,14 @@ export const TypographyTab: React.FC = () => {
         <Box>
           {/* Selection Mode Toggle */}
           <Box mb={4}>
-            <Flex borderBottom="1px solid" borderColor="gray.200" mb={4}>
+            <Flex borderBottom="1px solid" borderColor={borderLightColor} mb={4}>
               <Box
                 as="button"
                 py={2}
                 px={4}
                 borderBottom={customizationMode === "curated" ? "2px solid" : "none"}
-                borderColor="primary.500"
-                color={customizationMode === "curated" ? "primary.500" : "gray.600"}
+                borderColor={primaryAccentColor}
+                color={customizationMode === "curated" ? primaryAccentColor : textSecondaryColor}
                 fontWeight={customizationMode === "curated" ? "semibold" : "normal"}
                 onClick={() => setCustomizationMode("curated")}
               >
@@ -151,8 +168,8 @@ export const TypographyTab: React.FC = () => {
                 py={2}
                 px={4}
                 borderBottom={customizationMode === "custom" ? "2px solid" : "none"}
-                borderColor="primary.500"
-                color={customizationMode === "custom" ? "primary.500" : "gray.600"}
+                borderColor={primaryAccentColor}
+                color={customizationMode === "custom" ? primaryAccentColor : textSecondaryColor}
                 fontWeight={customizationMode === "custom" ? "semibold" : "normal"}
                 onClick={() => setCustomizationMode("custom")}
               >
@@ -181,7 +198,9 @@ export const TypographyTab: React.FC = () => {
                             key={combo.name}
                             onClick={() => handleCombinationSelect(combo, category.name)}
                             variant={isSelected ? "solid" : "outline"}
-                            colorScheme={isSelected ? "primary" : "gray"}
+                            bg={isSelected ? primaryAccentColor : "transparent"}
+                            color={isSelected ? "white" : textSecondaryColor}
+                            borderColor={borderLightColor}
                             justifyContent="space-between"
                             width="100%"
                             p={3}
@@ -245,13 +264,13 @@ export const TypographyTab: React.FC = () => {
                 <Heading size="sm">
                   Live Preview
                   {selectedCombination && (
-                    <Badge ml={2} colorScheme="primary" fontSize="xs">
+                    <Badge ml={2} bg={primaryAccentColor} color="white" fontSize="xs">
                       {selectedCombination}
                     </Badge>
                   )}
                 </Heading>
                 {customizationMode === "custom" && (
-                  <Badge colorScheme="primary" variant="subtle">
+                  <Badge bg={primaryAccentColor} color="white" variant="subtle">
                     Custom Selection
                   </Badge>
                 )}
@@ -266,13 +285,13 @@ export const TypographyTab: React.FC = () => {
 
       <Divider my={6} />
 
-      <Text fontSize="sm" color="gray.500">
+      <Text fontSize="sm" color={textMutedColor}>
         These fonts are loaded from Google Fonts. To use them in your project, you&apos;ll need to
         add them to your theme configuration. Check the{" "}
         <Link
           href="https://v2.chakra-ui.com/community/recipes/using-fonts"
           isExternal
-          color="primary.500"
+          color={linkColor}
         >
           Chakra UI documentation <Icon as={ExternalLink} boxSize={3} />
         </Link>{" "}

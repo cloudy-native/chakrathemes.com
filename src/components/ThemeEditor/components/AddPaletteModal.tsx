@@ -1,5 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
-import { panelBackground, panelBorder } from "@/theme/themeConfiguration";
+import { panelBackground, borderLight } from "@/theme/themeConfiguration";
 import { generateColorPalette } from "@/utils/colorUtils";
 import {
   AlertDialog,
@@ -49,7 +49,7 @@ const OverwritePaletteConfirmation: React.FC<OverwritePaletteConfirmationProps> 
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
-  const border = useColorModeValue(panelBorder.light, panelBorder.dark);
+  const border = useColorModeValue(borderLight.light, borderLight.dark);
 
   return (
     <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
@@ -95,7 +95,7 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
   } = useThemeContext();
   const [showOverwriteConfirmation, setShowOverwriteConfirmation] = useState(false);
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
-  const border = useColorModeValue(panelBorder.light, panelBorder.dark);
+  const border = useColorModeValue(borderLight.light, borderLight.dark);
 
   const handleAddPalette = () => {
     if (!newColorName.trim() || !baseColor) return;

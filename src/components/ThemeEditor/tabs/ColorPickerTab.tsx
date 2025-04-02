@@ -1,4 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
+import { borderLight, backgroundLight, primaryAccent } from "@/theme/themeConfiguration";
 import {
   Box,
   Button,
@@ -33,9 +34,10 @@ export const ColorPickerTab: React.FC = () => {
   } = useThemeContext();
 
   const colors = getColors();
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-  // Pre-compute color values to avoid hook rule violations
-  const generatorBoxBgColor = useColorModeValue("gray.50", "gray.700");
+  // Use theme constants for consistent styling across the application
+  const borderColor = useColorModeValue(borderLight.light, borderLight.dark);
+  const generatorBoxBgColor = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const primaryColor = useColorModeValue(primaryAccent.light, primaryAccent.dark);
 
   // Initialize with first color swatch open
   const [openColorSwatches, setOpenColorSwatches] = useState<{
@@ -110,7 +112,8 @@ export const ColorPickerTab: React.FC = () => {
           <Button
             onClick={() => addNewColorPalette()}
             disabled={!baseColor || !newColorName}
-            colorScheme="primary"
+            bg={primaryColor}
+            color="white"
           >
             Add to Theme
           </Button>

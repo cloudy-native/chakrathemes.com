@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, useColorModeValue } from "@chakra-ui/react";
+import { emptyStateBorder, tooltipBackground } from "@/theme/themeConfiguration";
 
 interface ColorTooltipProps {
   color: string;
@@ -36,7 +37,8 @@ export const ColorTooltip: React.FC<ColorTooltipProps> = ({
   };
 
   const tooltipPosition = tooltipPositions[tooltipPlacement];
-  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const borderColor = useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark);
+  const tooltipBackgroundColor = useColorModeValue(tooltipBackground.light, tooltipBackground.dark);
 
   return (
     <Box
@@ -62,7 +64,7 @@ export const ColorTooltip: React.FC<ColorTooltipProps> = ({
                 : tooltipPlacement === "left" || tooltipPlacement === "right"
                   ? "translateY(-50%)"
                   : "none",
-            bg: "gray.700",
+            bg: tooltipBackgroundColor,
             fontSize: "xs",
             p: 1,
             borderRadius: "sm",

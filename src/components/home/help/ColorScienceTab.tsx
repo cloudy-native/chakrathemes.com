@@ -1,5 +1,12 @@
 import OptimizedImage from "@/components/OptimizedImage";
 import {
+  accentLight,
+  blueCardBackground,
+  greenCardBackground,
+  redCardBackground,
+  purpleCardBackground,
+} from "@/theme/themeConfiguration";
+import {
   Box,
   Card,
   Flex,
@@ -18,7 +25,7 @@ import React from "react";
 
 const ColorScienceTab: React.FC = () => {
   // Colors for different themes in the examples
-  const accentBg = useColorModeValue("accent.50", "accent.900");
+  const accentBg = useColorModeValue(accentLight.light, accentLight.dark);
 
   return (
     <VStack spacing={6} align="stretch">
@@ -127,22 +134,28 @@ const ColorScienceTab: React.FC = () => {
               color psychology:
             </Text>
             <SimpleGrid columns={1} spacing={2}>
-              <Card p={2} bg="blue.50" _dark={{ bg: "blue.900" }}>
+              <Card p={2} bg={useColorModeValue(blueCardBackground.light, blueCardBackground.dark)}>
                 <Text fontSize="sm" fontWeight="medium">
                   Blue: Trust, Security, Stability
                 </Text>
               </Card>
-              <Card p={2} bg="green.50" _dark={{ bg: "green.900" }}>
+              <Card
+                p={2}
+                bg={useColorModeValue(greenCardBackground.light, greenCardBackground.dark)}
+              >
                 <Text fontSize="sm" fontWeight="medium">
                   Green: Growth, Health, Nature
                 </Text>
               </Card>
-              <Card p={2} bg="red.50" _dark={{ bg: "red.900" }}>
+              <Card p={2} bg={useColorModeValue(redCardBackground.light, redCardBackground.dark)}>
                 <Text fontSize="sm" fontWeight="medium">
                   Red: Passion, Energy, Urgency
                 </Text>
               </Card>
-              <Card p={2} bg="purple.50" _dark={{ bg: "purple.900" }}>
+              <Card
+                p={2}
+                bg={useColorModeValue(purpleCardBackground.light, purpleCardBackground.dark)}
+              >
                 <Text fontSize="sm" fontWeight="medium">
                   Purple: Luxury, Creativity, Wisdom
                 </Text>

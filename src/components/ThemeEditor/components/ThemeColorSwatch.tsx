@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Flex, SimpleGrid, useColorModeValue } from "@chakra-ui/react";
+import { borderLight, primaryAccent } from "@/theme/themeConfiguration";
 import ColorTooltip from "./ColorTooltip";
 
 interface ColorShades {
@@ -26,8 +27,8 @@ export const ThemeColorSwatch: React.FC<ThemeColorSwatchProps> = ({
   size = "md",
   selected = null,
 }) => {
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-  const highlightColor = useColorModeValue("primary.500", "primary.300");
+  const borderColor = useColorModeValue(borderLight.light, borderLight.dark);
+  const highlightColor = useColorModeValue(primaryAccent.light, primaryAccent.dark);
 
   // Sort shades by numeric value
   const sortedShades = Object.entries(colorShades).sort(([a], [b]) => parseInt(a) - parseInt(b));

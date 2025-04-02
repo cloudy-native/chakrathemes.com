@@ -10,6 +10,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
+import { panelBackground, borderLight, textPrimary } from "@/theme/themeConfiguration";
 
 interface ShadowElementsProps {
   themeValues: ThemeValues;
@@ -22,10 +23,10 @@ const ShadowElements: React.FC<ShadowElementsProps> = ({ themeValues, colorKey: 
     key => key !== "outline" && key !== "inner" && key !== "none"
   );
 
-  // Move useColorModeValue calls to the top level
-  const boxBgColor = useColorModeValue("white", "gray.800");
-  const boxBorderColor = useColorModeValue("gray.100", "gray.700");
-  const textColor = useColorModeValue("gray.800", "gray.100");
+  // Use theme constants for consistent styling
+  const boxBgColor = useColorModeValue(panelBackground.light, panelBackground.dark);
+  const boxBorderColor = useColorModeValue(borderLight.light, borderLight.dark);
+  const boxTextColor = useColorModeValue(textPrimary.light, textPrimary.dark);
 
   return (
     <Card>
@@ -52,7 +53,7 @@ const ShadowElements: React.FC<ShadowElementsProps> = ({ themeValues, colorKey: 
               alignItems="center"
               justifyContent="center"
             >
-              <Text fontSize="sm" fontWeight="medium" color={textColor}>
+              <Text fontSize="sm" fontWeight="medium" color={boxTextColor}>
                 {shadowKey}
               </Text>
             </Box>

@@ -22,6 +22,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { ThemeValues } from "@/types";
+import { borderLight, panelBackground } from "@/theme/themeConfiguration";
 
 interface CombinedStylesPreviewProps {
   colorKey: string;
@@ -29,8 +30,8 @@ interface CombinedStylesPreviewProps {
 }
 
 const CombinedStylesPreview: React.FC<CombinedStylesPreviewProps> = ({ colorKey, themeValues }) => {
-  const bgColor = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const bgColor = useColorModeValue(panelBackground.light, panelBackground.dark);
+  const borderColor = useColorModeValue(borderLight.light, borderLight.dark);
 
   // Get shadow and radius samples for the preview
   const shadowSamples = ["sm", "md", "lg", "xl"].filter(key => themeValues.shadows?.[key]);

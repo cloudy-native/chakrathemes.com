@@ -1,5 +1,6 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import inspirationPalettes from "@/utils/inspirationPalettes";
+import { backgroundLight, borderLight, textMuted, textPrimary } from "@/theme/themeConfiguration";
 import {
   Badge,
   Box,
@@ -32,7 +33,7 @@ const ColorSwatch: React.FC<{
   onClick: () => void;
 }> = ({ colorName, hexValue, onClick }) => {
   const [copied, setCopied] = useState(false);
-  const textColor = isLightColor(hexValue) ? "gray.800" : "gray.100";
+  const textColor = isLightColor(hexValue) ? textPrimary.light : textPrimary.dark;
 
   // Simple function to determine if a color is light or dark
   function isLightColor(hex: string): boolean {
@@ -105,8 +106,10 @@ const PaletteDetailModal: React.FC<{
     onSelectColor(name, color);
   };
 
-  // Move the hook call to the top level of the component to avoid rules of hooks violation
-  const detailBgColor = useColorModeValue("gray.50", "gray.700");
+  // Move all hook calls to the top level of the component to avoid rules of hooks violation
+  const detailBgColor = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const textMutedColor = useColorModeValue(textMuted.light, textMuted.dark);
+  const borderLightColor = useColorModeValue(borderLight.light, borderLight.dark);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -119,7 +122,7 @@ const PaletteDetailModal: React.FC<{
               {Object.keys(palette.colors).length} colors
             </Badge>
           </Flex>
-          <Text fontSize="sm" mt={1} color="gray.500">
+          <Text fontSize="sm" mt={1} color={textMutedColor}>
             {palette.description}
           </Text>
         </ModalHeader>
@@ -148,6 +151,7 @@ const PaletteDetailModal: React.FC<{
               mt={4}
               p={4}
               borderWidth="1px"
+              borderColor={borderLightColor}
               borderRadius="md"
               align="center"
               bg={detailBgColor}
@@ -188,9 +192,12 @@ const PaletteCard: React.FC<{
   palette: (typeof inspirationPalettes)[0];
   onSelectPalette: () => void;
 }> = ({ palette, onSelectPalette }) => {
+  // Move hook calls to the top level
+  const borderColor = useColorModeValue(borderLight.light, borderLight.dark);
   return (
     <Box
       borderWidth="1px"
+      borderColor={borderColor}
       borderRadius="lg"
       overflow="hidden"
       transition="transform 0.2s, box-shadow 0.2s"
@@ -216,7 +223,7 @@ const PaletteCard: React.FC<{
         <Heading size="sm" mb={1}>
           {palette.concept}
         </Heading>
-        <Text fontSize="xs" mb={3}>
+        <Text fontSize="xs" mb={3} color={useColorModeValue(textMuted.light, textMuted.dark)}>
           {palette.description}
         </Text>
       </Box>

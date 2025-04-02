@@ -46,9 +46,6 @@ export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProp
 }) => {
   const bgColor = useColorModeValue(panelBackground.light, panelBackground.dark);
 
-  // const textColor = useColorModeValue("gray.800", "gr");
-  // const boxBgColor = useColorModeValue("gray.50", "gray.700");
-
   // Sort shades by numeric value
   const sortedShades = useMemo(() => {
     return Object.entries(colorShades).sort(([a], [b]) => parseInt(a) - parseInt(b));

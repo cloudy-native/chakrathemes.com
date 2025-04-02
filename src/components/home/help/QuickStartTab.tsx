@@ -1,5 +1,11 @@
 import { OptimizedImage } from "@/components";
 import {
+  featureHeading,
+  iconAccent,
+  textSecondary,
+  primaryAccent,
+} from "@/theme/themeConfiguration";
+import {
   Badge,
   Box,
   Heading,
@@ -69,9 +75,10 @@ const steps: StepInfo[] = [
 ];
 
 const QuickStartTab: React.FC = () => {
-  const mutedTextColor = useColorModeValue("gray.600", "gray.400");
-  const lightbulbColor = useColorModeValue("accent.500", "accent.300");
-  const headingColor = useColorModeValue("secondary.500", "secondary.300");
+  const mutedTextColor = useColorModeValue(textSecondary.light, textSecondary.dark);
+  const lightbulbColor = useColorModeValue(iconAccent.light, iconAccent.dark);
+  const headingColor = useColorModeValue(featureHeading.light, featureHeading.dark);
+  const iconBg = useColorModeValue(primaryAccent.light, primaryAccent.dark);
 
   return (
     <Box>
@@ -91,38 +98,41 @@ const QuickStartTab: React.FC = () => {
       </VStack>
 
       <VStack spacing={4} align="stretch">
-        {steps.map((step, index) => (
-          <Box key={index} mb={6}>
-            <Flex mb={4} align="center">
-              <Box bg="primary.500" p={2} borderRadius="md" color="white" mr={4}>
-                <Icon as={step.icon} boxSize={5} />
-              </Box>
-              <Box>
-                <Heading as="h3" size="md" color={headingColor}>
-                  {step.title}
-                </Heading>
-                <Text color={mutedTextColor}>{step.description}</Text>
-              </Box>
-            </Flex>
-
-            <VStack align="stretch" spacing={4} pl={14}>
-              {step.tips.length > 0 && (
-                <Box width="100%">
-                  <List>
-                    {step.tips.map((tip, tipIndex) => (
-                      <ListItem key={tipIndex}>
-                        <ListIcon as={Lightbulb} color={lightbulbColor} />
-                        {tip}
-                      </ListItem>
-                    ))}
-                  </List>
+        {/* Move the useColorModeValue hook outside the map callback */}
+        {steps.map((step, index) => {
+          return (
+            <Box key={index} mb={6}>
+              <Flex mb={4} align="center">
+                <Box bg={iconBg} p={2} borderRadius="md" color="white" mr={4}>
+                  <Icon as={step.icon} boxSize={5} />
                 </Box>
-              )}
+                <Box>
+                  <Heading as="h3" size="md" color={headingColor}>
+                    {step.title}
+                  </Heading>
+                  <Text color={mutedTextColor}>{step.description}</Text>
+                </Box>
+              </Flex>
 
-              {step.imageUrl && <OptimizedImage filename={step.imageUrl} alt={step.title} />}
-            </VStack>
-          </Box>
-        ))}
+              <VStack align="stretch" spacing={4} pl={14}>
+                {step.tips.length > 0 && (
+                  <Box width="100%">
+                    <List>
+                      {step.tips.map((tip, tipIndex) => (
+                        <ListItem key={tipIndex}>
+                          <ListIcon as={Lightbulb} color={lightbulbColor} />
+                          {tip}
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Box>
+                )}
+
+                {step.imageUrl && <OptimizedImage filename={step.imageUrl} alt={step.title} />}
+              </VStack>
+            </Box>
+          );
+        })}
       </VStack>
     </Box>
   );

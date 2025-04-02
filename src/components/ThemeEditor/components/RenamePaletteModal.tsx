@@ -1,5 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
-import { panelBackground, panelBorder } from "@/theme/themeConfiguration";
+import { panelBackground, borderLight } from "@/theme/themeConfiguration";
 import {
   Button,
   FormControl,
@@ -30,7 +30,7 @@ export const RenamePaletteModal: React.FC<RenamePaletteModalProps> = ({
   const [newName, setNewName] = useState("");
   const { renameColorPalette } = useThemeContext();
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
-  const border = useColorModeValue(panelBorder.light, panelBorder.dark);
+  const border = useColorModeValue(borderLight.light, borderLight.dark);
 
   // Reset the new name when the modal opens with a different palette
   useEffect(() => {

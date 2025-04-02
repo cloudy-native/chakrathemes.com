@@ -1,4 +1,5 @@
 import React from "react";
+import { backgroundLight, borderLight, textMuted } from "@/theme/themeConfiguration";
 import {
   FormControl,
   FormLabel,
@@ -29,8 +30,9 @@ export const FontSelector: React.FC<FontSelectorProps> = ({
   onChange,
   previewText = "The quick brown fox jumps over the lazy dog",
 }) => {
-  const bgColor = useColorModeValue("gray.50", "gray.700");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const bgColor = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const borderColor = useColorModeValue(borderLight.light, borderLight.dark);
+  const textMutedColor = useColorModeValue(textMuted.light, textMuted.dark);
 
   return (
     <FormControl mb={4}>
@@ -40,7 +42,7 @@ export const FontSelector: React.FC<FontSelectorProps> = ({
             {label}
           </FormLabel>
           {description && (
-            <Text fontSize="xs" color="gray.500" mb={2}>
+            <Text fontSize="xs" color={textMutedColor} mb={2}>
               {description}
             </Text>
           )}

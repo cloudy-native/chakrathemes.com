@@ -2,6 +2,7 @@ import { AddColorModal } from "@/components/ThemeEditor/components/AddColorModal
 import { PaletteShade } from "@/components/ThemeEditor/components/PaletteShade";
 import ThemeColorSwatch from "@/components/ThemeEditor/components/ThemeColorSwatch";
 import { useThemeContext } from "@/context/ThemeContext";
+import { emptyStateBorder, textMuted, primaryAccent } from "@/theme/themeConfiguration";
 import { Plus } from "lucide-react";
 import {
   Accordion,
@@ -32,9 +33,10 @@ export const ColorManagementTab: React.FC = () => {
   const { getColors } = useThemeContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // Pre-compute color mode values to avoid hook rule violations
-  const emptyStateBorderColor = useColorModeValue("gray.200", "gray.600");
-  const emptyStateTextColor = useColorModeValue("gray.500", "gray.400");
+  // Use theme constants for consistent styling
+  const emptyStateBorderColor = useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark);
+  const emptyStateTextColor = useColorModeValue(textMuted.light, textMuted.dark);
+  const primaryColor = useColorModeValue(primaryAccent.light, primaryAccent.dark);
 
   const colors = getColors();
 
@@ -46,21 +48,21 @@ export const ColorManagementTab: React.FC = () => {
             <Box
               w="3px"
               h="24px"
-              bgGradient="linear(to-b, primary.500, purple.500)"
+              bgGradient={`linear(to-b, ${primaryColor}, purple.500)`}
               borderRadius="full"
             />
             <Box flex="1">
               <Tabs variant="unstyled" size="sm" colorScheme="primary" defaultIndex={0}>
                 <TabList>
                   <Tab
-                    _selected={{ color: "primary.500", fontWeight: "semibold" }}
+                    _selected={{ color: primaryColor, fontWeight: "semibold" }}
                     fontSize="xs"
                     px={2}
                   >
                     OVERVIEW
                   </Tab>
                   <Tab
-                    _selected={{ color: "primary.500", fontWeight: "semibold" }}
+                    _selected={{ color: primaryColor, fontWeight: "semibold" }}
                     fontSize="xs"
                     px={2}
                   >
@@ -77,15 +79,15 @@ export const ColorManagementTab: React.FC = () => {
                   <TabPanel p={0}>
                     <Text fontSize="sm" color={emptyStateTextColor} fontWeight="medium">
                       Use{" "}
-                      <Text as="span" fontWeight="bold" color="primary.500">
+                      <Text as="span" fontWeight="bold" color={primaryColor}>
                         &quot;primary&quot;
                       </Text>{" "}
                       for main UI elements,
-                      <Text as="span" fontWeight="bold" color="primary.500">
+                      <Text as="span" fontWeight="bold" color={primaryColor}>
                         &quot;accent&quot;
                       </Text>{" "}
                       for highlights, and
-                      <Text as="span" fontWeight="bold" color="primary.500">
+                      <Text as="span" fontWeight="bold" color={primaryColor}>
                         &quot;gray&quot;
                       </Text>{" "}
                       for text and backgrounds.

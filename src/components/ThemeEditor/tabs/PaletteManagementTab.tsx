@@ -8,9 +8,18 @@ import {
   RenamePaletteModal,
   ThemeColorSwatch,
 } from "@/components/ThemeEditor/components";
+import { PaletteHeader } from "@/components/ThemeEditor/components/palette";
 import AIThemeGeneratorModal from "@/components/ThemeEditor/components/AIThemeGeneratorModal";
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import {
+  borderLight,
+  textMuted,
+  emptyStateBorder,
+  accentColor,
+  primaryAccent,
+  textSecondary,
+} from "@/theme/themeConfiguration";
 import { ColorPalette, ThemeValues, ColorSwatch } from "@/types";
 import { generateColorPalette } from "@/utils/colorUtils";
 import { EventCategory, trackEvent } from "@/utils/analytics";
@@ -38,12 +47,9 @@ import {
   AlertDialogOverlay,
   Box,
   Button,
-  ButtonGroup,
   Flex,
   FormControl,
   FormLabel,
-  Grid,
-  GridItem,
   Input,
   IconButton,
   Modal,
@@ -62,16 +68,7 @@ import {
   HStack,
   SimpleGrid,
 } from "@chakra-ui/react";
-import {
-  Blend,
-  CaptionsOff,
-  Contrast,
-  Edit2,
-  Plus,
-  Trash,
-  BotMessageSquare,
-  SwatchBook,
-} from "lucide-react";
+import { Blend, CaptionsOff, Contrast, Edit2, Trash } from "lucide-react";
 
 // Reusable color chip component
 interface ColorChipProps {
@@ -87,7 +84,7 @@ const ColorChip: React.FC<ColorChipProps> = ({ color, size = "80px" }) => {
         height={size}
         bg={color}
         borderWidth="1px"
-        borderColor="gray.300"
+        borderColor={useColorModeValue(borderLight.light, borderLight.dark)}
         borderRadius="sm"
         boxShadow="md"
         cursor="pointer"
@@ -110,12 +107,16 @@ const PaletteManagementTab = () => {
   const toast = useToast();
 
   // Define color mode values to avoid conditional hook calls
-  const emptyStateBorderColor = useColorModeValue("gray.200", "gray.600");
-  const emptyStateTextColor = useColorModeValue("gray.500", "gray.400");
+  const emptyStateBorderColor = useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark);
+  const emptyStateTextColor = useColorModeValue(textMuted.light, textMuted.dark);
+  const borderLightColor = useColorModeValue(borderLight.light, borderLight.dark);
+  const primaryAccentColor = useColorModeValue(primaryAccent.light, primaryAccent.dark);
+  const textSecondaryColor = useColorModeValue(textSecondary.light, textSecondary.dark);
+  const accentColorValue = useColorModeValue(accentColor.light, accentColor.dark);
 
   // Add palette modal state
   const { isOpen, onOpen, onClose: _onClose } = useDisclosure();
-  
+
   // Custom close handler to prevent scroll jumps
   const onClose = (e?: React.MouseEvent) => {
     if (e) {
@@ -131,7 +132,7 @@ const PaletteManagementTab = () => {
     onOpen: onCollectionsModalOpen,
     onClose: _onCollectionsModalClose,
   } = useDisclosure();
-  
+
   // Custom close handler to prevent scroll jumps
   const onCollectionsModalClose = (e?: React.MouseEvent) => {
     if (e) {
@@ -160,7 +161,7 @@ const PaletteManagementTab = () => {
 
   // State for palette selection from AI results
   const { isOpen: isPaletteNameModalOpen, onClose: _onPaletteNameModalClose } = useDisclosure();
-  
+
   // Custom handler to prevent scroll jumps
   const onPaletteNameModalClose = (e?: React.MouseEvent) => {
     if (e) {
@@ -171,7 +172,7 @@ const PaletteManagementTab = () => {
   };
   const [selectedPaletteName, setSelectedPaletteName] = React.useState("");
   const [selectedBaseColor, setSelectedBaseColor] = React.useState("");
-  const [selectedTheme, setSelectedTheme] = React.useState<AITheme | null>(null);
+  const [selectedTheme, _setSelectedTheme] = React.useState<AITheme | null>(null);
 
   // Overwrite confirmation modal state
   const {
@@ -179,7 +180,7 @@ const PaletteManagementTab = () => {
     onOpen: onOverwriteModalOpen,
     onClose: _onOverwriteModalClose,
   } = useDisclosure();
-  
+
   // Custom close handler to prevent scroll jumps
   const onOverwriteModalClose = (e?: React.MouseEvent) => {
     if (e) {
@@ -210,7 +211,7 @@ const PaletteManagementTab = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
   const [paletteToDelete, setPaletteToDelete] = React.useState<string | null>(null);
   const cancelRef = React.useRef<HTMLButtonElement>(null);
-  
+
   // Close handler for delete dialog
   const closeDeleteDialog = (e?: React.MouseEvent) => {
     if (e) {
@@ -223,7 +224,7 @@ const PaletteManagementTab = () => {
   // Rename palette dialog state
   const [isRenameDialogOpen, setIsRenameDialogOpen] = React.useState(false);
   const [paletteToRename, setPaletteToRename] = React.useState("");
-  
+
   // Close handler for rename dialog
   const closeRenameDialog = (e?: React.MouseEvent) => {
     if (e) {
@@ -515,7 +516,7 @@ const PaletteManagementTab = () => {
       e.preventDefault();
       e.stopPropagation();
     }
-    
+
     if (collectionToApply) {
       // Handle curated theme collection application
       const selectedCollection = themeGroups
@@ -535,88 +536,13 @@ const PaletteManagementTab = () => {
 
   return (
     <Box>
-      <Box mb={{ base: 6, md: 8 }}>
-        <Flex 
-          direction="column"
-          justify="space-between" 
-          align="flex-start"
-          gap={4}
-        >
-          <Text 
-            fontSize={{ base: "xs", md: "sm" }} 
-            width="full"
-            lineHeight="1.5"
-          >
-            Color palettes define your theme's identity. Use the names{" "}
-            <Text as={"strong"}>primary</Text>,{" "}
-            <Text as={"strong"}>secondary</Text>,{" "}
-            <Text as={"strong"}>accent</Text>, and{" "}
-            <Text as={"strong"}>background</Text> to 
-            see them in the Preview tab.
-          </Text>
-          
-          <Flex 
-            direction="row" 
-            width="100%"
-            gap={2} 
-            flexWrap="nowrap"
-            justify={{ base: "space-between", md: "flex-end" }}
-          >
-            <Button
-              size={{ base: "sm", md: "md" }}
-              colorScheme="primary"
-              leftIcon={<Icon as={Plus} boxSize={{ base: 4, md: 5 }} />}
-              onClick={onOpen}
-              width="auto"
-              flex={{ base: 1, md: "initial" }}
-              minW={{ base: "initial", md: "120px" }}
-            >
-              Add Palette
-            </Button>
-            
-            <Button
-              size={{ base: "sm", md: "md" }}
-              colorScheme="primary"
-              leftIcon={<Icon as={SwatchBook} boxSize={{ base: 4, md: 5 }} />}
-              onClick={onCollectionsModalOpen}
-              width="auto"
-              flex={{ base: 1, md: "initial" }}
-              minW={{ base: "initial", md: "150px" }}
-            >
-              Collections
-            </Button>
-            
-            <Box position="relative" display="inline-block" width="auto" flex={{ base: 1, md: "initial" }}>
-              <Button
-                size={{ base: "sm", md: "md" }}
-                colorScheme="primary"
-                leftIcon={<Icon as={BotMessageSquare} boxSize={{ base: 4, md: 5 }} />}
-                onClick={onAIModalOpen}
-                width="full"
-                minW={{ base: "initial", md: "160px" }}
-                fontWeight="bold"
-              >
-                AI Generator
-              </Button>
-              <Box
-                position="absolute"
-                top="-8px"
-                right={{ base: "0", sm: "-10px" }}
-                bg="red.500"
-                color="white"
-                fontSize="xs"
-                fontWeight="bold"
-                px={2}
-                py={0.5}
-                borderRadius="full"
-                boxShadow="md"
-                zIndex={1}
-              >
-                NEW
-              </Box>
-            </Box>
-          </Flex>
-        </Flex>
+      {/* Header with description and action buttons */}
+      <Box position="relative">
+        <PaletteHeader
+          onAddPalette={onOpen}
+          onOpenCollections={onCollectionsModalOpen}
+          onOpenAIGenerator={onAIModalOpen}
+        />
       </Box>
 
       <Box mt={4}>
@@ -686,7 +612,7 @@ const PaletteManagementTab = () => {
                           aria-label="Delete palette"
                           icon={<Icon as={Trash} />}
                           variant="ghost"
-                          colorScheme="red"
+                          color={accentColorValue}
                           onClick={e => {
                             e.stopPropagation(); // Prevent accordion from toggling
                             openDeleteDialog(palette.colorKey);
@@ -785,7 +711,15 @@ const PaletteManagementTab = () => {
                   }
                   onClick={() => setSelectedBaseColor(selectedTheme?.primary || "")}
                   variant={selectedBaseColor === selectedTheme?.primary ? "solid" : "outline"}
-                  colorScheme="gray"
+                  borderColor={borderLightColor}
+                  bg={
+                    selectedBaseColor === selectedTheme?.primary
+                      ? primaryAccentColor
+                      : "transparent"
+                  }
+                  color={
+                    selectedBaseColor === selectedTheme?.primary ? "white" : textSecondaryColor
+                  }
                 >
                   Primary
                 </Button>
@@ -796,7 +730,15 @@ const PaletteManagementTab = () => {
                   }
                   onClick={() => setSelectedBaseColor(selectedTheme?.secondary || "")}
                   variant={selectedBaseColor === selectedTheme?.secondary ? "solid" : "outline"}
-                  colorScheme="gray"
+                  borderColor={borderLightColor}
+                  bg={
+                    selectedBaseColor === selectedTheme?.secondary
+                      ? primaryAccentColor
+                      : "transparent"
+                  }
+                  color={
+                    selectedBaseColor === selectedTheme?.secondary ? "white" : textSecondaryColor
+                  }
                 >
                   Secondary
                 </Button>
@@ -807,7 +749,11 @@ const PaletteManagementTab = () => {
                   }
                   onClick={() => setSelectedBaseColor(selectedTheme?.accent || "")}
                   variant={selectedBaseColor === selectedTheme?.accent ? "solid" : "outline"}
-                  colorScheme="gray"
+                  borderColor={borderLightColor}
+                  bg={
+                    selectedBaseColor === selectedTheme?.accent ? primaryAccentColor : "transparent"
+                  }
+                  color={selectedBaseColor === selectedTheme?.accent ? "white" : textSecondaryColor}
                 >
                   Accent
                 </Button>
@@ -817,7 +763,15 @@ const PaletteManagementTab = () => {
                   }
                   onClick={() => setSelectedBaseColor(selectedTheme?.background || "")}
                   variant={selectedBaseColor === selectedTheme?.background ? "solid" : "outline"}
-                  colorScheme="gray"
+                  borderColor={borderLightColor}
+                  bg={
+                    selectedBaseColor === selectedTheme?.background
+                      ? primaryAccentColor
+                      : "transparent"
+                  }
+                  color={
+                    selectedBaseColor === selectedTheme?.background ? "white" : textSecondaryColor
+                  }
                 >
                   Background
                 </Button>
@@ -851,7 +805,8 @@ const PaletteManagementTab = () => {
               Cancel
             </Button>
             <Button
-              colorScheme="primary"
+              bg={useColorModeValue(primaryAccent.light, primaryAccent.dark)}
+              color="white"
               onClick={handleAddSelectedPalette}
               isDisabled={!selectedPaletteName.trim() || !selectedBaseColor}
             >

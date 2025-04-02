@@ -1,5 +1,12 @@
 import React from "react";
 import {
+  backgroundLight,
+  emptyStateBorder,
+  backgroundCode,
+  linkDefault,
+  textMuted,
+} from "@/theme/themeConfiguration";
+import {
   Box,
   Button,
   Heading,
@@ -18,8 +25,8 @@ interface FontPreviewProps {
 }
 
 export const FontPreview: React.FC<FontPreviewProps> = ({ headingFont, bodyFont, monoFont }) => {
-  const bgColor = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const bgColor = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const borderColor = useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark);
 
   const headingStyle = { fontFamily: `'${headingFont}', sans-serif` };
   const bodyStyle = { fontFamily: `'${bodyFont}', sans-serif` };
@@ -36,7 +43,7 @@ export const FontPreview: React.FC<FontPreviewProps> = ({ headingFont, bodyFont,
     >
       <VStack spacing={6} align="start">
         <Box width="100%">
-          <Text fontSize="sm" color="gray.500" mb={1}>
+          <Text fontSize="sm" color={useColorModeValue(textMuted.light, textMuted.dark)} mb={1}>
             Heading Font: {headingFont}
           </Text>
           <Heading as="h1" size="xl" mb={2} style={headingStyle}>
@@ -51,7 +58,7 @@ export const FontPreview: React.FC<FontPreviewProps> = ({ headingFont, bodyFont,
         </Box>
 
         <Box width="100%">
-          <Text fontSize="sm" color="gray.500" mb={1}>
+          <Text fontSize="sm" color={useColorModeValue(textMuted.light, textMuted.dark)} mb={1}>
             Body Font: {bodyFont}
           </Text>
           <Text style={bodyStyle} mb={3}>
@@ -68,7 +75,7 @@ export const FontPreview: React.FC<FontPreviewProps> = ({ headingFont, bodyFont,
 
           <Button
             variant="link"
-            color="blue.500"
+            color={useColorModeValue(linkDefault.light, linkDefault.dark)}
             style={bodyStyle}
             p={0}
             height="auto"
@@ -87,13 +94,13 @@ export const FontPreview: React.FC<FontPreviewProps> = ({ headingFont, bodyFont,
         </Box>
 
         <Box width="100%">
-          <Text fontSize="sm" color="gray.500" mb={1}>
+          <Text fontSize="sm" color={useColorModeValue(textMuted.light, textMuted.dark)} mb={1}>
             Monospace Font: {monoFont}
           </Text>
           <Box
             p={4}
             borderRadius="md"
-            bg={useColorModeValue("gray.50", "gray.900")}
+            bg={useColorModeValue(backgroundCode.light, backgroundCode.dark)}
             width="100%"
             overflowX="auto"
           >

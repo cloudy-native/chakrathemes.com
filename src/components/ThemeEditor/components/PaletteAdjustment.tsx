@@ -1,5 +1,16 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import {
+  backgroundLight,
+  borderLight,
+  textPrimary,
+  textMuted,
+  textSecondary,
+  primaryAccent,
+  featureHeading,
+  errorColor,
+  errorBackground,
+} from "@/theme/themeConfiguration";
 import { ThemeValues } from "@/types";
 import {
   Badge,
@@ -48,8 +59,16 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
   const [gammaValue, setGammaValue] = useState(1);
 
   // UI Colors
-  const panelBg = useColorModeValue("gray.50", "gray.700");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const panelBg = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const borderColor = useColorModeValue(borderLight.light, borderLight.dark);
+  const textPrimaryColor = useColorModeValue(textPrimary.light, textPrimary.dark);
+  const textMutedColor = useColorModeValue(textMuted.light, textMuted.dark);
+  const textSecondaryColor = useColorModeValue(textSecondary.light, textSecondary.dark);
+  const errorBackgroundColor = useColorModeValue(errorBackground.light, errorBackground.dark);
+  const errorColorValue = useColorModeValue(errorColor.light, errorColor.dark);
+  const whiteColor = useColorModeValue("white", "white");
+  const featureHeadingColor = useColorModeValue(featureHeading.light, featureHeading.dark);
+  const primaryAccentColor = useColorModeValue(primaryAccent.light, primaryAccent.dark);
 
   // Calculate adjustments for preview
   const updatePreview = useCallback(() => {
@@ -217,7 +236,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
             {/* Basic Adjustments */}
             <VStack spacing={4} align="stretch">
               <Flex justify="space-between" mb={2}>
-                <Text fontSize="sm" fontWeight="medium">
+                <Text fontSize="sm" fontWeight="medium" color={textPrimaryColor}>
                   Brightness
                 </Text>
                 <HStack>
@@ -230,7 +249,12 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
                       updatePreview();
                     }}
                   />
-                  <Badge variant="outline" fontSize="xs">
+                  <Badge
+                    variant="outline"
+                    fontSize="xs"
+                    borderColor={borderColor}
+                    color={textMutedColor}
+                  >
                     {brightness > 0 ? `+${brightness.toFixed(1)}` : brightness.toFixed(1)}
                   </Badge>
                   <IconButton
@@ -262,10 +286,15 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
               </Slider>
 
               <Flex justify="space-between" mb={2}>
-                <Text fontSize="sm" fontWeight="medium">
+                <Text fontSize="sm" fontWeight="medium" color={textPrimaryColor}>
                   Saturation
                 </Text>
-                <Badge variant="outline" fontSize="xs">
+                <Badge
+                  variant="outline"
+                  fontSize="xs"
+                  borderColor={borderColor}
+                  color={textMutedColor}
+                >
                   {saturation > 0 ? `+${saturation}%` : `${saturation}%`}
                 </Badge>
               </Flex>
@@ -287,10 +316,15 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
               </Slider>
 
               <Flex justify="space-between" mb={2}>
-                <Text fontSize="sm" fontWeight="medium">
+                <Text fontSize="sm" fontWeight="medium" color={textPrimaryColor}>
                   Contrast
                 </Text>
-                <Badge variant="outline" fontSize="xs">
+                <Badge
+                  variant="outline"
+                  fontSize="xs"
+                  borderColor={borderColor}
+                  color={textMutedColor}
+                >
                   {contrastAmount > 0 ? `+${contrastAmount}%` : `${contrastAmount}%`}
                 </Badge>
               </Flex>
@@ -318,14 +352,19 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
             <VStack spacing={4} align="stretch">
               <Flex justify="space-between" mb={2}>
                 <HStack>
-                  <Text fontSize="sm" fontWeight="medium">
+                  <Text fontSize="sm" fontWeight="medium" color={textPrimaryColor}>
                     Temperature
                   </Text>
                   <Tooltip label="Shift colors warmer (yellow/red) or cooler (blue)">
                     <Icon as={Info} />
                   </Tooltip>
                 </HStack>
-                <Badge variant="outline" fontSize="xs">
+                <Badge
+                  variant="outline"
+                  fontSize="xs"
+                  borderColor={borderColor}
+                  color={textMutedColor}
+                >
                   {temperature > 0
                     ? `+${temperature} (Warm)`
                     : temperature < 0
@@ -352,14 +391,19 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
 
               <Flex justify="space-between" mb={2}>
                 <HStack>
-                  <Text fontSize="sm" fontWeight="medium">
+                  <Text fontSize="sm" fontWeight="medium" color={textPrimaryColor}>
                     Gamma
                   </Text>
                   <Tooltip label="Adjust the gamma curve (affects mid-tones)">
                     <Icon as={Info} />
                   </Tooltip>
                 </HStack>
-                <Badge variant="outline" fontSize="xs">
+                <Badge
+                  variant="outline"
+                  fontSize="xs"
+                  borderColor={borderColor}
+                  color={textMutedColor}
+                >
                   {gammaValue.toFixed(2)}
                 </Badge>
               </Flex>
@@ -386,13 +430,13 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
 
       {/* Preview comparison */}
       <Box p={4} borderTopWidth="1px" borderColor={borderColor}>
-        <Text fontSize="sm" fontWeight="medium" mb={3}>
+        <Text fontSize="sm" fontWeight="medium" mb={3} color={textPrimaryColor}>
           Preview
         </Text>
 
         <SimpleGrid columns={2} spacing={4}>
           <Box>
-            <Text fontSize="sm" mb={2} textAlign="center">
+            <Text fontSize="sm" mb={2} textAlign="center" color={textSecondaryColor}>
               Original
             </Text>
             <Flex mb={2}>
@@ -411,7 +455,7 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
           </Box>
 
           <Box>
-            <Text fontSize="sm" mb={2} textAlign="center">
+            <Text fontSize="sm" mb={2} textAlign="center" color={textSecondaryColor}>
               Adjusted
             </Text>
             <Flex mb={2}>
@@ -432,8 +476,9 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
                         top="0"
                         right="0"
                         size="xs"
-                        colorScheme="red"
                         fontSize="8px"
+                        bg={errorBackgroundColor}
+                        color={errorColorValue}
                       >
                         !
                       </Badge>
@@ -460,7 +505,8 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
 
           <Button
             size="sm"
-            colorScheme="secondary"
+            color={whiteColor}
+            bg={featureHeadingColor}
             leftIcon={<Icon as={RotateCcw} />}
             onClick={resetAdjustments}
           >
@@ -469,7 +515,8 @@ export const PaletteAdjustment: React.FC<PaletteAdjustmentProps> = ({ colorKey, 
 
           <Button
             size="sm"
-            colorScheme="primary"
+            color={whiteColor}
+            bg={primaryAccentColor}
             leftIcon={<Icon as={Check} />}
             onClick={applyAdjustments}
           >

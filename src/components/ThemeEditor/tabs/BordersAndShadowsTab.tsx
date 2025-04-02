@@ -1,5 +1,5 @@
 import { useThemeContext } from "@/context/ThemeContext";
-import { featureBackground } from "@/theme/themeConfiguration";
+import { primaryBackground, borderLight, backgroundCode } from "@/theme/themeConfiguration";
 import {
   Box,
   Button,
@@ -76,7 +76,7 @@ const ShadowControl: React.FC<{
   copiedValue: string | null;
   onCopy: (value: string) => void;
 }> = ({ shadowKey, shadowValue, onChange: _onChange, copiedValue, onCopy }) => {
-  const bgColor = useColorModeValue(featureBackground.light, featureBackground.dark);
+  const bgColor = useColorModeValue(primaryBackground.light, primaryBackground.dark);
   const copyValue = `boxShadow="${shadowKey}"`;
 
   const handleCopy = () => {
@@ -86,6 +86,7 @@ const ShadowControl: React.FC<{
   return (
     <Box
       borderWidth="1px"
+      borderColor={useColorModeValue(borderLight.light, borderLight.dark)}
       borderRadius="md"
       boxShadow="sm"
       p={4}
@@ -93,7 +94,14 @@ const ShadowControl: React.FC<{
       display="flex"
       flexDirection="column"
     >
-      <Flex mb={3} align="center" justify="space-between" p={2} borderRadius="md">
+      <Flex
+        mb={3}
+        align="center"
+        justify="space-between"
+        p={2}
+        borderRadius="md"
+        bg={useColorModeValue(backgroundCode.light, backgroundCode.dark)}
+      >
         <Code>{copyValue}</Code>
         <Button
           size="xs"
@@ -138,7 +146,7 @@ const BorderRadiusControl: React.FC<{
   copiedValue: string | null;
   onCopy: (value: string) => void;
 }> = ({ radiusKey, radiusValue, onChange, copiedValue, onCopy }) => {
-  const bgColor = useColorModeValue(featureBackground.light, featureBackground.dark);
+  const bgColor = useColorModeValue(primaryBackground.light, primaryBackground.dark);
 
   const copyValue = `borderRadius="${radiusKey}"`;
 
@@ -183,6 +191,7 @@ const BorderRadiusControl: React.FC<{
   return (
     <Box
       borderWidth="1px"
+      borderColor={useColorModeValue(borderLight.light, borderLight.dark)}
       borderRadius="md"
       boxShadow="sm"
       p={4}
@@ -190,7 +199,14 @@ const BorderRadiusControl: React.FC<{
       display="flex"
       flexDirection="column"
     >
-      <Flex mb={3} align="center" justify="space-between" p={2} borderRadius="md">
+      <Flex
+        mb={3}
+        align="center"
+        justify="space-between"
+        p={2}
+        borderRadius="md"
+        bg={useColorModeValue(backgroundCode.light, backgroundCode.dark)}
+      >
         <Code>{copyValue}</Code>
         <Button
           size="xs"

@@ -1,4 +1,4 @@
-import { headerBackground, headerText } from "@/theme/themeConfiguration";
+import { primaryBackground, textPrimary, emptyStateBorder } from "@/theme/themeConfiguration";
 import {
   Box,
   Button,
@@ -38,9 +38,9 @@ const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   // Use specific colors to ensure opacity in both modes
-  const bgColor = useColorModeValue(headerBackground.light, headerBackground.dark);
-  const textColor = useColorModeValue(headerText.light, headerText.dark);
-  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const bgColor = useColorModeValue(primaryBackground.light, primaryBackground.dark);
+  const textColor = useColorModeValue(textPrimary.light, textPrimary.dark);
+  const borderColor = useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark);
 
   return (
     <Box

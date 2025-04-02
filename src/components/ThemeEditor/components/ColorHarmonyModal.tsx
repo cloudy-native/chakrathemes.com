@@ -43,7 +43,7 @@ import {
 import { Check, Plus } from "lucide-react";
 import React, { useCallback, useMemo, useState } from "react";
 import { ColorSwatch } from "./ColorSwatch";
-import { panelBackground } from "@/theme/themeConfiguration";
+import { backgroundMedium, emptyStateBorder, panelBackground } from "@/theme/themeConfiguration";
 
 interface ColorHarmonyModalProps {
   isOpen: boolean;
@@ -190,7 +190,14 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                   </Text>
 
                   <Flex direction="column" alignItems="center" mt={6}>
-                    <Box p={4} borderRadius="md" borderWidth="1px" width="100%" maxWidth="400px">
+                    <Box
+                      p={4}
+                      borderRadius="md"
+                      borderWidth="1px"
+                      borderColor={useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark)}
+                      width="100%"
+                      maxWidth="400px"
+                    >
                       <Flex justify="space-between" align="center" mb={4}>
                         <VStack align="flex-start">
                           <HStack>
@@ -213,7 +220,11 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                         </VStack>
                       </Flex>
 
-                      <Box p={2} borderRadius="md" bg={useColorModeValue("gray.100", "gray.700")}>
+                      <Box
+                        p={2}
+                        borderRadius="md"
+                        bg={useColorModeValue(backgroundMedium.light, backgroundMedium.dark)}
+                      >
                         <Flex h="80px">
                           <Box flex={1} bg={baseColor} />
                           <Box flex={1} bg={complementaryColor} />
@@ -278,7 +289,12 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                     </VStack>
                   </HStack>
 
-                  <Box p={4} borderRadius="md" borderWidth="1px">
+                  <Box
+                    p={4}
+                    borderRadius="md"
+                    borderWidth="1px"
+                    borderColor={useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark)}
+                  >
                     <Text fontWeight="bold" mb={3}>
                       Analogous Colors ({harmonyCount})
                     </Text>
@@ -323,7 +339,13 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                     balanced, vibrant look.
                   </Text>
 
-                  <Box p={4} borderRadius="md" borderWidth="1px" mt={4}>
+                  <Box
+                    p={4}
+                    borderRadius="md"
+                    borderWidth="1px"
+                    borderColor={useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark)}
+                    mt={4}
+                  >
                     <Text fontWeight="bold" mb={3}>
                       Triadic Colors
                     </Text>
@@ -368,7 +390,13 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
                     values. They create a cohesive, elegant look.
                   </Text>
 
-                  <Box p={4} borderRadius="md" borderWidth="1px" mt={4}>
+                  <Box
+                    p={4}
+                    borderRadius="md"
+                    borderWidth="1px"
+                    borderColor={useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark)}
+                    mt={4}
+                  >
                     <Text fontWeight="bold" mb={3}>
                       Monochromatic Colors
                     </Text>

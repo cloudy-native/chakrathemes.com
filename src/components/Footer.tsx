@@ -1,12 +1,12 @@
-import { headerBackground } from "@/theme/themeConfiguration";
+import { primaryBackground, emptyStateBorder } from "@/theme/themeConfiguration";
 import { Box, Icon, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { ExternalLink } from "lucide-react";
 import React from "react";
 import version from "../version.json";
 
 const Footer = () => {
-  const bgColor = useColorModeValue(headerBackground.light, headerBackground.dark);
-  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const bgColor = useColorModeValue(primaryBackground.light, primaryBackground.dark);
+  const borderColor = useColorModeValue(emptyStateBorder.light, emptyStateBorder.dark);
 
   return (
     <Box as="footer" bg={bgColor} borderTop="1px" borderColor={borderColor}>

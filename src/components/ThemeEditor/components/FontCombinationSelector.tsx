@@ -1,6 +1,13 @@
 import React from "react";
 import { Box, Text, SimpleGrid, useColorModeValue, VStack, Heading, Badge } from "@chakra-ui/react";
 import { FontCombination } from "@/types";
+import {
+  backgroundLight,
+  borderLight,
+  backgroundMedium,
+  textMuted,
+  borderHighlight,
+} from "@/theme/themeConfiguration";
 
 interface FontCombinationSelectorProps {
   combinations: FontCombination[];
@@ -13,12 +20,14 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
   onSelect,
   selectedCombination,
 }) => {
-  const bgColor = useColorModeValue("white", "gray.700");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
-  const hoverBg = useColorModeValue("gray.50", "gray.600");
-  const activeBg = useColorModeValue("gray.100", "gray.500");
-  const codeBlockBg = useColorModeValue("gray.100", "gray.800");
+  const bgColor = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const borderColor = useColorModeValue(borderLight.light, borderLight.dark);
+  const hoverBg = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const activeBg = useColorModeValue(backgroundMedium.light, backgroundMedium.dark);
+  const codeBlockBg = useColorModeValue(backgroundMedium.light, backgroundMedium.dark);
   const shadow = useColorModeValue("md", "md");
+  const borderHighlightColor = useColorModeValue(borderHighlight.light, borderHighlight.dark);
+  const textMutedColor = useColorModeValue(textMuted.light, textMuted.dark);
 
   return (
     <Box mb={6}>
@@ -33,7 +42,7 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
             p={4}
             bg={selectedCombination === combo.name ? activeBg : bgColor}
             borderWidth="1px"
-            borderColor={selectedCombination === combo.name ? "blue.400" : borderColor}
+            borderColor={selectedCombination === combo.name ? borderHighlightColor : borderColor}
             borderRadius="md"
             cursor="pointer"
             _hover={{ bg: hoverBg, shadow: shadow }}
@@ -56,7 +65,7 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
                     </Badge>
                   )}
                 </Heading>
-                <Text fontSize="xs" color="gray.500" mb={2}>
+                <Text fontSize="xs" color={textMutedColor} mb={2}>
                   {combo.description}
                 </Text>
               </Box>
@@ -64,7 +73,7 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
               <Box w="100%">
                 <Text fontSize="xs" fontWeight="medium" mb={1}>
                   Heading:{" "}
-                  <Text as="span" color="gray.500">
+                  <Text as="span" color={textMutedColor}>
                     {combo.heading}
                   </Text>
                 </Text>
@@ -79,7 +88,7 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
 
                 <Text fontSize="xs" fontWeight="medium" mb={1}>
                   Body:{" "}
-                  <Text as="span" color="gray.500">
+                  <Text as="span" color={textMutedColor}>
                     {combo.body}
                   </Text>
                 </Text>
@@ -89,7 +98,7 @@ export const FontCombinationSelector: React.FC<FontCombinationSelectorProps> = (
 
                 <Text fontSize="xs" fontWeight="medium" mb={1}>
                   Mono:{" "}
-                  <Text as="span" color="gray.500">
+                  <Text as="span" color={textMutedColor}>
                     {combo.mono}
                   </Text>
                 </Text>

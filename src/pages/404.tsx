@@ -14,17 +14,24 @@ import {
 import { HeadFC, Link, PageProps } from "gatsby";
 import * as React from "react";
 import { AlertTriangle, Home } from "lucide-react";
+import {
+  backgroundLight,
+  textHeading,
+  textSecondary,
+  primaryAccent,
+  primaryBackground,
+} from "@/theme/themeConfiguration";
 
 const NotFoundPage: React.FC<PageProps> = () => {
-  // Theme colors
-  const cardBgColor = useColorModeValue("white", "gray.800");
-  const primaryColor = useColorModeValue("primary.500", "primary.400");
-  const textColor = useColorModeValue("gray.600", "gray.400");
-  const headingColor = useColorModeValue("gray.800", "white");
+  // Theme colors from theme constants
+  const cardBgColor = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const primaryColor = useColorModeValue(primaryAccent.light, primaryAccent.dark);
+  const textColor = useColorModeValue(textSecondary.light, textSecondary.dark);
+  const headingColor = useColorModeValue(textHeading.light, textHeading.dark);
 
-  // Colors for development message (moved out of conditional rendering)
-  const devMessageBgColor = useColorModeValue("primary.50", "primary.900");
-  const devMessageTextColor = useColorModeValue("primary.700", "primary.100");
+  // Colors for development message
+  const devMessageBgColor = useColorModeValue(primaryBackground.light, primaryBackground.dark);
+  const devMessageTextColor = useColorModeValue(primaryAccent.light, primaryAccent.dark);
 
   return (
     <Container maxW="container.md">

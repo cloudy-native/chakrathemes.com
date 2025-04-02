@@ -4,6 +4,13 @@ import { ExtractedColor, ThemeValues } from "@/types";
 import { trackPaletteCreation } from "@/utils/analytics";
 import { generateColorPalette } from "@/utils/colorUtils";
 import {
+  backgroundLight,
+  backgroundMedium,
+  borderLight,
+  errorColor,
+  primaryAccent,
+} from "@/theme/themeConfiguration";
+import {
   Box,
   Button,
   Center,
@@ -29,7 +36,9 @@ export const ImageColorTab: React.FC = () => {
   const toast = useToast();
 
   // Pre-compute color mode values to avoid hook rule violations
-  const stackBgColor = useColorModeValue("white", "gray.800");
+  const stackBgColor = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const errorColorValue = useColorModeValue(errorColor.light, errorColor.dark);
+  const primaryAccentValue = useColorModeValue(primaryAccent.light, primaryAccent.dark);
 
   // Image and color state
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
@@ -188,10 +197,10 @@ export const ImageColorTab: React.FC = () => {
   };
 
   // Generate palette UI background colors
-  const dropAreaBg = useColorModeValue("gray.50", "gray.700");
-  const dropAreaHoverBg = useColorModeValue("gray.100", "gray.600");
-  const dropAreaBorderColor = useColorModeValue("gray.200", "gray.600");
-  const activeBorderColor = useColorModeValue("primary.500", "primary.300");
+  const dropAreaBg = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const dropAreaHoverBg = useColorModeValue(backgroundMedium.light, backgroundMedium.dark);
+  const dropAreaBorderColor = useColorModeValue(borderLight.light, borderLight.dark);
+  const activeBorderColor = useColorModeValue(primaryAccent.light, primaryAccent.dark);
 
   return (
     <Box>
@@ -251,7 +260,8 @@ export const ImageColorTab: React.FC = () => {
                 <Button
                   mt={2}
                   size="sm"
-                  colorScheme="red"
+                  color={errorColorValue}
+                  borderColor={errorColorValue}
                   variant="outline"
                   onClick={resetImageExtraction}
                 >
@@ -278,7 +288,9 @@ export const ImageColorTab: React.FC = () => {
                           cursor="pointer"
                           borderWidth="2px"
                           borderColor={
-                            selectedColorFromImage === color.color ? "primary.500" : "transparent"
+                            selectedColorFromImage === color.color
+                              ? primaryAccentValue
+                              : "transparent"
                           }
                           borderRadius="md"
                           overflow="hidden"
@@ -318,7 +330,8 @@ export const ImageColorTab: React.FC = () => {
                             size="md"
                           />
                           <Button
-                            colorScheme="primary"
+                            color="white"
+                            bg={primaryAccentValue}
                             onClick={() => {
                               if (!newPaletteNameFromImage) {
                                 toast({

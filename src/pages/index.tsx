@@ -85,40 +85,40 @@ const IndexPage: React.FC<PageProps> = () => {
 
         {/* Quick Navigation on Mobile */}
         {isMobile && (
-          <Box 
-            position="fixed" 
-            bottom={0} 
-            left={0} 
-            right={0} 
-            bg="rgba(255,255,255,0.9)" 
+          <Box
+            position="fixed"
+            bottom={0}
+            left={0}
+            right={0}
+            bg="rgba(255,255,255,0.9)"
             backdropFilter="blur(8px)"
             boxShadow="0 -4px 6px -1px rgba(0, 0, 0, 0.1)"
             zIndex={10}
             py={2}
             _dark={{
-              bg: "rgba(26,32,44,0.9)"
+              bg: "rgba(26,32,44,0.9)",
             }}
           >
             <Flex justify="space-around">
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => scrollToSection("theme-editor-section")}
                 fontWeight="medium"
               >
                 Editor
               </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => scrollToSection("features-section")}
                 fontWeight="medium"
               >
                 Features
               </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => scrollToSection("help-section")}
                 fontWeight="medium"
               >

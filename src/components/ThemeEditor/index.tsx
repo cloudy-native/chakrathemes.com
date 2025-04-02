@@ -8,7 +8,9 @@ import {
   useBreakpointValue,
   Flex,
   Divider,
+  useColorModeValue,
 } from "@chakra-ui/react";
+import { accentColor } from "@/theme/themeConfiguration";
 import React, { useState, useEffect } from "react";
 
 // Import tabs
@@ -43,7 +45,25 @@ const Desktop = () => {
           <Tab>Typography</Tab>
           <Tab>Spacing</Tab>
           <Tab>Borders & Shadows</Tab>
-          <Tab>Preview</Tab>
+          <Tab position="relative">
+            Preview Theme
+            <Box
+              position="absolute"
+              top="-8px"
+              right="20px"
+              bg={useColorModeValue(accentColor.light, accentColor.dark)}
+              color="white"
+              fontSize="md"
+              fontWeight="bold"
+              px={2}
+              py={0.5}
+              borderRadius="full"
+              boxShadow="md"
+              zIndex={1}
+            >
+              NEW
+            </Box>
+          </Tab>
         </TabList>
 
         <TabPanels>

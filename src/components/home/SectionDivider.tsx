@@ -1,4 +1,5 @@
 import { Heading, Icon, useColorModeValue, VStack } from "@chakra-ui/react";
+import { iconSecondary } from "@/theme/themeConfiguration";
 import { ChevronsDown } from "lucide-react";
 import React from "react";
 
@@ -7,7 +8,7 @@ interface SectionDividerProps {
 }
 
 const SectionDivider: React.FC<SectionDividerProps> = ({ title }) => {
-  const iconColor = useColorModeValue("secondary.600", "secondary.400");
+  const iconColor = useColorModeValue(iconSecondary.light, iconSecondary.dark);
 
   return (
     <VStack>

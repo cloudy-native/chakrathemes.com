@@ -12,6 +12,7 @@ import {
   TabPanel,
   Tab,
 } from "@chakra-ui/react";
+import { textHeading, backgroundLight, textSecondary } from "@/theme/themeConfiguration";
 import React from "react";
 import { BookOpen, Palette, Zap } from "lucide-react";
 import ColorScienceTab from "./ColorScienceTab";
@@ -46,10 +47,9 @@ const HelpSection: React.FC = () => {
   const [tabIndex, setTabIndex] = React.useState(0);
 
   // Color values
-  const cardBg = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-  const textColor = useColorModeValue("gray.600", "gray.400");
-  const headingColor = useColorModeValue("gray.800", "white");
+  const cardBg = useColorModeValue(backgroundLight.light, backgroundLight.dark);
+  const textColor = useColorModeValue(textSecondary.light, textSecondary.dark);
+  const headingColor = useColorModeValue(textHeading.light, textHeading.dark);
 
   return (
     <Box borderRadius="xl" boxShadow="xl">
@@ -65,8 +65,7 @@ const HelpSection: React.FC = () => {
           {/* Sidebar navigation */}
           <GridItem
             borderRightWidth={{ base: 0, lg: "1px" }}
-            borderColor={borderColor}
-            bg={useColorModeValue("gray.50", "gray.900")}
+            bg={useColorModeValue(backgroundLight.light, backgroundLight.dark)}
           >
             <Box p={6}>
               <Heading size="md" color={headingColor} mb={2}>
