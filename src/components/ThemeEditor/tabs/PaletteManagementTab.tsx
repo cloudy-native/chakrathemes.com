@@ -114,14 +114,32 @@ const PaletteManagementTab = () => {
   const emptyStateTextColor = useColorModeValue("gray.500", "gray.400");
 
   // Add palette modal state
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose: _onClose } = useDisclosure();
+  
+  // Custom close handler to prevent scroll jumps
+  const onClose = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    _onClose();
+  };
 
   // Collections modal state
   const {
     isOpen: isCollectionsModalOpen,
     onOpen: onCollectionsModalOpen,
-    onClose: onCollectionsModalClose,
+    onClose: _onCollectionsModalClose,
   } = useDisclosure();
+  
+  // Custom close handler to prevent scroll jumps
+  const onCollectionsModalClose = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    _onCollectionsModalClose();
+  };
 
   // AI dialog state
   const {
@@ -131,13 +149,26 @@ const PaletteManagementTab = () => {
   } = useDisclosure();
 
   // Custom modal close handler that doesn't clear the AI prompt or results
-  const onAIModalClose = () => {
+  const onAIModalClose = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     // Just close the modal without clearing state
     _onAIModalClose();
   };
 
   // State for palette selection from AI results
-  const { isOpen: isPaletteNameModalOpen, onClose: onPaletteNameModalClose } = useDisclosure();
+  const { isOpen: isPaletteNameModalOpen, onClose: _onPaletteNameModalClose } = useDisclosure();
+  
+  // Custom handler to prevent scroll jumps
+  const onPaletteNameModalClose = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    _onPaletteNameModalClose();
+  };
   const [selectedPaletteName, setSelectedPaletteName] = React.useState("");
   const [selectedBaseColor, setSelectedBaseColor] = React.useState("");
   const [selectedTheme, setSelectedTheme] = React.useState<AITheme | null>(null);
@@ -146,8 +177,17 @@ const PaletteManagementTab = () => {
   const {
     isOpen: isOverwriteModalOpen,
     onOpen: onOverwriteModalOpen,
-    onClose: onOverwriteModalClose,
+    onClose: _onOverwriteModalClose,
   } = useDisclosure();
+  
+  // Custom close handler to prevent scroll jumps
+  const onOverwriteModalClose = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    _onOverwriteModalClose();
+  };
 
   // Accessibility analysis modal state
   const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] = React.useState(false);
@@ -170,10 +210,28 @@ const PaletteManagementTab = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
   const [paletteToDelete, setPaletteToDelete] = React.useState<string | null>(null);
   const cancelRef = React.useRef<HTMLButtonElement>(null);
+  
+  // Close handler for delete dialog
+  const closeDeleteDialog = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setIsDeleteDialogOpen(false);
+  };
 
   // Rename palette dialog state
   const [isRenameDialogOpen, setIsRenameDialogOpen] = React.useState(false);
   const [paletteToRename, setPaletteToRename] = React.useState("");
+  
+  // Close handler for rename dialog
+  const closeRenameDialog = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setIsRenameDialogOpen(false);
+  };
 
   // State to hold the collection to apply and check for overwrites
   const [collectionToApply, setCollectionToApply] = React.useState<string | null>(null);
@@ -204,6 +262,15 @@ const PaletteManagementTab = () => {
 
     // Track analytics
     trackColorAction("open_accessibility_analysis", colorKey);
+  };
+
+  // Handle closing the accessibility modal
+  const closeAccessibilityModal = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setIsAccessibilityModalOpen(false);
   };
 
   // Store the currently selected AI theme for confirm/cancel operations
@@ -274,7 +341,11 @@ const PaletteManagementTab = () => {
   };
 
   // Function to add the selected palette to the theme
-  const handleAddSelectedPalette = () => {
+  const handleAddSelectedPalette = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (!selectedPaletteName || !selectedPaletteName.trim() || !selectedBaseColor || !selectedTheme)
       return;
 
@@ -309,6 +380,15 @@ const PaletteManagementTab = () => {
     trackColorAction("open_color_harmony", colorKey);
   };
 
+  // Handle closing the color harmony modal
+  const closeHarmonyModal = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setIsHarmonyModalOpen(false);
+  };
+
   // Handle opening the color contrast modal
   const openContrastModal = (colorKey: string, colorShades: Record<string, string>) => {
     setContrastColorKey(colorKey);
@@ -319,8 +399,21 @@ const PaletteManagementTab = () => {
     trackColorAction("open_color_contrast", colorKey);
   };
 
+  // Handle closing the color contrast modal
+  const closeContrastModal = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setIsContrastModalOpen(false);
+  };
+
   // Handle delete confirmation
-  const handleDeletePalette = () => {
+  const handleDeletePalette = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (paletteToDelete) {
       // Create a new theme object based on the current one
       const newTheme: ThemeValues = JSON.parse(JSON.stringify(themeValues));
@@ -347,12 +440,16 @@ const PaletteManagementTab = () => {
       });
 
       // Close the dialog
-      setIsDeleteDialogOpen(false);
+      closeDeleteDialog();
       setPaletteToDelete(null);
     }
   };
 
-  const handleApplyCollection = (collection: ThemePalette) => {
+  const handleApplyCollection = (collection: ThemePalette, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     // Check if any palette in the collection already exists
     const existingPaletteNames = Object.keys(
       getColors().reduce<Record<string, boolean>>(
@@ -413,7 +510,12 @@ const PaletteManagementTab = () => {
     return generatedPalette;
   };
 
-  const handleConfirmOverwrite = () => {
+  const handleConfirmOverwrite = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
     if (collectionToApply) {
       // Handle curated theme collection application
       const selectedCollection = themeGroups
@@ -433,65 +535,89 @@ const PaletteManagementTab = () => {
 
   return (
     <Box>
-      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-        <GridItem rowSpan={2} colSpan={4}>
-          <Text mb={6} fontSize="sm">
-            Color palettes define the visual identity of your theme. Name your palettes
-            &quot;primary&quot;, &quot;secondary&quot;, &quot;accent&quot;, and
-            &quot;background&quot; to see them applied in Preview & Download tab.
+      <Box mb={{ base: 6, md: 8 }}>
+        <Flex 
+          direction="column"
+          justify="space-between" 
+          align="flex-start"
+          gap={4}
+        >
+          <Text 
+            fontSize={{ base: "xs", md: "sm" }} 
+            width="full"
+            lineHeight="1.5"
+          >
+            Color palettes define your theme's identity. Use the names{" "}
+            <Text as={"strong"}>primary</Text>,{" "}
+            <Text as={"strong"}>secondary</Text>,{" "}
+            <Text as={"strong"}>accent</Text>, and{" "}
+            <Text as={"strong"}>background</Text> to 
+            see them in the Preview tab.
           </Text>
-        </GridItem>
-        <GridItem>
-          <Flex justify="right" mb={2}>
-            <ButtonGroup>
+          
+          <Flex 
+            direction="row" 
+            width="100%"
+            gap={2} 
+            flexWrap="nowrap"
+            justify={{ base: "space-between", md: "flex-end" }}
+          >
+            <Button
+              size={{ base: "sm", md: "md" }}
+              colorScheme="primary"
+              leftIcon={<Icon as={Plus} boxSize={{ base: 4, md: 5 }} />}
+              onClick={onOpen}
+              width="auto"
+              flex={{ base: 1, md: "initial" }}
+              minW={{ base: "initial", md: "120px" }}
+            >
+              Add Palette
+            </Button>
+            
+            <Button
+              size={{ base: "sm", md: "md" }}
+              colorScheme="primary"
+              leftIcon={<Icon as={SwatchBook} boxSize={{ base: 4, md: 5 }} />}
+              onClick={onCollectionsModalOpen}
+              width="auto"
+              flex={{ base: 1, md: "initial" }}
+              minW={{ base: "initial", md: "150px" }}
+            >
+              Collections
+            </Button>
+            
+            <Box position="relative" display="inline-block" width="auto" flex={{ base: 1, md: "initial" }}>
               <Button
-                size="md"
+                size={{ base: "sm", md: "md" }}
                 colorScheme="primary"
-                leftIcon={<Icon as={Plus} />}
-                onClick={onOpen}
+                leftIcon={<Icon as={BotMessageSquare} boxSize={{ base: 4, md: 5 }} />}
+                onClick={onAIModalOpen}
+                width="full"
+                minW={{ base: "initial", md: "160px" }}
+                fontWeight="bold"
               >
-                Add Palette
+                AI Generator
               </Button>
-              <Button
-                size="md"
-                colorScheme="primary"
-                leftIcon={<Icon as={SwatchBook} />}
-                onClick={onCollectionsModalOpen}
+              <Box
+                position="absolute"
+                top="-8px"
+                right={{ base: "0", sm: "-10px" }}
+                bg="red.500"
+                color="white"
+                fontSize="xs"
+                fontWeight="bold"
+                px={2}
+                py={0.5}
+                borderRadius="full"
+                boxShadow="md"
+                zIndex={1}
               >
-                Palette Collections
-              </Button>
-              <Box position="relative" display="inline-block">
-                <Button
-                  size="md"
-                  colorScheme="primary"
-                  leftIcon={<Icon as={BotMessageSquare} />}
-                  onClick={onAIModalOpen}
-                  px={4}
-                  fontWeight="bold"
-                >
-                  AI Theme Generator
-                </Button>
-                <Box
-                  position="absolute"
-                  top="-8px"
-                  right="-10px"
-                  bg="red.500"
-                  color="white"
-                  fontSize="xs"
-                  fontWeight="bold"
-                  px={2}
-                  py={1}
-                  borderRadius="full"
-                  boxShadow="md"
-                  zIndex={1}
-                >
-                  NEW
-                </Box>
+                NEW
               </Box>
-            </ButtonGroup>
+            </Box>
           </Flex>
-        </GridItem>
-      </Grid>
+        </Flex>
+      </Box>
 
       <Box mt={4}>
         <Accordion allowMultiple defaultIndex={[]}>
@@ -739,7 +865,7 @@ const PaletteManagementTab = () => {
       <AlertDialog
         isOpen={isDeleteDialogOpen}
         leastDestructiveRef={cancelRef}
-        onClose={() => setIsDeleteDialogOpen(false)}
+        onClose={closeDeleteDialog}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
@@ -753,7 +879,7 @@ const PaletteManagementTab = () => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={() => setIsDeleteDialogOpen(false)}>
+              <Button ref={cancelRef} onClick={closeDeleteDialog}>
                 Cancel
               </Button>
               <Button colorScheme="red" onClick={handleDeletePalette} ml={3}>
@@ -767,7 +893,7 @@ const PaletteManagementTab = () => {
       {/* Accessibility Analysis Modal */}
       <AccessibilityAnalysisModal
         isOpen={isAccessibilityModalOpen}
-        onClose={() => setIsAccessibilityModalOpen(false)}
+        onClose={closeAccessibilityModal}
         colorKey={accessibilityColorKey}
         colorShades={accessibilityColorShades}
       />
@@ -775,7 +901,7 @@ const PaletteManagementTab = () => {
       {/* Color Harmony Modal */}
       <ColorHarmonyModal
         isOpen={isHarmonyModalOpen}
-        onClose={() => setIsHarmonyModalOpen(false)}
+        onClose={closeHarmonyModal}
         colorKey={harmonyColorKey}
         colorShades={harmonyColorShades}
       />
@@ -783,14 +909,14 @@ const PaletteManagementTab = () => {
       {/* Rename Palette Modal */}
       <RenamePaletteModal
         isOpen={isRenameDialogOpen}
-        onClose={() => setIsRenameDialogOpen(false)}
+        onClose={closeRenameDialog}
         currentName={paletteToRename}
       />
 
       {/* Color Contrast Modal */}
       <ColorContrastModal
         isOpen={isContrastModalOpen}
-        onClose={() => setIsContrastModalOpen(false)}
+        onClose={closeContrastModal}
         colorKey={contrastColorKey}
         colorShades={contrastColorShades}
       />
@@ -872,6 +998,7 @@ const PaletteManagementTab = () => {
         isOpen={isOverwriteModalOpen}
         onClose={onOverwriteModalClose}
         leastDestructiveRef={cancelRef}
+        isCentered={true}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>

@@ -12,19 +12,29 @@ import {
   Text,
   Input,
   Flex,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
+  SimpleGrid,
+  Tooltip,
   useToast,
 } from "@chakra-ui/react";
 import { trackEvent, EventCategory } from "@/utils/analytics";
 
 // ColorChip component for displaying color swatches
-const ColorChip: React.FC<{ color: string; size?: string }> = ({ color, size = "60px" }) => (
-  <Box w={size} h={size} borderRadius="sm" bg={color} boxShadow="inset 0 0 0 1px rgba(0,0,0,0.1)" />
+const ColorChip: React.FC<{ 
+  color: string; 
+  label?: string;
+  flex?: number;
+}> = ({ color, label, flex = 1 }) => (
+  <Tooltip label={label} placement="top" hasArrow openDelay={300}>
+    <Box 
+      flex={flex}
+      height="60px"
+      borderRadius="sm" 
+      bg={color} 
+      boxShadow="inset 0 0 0 1px rgba(0,0,0,0.1)"
+      transition="transform 0.2s"
+      _hover={{ transform: "scale(1.05)" }}
+    />
+  </Tooltip>
 );
 
 interface AITheme {
@@ -40,6 +50,48 @@ interface AIThemeGeneratorModalProps {
   onClose: () => void;
   onSelectTheme: (theme: AITheme) => void;
 }
+
+
+
+// Theme card component
+const ThemeCard: React.FC<{
+  theme: AITheme;
+  onSelect: (theme: AITheme) => void;
+}> = ({ theme, onSelect }) => {
+  return (
+    <Box 
+      p={4} 
+      borderWidth="1px" 
+      borderRadius="md" 
+      shadow="sm"
+      transition="all 0.2s"
+      _hover={{ shadow: "md" }}
+      height="100%"
+      display="flex"
+      flexDirection="column"
+    >
+      <Text fontWeight="medium" mb={3} fontSize="sm" noOfLines={2}>
+        {theme.description}
+      </Text>
+      
+      <Flex mb={4} gap={2} flex="1">
+        <ColorChip color={theme.primary} label="Primary" />
+        <ColorChip color={theme.secondary} label="Secondary" />
+        <ColorChip color={theme.accent} label="Accent" />
+        <ColorChip color={theme.background} label="Background" />
+      </Flex>
+      
+      <Button
+        size="sm"
+        colorScheme="primary"
+        width="full"
+        onClick={() => onSelect(theme)}
+      >
+        Use this theme
+      </Button>
+    </Box>
+  );
+};
 
 export const AIThemeGeneratorModal: React.FC<AIThemeGeneratorModalProps> = ({
   isOpen,
@@ -160,47 +212,22 @@ export const AIThemeGeneratorModal: React.FC<AIThemeGeneratorModalProps> = ({
           )}
 
           {!generationError && !isGenerating && aiThemeResults && aiThemeResults.length > 0 && (
-            <Box overflowX="auto">
-              <Table variant="simple">
-                <Thead>
-                  <Tr>
-                    <Th>Description</Th>
-                    <Th>Primary</Th>
-                    <Th>Secondary</Th>
-                    <Th>Accent</Th>
-                    <Th>Background</Th>
-                    <Th>Action</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
+            <Box width="100%">
+              {/* Responsive Grid Layout */}
+              <Box width="100%">
+                <SimpleGrid 
+                  columns={{ base: 1, md: 2, xl: 3 }} 
+                  spacing={{ base: 4, md: 6 }}
+                >
                   {aiThemeResults.map((theme, index) => (
-                    <Tr key={index}>
-                      <Td maxWidth="500px">{theme.description}</Td>
-                      <Td>
-                        <ColorChip color={theme.primary} />
-                      </Td>
-                      <Td>
-                        <ColorChip color={theme.secondary} />
-                      </Td>
-                      <Td>
-                        <ColorChip color={theme.accent} />
-                      </Td>
-                      <Td>
-                        <ColorChip color={theme.background} />
-                      </Td>
-                      <Td>
-                        <Button
-                          size="sm"
-                          colorScheme="primary"
-                          onClick={() => onSelectTheme(theme)}
-                        >
-                          Use theme
-                        </Button>
-                      </Td>
-                    </Tr>
+                    <ThemeCard 
+                      key={index} 
+                      theme={theme} 
+                      onSelect={onSelectTheme}
+                    />
                   ))}
-                </Tbody>
-              </Table>
+                </SimpleGrid>
+              </Box>
             </Box>
           )}
 
