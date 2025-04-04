@@ -1,60 +1,90 @@
-import React from "react";
-import { Box, Button, Flex, Icon, useColorModeValue, Spacer } from "@chakra-ui/react";
 import { accentColor, textHeading } from "@/theme/themeConfiguration";
-import { BotMessageSquare, Plus, SwatchBook } from "lucide-react";
+import { ThemeValues } from "@/types";
+import { Box, Button, Flex, Icon, useColorModeValue } from "@chakra-ui/react";
+import { BotMessageSquare, Image, Plus, Palette, PanelBottomOpen } from "lucide-react";
+import React from "react";
 import { ThemeDownloader } from "../../components/preview";
 import ShareThemeButton from "../../components/ShareThemeButton";
-import { ThemeValues } from "@/types";
 
 interface PaletteActionButtonsProps {
-  onAddPalette: () => void;
-  onOpenCollections: () => void;
+  onOpenColorPicker: () => void;
+  onOpenImagePicker: () => void;
+  onOpenInspirationPicker: () => void;
+  onOpenCuratedThemes: () => void;
   onOpenAIGenerator: () => void;
   themeValues: ThemeValues;
 }
 
 /**
  * Component that displays the action buttons for the Palette Management tab:
- * - Add Palette
- * - Collections
+ * - Color Picker
+ * - Image Color Picker
+ * - Inspiration Palette
+ * - Curated Themes
  * - AI Generator
  * - Download
  * - Share
  */
 const PaletteActionButtons: React.FC<PaletteActionButtonsProps> = ({
-  onAddPalette,
-  onOpenCollections,
+  onOpenColorPicker,
+  onOpenImagePicker,
+  onOpenInspirationPicker,
+  onOpenCuratedThemes,
   onOpenAIGenerator,
   themeValues,
 }) => {
   const accentColorValue = useColorModeValue(accentColor.light, accentColor.dark);
   const textHeadingValue = useColorModeValue("white", textHeading.dark);
-  
+
   return (
     <Flex gap={2} flexWrap={{ base: "wrap", md: "nowrap" }} justifyContent="space-between" width="100%">
-      <Flex gap={2} flexWrap={{ base: "wrap", md: "nowrap"}} flex="1">
+      <Flex gap={2} flexWrap={{ base: "wrap", md: "nowrap" }} flex="1">
         <Button
           size={{ base: "sm", md: "md" }}
           colorScheme="primary"
           leftIcon={<Icon as={Plus} boxSize={{ base: 4, md: 5 }} />}
-          onClick={onAddPalette}
+          onClick={onOpenColorPicker}
           width="auto"
           flex={{ base: 1, md: "initial" }}
           minW={{ base: "initial", md: "120px" }}
         >
-          Add Palette
+          From Color
         </Button>
 
         <Button
           size={{ base: "sm", md: "md" }}
           colorScheme="primary"
-          leftIcon={<Icon as={SwatchBook} boxSize={{ base: 4, md: 5 }} />}
-          onClick={onOpenCollections}
+          leftIcon={<Icon as={Image} boxSize={{ base: 4, md: 5 }} />}
+          onClick={onOpenImagePicker}
           width="auto"
           flex={{ base: 1, md: "initial" }}
-          minW={{ base: "initial", md: "150px" }}
+          minW={{ base: "initial", md: "120px" }}
         >
-          Collections
+          From Image
+        </Button>
+
+        <Button
+          size={{ base: "sm", md: "md" }}
+          colorScheme="primary"
+          leftIcon={<Icon as={Palette} boxSize={{ base: 4, md: 5 }} />}
+          onClick={onOpenInspirationPicker}
+          width="auto"
+          flex={{ base: 1, md: "initial" }}
+          minW={{ base: "initial", md: "120px" }}
+        >
+          Inspiration
+        </Button>
+
+        <Button
+          size={{ base: "sm", md: "md" }}
+          colorScheme="primary"
+          leftIcon={<Icon as={PanelBottomOpen} boxSize={{ base: 4, md: 5 }} />}
+          onClick={onOpenCuratedThemes}
+          width="auto"
+          flex={{ base: 1, md: "initial" }}
+          minW={{ base: "initial", md: "140px" }}
+        >
+          Curated Themes
         </Button>
 
         <Box
@@ -92,13 +122,13 @@ const PaletteActionButtons: React.FC<PaletteActionButtonsProps> = ({
           </Box>
         </Box>
       </Flex>
-      
+
       {/* Desktop - buttons on right side */}
       <Flex display={{ base: "none", md: "flex" }} gap={2}>
         <ThemeDownloader themeValues={themeValues} />
         <ShareThemeButton variant="button" label="Share" />
       </Flex>
-      
+
       {/* Mobile - buttons below the main action buttons */}
       <Flex display={{ base: "flex", md: "none" }} gap={2} width="100%" mt={3} justifyContent="center">
         <ThemeDownloader themeValues={themeValues} />

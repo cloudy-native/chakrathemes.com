@@ -1,9 +1,16 @@
 import React from "react";
-import { useDisclosure, useToast, useColorModeValue } from "@chakra-ui/react";
+import { 
+  useDisclosure, 
+  useToast, 
+  useColorModeValue
+} from "@chakra-ui/react";
 import { EventCategory, trackEvent } from "@/utils/analytics";
 import PaletteActionButtons from "./PaletteActionButtons";
-import { AddPaletteModal } from "../../components";
+import ColorPickerModal from "../../components/ColorPickerModal";
+import ImageColorPickerModal from "../../components/ImageColorPickerModal";
+import InspirationPaletteModal from "../../components/InspirationPaletteModal";
 import AIThemeGeneratorModal from "../../components/AIThemeGeneratorModal";
+import CuratedThemesModal from "../../components/CuratedThemesModal";
 import { AITheme } from "@/types";
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
@@ -33,7 +40,7 @@ interface NavigationProps {
 const PaletteActionsContainer: React.FC<NavigationProps> = ({ 
   onNavigateToPreview
 }) => {
-  const { addNewColorPalette, setThemeValues, themeValues } = useThemeContext();
+  const { addNewColorPalette, setThemeValues, themeValues, setNewColorName, setBaseColor } = useThemeContext();
   const toast = useToast();
   const { trackColorAction } = useAnalytics();
 
@@ -76,18 +83,32 @@ const PaletteActionsContainer: React.FC<NavigationProps> = ({
   const borderLightColor = useColorModeValue(borderLight.light, borderLight.dark);
   const backgroundLightColor = useColorModeValue(backgroundLight.light, backgroundLight.dark);
   
-  // Add palette modal state
+  // Color picker modal state
   const { 
-    isOpen: isAddPaletteOpen, 
-    onOpen: onAddPaletteOpen, 
-    onClose: _onAddPaletteClose 
+    isOpen: isColorPickerModalOpen, 
+    onOpen: onColorPickerModalOpen, 
+    onClose: _onColorPickerModalClose 
   } = useDisclosure();
   
-  // Collections modal state
+  // Image color picker modal state
   const { 
-    isOpen: isCollectionsModalOpen, 
-    onOpen: onCollectionsModalOpen, 
-    onClose: _onCollectionsModalClose 
+    isOpen: isImagePickerModalOpen, 
+    onOpen: onImagePickerModalOpen, 
+    onClose: _onImagePickerModalClose 
+  } = useDisclosure();
+  
+  // Inspiration palettes modal state
+  const { 
+    isOpen: isInspirationModalOpen, 
+    onOpen: onInspirationModalOpen, 
+    onClose: _onInspirationModalClose 
+  } = useDisclosure();
+  
+  // Curated themes modal state
+  const { 
+    isOpen: isCuratedThemesModalOpen, 
+    onOpen: onCuratedThemesModalOpen, 
+    onClose: _onCuratedThemesModalClose 
   } = useDisclosure();
   
   // AI Generator modal state
@@ -98,20 +119,38 @@ const PaletteActionsContainer: React.FC<NavigationProps> = ({
   } = useDisclosure();
   
   // Custom close handlers to prevent scroll jumps
-  const onAddPaletteClose = (e?: React.MouseEvent) => {
+  const onColorPickerModalClose = (e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
-    _onAddPaletteClose();
+    _onColorPickerModalClose();
+    setNewColorName(""); // Reset color name when closing
   };
   
-  const onCollectionsModalClose = (e?: React.MouseEvent) => {
+  const onImagePickerModalClose = (e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
-    _onCollectionsModalClose();
+    _onImagePickerModalClose();
+    setNewColorName(""); // Reset color name when closing
+  };
+  
+  const onInspirationModalClose = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    _onInspirationModalClose();
+  };
+  
+  const onCuratedThemesModalClose = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    _onCuratedThemesModalClose();
   };
   
   const onAIModalClose = (e?: React.MouseEvent) => {
@@ -123,14 +162,24 @@ const PaletteActionsContainer: React.FC<NavigationProps> = ({
   };
   
   // Handler functions for button actions
-  const handleAddPalette = () => {
-    onAddPaletteOpen();
-    trackEvent(EventCategory.COLOR, "open_add_palette_modal");
+  const handleColorPicker = () => {
+    onColorPickerModalOpen();
+    trackEvent(EventCategory.COLOR, "open_color_picker", "palette_management");
   };
   
-  const handleCollections = () => {
-    onCollectionsModalOpen();
-    trackEvent(EventCategory.COLOR, "open_collections");
+  const handleImagePicker = () => {
+    onImagePickerModalOpen();
+    trackEvent(EventCategory.COLOR, "open_image_picker", "palette_management");
+  };
+  
+  const handleInspirationPicker = () => {
+    onInspirationModalOpen();
+    trackEvent(EventCategory.COLOR, "open_inspiration_picker", "palette_management");
+  };
+  
+  const handleCuratedThemes = () => {
+    onCuratedThemesModalOpen();
+    trackEvent(EventCategory.COLOR, "open_curated_themes", "palette_management");
   };
   
   const handleAIGenerator = () => {
@@ -171,19 +220,34 @@ const PaletteActionsContainer: React.FC<NavigationProps> = ({
     <>
       {/* Action Buttons UI */}
       <PaletteActionButtons
-        onAddPalette={handleAddPalette}
-        onOpenCollections={handleCollections}
+        onOpenColorPicker={handleColorPicker}
+        onOpenImagePicker={handleImagePicker}
+        onOpenInspirationPicker={handleInspirationPicker}
+        onOpenCuratedThemes={handleCuratedThemes}
         onOpenAIGenerator={handleAIGenerator}
         themeValues={themeValues}
       />
       
-      {/* Modals */}
-      <AddPaletteModal 
-        isOpen={isAddPaletteOpen} 
-        onClose={onAddPaletteClose} 
+      {/* Three separate modals for each palette creation method */}
+      <ColorPickerModal 
+        isOpen={isColorPickerModalOpen} 
+        onClose={onColorPickerModalClose}
       />
       
-      {/* Collections functionality - works with the Collections button but doesn't have a dedicated modal yet */}
+      <ImageColorPickerModal 
+        isOpen={isImagePickerModalOpen} 
+        onClose={onImagePickerModalClose}
+      />
+      
+      <InspirationPaletteModal 
+        isOpen={isInspirationModalOpen} 
+        onClose={onInspirationModalClose}
+      />
+      
+      <CuratedThemesModal 
+        isOpen={isCuratedThemesModalOpen} 
+        onClose={onCuratedThemesModalClose}
+      />
       
       <AIThemeGeneratorModal 
         isOpen={isAIModalOpen} 

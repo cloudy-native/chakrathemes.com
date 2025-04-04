@@ -81,10 +81,11 @@ const OverwritePaletteConfirmation: React.FC<OverwritePaletteConfirmationProps> 
 interface AddPaletteModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialTabIndex?: number;
 }
 
-export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClose }) => {
-  const [tabIndex, setTabIndex] = useState(0);
+export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClose, initialTabIndex = 0 }) => {
+  const [tabIndex, setTabIndex] = useState(initialTabIndex);
   const {
     newColorName,
     setNewColorName,

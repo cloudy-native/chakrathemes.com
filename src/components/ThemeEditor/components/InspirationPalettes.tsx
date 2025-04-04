@@ -103,6 +103,7 @@ const PaletteDetailModal: React.FC<{
     // Always set the color name when selecting from inspiration
     setNewColorName(name.toLowerCase().replace(/\s+/g, "-"));
 
+    // Pass both the name and color to the callback
     onSelectColor(name, color);
   };
 
@@ -233,7 +234,7 @@ const PaletteCard: React.FC<{
 
 // Main inspiration palettes component
 const InspirationPalettes: React.FC<{
-  onSelectColor: (color: string) => void;
+  onSelectColor: (name: string, color: string) => void;
 }> = ({ onSelectColor }) => {
   const [selectedPalette, setSelectedPalette] = useState<(typeof inspirationPalettes)[0] | null>(
     null
@@ -246,7 +247,7 @@ const InspirationPalettes: React.FC<{
   };
 
   const handleSelectColor = (name: string, color: string) => {
-    onSelectColor(color);
+    onSelectColor(name, color);
   };
 
   return (
