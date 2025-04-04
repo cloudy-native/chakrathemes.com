@@ -6,12 +6,12 @@ import {
   TabPanels,
   Tabs,
   useBreakpointValue,
-  Flex,
   Divider,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { accentColor } from "@/theme/themeConfiguration";
 import React, { useState, useEffect } from "react";
+import { PaletteActionsContainer } from "./components/palette";
 
 // Import tabs
 import BordersAndShadowsTab from "./tabs/BordersAndShadowsTab";
@@ -23,8 +23,6 @@ import TypographyTab from "./tabs/TypographyTab";
 // Import context provider and utils
 import { ThemeProvider, useThemeContext } from "@/context/ThemeContext";
 import { urlParamsToTheme } from "@/utils/urlThemeUtils";
-import ShareThemeButton from "./components/ShareThemeButton";
-import { ThemeDownloader } from "./components/preview";
 
 const Desktop = () => {
   const { themeValues } = useThemeContext();
@@ -32,11 +30,10 @@ const Desktop = () => {
 
   return (
     <Box id="theme-editor-section">
-      {/* Action buttons at the top */}
-      <Flex justifyContent="flex-end" mb={4} gap={2}>
-        <ThemeDownloader themeValues={themeValues} />
-        <ShareThemeButton variant="button" size="sm" label="Share" />
-      </Flex>
+      {/* All actions in one row now managed by PaletteActionButtons */}
+      <Box mb={4}>
+        <PaletteActionsContainer onNavigateToPreview={() => setActiveTabIndex(4)} />
+      </Box>
       <Divider mb={4} />
 
       <Tabs isLazy isFitted index={activeTabIndex} onChange={setActiveTabIndex}>
@@ -97,11 +94,10 @@ const Mobile = () => {
 
   return (
     <Box>
-      {/* Action buttons at the top for mobile */}
-      <Flex justifyContent="center" mb={4} gap={2}>
-        <ThemeDownloader themeValues={themeValues} />
-        <ShareThemeButton variant="button" size="sm" label="Share" />
-      </Flex>
+      {/* Actions for mobile view - now managed by PaletteActionButtons */}
+      <Box mb={4}>
+        <PaletteActionsContainer />
+      </Box>
       <Divider mb={4} />
 
       <PaletteManagementTab />

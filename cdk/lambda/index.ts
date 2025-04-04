@@ -31,14 +31,6 @@ interface RequestBody {
   prompt: string;
 }
 
-interface ColorTheme {
-  primary: string;
-  secondary: string;
-  accent: string;
-  background: string;
-  text: string;
-}
-
 // Claude API settings
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
 const CLAUDE_SECRET_NAME = process.env.CLAUDE_SECRET_NAME || 'claude-api';
@@ -111,20 +103,21 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
   // Call Claude API
   try {
     // Prepare the prompt for Claude API
-    const systemPrompt = `Generate color themes as JSON only. Respond with an array of 3-6 theme objects:
+    const systemPrompt = `Generate color themes as JSON only. Respond with an array of 6 theme objects:
 [
   {
-    "description": "Medium-length theme description",
-    "primary": "#RRGGBB", /* main UI elements */
-    "secondary": "#RRGGBB", /* supporting UI elements */
-    "accent": "#RRGGBB", /* highlights, icons */
-    "background": "#RRGGBB" /* page background */
+    "heading": "Theme Title", 
+    "description": "Theme description. 2-3 sentences",
+    "primary": "#RRGGBB",
+    "secondary": "#RRGGBB",
+    "accent": "#RRGGBB",
+    "background": "#RRGGBB"
   }
 ]
 
-Guidelines: Background should be light. Primary/secondary should be medium-darkness and complementary. 
+Guidelines: Background should be light. Primary/secondary should be medium-darkness and complementary colors. Don't make primary and secondary colors look too similar. 
 
-Don't make primary and secondary colors look too similar. Accent should be distinct and eye-catching.
+Accent should be distinct and eye-catching.
 
 Based on the user's input, generate appropriate, visually pleasing colors that work well together as a theme.
 

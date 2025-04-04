@@ -47,19 +47,19 @@ export const ColorTabContent: React.FC<ColorTabContentProps> = ({
       }}
     >
       <TabList>
-        <Tab>Color Palette</Tab>
+        {/* <Tab>Color Palette</Tab> */}
         <Tab>Visual Elements</Tab>
         <Tab>User Controls</Tab>
         <Tab>Feedback & Display</Tab>
       </TabList>
       <TabPanels>
-        <TabPanel>
+        {/* <TabPanel>
           <ColorPalette
             colorKey={colorKey}
             themeValues={themeValues}
             onCopy={handleCopyToClipboard}
           />
-        </TabPanel>
+        </TabPanel> */}
         <TabPanel>
           <Box>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={6}>

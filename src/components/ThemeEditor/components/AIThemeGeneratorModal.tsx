@@ -17,6 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { trackEvent, EventCategory } from "@/utils/analytics";
+import { AITheme } from "@/types";
 
 // ColorChip component for displaying color swatches
 const ColorChip: React.FC<{
@@ -36,14 +37,6 @@ const ColorChip: React.FC<{
     />
   </Tooltip>
 );
-
-interface AITheme {
-  description: string;
-  primary: string;
-  secondary: string;
-  accent: string;
-  background: string;
-}
 
 interface AIThemeGeneratorModalProps {
   isOpen: boolean;
@@ -69,6 +62,10 @@ const ThemeCard: React.FC<{
       flexDirection="column"
     >
       <Text fontWeight="medium" mb={3} fontSize="sm" noOfLines={2}>
+        {theme.heading}
+      </Text>
+
+      <Text fontWeight="medium" mb={3} fontSize="xs" noOfLines={2}>
         {theme.description}
       </Text>
 

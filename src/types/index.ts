@@ -124,3 +124,15 @@ export type ThemeAction =
   | { type: "RENAME_COLOR_PALETTE"; oldName: string; newName: string }
   | { type: "UPDATE_FONT"; fontCategory: "heading" | "body" | "mono"; fontFamily: string }
   | { type: "SET_FONT_COMBINATION"; combination: FontCombination };
+
+/**
+ * Interface for AI-generated theme data
+ */
+export interface AITheme {
+  heading: string;
+  description: string;
+  primary: string;
+  secondary: string;
+  accent: string;
+  background: string;
+}

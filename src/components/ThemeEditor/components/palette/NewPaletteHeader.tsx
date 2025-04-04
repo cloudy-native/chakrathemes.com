@@ -1,13 +1,19 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
+import PaletteActionsContainer from "./PaletteActionsContainer";
 
-interface PaletteHeaderProps {}
+interface PaletteHeaderProps {
+  onNavigateToPreview?: () => void;
+}
 
 /**
  * Component that displays the header section of the Palette Management tab
  * with descriptive text and action buttons.
+ * This version uses the self-contained PaletteActionsContainer.
  */
-const PaletteHeader: React.FC<PaletteHeaderProps> = () => {
+const NewPaletteHeader: React.FC<PaletteHeaderProps> = ({
+  onNavigateToPreview
+}) => {
   return (
     <Box mb={{ base: 6, md: 8 }}>
       <Flex direction="column" justify="space-between" align="flex-start" gap={4}>
@@ -17,9 +23,11 @@ const PaletteHeader: React.FC<PaletteHeaderProps> = () => {
           <Text as={"strong"}>accent</Text>, and <Text as={"strong"}>background</Text> to see them
           in the Preview Theme tab.
         </Text>
+
+        <PaletteActionsContainer onNavigateToPreview={onNavigateToPreview} />
       </Flex>
     </Box>
   );
 };
 
-export default PaletteHeader;
+export default NewPaletteHeader;

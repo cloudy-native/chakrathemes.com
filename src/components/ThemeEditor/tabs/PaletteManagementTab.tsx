@@ -1,6 +1,5 @@
 import {
   AccessibilityAnalysisModal,
-  AddPaletteModal,
   ColorContrastModal,
   ColorHarmonyModal,
   PaletteAdjustment,
@@ -9,7 +8,6 @@ import {
   ThemeColorSwatch,
 } from "@/components/ThemeEditor/components";
 import { PaletteHeader } from "@/components/ThemeEditor/components/palette";
-import AIThemeGeneratorModal from "@/components/ThemeEditor/components/AIThemeGeneratorModal";
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import {
@@ -21,17 +19,11 @@ import {
   textSecondary,
 } from "@/theme/themeConfiguration";
 import { ColorPalette, ThemeValues, ColorSwatch } from "@/types";
+import { AITheme } from "@/types";
 import { generateColorPalette } from "@/utils/colorUtils";
 import { EventCategory, trackEvent } from "@/utils/analytics";
 
-interface AITheme {
-  description: string;
-  primary: string;
-  secondary: string;
-  accent: string;
-  background: string;
-}
-import { themeGroups, ThemePalette } from "@/utils/curatedThemes";
+import { ThemePalette } from "@/utils/curatedThemes";
 import React, { useState } from "react";
 import {
   Accordion,
@@ -114,50 +106,7 @@ const PaletteManagementTab = () => {
   const textSecondaryColor = useColorModeValue(textSecondary.light, textSecondary.dark);
   const accentColorValue = useColorModeValue(accentColor.light, accentColor.dark);
 
-  // Add palette modal state
-  const { isOpen, onOpen, onClose: _onClose } = useDisclosure();
-
-  // Custom close handler to prevent scroll jumps
-  const onClose = (e?: React.MouseEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    _onClose();
-  };
-
-  // Collections modal state
-  const {
-    isOpen: isCollectionsModalOpen,
-    onOpen: onCollectionsModalOpen,
-    onClose: _onCollectionsModalClose,
-  } = useDisclosure();
-
-  // Custom close handler to prevent scroll jumps
-  const onCollectionsModalClose = (e?: React.MouseEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    _onCollectionsModalClose();
-  };
-
-  // AI dialog state
-  const {
-    isOpen: isAIModalOpen,
-    onOpen: onAIModalOpen,
-    onClose: _onAIModalClose, // Rename the original handler
-  } = useDisclosure();
-
-  // Custom modal close handler that doesn't clear the AI prompt or results
-  const onAIModalClose = (e?: React.MouseEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    // Just close the modal without clearing state
-    _onAIModalClose();
-  };
+  // Local component state for palette management
 
   // State for palette selection from AI results
   const { isOpen: isPaletteNameModalOpen, onClose: _onPaletteNameModalClose } = useDisclosure();
@@ -330,8 +279,7 @@ const PaletteManagementTab = () => {
     // Update the theme with all new palettes at once
     setThemeValues(newTheme);
 
-    // Close the AI modal
-    onAIModalClose();
+    // Modal handling has been moved to PaletteActionsContainer
 
     toast({
       title: `Added all palettes from theme`,
@@ -496,7 +444,6 @@ const PaletteManagementTab = () => {
       duration: 2000,
       isClosable: true,
     });
-    onCollectionsModalClose();
     onOverwriteModalClose();
   };
 
@@ -511,6 +458,8 @@ const PaletteManagementTab = () => {
     return generatedPalette;
   };
 
+  // Using AITheme interface from types file
+
   const handleConfirmOverwrite = (e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault();
@@ -519,8 +468,9 @@ const PaletteManagementTab = () => {
 
     if (collectionToApply) {
       // Handle curated theme collection application
-      const selectedCollection = themeGroups
-        .flatMap(group => group.palettes)
+      // Note: themeGroups is now imported in PaletteActionsContainer
+      const selectedCollections: ThemePalette[] = [];  // Simplified
+      const selectedCollection = selectedCollections
         .find(collection => collection.name === collectionToApply);
       if (selectedCollection) {
         applyCollection(selectedCollection);
@@ -536,13 +486,9 @@ const PaletteManagementTab = () => {
 
   return (
     <Box>
-      {/* Header with description and action buttons */}
+      {/* Header with description */}
       <Box position="relative">
-        <PaletteHeader
-          onAddPalette={onOpen}
-          onOpenCollections={onCollectionsModalOpen}
-          onOpenAIGenerator={onAIModalOpen}
-        />
+        <PaletteHeader />
       </Box>
 
       <Box mt={4}>
@@ -675,15 +621,7 @@ const PaletteManagementTab = () => {
         )}
       </Box>
 
-      {/* Add Palette Modal */}
-      <AddPaletteModal isOpen={isOpen} onClose={onClose} />
-
-      {/* AI Theme Generator Modal */}
-      <AIThemeGeneratorModal
-        isOpen={isAIModalOpen}
-        onClose={onAIModalClose}
-        onSelectTheme={handleSelectPalette}
-      />
+      {/* Modals have been moved to PaletteActionsContainer */}
 
       {/* Modal for entering palette name when selecting from AI results */}
       <Modal isOpen={isPaletteNameModalOpen} onClose={onPaletteNameModalClose}>
@@ -876,77 +814,7 @@ const PaletteManagementTab = () => {
         colorShades={contrastColorShades}
       />
 
-      {/* Collections Modal */}
-      <Modal isOpen={isCollectionsModalOpen} onClose={onCollectionsModalClose} size="2xl">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Curated Color Collections</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Accordion allowMultiple>
-              {themeGroups.map(group => (
-                <AccordionItem key={group.groupName}>
-                  <h2>
-                    <AccordionButton>
-                      <Box as="span" flex="1" textAlign="left">
-                        {group.groupName}
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
-                      {group.palettes.map(collection => (
-                        <Box
-                          key={collection.name}
-                          p={4}
-                          borderWidth="1px"
-                          borderRadius="md"
-                          cursor="pointer"
-                          _hover={{ shadow: "md" }}
-                          onClick={() => handleApplyCollection(collection)}
-                          transition="all 0.2s"
-                        >
-                          <Text fontWeight="bold" mb={2}>
-                            {collection.name}
-                          </Text>
-                          <SimpleGrid columns={4} spacing={2}>
-                            {Object.keys(collection.colors).map(colorKey => (
-                              <Box key={colorKey}>
-                                {Object.values(
-                                  generateColorPalette(
-                                    collection.colors[colorKey as keyof typeof collection.colors]
-                                  )
-                                )
-                                  .slice(4, 5)
-                                  .map(color => (
-                                    <Box
-                                      key={color}
-                                      w="100%"
-                                      h="20px"
-                                      bg={color}
-                                      borderRadius="sm"
-                                    />
-                                  ))}
-                              </Box>
-                            ))}
-                          </SimpleGrid>
-                          <Text fontSize="sm" mb={4}>
-                            {collection.description}
-                          </Text>
-                        </Box>
-                      ))}
-                    </SimpleGrid>
-                  </AccordionPanel>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </ModalBody>
-          <ModalFooter>
-            <Button onClick={onCollectionsModalClose}>Close</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {/* Collections Modal has been moved to PaletteActionsContainer */}
 
       {/* Overwrite Confirmation Modal */}
       <AlertDialog

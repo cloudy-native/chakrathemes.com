@@ -1,29 +1,22 @@
-import React, { useState } from "react";
+import { AITheme } from "@/types";
+import { generateColorPalette } from "@/utils/colorUtils";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
+  Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
-  Box,
-  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
 } from "@chakra-ui/react";
-import { generateColorPalette } from "@/utils/colorUtils";
-
-interface AITheme {
-  description: string;
-  primary: string;
-  secondary: string;
-  accent: string;
-  background: string;
-}
+import React, { useState } from "react";
 
 // ColorChip component for displaying color swatches
 const ColorChip: React.FC<{ color: string; size?: string }> = ({ color, size = "24px" }) => (
