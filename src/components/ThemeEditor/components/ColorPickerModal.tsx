@@ -65,7 +65,7 @@ const ColorPickerModal: React.FC<ColorPickerModalProps> = ({ isOpen, onClose }) 
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="3xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="4xl">
       <ModalOverlay />
       <ModalContent bg={bg} borderColor={border}>
         <ModalHeader>Add Color From Picker</ModalHeader>
@@ -75,7 +75,7 @@ const ColorPickerModal: React.FC<ColorPickerModalProps> = ({ isOpen, onClose }) 
           <PaletteGenerator baseColor={baseColor} setBaseColor={setBaseColor} />
 
           {baseColor && (
-            <Box mt={4} mb={4}>
+            <Box mt={6} mb={4}>
               <PalettePreview
                 palette={generateColorPalette(baseColor)}
                 label="Preview of generated palette:"

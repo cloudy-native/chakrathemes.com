@@ -47,8 +47,8 @@ const HeroSection: React.FC = () => {
           </Heading>
 
           <Text fontSize={{ base: "md", md: "lg", lg: "xl" }} maxW="3xl">
-            Design stunning, accessible themes with our powerful editor. Customize colors,
-            typography, spacing, and export directly to your project.
+            Design stunning, accessible themes with our powerful editor. Customize colors, and
+            typography, then share your work and export directly to your project.
           </Text>
 
           <Text fontSize={{ base: "md", md: "lg", lg: "xl" }} maxW="3xl">

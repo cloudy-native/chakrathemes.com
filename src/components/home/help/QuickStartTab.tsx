@@ -1,4 +1,3 @@
-import { OptimizedImage } from "@/components";
 import {
   featureHeading,
   iconAccent,
@@ -18,9 +17,14 @@ import {
   ListItem,
   ListIcon,
   List,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  Code,
 } from "@chakra-ui/react";
 import React from "react";
-import { Palette, Eye, Layers, Type, Lightbulb } from "lucide-react";
+import { Palette, Eye, Type, Lightbulb, ArrowRight } from "lucide-react";
 
 interface StepInfo {
   title: string;
@@ -28,50 +32,66 @@ interface StepInfo {
   icon: React.ElementType;
   imageUrl?: string;
   tips: string[];
+  alert?: {
+    title: string;
+    description: string;
+    status: "info" | "warning" | "success" | "error";
+  };
 }
 
 const steps: StepInfo[] = [
   {
-    title: "Create Color Palettes",
-    description: "Build your brand's color foundation with our streamlined palette tools",
+    title: "Step 1: Choose Palettes",
+    description: "Create color schemes that define your brand's visual identity",
     icon: Palette,
-    imageUrl: "help/palettes-tab.png", // [IMAGE PLACEHOLDER: Screenshot of updated palette tab]
+    imageUrl: "[IMAGE: palette-creation-tab]", // You can replace with actual image later
     tips: [
-      "Select a base color and let the advanced color algorithm generate balanced shades automatically",
-      "Create distinct palettes from images, our color inspiration tool, or thoughtful presets for all-in-one palettes for a ready-made theme",
-      'Name your palettes "primary", "secondary", "accent", or "background" to see your changes instantly in the Theme Preview tab!',
+      "Use the 'From Color' option to generate balanced shades from a single base color",
+      "Try 'From Image' to extract colors from your brand photos or inspiration images",
+      "Explore 'Inspiration' for professionally designed color combinations",
+      "Use 'AI Generator' to create color schemes based on text descriptions",
+      "Name palettes 'primary', 'secondary', 'accent', or 'background' for automatic theme mapping"
     ],
+    alert: {
+      title: "Pro Tip",
+      description: "The AI Generator creates complete themes with four coordinated palettes at once - primary, secondary, accent, and background.",
+      status: "info"
+    }
   },
   {
-    title: "Set Typography",
-    description: "Choose between curated font combinations or custom font selections",
+    title: "Step 2: Set Typography",
+    description: "Select font pairings that complement your color scheme",
     icon: Type,
-    imageUrl: "help/typography-tab.png", // [IMAGE PLACEHOLDER: Screenshot of new simplified typography tab]
+    imageUrl: "[IMAGE: typography-tab]", // You can replace with actual image later
     tips: [
-      "Use 'Curated Combinations' for pre-matched heading/body fonts",
-      "Switch to 'Custom Fonts' for full control over font selection",
-      "Preview your typography choices with real-time examples",
-      "Just like your color palettes, these fonts will be used in the Theme Preview tab",
+      "Choose from our curated font combinations for professionally matched heading/body pairs",
+      "Customize individual heading levels and body text for precise control",
+      "Preview your typography with real-time examples as you make selections",
+      "Balance contrast and readability with your color schemes"
     ],
+    alert: {
+      title: "System Fonts",
+      description: "For best performance, consider using system font stacks. They load instantly and respect user preferences.",
+      status: "info"
+    }
   },
   {
-    title: "(Don't configure Spacing and Borders & Shadows just yet)",
-    description: "Wait until you're sure about colors and typography",
-    icon: Layers,
-    tips: [],
-  },
-  {
-    title: "Preview",
-    description: "Visualize your theme with real components in both light & dark modes",
+    title: "Step 3: Preview & Export",
+    description: "Visualize your complete theme and export it for your project",
     icon: Eye,
-    imageUrl: "help/theme-preview.png", // [IMAGE PLACEHOLDER: Screenshot of theme preview section]
+    imageUrl: "[IMAGE: preview-tab]", // You can replace with actual image later
     tips: [
-      "Theme preview uses the color palettes and typography your assigned",
-      "Toggle between light and dark modes to check color contrast",
-      "Test your theme on different UI patterns for compatibility",
-      "Export your theme as working code when you're ready to use it in your Chakra UI project",
+      "Switch between light and dark modes to test color adaptability",
+      "Examine how colors and typography work together across different UI components",
+      "Test accessibility with the contrast analysis tools",
+      "Use the Download button to export your theme as ready-to-use Chakra UI code"
     ],
-  },
+    alert: {
+      title: "Sharing",
+      description: "Use the Share button to generate a link to your theme that others can view and edit.",
+      status: "info"
+    }
+  }
 ];
 
 const QuickStartTab: React.FC = () => {
@@ -85,15 +105,15 @@ const QuickStartTab: React.FC = () => {
       <VStack align="flex-start" mb={8}>
         <HStack>
           <Heading as="h2" fontSize={{ base: "2xl", md: "3xl" }} color={headingColor}>
-            Create Your Theme in 5 Simple Steps
+            Create Your Theme in 3 Simple Steps
           </Heading>
           <Badge colorScheme="primary" fontSize="sm" variant="solid" py={1} px={2}>
-            New
+            Updated
           </Badge>
         </HStack>
         <Text fontSize="lg" color={mutedTextColor}>
-          Follow our streamlined process to create a professional Chakra UI theme with our
-          redesigned interface.
+          Our simplified workflow makes creating professional Chakra UI themes fast and intuitive.
+          Just follow these three steps to go from concept to code.
         </Text>
       </VStack>
 
@@ -117,7 +137,7 @@ const QuickStartTab: React.FC = () => {
               <VStack align="stretch" spacing={4} pl={14}>
                 {step.tips.length > 0 && (
                   <Box width="100%">
-                    <List>
+                    <List spacing={2}>
                       {step.tips.map((tip, tipIndex) => (
                         <ListItem key={tipIndex}>
                           <ListIcon as={Lightbulb} color={lightbulbColor} />
@@ -128,7 +148,35 @@ const QuickStartTab: React.FC = () => {
                   </Box>
                 )}
 
-                {step.imageUrl && <OptimizedImage filename={step.imageUrl} alt={step.title} />}
+                {step.alert && (
+                  <Alert 
+                    status={step.alert.status} 
+                    variant="left-accent" 
+                    borderRadius="md"
+                    mt={2}
+                  >
+                    <AlertIcon />
+                    <Box>
+                      <AlertTitle>{step.alert.title}</AlertTitle>
+                      <AlertDescription>{step.alert.description}</AlertDescription>
+                    </Box>
+                  </Alert>
+                )}
+
+                {step.imageUrl && (
+                  <Box 
+                    border="1px dashed" 
+                    borderColor="gray.300" 
+                    p={4} 
+                    borderRadius="md"
+                    bg="gray.50"
+                    textAlign="center"
+                    color="gray.500"
+                  >
+                    {step.imageUrl}
+                    <Text fontSize="sm" mt={2}>Image placeholder - will be updated later</Text>
+                  </Box>
+                )}
               </VStack>
             </Box>
           );

@@ -1,328 +1,240 @@
-import OptimizedImage from "@/components/OptimizedImage";
-import {
-  accentLight,
-  blueCardBackground,
-  greenCardBackground,
-  redCardBackground,
-  purpleCardBackground,
-} from "@/theme/themeConfiguration";
 import {
   Box,
   Card,
-  Flex,
   Heading,
-  ListItem,
-  OrderedList,
+  Link,
   SimpleGrid,
-  Stack,
-  Tag,
   Text,
-  UnorderedList,
   VStack,
   useColorModeValue,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  Flex,
+  Icon,
+  Button,
+  Divider,
 } from "@chakra-ui/react";
 import React from "react";
+import { ExternalLink, BookOpen, Palette, PieChart, Droplet, Accessibility } from "lucide-react";
+
+// Card component for resource links
+const ResourceCard = ({ 
+  title, 
+  description, 
+  url, 
+  icon 
+}: { 
+  title: string; 
+  description: string; 
+  url: string; 
+  icon: React.ElementType 
+}) => {
+  const cardBg = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
+  
+  return (
+    <Card 
+      p={5} 
+      borderRadius="md" 
+      bg={cardBg} 
+      boxShadow="sm" 
+      borderWidth="1px"
+      borderColor={borderColor}
+      _hover={{
+        boxShadow: "md",
+        transform: "translateY(-2px)",
+        transition: "all 0.2s ease"
+      }}
+    >
+      <Flex mb={3} align="center">
+        <Box bg="primary.50" p={2} borderRadius="md" color="primary.600" mr={3}>
+          <Icon as={icon} boxSize={5} />
+        </Box>
+        <Heading size="sm">{title}</Heading>
+      </Flex>
+      <Text fontSize="sm" mb={4}>{description}</Text>
+      <Button 
+        as={Link} 
+        href={url} 
+        isExternal
+        size="sm" 
+        rightIcon={<Icon as={ExternalLink} boxSize={4} />}
+        variant="outline"
+        colorScheme="primary"
+      >
+        Learn More
+      </Button>
+    </Card>
+  );
+};
 
 const ColorScienceTab: React.FC = () => {
-  // Colors for different themes in the examples
-  const accentBg = useColorModeValue(accentLight.light, accentLight.dark);
-
   return (
-    <VStack spacing={6} align="stretch">
-      <Box>
-        <Heading size="md" mb={3}>
-          Color Theory Fundamentals
-        </Heading>
-        <Text mb={4}>
-          Our redesigned theme editor leverages modern color theory principles to help you create
-          beautiful, harmonious, and accessible color palettes with less effort than ever before.
+    <VStack spacing={8} align="stretch">
+      <VStack align="flex-start" spacing={4}>
+        <Heading size="md">Understanding Color Theory</Heading>
+        <Text>
+          Our theme editor is built on solid color theory principles that help you create 
+          harmonious and accessible color schemes without needing to be a color expert. 
+          Here's a brief overview of the key concepts.
         </Text>
-        <Text mb={4}>
-          The powerful color tools behind the editor are designed to help you create beautiful,
-          harmonious, and accessible color palettes without an advanced degree in color science.
-        </Text>
-
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} mb={6}>
-          <Card p={4} variant="outline">
-            <Heading size="sm" mb={2}>
-              HSL Color Model
-            </Heading>
-            <Text mb={2}>
-              Our editor uses the intuitive HSL (Hue, Saturation, Lightness) color model, making it
-              easy to create harmonious color relationships:
-            </Text>
-            <Flex wrap="wrap" gap={2} mb={2}>
-              <Tag colorScheme="red">Hue (0-360°)</Tag>
-              <Tag colorScheme="blue">Saturation (0-100%)</Tag>
-              <Tag colorScheme="green">Lightness (0-100%)</Tag>
-            </Flex>
-            <Text fontSize="sm" fontStyle="italic">
-              Tip: Small hue adjustments (±5°) can refine a color while maintaining its general
-              appearance.
-            </Text>
-          </Card>
-
-          <Card p={4} variant="outline">
-            <Heading size="sm" mb={2}>
-              Enhanced Shade Generation
-            </Heading>
-            <Text mb={3}>
-              Our improved algorithm creates balanced 10-shade palettes with mathematically precise
-              lightness distribution, ensuring smoother transitions between shades and better
-              dark/light mode compatibility.
-            </Text>
-
-            {/* Visual example of a shade palette */}
-            <Stack spacing={1}>
-              {[...Array(5)].map((_, i) => (
-                <Flex key={i} h="8px">
-                  {[...Array(10)].map((_, j) => (
-                    <Box
-                      key={j}
-                      flex={1}
-                      bg={`rgba(${30 + i * 50}, ${100 + j * 15}, ${200 - j * 20}, ${0.5 + j * 0.05})`}
-                      h="100%"
-                    />
-                  ))}
-                </Flex>
-              ))}
-            </Stack>
-          </Card>
-
-          <Card p={4} variant="outline">
-            <Heading size="sm" mb={2}>
-              Intelligent Color Harmonies
-            </Heading>
-            <Text mb={3}>
-              Choose from scientifically-derived harmony rules to create professional color
-              combinations:
-            </Text>
-            <SimpleGrid columns={2} spacing={2}>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm" fontWeight="medium">
-                  Complementary
-                </Text>
-                <Text fontSize="xs">Colors opposite on the wheel</Text>
-              </Card>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm" fontWeight="medium">
-                  Analogous
-                </Text>
-                <Text fontSize="xs">Colors adjacent on the wheel</Text>
-              </Card>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm" fontWeight="medium">
-                  Triadic
-                </Text>
-                <Text fontSize="xs">Three evenly spaced colors</Text>
-              </Card>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm" fontWeight="medium">
-                  Split Complementary
-                </Text>
-                <Text fontSize="xs">Two colors adjacent to complement</Text>
-              </Card>
-            </SimpleGrid>
-          </Card>
-
-          <Card p={4} variant="outline">
-            <Heading size="sm" mb={2}>
-              New: Color Psychology
-            </Heading>
-            <Text mb={3}>
-              Our theme editor now includes color meaning suggestions based on extensive research in
-              color psychology:
-            </Text>
-            <SimpleGrid columns={1} spacing={2}>
-              <Card p={2} bg={useColorModeValue(blueCardBackground.light, blueCardBackground.dark)}>
-                <Text fontSize="sm" fontWeight="medium">
-                  Blue: Trust, Security, Stability
-                </Text>
-              </Card>
-              <Card
-                p={2}
-                bg={useColorModeValue(greenCardBackground.light, greenCardBackground.dark)}
-              >
-                <Text fontSize="sm" fontWeight="medium">
-                  Green: Growth, Health, Nature
-                </Text>
-              </Card>
-              <Card p={2} bg={useColorModeValue(redCardBackground.light, redCardBackground.dark)}>
-                <Text fontSize="sm" fontWeight="medium">
-                  Red: Passion, Energy, Urgency
-                </Text>
-              </Card>
-              <Card
-                p={2}
-                bg={useColorModeValue(purpleCardBackground.light, purpleCardBackground.dark)}
-              >
-                <Text fontSize="sm" fontWeight="medium">
-                  Purple: Luxury, Creativity, Wisdom
-                </Text>
-              </Card>
-            </SimpleGrid>
-          </Card>
-        </SimpleGrid>
-      </Box>
+        
+        <Alert 
+          status="info" 
+          variant="left-accent" 
+          borderRadius="md"
+        >
+          <AlertIcon />
+          <Box>
+            <AlertTitle>Want to dive deeper?</AlertTitle>
+            <AlertDescription>
+              This is just a brief overview. Check out the resources below for comprehensive guides 
+              on color theory and design principles.
+            </AlertDescription>
+          </Box>
+        </Alert>
+      </VStack>
 
       <Box>
-        <Heading size="md" mb={3}>
-          Dark Mode Optimization
-        </Heading>
-        <Text mb={4}>
-          Our enhanced dark mode engine automatically transforms your light-mode theme into a
-          perfectly tuned dark theme using advanced color adaptation algorithms.
-        </Text>
-
-        <OptimizedImage filename="color-contrast-explorer.png" alt="Color contrast explorer" />
-
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} mb={4}>
-          <Card p={4} variant="outline">
-            <Heading size="sm" mb={2}>
-              Automatic Dark Adaptation
-            </Heading>
-            <Text mb={3}>
-              Our intelligent system applies these key transformations when switching to dark mode:
-            </Text>
-            <OrderedList spacing={2} pl={4}>
-              <ListItem>
-                <Text fontWeight="medium" fontSize="sm">
-                  Inverse luminance mapping
-                </Text>
-                <Text fontSize="xs">
-                  Light colors become dark and vice versa while preserving perceived contrast
-                </Text>
-              </ListItem>
-              <ListItem>
-                <Text fontWeight="medium" fontSize="sm">
-                  Saturation reduction
-                </Text>
-                <Text fontSize="xs">
-                  Colors are desaturated to prevent eye strain in dark environments
-                </Text>
-              </ListItem>
-              <ListItem>
-                <Text fontWeight="medium" fontSize="sm">
-                  Selective hue shifting
-                </Text>
-                <Text fontSize="xs">
-                  Slight hue adjustments to maintain color recognition in dark contexts
-                </Text>
-              </ListItem>
-            </OrderedList>
-          </Card>
-
-          <Card p={4} variant="outline">
-            <Heading size="sm" mb={2}>
-              Fine-Tuning Controls
-            </Heading>
-            <Text mb={3}>
-              The new interface provides precise controls for customizing dark mode behavior:
-            </Text>
-            <SimpleGrid columns={1} spacing={2}>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm">
-                  Contrast intensity slider to balance readability and eye comfort
-                </Text>
-              </Card>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm">
-                  Color temperature adjustment for warmer or cooler dark themes
-                </Text>
-              </Card>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm">
-                  True black toggle for OLED displays to maximize battery savings
-                </Text>
-              </Card>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm">
-                  Component-specific dark mode overrides for critical UI elements
-                </Text>
-              </Card>
-            </SimpleGrid>
-          </Card>
-        </SimpleGrid>
-      </Box>
-
-      <Box>
-        <Heading size="md" mb={3}>
-          Advanced Accessibility Features
-        </Heading>
-        <Text mb={4}>
-          Our updated theme editor includes comprehensive accessibility tools that go beyond basic
-          contrast checking to ensure your themes work for everyone.
-        </Text>
-
+        <Heading size="sm" mb={4}>Color Models & Harmonies</Heading>
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
-          <Card p={4} variant="outline">
-            <Heading size="sm" mb={2}>
-              Real-Time WCAG Compliance
-            </Heading>
-            <Text mb={3}>Our expanded accessibility toolkit now features:</Text>
-            <UnorderedList spacing={2} pl={4} mb={3}>
-              <ListItem>
-                <Text fontSize="sm">
-                  Automatic WCAG 2.1 AA and AAA compliance checking for all combinations
-                </Text>
-              </ListItem>
-              <ListItem>
-                <Text fontSize="sm">
-                  Smart text color suggestions that dynamically adjust to maintain legibility
-                </Text>
-              </ListItem>
-              <ListItem>
-                <Text fontSize="sm">
-                  Focus state visibility validator to ensure keyboard navigation is always visible
-                </Text>
-              </ListItem>
-            </UnorderedList>
-          </Card>
+          <Box>
+            <Box p={4} borderRadius="md" bg={useColorModeValue("gray.50", "gray.900")}>
+              <Text fontWeight="medium" mb={2}>HSL Color Model</Text>
+              <Text fontSize="sm">
+                HSL (Hue, Saturation, Lightness) is an intuitive color model that makes it easier to create
+                balanced color palettes. Our editor uses HSL to allow for natural color adjustments.
+              </Text>
+              <Box 
+                border="1px dashed" 
+                borderColor="gray.300" 
+                mt={4} 
+                p={3} 
+                borderRadius="md"
+                bg="gray.50"
+                textAlign="center"
+                color="gray.500"
+              >
+                [IMAGE: hsl-color-model]
+                <Text fontSize="sm" mt={2}>Image placeholder - will be updated later</Text>
+              </Box>
+            </Box>
+          </Box>
+          
+          <Box>
+            <Box p={4} borderRadius="md" bg={useColorModeValue("gray.50", "gray.900")}>
+              <Text fontWeight="medium" mb={2}>Color Harmonies</Text>
+              <Text fontSize="sm">
+                Our editor supports classic color harmonies like complementary, analogous, triadic, and more. 
+                These scientific relationships help ensure your colors work well together.
+              </Text>
+              <Box 
+                border="1px dashed" 
+                borderColor="gray.300" 
+                mt={4} 
+                p={3} 
+                borderRadius="md"
+                bg="gray.50"
+                textAlign="center"
+                color="gray.500"
+              >
+                [IMAGE: color-harmonies]
+                <Text fontSize="sm" mt={2}>Image placeholder - will be updated later</Text>
+              </Box>
+            </Box>
+          </Box>
+        </SimpleGrid>
+      </Box>
 
-          <Card p={4} variant="outline">
-            <Heading size="sm" mb={2}>
-              Color Vision Deficiency Tools
-            </Heading>
-            <Text mb={3}>
-              Preview how your theme appears to users with different types of color blindness:
-            </Text>
-            <SimpleGrid columns={2} spacing={2}>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm" fontWeight="medium">
-                  Protanopia
-                </Text>
-                <Text fontSize="xs">Red-blind (1% of males)</Text>
-              </Card>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm" fontWeight="medium">
-                  Deuteranopia
-                </Text>
-                <Text fontSize="xs">Green-blind (1% of males)</Text>
-              </Card>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm" fontWeight="medium">
-                  Tritanopia
-                </Text>
-                <Text fontSize="xs">Blue-blind (rare)</Text>
-              </Card>
-              <Card p={2} bg={accentBg}>
-                <Text fontSize="sm" fontWeight="medium">
-                  Achromatopsia
-                </Text>
-                <Text fontSize="xs">Complete color blindness</Text>
-              </Card>
-            </SimpleGrid>
-          </Card>
+      <Box>
+        <Heading size="sm" mb={4}>Accessibility & Dark Mode</Heading>
+        <Alert 
+          status="info" 
+          variant="left-accent" 
+          borderRadius="md"
+          mb={4}
+        >
+          <AlertIcon />
+          <Box>
+            <AlertTitle>WCAG Guidelines</AlertTitle>
+            <AlertDescription>
+              Our contrast checker ensures your color combinations meet WCAG 2.1 AA standards, with 
+              guidance to reach AAA compliance for maximum accessibility.
+            </AlertDescription>
+          </Box>
+        </Alert>
+        
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
+          <Box>
+            <Box p={4} borderRadius="md" bg={useColorModeValue("gray.50", "gray.900")}>
+              <Text fontWeight="medium" mb={2}>Dark Mode Adaptation</Text>
+              <Text fontSize="sm">
+                Our editor automatically optimizes your color scheme for dark mode using algorithms 
+                that adjust luminance while preserving color relationships and ensuring accessibility.
+              </Text>
+            </Box>
+          </Box>
+          
+          <Box>
+            <Box p={4} borderRadius="md" bg={useColorModeValue("gray.50", "gray.900")}>
+              <Text fontWeight="medium" mb={2}>Color Vision Deficiencies</Text>
+              <Text fontSize="sm">
+                Preview your theme through the lens of different color vision deficiencies (protanopia, 
+                deuteranopia, tritanopia) to ensure your design works for everyone.
+              </Text>
+            </Box>
+          </Box>
+        </SimpleGrid>
+      </Box>
 
-          <Card p={4} variant="outline" gridColumn={{ md: "span 2" }}>
-            <Heading size="sm" mb={2}>
-              New: Smart Color Correction
-            </Heading>
-            <Text mb={3}>
-              Our intelligent system can now automatically suggest color adjustments to resolve
-              accessibility issues while preserving your design intent as much as possible.
-            </Text>
-          </Card>
+      <Divider my={4} />
+
+      <Box>
+        <Heading size="sm" mb={5}>Recommended Resources</Heading>
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
+          <ResourceCard 
+            title="Color Theory for Designers"
+            description="A comprehensive guide to color theory fundamentals for UI/UX designers"
+            url="https://www.smashingmagazine.com/2010/01/color-theory-for-designers-part-1-the-meaning-of-color/"
+            icon={Palette}
+          />
+          
+          <ResourceCard 
+            title="HSL Color Picker"
+            description="Interactive tool to explore HSL color model and create harmonious palettes"
+            url="https://hslpicker.com/"
+            icon={Droplet}
+          />
+          
+          <ResourceCard 
+            title="Color Contrast Checker"
+            description="Advanced tool to check WCAG compliance for text and background combinations"
+            url="https://webaim.org/resources/contrastchecker/"
+            icon={Accessibility}
+          />
+          
+          <ResourceCard 
+            title="Color Harmonies Explained"
+            description="Learn how color wheel relationships create effective design harmonies"
+            url="https://www.canva.com/colors/color-wheel/"
+            icon={PieChart}
+          />
+          
+          <ResourceCard 
+            title="Design for Color Blindness"
+            description="Best practices for making designs accessible to users with color vision deficiencies"
+            url="https://www.smashingmagazine.com/2016/06/improving-color-accessibility-for-color-blind-users/"
+            icon={Accessibility}
+          />
+          
+          <ResourceCard 
+            title="Dark Mode Design Guide"
+            description="Principles and techniques for effective dark mode color adaptation"
+            url="https://material.io/design/color/dark-theme.html"
+            icon={BookOpen}
+          />
         </SimpleGrid>
       </Box>
     </VStack>
