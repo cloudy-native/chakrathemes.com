@@ -28,17 +28,11 @@ import {
 } from "@chakra-ui/react";
 import { AlertTriangle, CheckCircle, Info } from "lucide-react";
 import React, { useMemo } from "react";
+import { PaletteAnalysisModalProps } from "@/types";
 import { ColorSwatch } from "./ColorSwatch";
 import { panelBackground } from "@/theme/themeConfiguration";
 
-interface AccessibilityAnalysisModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  colorKey: string;
-  colorShades: Record<string, string>;
-}
-
-export const AccessibilityAnalysisModal: React.FC<AccessibilityAnalysisModalProps> = ({
+export const AccessibilityAnalysisModal: React.FC<PaletteAnalysisModalProps> = ({
   isOpen,
   onClose,
   colorKey,

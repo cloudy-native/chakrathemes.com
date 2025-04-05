@@ -404,3 +404,42 @@ export const getMonochromaticColors = (baseColor: string, count = 5): string[] =
     return [baseColor];
   }
 };
+
+/**
+ * Checks if a palette name already exists in the theme and shows an error toast if it does
+ * @param paletteName The palette name to check
+ * @param colors The existing colors object from themeValues
+ * @param toast The toast function to show errors
+ * @returns True if palette name is available, false if it already exists
+ */
+export const isPaletteNameAvailable = (
+  paletteName: string,
+  colors: Record<string, any> | undefined,
+  toast: any
+): boolean => {
+  if (!paletteName.trim()) {
+    toast({
+      title: "Palette name is required",
+      status: "error",
+      duration: 2000,
+      isClosable: true,
+    });
+    return false;
+  }
+
+  const formattedName = paletteName.trim().toLowerCase().replace(/\s+/g, "-");
+  const existingColors = colors || {};
+
+  if (existingColors[formattedName]) {
+    toast({
+      title: `Palette "${formattedName}" already exists`,
+      description: "Please choose a different name for your palette",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
+    return false;
+  }
+
+  return true;
+};

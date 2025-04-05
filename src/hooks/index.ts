@@ -5,3 +5,4 @@ export * from "./useSpacingAndRadius";
 export * from "./useThemeValues";
 export * from "./useModalManager";
 export * from "./usePaletteModals";
+export * from "./usePaletteOperations";

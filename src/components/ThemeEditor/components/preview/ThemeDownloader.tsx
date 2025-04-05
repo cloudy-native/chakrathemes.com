@@ -6,12 +6,13 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface ThemeDownloaderProps {
   themeValues: ThemeValues;
+  size?: string;
 }
 
 /**
  * Component for downloading the current theme
  */
-export const ThemeDownloader: React.FC<ThemeDownloaderProps> = ({ themeValues }) => {
+export const ThemeDownloader: React.FC<ThemeDownloaderProps> = ({ themeValues, size }) => {
   const toast = useToast();
   const { trackDownload } = useAnalytics();
 
@@ -61,7 +62,7 @@ export default theme;`;
 
   return (
     <Button
-    size={{ base: "sm", md: "md" }}
+      size={size || { base: "sm", md: "md" }}
       onClick={downloadTheme}
       colorScheme="primary"
       leftIcon={<ArrowRight size={16} />}

@@ -3,6 +3,8 @@ import { useThemeContext } from "@/context/ThemeContext";
 import { ExtractedColor, ThemeValues } from "@/types";
 import { trackPaletteCreation } from "@/utils/analytics";
 import { generateColorPalette } from "@/utils/colorUtils";
+import { usePaletteOperations } from "@/hooks/usePaletteOperations";
+import { PaletteNameInput } from "@/components/ThemeEditor/components/ui";
 import {
   backgroundLight,
   backgroundMedium,
@@ -34,6 +36,12 @@ import React, { useRef, useState, ChangeEvent } from "react";
 export const ImageColorTab: React.FC = () => {
   const { themeValues, setThemeValues } = useThemeContext();
   const toast = useToast();
+
+  // Initialize palette operations hook
+  const paletteOps = usePaletteOperations({
+    themeValues,
+    setThemeValues,
+  });
 
   // Pre-compute color mode values to avoid hook rule violations
   const stackBgColor = useColorModeValue(backgroundLight.light, backgroundLight.dark);
@@ -322,59 +330,49 @@ export const ImageColorTab: React.FC = () => {
                         <Heading size="sm" mb={2}>
                           Create Palette from Selected Color
                         </Heading>
-                        <Flex direction={{ base: "column", sm: "row" }} gap={2}>
-                          <Input
-                            placeholder="Enter palette name"
-                            value={newPaletteNameFromImage}
-                            onChange={e => setNewPaletteNameFromImage(e.target.value)}
-                            size="md"
-                          />
+                        <Flex direction={{ base: "column", sm: "row" }} gap={2} align="end">
+                          <Box flex="1">
+                            <PaletteNameInput
+                              initialValue={newPaletteNameFromImage}
+                              onChange={setNewPaletteNameFromImage}
+                              placeholder="Enter palette name"
+                              onSubmit={paletteName => {
+                                // Use our centralized palette operations
+                                if (paletteOps.createPalette(paletteName, selectedColorFromImage)) {
+                                  // Track palette creation from image
+                                  trackPaletteCreation("image-extraction", 1);
+
+                                  // Reset inputs on success
+                                  setSelectedColorFromImage("");
+                                  setNewPaletteNameFromImage("");
+                                }
+                              }}
+                              showButton={false}
+                            />
+                          </Box>
                           <Button
                             color="white"
                             bg={primaryAccentValue}
                             onClick={() => {
-                              if (!newPaletteNameFromImage) {
-                                toast({
-                                  title: "Palette name is required",
-                                  status: "error",
-                                  duration: 2000,
-                                  isClosable: true,
-                                });
-                                return;
+                              // Use our centralized palette operations
+                              if (
+                                paletteOps.createPalette(
+                                  newPaletteNameFromImage,
+                                  selectedColorFromImage
+                                )
+                              ) {
+                                // Track palette creation from image
+                                trackPaletteCreation("image-extraction", 1);
+
+                                // Reset inputs on success
+                                setSelectedColorFromImage("");
+                                setNewPaletteNameFromImage("");
                               }
-
-                              const paletteName = newPaletteNameFromImage
-                                .trim()
-                                .toLowerCase()
-                                .replace(/\s+/g, "-");
-                              const palette = generateColorPalette(selectedColorFromImage);
-
-                              // Create new theme with the palette
-                              const themeWithNewPalette: ThemeValues = {
-                                ...themeValues,
-                                colors: {
-                                  ...(themeValues.colors || {}),
-                                  [paletteName]: palette,
-                                },
-                              };
-
-                              // Set the updated theme
-                              setThemeValues(themeWithNewPalette);
-
-                              // Track palette creation from image
-                              trackPaletteCreation("image-extraction", 1);
-
-                              toast({
-                                title: `Added palette: ${paletteName}`,
-                                status: "success",
-                                duration: 2000,
-                                isClosable: true,
-                              });
-
-                              // Reset inputs
-                              setSelectedColorFromImage("");
-                              setNewPaletteNameFromImage("");
                             }}
+                            isDisabled={
+                              !newPaletteNameFromImage.trim() ||
+                              !paletteOps.isPaletteNameAvailable(newPaletteNameFromImage)
+                            }
                           >
                             Create Palette
                           </Button>

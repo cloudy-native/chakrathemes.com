@@ -17,6 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { trackEvent, EventCategory } from "@/utils/analytics";
+import { themeApi } from "@/utils/apiUtils";
 import { AITheme } from "@/types";
 
 // ColorChip component for displaying color swatches
@@ -111,31 +112,16 @@ export const AIThemeGeneratorModal: React.FC<AIThemeGeneratorModalProps> = ({
     setGenerationError(null);
 
     try {
-      const response = await fetch("https://api.chakrathemes.com/generate-theme", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt: aiPrompt }),
-      });
+      // Use our API utility to generate themes
+      const themes = await themeApi.generateTheme(aiPrompt);
 
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("AI Response:", data);
-      // Access the themes array from the response
-      if (data.themes && Array.isArray(data.themes)) {
-        setAIThemeResults(data.themes);
-      } else {
-        console.error("Unexpected response format:", data);
-        setGenerationError("Received an invalid response format from the API");
-      }
+      // Set the themes array in state
+      setAIThemeResults(themes);
 
       // Track analytics
       trackEvent(EventCategory.COLOR, "ai_generate_theme", aiPrompt);
     } catch (error) {
+      // Handle errors with consistent error messaging
       const errorMessage = error instanceof Error ? error.message : String(error);
       setGenerationError(errorMessage);
       toast({

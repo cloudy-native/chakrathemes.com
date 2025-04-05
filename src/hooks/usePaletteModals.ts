@@ -1,73 +1,24 @@
 import { useCallback } from "react";
+import {
+  PaletteModalData,
+  PaletteIdentifier,
+  ConfirmationModalData,
+  PaletteModalsState,
+} from "@/types";
 import useModalManager from "./useModalManager";
-
-interface PaletteModalData {
-  colorKey: string;
-  colorShades: Record<string, string>;
-}
-
-interface UsePaletteModalsReturn {
-  // Accessibility modal
-  accessibilityModal: {
-    isOpen: boolean;
-    modalData?: PaletteModalData;
-    openModal: (data: PaletteModalData) => void;
-    closeModal: (e?: React.MouseEvent) => void;
-  };
-  
-  // Color contrast modal
-  contrastModal: {
-    isOpen: boolean;
-    modalData?: PaletteModalData;
-    openModal: (data: PaletteModalData) => void;
-    closeModal: (e?: React.MouseEvent) => void;
-  };
-  
-  // Harmony modal
-  harmonyModal: {
-    isOpen: boolean;
-    modalData?: PaletteModalData;
-    openModal: (data: PaletteModalData) => void;
-    closeModal: (e?: React.MouseEvent) => void;
-  };
-  
-  // Rename modal
-  renameModal: {
-    isOpen: boolean;
-    modalData?: { colorKey: string };
-    openModal: (data: { colorKey: string }) => void;
-    closeModal: (e?: React.MouseEvent) => void;
-  };
-  
-  // Delete confirmation
-  deleteConfirmModal: {
-    isOpen: boolean;
-    modalData?: { colorKey: string };
-    openModal: (data: { colorKey: string }) => void;
-    closeModal: (e?: React.MouseEvent) => void;
-  };
-
-  // Overwrite confirmation
-  overwriteConfirmModal: {
-    isOpen: boolean;
-    modalData?: { action: string; data?: any };
-    openModal: (data: { action: string; data?: any }) => void;
-    closeModal: (e?: React.MouseEvent) => void;
-  };
-}
 
 /**
  * Custom hook to manage all palette-related modals
  * Provides a standard interface for opening and closing modals with their data
  */
-export const usePaletteModals = (): UsePaletteModalsReturn => {
+export const usePaletteModals = (): PaletteModalsState => {
   // Individual modal managers
   const accessibilityManager = useModalManager<PaletteModalData>();
   const contrastManager = useModalManager<PaletteModalData>();
   const harmonyManager = useModalManager<PaletteModalData>();
-  const renameManager = useModalManager<{ colorKey: string }>();
-  const deleteConfirmManager = useModalManager<{ colorKey: string }>();
-  const overwriteConfirmManager = useModalManager<{ action: string; data?: any }>();
+  const renameManager = useModalManager<PaletteIdentifier>();
+  const deleteConfirmManager = useModalManager<PaletteIdentifier>();
+  const overwriteConfirmManager = useModalManager<ConfirmationModalData>();
 
   // Helper to open accessibility modal
   const openAccessibilityModal = useCallback(

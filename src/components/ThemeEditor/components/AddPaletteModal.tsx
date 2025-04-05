@@ -11,9 +11,6 @@ import {
   Box,
   Button,
   Divider,
-  FormControl,
-  FormLabel,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -28,6 +25,7 @@ import {
   Tabs,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { PaletteNameInput } from "./ui";
 import React, { useRef, useState } from "react";
 import ImageColorExtractor from "./ImageColorExtractor";
 import InspirationPalettes from "./InspirationPalettes";
@@ -84,7 +82,11 @@ interface AddPaletteModalProps {
   initialTabIndex?: number;
 }
 
-export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClose, initialTabIndex = 0 }) => {
+export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({
+  isOpen,
+  onClose,
+  initialTabIndex = 0,
+}) => {
   const [tabIndex, setTabIndex] = useState(initialTabIndex);
   const {
     newColorName,
@@ -169,14 +171,17 @@ export const AddPaletteModal: React.FC<AddPaletteModalProps> = ({ isOpen, onClos
 
             <Divider my={4} />
 
-            <FormControl mb={4}>
-              <FormLabel>Palette Name</FormLabel>
-              <Input
-                value={newColorName}
-                onChange={e => setNewColorName(e.target.value)}
+            <Box mb={4}>
+              <PaletteNameInput
+                label="Palette Name"
+                initialValue={newColorName}
                 placeholder="E.g., primary, secondary, accent"
+                onChange={setNewColorName}
+                onSubmit={handleAddPalette}
+                showButton={false}
+                isDisabled={!baseColor}
               />
-            </FormControl>
+            </Box>
           </ModalBody>
 
           <ModalFooter>

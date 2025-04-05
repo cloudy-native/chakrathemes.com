@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
 import { useToast } from "@chakra-ui/react";
 import { Vibrant } from "node-vibrant/browser";
-import { generateColorPalette } from "@/utils/colorUtils";
+import { generateColorPalette, isPaletteNameAvailable } from "@/utils/colorUtils";
+import { addPaletteToTheme } from "@/utils/themeUtils";
 import { ExtractedColor, ThemeValues } from "@/types";
 
 export const useImageColorExtraction = (
@@ -131,49 +132,23 @@ export const useImageColorExtraction = (
       const vibrant = Vibrant.from(img);
       const palette = await vibrant.getPalette();
 
-      const extractedColorsArray: ExtractedColor[] = [];
+      // Map of available palette types to display names
+      const paletteTypes = {
+        LightVibrant: "Light Vibrant",
+        Vibrant: "Vibrant",
+        DarkVibrant: "Dark Vibrant",
+        LightMuted: "Light Muted",
+        Muted: "Muted",
+        DarkMuted: "Dark Muted",
+      };
 
-      if (palette.LightVibrant) {
-        extractedColorsArray.push({
-          name: "Light Vibrant",
-          color: palette.LightVibrant.hex,
-        });
-      }
-
-      if (palette.Vibrant) {
-        extractedColorsArray.push({
-          name: "Vibrant",
-          color: palette.Vibrant.hex,
-        });
-      }
-
-      if (palette.DarkVibrant) {
-        extractedColorsArray.push({
-          name: "Dark Vibrant",
-          color: palette.DarkVibrant.hex,
-        });
-      }
-
-      if (palette.LightMuted) {
-        extractedColorsArray.push({
-          name: "Light Muted",
-          color: palette.LightMuted.hex,
-        });
-      }
-
-      if (palette.Muted) {
-        extractedColorsArray.push({
-          name: "Muted",
-          color: palette.Muted.hex,
-        });
-      }
-
-      if (palette.DarkMuted) {
-        extractedColorsArray.push({
-          name: "Dark Muted",
-          color: palette.DarkMuted.hex,
-        });
-      }
+      // Extract colors from palette in a more concise way
+      const extractedColorsArray: ExtractedColor[] = Object.entries(paletteTypes)
+        .filter(([key]) => palette[key as keyof typeof palette])
+        .map(([key, name]) => ({
+          name,
+          color: palette[key as keyof typeof palette]!.hex,
+        }));
 
       setExtractedColors(extractedColorsArray);
 
@@ -227,17 +202,18 @@ export const useImageColorExtraction = (
     }
 
     const colorName = newPaletteNameFromImage.trim().toLowerCase().replace(/\s+/g, "-");
+
+    // Check if the palette name is available
+    if (!isPaletteNameAvailable(colorName, themeValues.colors, toast)) {
+      return;
+    }
+
+    // Generate palette from selected color
     const palette = generateColorPalette(selectedColorFromImage);
 
-    // Update theme with the new color palette
-    setThemeValues(prev => {
-      const newTheme = { ...prev };
-      if (!newTheme.colors) {
-        newTheme.colors = {};
-      }
-      newTheme.colors[colorName] = palette;
-      return newTheme;
-    });
+    // Update theme with the new color palette using the utility
+    const updatedTheme = addPaletteToTheme(themeValues, colorName, palette);
+    setThemeValues(updatedTheme);
 
     toast({
       title: `Added color palette: ${colorName}`,

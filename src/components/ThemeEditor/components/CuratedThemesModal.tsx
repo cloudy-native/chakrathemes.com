@@ -39,7 +39,7 @@ const CuratedThemesModal: React.FC<CuratedThemesModalProps> = ({ isOpen, onClose
   const [selectedGroup, setSelectedGroup] = useState<string>(themeGroups[0].groupName);
   const [selectedTheme, setSelectedTheme] = useState<ThemeCard | null>(null);
   const toast = useToast();
-  
+
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
   const border = useColorModeValue(borderLight.light, borderLight.dark);
   const textColor = useColorModeValue(textPrimary.light, textPrimary.dark);
@@ -53,25 +53,25 @@ const CuratedThemesModal: React.FC<CuratedThemesModalProps> = ({ isOpen, onClose
   // Apply the selected theme
   const applyTheme = () => {
     if (!selectedTheme) return;
-    
+
     try {
       // Create updated theme object
       const updatedThemeValues = { ...themeValues };
-      
+
       // Ensure colors object exists
       if (!updatedThemeValues.colors) {
         updatedThemeValues.colors = {};
       }
-      
+
       // Apply each color palette
       Object.entries(selectedTheme.colors).forEach(([name, color]) => {
         // Generate a full color palette for each base color
         updatedThemeValues.colors[name] = generateColorPalette(color);
       });
-      
+
       // Update the theme
       setThemeValues(updatedThemeValues);
-      
+
       // Show success toast
       toast({
         title: "Theme Applied",
@@ -80,7 +80,7 @@ const CuratedThemesModal: React.FC<CuratedThemesModalProps> = ({ isOpen, onClose
         duration: 3000,
         isClosable: true,
       });
-      
+
       // Close the modal
       onClose();
     } catch (error: unknown) {
@@ -98,10 +98,10 @@ const CuratedThemesModal: React.FC<CuratedThemesModalProps> = ({ isOpen, onClose
   // Preview color box component
   const ColorPreview = ({ color, name }: { color: string; name: string }) => (
     <Box>
-      <Box 
-        bg={color} 
-        height="24px" 
-        width="100%" 
+      <Box
+        bg={color}
+        height="24px"
+        width="100%"
         borderRadius="md"
         boxShadow="inset 0 0 0 1px rgba(0,0,0,0.1)"
       />
@@ -114,7 +114,7 @@ const CuratedThemesModal: React.FC<CuratedThemesModalProps> = ({ isOpen, onClose
   // Theme card component
   const ThemeCard = ({ theme }: { theme: ThemePalette }) => {
     const isSelected = selectedTheme && selectedTheme.name === theme.name;
-    
+
     return (
       <Box
         borderWidth="1px"
@@ -152,41 +152,42 @@ const CuratedThemesModal: React.FC<CuratedThemesModalProps> = ({ isOpen, onClose
 
         <ModalBody>
           <Box mb={4}>
-            <Select 
-              value={selectedGroup} 
-              onChange={(e) => setSelectedGroup(e.target.value)}
-            >
-              {themeGroups.map((group) => (
+            <Select value={selectedGroup} onChange={e => setSelectedGroup(e.target.value)}>
+              {themeGroups.map(group => (
                 <option key={group.groupName} value={group.groupName}>
                   {group.groupName}
                 </option>
               ))}
             </Select>
           </Box>
-          
+
           <Grid templateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={4} mb={6}>
             {themesInGroup.map((theme: ThemePalette, index: number) => (
               <ThemeCard key={`${theme.name}-${index}`} theme={theme} />
             ))}
           </Grid>
-          
+
           {selectedTheme && (
             <Box mt={4} p={4} borderWidth="1px" borderRadius="md">
-              <Heading size="sm" mb={3}>Selected Theme: {selectedTheme.name}</Heading>
+              <Heading size="sm" mb={3}>
+                Selected Theme: {selectedTheme.name}
+              </Heading>
               <Text mb={4}>{selectedTheme.description}</Text>
-              
+
               <Divider mb={4} />
-              
+
               <Flex flexWrap="wrap" gap={4}>
                 {Object.entries(selectedTheme.colors).map(([name, color]) => (
                   <Box key={name} textAlign="center" width="100px">
-                    <Box 
+                    <Box
                       bg={color}
                       height="50px"
                       borderRadius="md"
                       boxShadow="inset 0 0 0 1px rgba(0,0,0,0.1)"
                     />
-                    <Text mt={2} fontWeight="bold" fontSize="sm">{name}</Text>
+                    <Text mt={2} fontWeight="bold" fontSize="sm">
+                      {name}
+                    </Text>
                     <Text fontSize="xs">{color}</Text>
                   </Box>
                 ))}
@@ -199,11 +200,7 @@ const CuratedThemesModal: React.FC<CuratedThemesModalProps> = ({ isOpen, onClose
           <Button variant="ghost" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button
-            colorScheme="primary"
-            onClick={applyTheme}
-            isDisabled={!selectedTheme}
-          >
+          <Button colorScheme="primary" onClick={applyTheme} isDisabled={!selectedTheme}>
             Apply Theme
           </Button>
         </ModalFooter>

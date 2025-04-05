@@ -11,9 +11,7 @@ interface PaletteHeaderProps {
  * with descriptive text and action buttons.
  * This version uses the self-contained PaletteActionsContainer.
  */
-const NewPaletteHeader: React.FC<PaletteHeaderProps> = ({
-  onNavigateToPreview
-}) => {
+const NewPaletteHeader: React.FC<PaletteHeaderProps> = ({ onNavigateToPreview }) => {
   return (
     <Box mb={{ base: 6, md: 8 }}>
       <Flex direction="column" justify="space-between" align="flex-start" gap={4}>

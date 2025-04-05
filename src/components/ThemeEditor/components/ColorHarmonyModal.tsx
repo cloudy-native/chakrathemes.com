@@ -1,6 +1,8 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ThemeValues } from "@/types";
+import { isPaletteNameAvailable } from "@/utils/colorUtils";
+import { addPaletteToTheme } from "@/utils/themeUtils";
 import {
   createColorScale,
   generateColorPalette,
@@ -45,14 +47,9 @@ import React, { useCallback, useMemo, useState } from "react";
 import { ColorSwatch } from "./ColorSwatch";
 import { backgroundMedium, emptyStateBorder, panelBackground } from "@/theme/themeConfiguration";
 
-interface ColorHarmonyModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  colorKey: string;
-  colorShades: Record<string, string>;
-}
+import { PaletteAnalysisModalProps } from "@/types";
 
-export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
+export const ColorHarmonyModal: React.FC<PaletteAnalysisModalProps> = ({
   isOpen,
   onClose,
   colorKey,
@@ -106,41 +103,29 @@ export const ColorHarmonyModal: React.FC<ColorHarmonyModalProps> = ({
 
   // Handle confirming the new palette
   const confirmNewPalette = useCallback(() => {
-    if (!selectedHarmonyColor || !newPaletteName.trim()) {
+    if (!selectedHarmonyColor) {
       toast({
-        title: "Validation Error",
-        description: "Please provide a valid name for the new palette",
+        title: "No Color Selected",
+        description: "Please select a color to create a palette",
         status: "error",
         duration: 3000,
       });
       return;
     }
 
-    // Check if the palette name already exists
-    if (themeValues.colors && themeValues.colors[newPaletteName]) {
-      toast({
-        title: "Palette Name Exists",
-        description: `A palette named '${newPaletteName}' already exists. Please choose a different name.`,
-        status: "warning",
-        duration: 3000,
-      });
+    // Use the centralized validation utility
+    if (!isPaletteNameAvailable(newPaletteName, themeValues.colors, toast)) {
       return;
     }
 
     // Generate palette from the selected color
     const newPalette = generateColorPalette(selectedHarmonyColor);
 
-    // Create a new theme object based on the current one
-    const newTheme: ThemeValues = JSON.parse(JSON.stringify(themeValues));
-
-    // Add the new palette
-    if (!newTheme.colors) {
-      newTheme.colors = {};
-    }
-    newTheme.colors[newPaletteName] = newPalette;
+    // Use the utility to add the palette to theme
+    const updatedTheme = addPaletteToTheme(themeValues, newPaletteName, newPalette);
 
     // Update the theme
-    setThemeValues(newTheme);
+    setThemeValues(updatedTheme);
 
     // Track the action
     trackColorAction("add_harmony_palette", newPaletteName);

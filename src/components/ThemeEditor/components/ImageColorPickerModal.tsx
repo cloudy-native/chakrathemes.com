@@ -1,14 +1,13 @@
 import React from "react";
 import { useThemeContext } from "@/context/ThemeContext";
+import { usePaletteOperations } from "@/hooks/usePaletteOperations";
 import { panelBackground, borderLight } from "@/theme/themeConfiguration";
 import { generateColorPalette } from "@/utils/colorUtils";
+import { PaletteNameInput } from "./ui";
 import {
   Box,
   Button,
   Divider,
-  FormControl,
-  FormLabel,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -27,6 +26,7 @@ interface ImageColorPickerModalProps {
 }
 
 const ImageColorPickerModal: React.FC<ImageColorPickerModalProps> = ({ isOpen, onClose }) => {
+  // Get context values
   const {
     newColorName,
     setNewColorName,
@@ -34,15 +34,34 @@ const ImageColorPickerModal: React.FC<ImageColorPickerModalProps> = ({ isOpen, o
     setBaseColor,
     addNewColorPalette,
     themeValues,
+    setThemeValues,
   } = useThemeContext();
-  
+
+  // Initialize palette operations hook
+  const paletteOps = usePaletteOperations({
+    themeValues,
+    setThemeValues,
+  });
+
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
   const border = useColorModeValue(borderLight.light, borderLight.dark);
 
   const handleAddPalette = () => {
     if (!newColorName.trim() || !baseColor) return;
+
+    // Use the context method for backward compatibility
     addNewColorPalette();
     onClose();
+  };
+
+  // Alternative implementation using paletteOps
+  const handleAddPaletteWithOps = () => {
+    if (!newColorName.trim() || !baseColor) return;
+
+    // Use our centralized palette operations
+    if (paletteOps.createPalette(newColorName, baseColor)) {
+      onClose();
+    }
   };
 
   return (
@@ -58,7 +77,7 @@ const ImageColorPickerModal: React.FC<ImageColorPickerModalProps> = ({ isOpen, o
               setBaseColor(color);
             }}
           />
-          
+
           {baseColor && (
             <Box mt={4} mb={4}>
               <PalettePreview
@@ -70,14 +89,24 @@ const ImageColorPickerModal: React.FC<ImageColorPickerModalProps> = ({ isOpen, o
 
           <Divider my={4} />
 
-          <FormControl mb={4}>
-            <FormLabel>Palette Name</FormLabel>
-            <Input
-              value={newColorName}
-              onChange={e => setNewColorName(e.target.value)}
+          <Box mb={4}>
+            <PaletteNameInput
+              label="Palette Name"
+              initialValue={newColorName}
+              onChange={setNewColorName}
+              onSubmit={name => {
+                if (name.trim() && baseColor) {
+                  // Use our centralized palette operations
+                  if (paletteOps.createPalette(name, baseColor)) {
+                    onClose();
+                  }
+                }
+              }}
               placeholder="e.g., primary, secondary, accent"
+              showButton={false}
+              isDisabled={!baseColor}
             />
-          </FormControl>
+          </Box>
         </ModalBody>
 
         <ModalFooter>
@@ -86,8 +115,10 @@ const ImageColorPickerModal: React.FC<ImageColorPickerModalProps> = ({ isOpen, o
           </Button>
           <Button
             colorScheme="primary"
-            onClick={handleAddPalette}
-            isDisabled={!newColorName.trim() || !baseColor}
+            onClick={handleAddPaletteWithOps}
+            isDisabled={
+              !newColorName.trim() || !baseColor || !paletteOps.isPaletteNameAvailable(newColorName)
+            }
           >
             Add Palette
           </Button>

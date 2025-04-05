@@ -61,7 +61,7 @@ const steps: StepInfo[] = [
     tips: [],
   },
   {
-    title: "Preview & Download",
+    title: "Preview",
     description: "Visualize your theme with real components in both light & dark modes",
     icon: Eye,
     imageUrl: "help/theme-preview.png", // [IMAGE PLACEHOLDER: Screenshot of theme preview section]

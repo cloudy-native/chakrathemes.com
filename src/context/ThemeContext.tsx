@@ -1,8 +1,9 @@
 import { defaultTheme } from "@/hooks/useThemeValues";
+import { usePaletteOperations } from "@/hooks/usePaletteOperations";
 import { ColorSwatch, FontCombination, ThemePath, ThemeValues, ThemeValueType } from "@/types";
 import { EventCategory, trackEvent } from "@/utils/analytics";
 import { useToast } from "@chakra-ui/react";
-import React, { createContext, useContext, useReducer, useState } from "react";
+import React, { createContext, useContext, useReducer, useState, useCallback } from "react";
 import { themeReducer } from "./ThemeReducer";
 
 interface ThemeContextType {
@@ -61,116 +62,54 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     dispatch({ type: "UPDATE_THEME_VALUE", path, value });
   };
 
+  // Initialize palette operations hook
+  const paletteOps = usePaletteOperations({
+    themeValues,
+    setThemeValues: (theme: ThemeValues) => dispatch({ type: "SET_THEME_VALUES", payload: theme }),
+  });
+
   // Add a new color palette from manual color picker
-  const addNewColorPalette = (overwrite = false) => {
-    if (!newColorName) {
-      toast({
-        title: "Color name is required",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    const colorName = newColorName.trim().toLowerCase().replace(/\s+/g, "-");
-
-    // Check if a palette with this name already exists
-    const existingColors = themeValues.colors || {};
-    if (existingColors[colorName] && !overwrite) {
-      // If we're not in overwrite mode, this should be handled by the AddPaletteModal component
-      return;
-    }
-
-    // Dispatch the action
-    dispatch({ type: "ADD_COLOR_PALETTE", name: colorName, baseColor });
-
-    // Reset inputs
-    setNewColorName("");
-
-    // Track the event
-    const eventAction = overwrite ? "overwrite_palette" : "add_palette";
-    trackEvent(EventCategory.COLOR, eventAction, colorName);
-
-    toast({
-      title: overwrite
-        ? `Overwrote existing palette: ${colorName}`
-        : `Added color palette: ${colorName}`,
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
+  const addNewColorPalette = useCallback(
+    (overwrite = false) => {
+      if (paletteOps.createPalette(newColorName, baseColor, overwrite)) {
+        // Reset input only on success
+        setNewColorName("");
+      }
+    },
+    [paletteOps, newColorName, baseColor]
+  );
 
   // Update an existing color palette with a new base color
-  const updateColorPalette = (colorKey: string, newBaseColor: string) => {
-    // Dispatch the action
-    dispatch({ type: "UPDATE_COLOR_PALETTE", colorKey, newBaseColor });
-
-    // Track the event
-    trackEvent(EventCategory.COLOR, "update_palette", colorKey);
-
-    toast({
-      title: `Updated color palette: ${colorKey}`,
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
+  const updateColorPalette = useCallback(
+    (colorKey: string, newBaseColor: string) => {
+      paletteOps.updatePalette(colorKey, newBaseColor);
+    },
+    [paletteOps]
+  );
 
   // Update a specific color value
-  const updateColorValue = (colorCategory: string, shade: string, value: string) => {
-    dispatch({
-      type: "UPDATE_COLOR_VALUE",
-      colorCategory,
-      shade,
-      value,
-    });
+  const updateColorValue = useCallback(
+    (colorCategory: string, shade: string, value: string) => {
+      dispatch({
+        type: "UPDATE_COLOR_VALUE",
+        colorCategory,
+        shade,
+        value,
+      });
 
-    // Track the event
-    trackEvent(EventCategory.COLOR, "update_color", `${colorCategory}.${shade}`);
-  };
+      // Track the event
+      trackEvent(EventCategory.COLOR, "update_color", `${colorCategory}.${shade}`);
+    },
+    [dispatch]
+  );
 
   // Rename a color palette
-  const renameColorPalette = (oldName: string, newName: string) => {
-    if (!newName.trim()) {
-      toast({
-        title: "Palette name is required",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    const formattedNewName = newName.trim().toLowerCase().replace(/\s+/g, "-");
-
-    // Check if the new name already exists
-    const existingColors = themeValues.colors || {};
-    if (existingColors[formattedNewName] && oldName !== formattedNewName) {
-      toast({
-        title: `Palette name "${formattedNewName}" already exists`,
-        description: "Please choose a different name",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    // Dispatch the action
-    dispatch({ type: "RENAME_COLOR_PALETTE", oldName, newName: formattedNewName });
-
-    // Track the event
-    trackEvent(EventCategory.COLOR, "rename_palette", `${oldName} to ${formattedNewName}`);
-
-    toast({
-      title: `Renamed palette: ${oldName} → ${formattedNewName}`,
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
+  const renameColorPalette = useCallback(
+    (oldName: string, newName: string) => {
+      paletteOps.renamePalette(oldName, newName);
+    },
+    [paletteOps]
+  );
 
   // Extract colors from the theme
   const getColors = () => {

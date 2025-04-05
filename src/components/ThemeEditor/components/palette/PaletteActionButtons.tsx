@@ -37,7 +37,12 @@ const PaletteActionButtons: React.FC<PaletteActionButtonsProps> = ({
   const textHeadingValue = useColorModeValue("white", textHeading.dark);
 
   return (
-    <Flex gap={2} flexWrap={{ base: "wrap", md: "nowrap" }} justifyContent="space-between" width="100%">
+    <Flex
+      gap={2}
+      flexWrap={{ base: "wrap", md: "nowrap" }}
+      justifyContent="space-between"
+      width="100%"
+    >
       <Flex gap={2} flexWrap={{ base: "wrap", md: "nowrap" }} flex="1">
         <Button
           size={{ base: "sm", md: "md" }}
@@ -130,7 +135,13 @@ const PaletteActionButtons: React.FC<PaletteActionButtonsProps> = ({
       </Flex>
 
       {/* Mobile - buttons below the main action buttons */}
-      <Flex display={{ base: "flex", md: "none" }} gap={2} width="100%" mt={3} justifyContent="center">
+      <Flex
+        display={{ base: "flex", md: "none" }}
+        gap={2}
+        width="100%"
+        mt={3}
+        justifyContent="center"
+      >
         <ThemeDownloader themeValues={themeValues} />
         <ShareThemeButton variant="button" size="sm" label="Share" />
       </Flex>

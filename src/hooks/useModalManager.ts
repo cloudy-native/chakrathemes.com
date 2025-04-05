@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
 /**
  * Custom hook for managing modal state with type-safe data
@@ -16,11 +16,7 @@ export function useModalManager<T = undefined>() {
   }, []);
 
   // Close modal and reset data
-  const closeModal = useCallback((e?: React.MouseEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+  const closeModal = useCallback(() => {
     setIsOpen(false);
   }, []);
 
@@ -34,7 +30,7 @@ export function useModalManager<T = undefined>() {
     modalData,
     openModal,
     closeModal,
-    updateModalData
+    updateModalData,
   };
 }
 

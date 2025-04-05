@@ -23,6 +23,7 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
+import { PaletteNameInput } from "./ui";
 import { Check, Copy, Info, Plus } from "lucide-react";
 import React, { useState } from "react";
 
@@ -95,16 +96,17 @@ const PaletteDetailModal: React.FC<{
   const { setNewColorName } = useThemeContext();
   const [selectedColorName, setSelectedColorName] = useState<string>("");
   const [selectedHexValue, setSelectedHexValue] = useState<string>("");
+  const [customPaletteName, setCustomPaletteName] = useState<string>("");
 
   const handleSelectColor = (name: string, color: string) => {
     setSelectedColorName(name);
     setSelectedHexValue(color);
 
-    // Always set the color name when selecting from inspiration
-    setNewColorName(name.toLowerCase().replace(/\s+/g, "-"));
+    // Set default palette name based on the selected color
+    const defaultName = name.toLowerCase().replace(/\s+/g, "-");
+    setCustomPaletteName(defaultName);
 
-    // Pass both the name and color to the callback
-    onSelectColor(name, color);
+    // Don't immediately apply the color - wait for the user to click the button
   };
 
   // Move all hook calls to the top level of the component to avoid rules of hooks violation
@@ -148,39 +150,78 @@ const PaletteDetailModal: React.FC<{
           </SimpleGrid>
 
           {selectedHexValue && (
-            <Flex
+            <Box
               mt={4}
               p={4}
               borderWidth="1px"
               borderColor={borderLightColor}
               borderRadius="md"
-              align="center"
               bg={detailBgColor}
             >
-              <Box
-                width="40px"
-                height="40px"
-                borderRadius="md"
-                bg={selectedHexValue}
-                boxShadow="md"
-                mr={3}
-              />
-              <VStack align="flex-start" spacing={0}>
-                <Text fontWeight="medium">{selectedColorName}</Text>
-                <Text fontSize="sm" fontFamily="mono">
-                  {selectedHexValue}
-                </Text>
-              </VStack>
-              <Spacer />
-              <Button
-                size="sm"
-                leftIcon={<Icon as={Plus} />}
-                colorScheme="primary"
-                onClick={onClose}
-              >
-                Use This Color
-              </Button>
-            </Flex>
+              <Flex align="center" mb={3}>
+                <Box
+                  width="40px"
+                  height="40px"
+                  borderRadius="md"
+                  bg={selectedHexValue}
+                  boxShadow="md"
+                  mr={3}
+                />
+                <VStack align="flex-start" spacing={0}>
+                  <Text fontWeight="medium">{selectedColorName}</Text>
+                  <Text fontSize="sm" fontFamily="mono">
+                    {selectedHexValue}
+                  </Text>
+                </VStack>
+              </Flex>
+
+              <Box mb={3}>
+                <PaletteNameInput
+                  label="Palette Name"
+                  initialValue={customPaletteName}
+                  onChange={setCustomPaletteName}
+                  onSubmit={name => {
+                    if (name.trim()) {
+                      // Set the name for context
+                      setNewColorName(name);
+
+                      // Pass the name and color to the callback
+                      onSelectColor(name, selectedHexValue);
+
+                      // Close the modal
+                      onClose();
+                    }
+                  }}
+                  placeholder="Enter palette name"
+                  size="sm"
+                  buttonText="Add"
+                  showButton={false}
+                />
+              </Box>
+
+              <Flex justify="flex-end">
+                <Button
+                  size="sm"
+                  leftIcon={<Icon as={Plus} />}
+                  colorScheme="primary"
+                  onClick={() => {
+                    if (customPaletteName.trim()) {
+                      // Set the name for context
+                      setNewColorName(customPaletteName);
+
+                      // Pass the name and color to the callback
+                      onSelectColor(customPaletteName, selectedHexValue);
+
+                      // Close the modal
+                      onClose();
+                    }
+                  }}
+                  isDisabled={!customPaletteName.trim()}
+                >
+                  Add to Theme
+                </Button>
+              </Flex>
+            </Box>
           )}
         </ModalBody>
       </ModalContent>

@@ -1,4 +1,5 @@
 import { panelBackground, borderLight } from "@/theme/themeConfiguration";
+import { PaletteAnalysisModalProps } from "@/types";
 import {
   Modal,
   ModalBody,
@@ -12,14 +13,7 @@ import React from "react";
 import { PaletteColorContrast } from "./ColorContrastExplorer";
 import { useAnalytics } from "@/hooks/useAnalytics";
 
-interface ColorContrastModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  colorKey: string;
-  colorShades: Record<string, string>;
-}
-
-const ColorContrastModal: React.FC<ColorContrastModalProps> = ({
+const ColorContrastModal: React.FC<PaletteAnalysisModalProps> = ({
   isOpen,
   onClose,
   colorKey,

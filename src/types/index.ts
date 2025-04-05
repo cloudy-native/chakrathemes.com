@@ -136,3 +136,6 @@ export interface AITheme {
   accent: string;
   background: string;
 }
+
+// Export all modal-related types
+export * from "./modals";

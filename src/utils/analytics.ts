@@ -91,6 +91,33 @@ export const trackPaletteCreation = (method: string, paletteCount: number) => {
 };
 
 /**
+ * Track color-related actions in a consistent way
+ */
+export const trackColorAction = (action: string, colorName: string) => {
+  trackEvent(EventCategory.COLOR, action, colorName);
+};
+
+/**
+ * Track palette actions with consistent naming
+ */
+export const trackPaletteAction = (
+  action: "add" | "update" | "delete" | "rename" | "overwrite",
+  paletteName: string,
+  details?: string
+) => {
+  const actionMap = {
+    add: "add_palette",
+    update: "update_palette",
+    delete: "delete_palette",
+    rename: "rename_palette",
+    overwrite: "overwrite_palette",
+  };
+
+  const label = details ? `${paletteName}: ${details}` : paletteName;
+  trackEvent(EventCategory.COLOR, actionMap[action], label);
+};
+
+/**
  * Track a tab change in the editor
  */
 export const trackTabChange = (tabName: string) => {

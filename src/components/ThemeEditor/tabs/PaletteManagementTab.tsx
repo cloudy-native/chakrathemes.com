@@ -5,20 +5,26 @@ import { EventCategory, trackEvent } from "@/utils/analytics";
 import { PaletteHeader, PaletteList } from "@/components/ThemeEditor/components/palette";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { usePaletteModals } from "@/hooks/usePaletteModals";
+import { usePaletteOperations } from "@/hooks/usePaletteOperations";
 import { useToast } from "@chakra-ui/react";
-import { 
-  AccessibilityAnalysisModal, 
-  ColorContrastModal, 
-  ColorHarmonyModal, 
-  RenamePaletteModal 
+import {
+  AccessibilityAnalysisModal,
+  ColorContrastModal,
+  ColorHarmonyModal,
+  RenamePaletteModal,
 } from "@/components/ThemeEditor/components";
-import { DeletePaletteModal, OverwriteConfirmModal } from "@/components/ThemeEditor/components/modals";
+import {
+  DeletePaletteModal,
+  OverwriteConfirmModal,
+} from "@/components/ThemeEditor/components/modals";
 import { AITheme } from "@/types";
 import { generateColorPalette } from "@/utils/colorUtils";
+import { addPaletteToTheme } from "@/utils/themeUtils";
+import { showSuccess } from "@/utils/notificationUtils";
 
 /**
  * Tab component for managing color palettes
- * 
+ *
  * Refactored version that:
  * 1. Uses the PaletteList component for displaying palettes
  * 2. Uses custom hooks for modal management
@@ -26,9 +32,10 @@ import { generateColorPalette } from "@/utils/colorUtils";
  */
 const PaletteManagementTab: React.FC = () => {
   // Context and hooks
-  const { getColors, setThemeValues, themeValues } = useThemeContext();
+  const { getColors, setThemeValues, themeValues, updateColorValue } = useThemeContext();
   const { trackColorAction } = useAnalytics();
   const toast = useToast();
+  const paletteOps = usePaletteOperations({ themeValues, setThemeValues });
 
   // Get modal managers from custom hook
   const {
@@ -37,12 +44,12 @@ const PaletteManagementTab: React.FC = () => {
     harmonyModal,
     renameModal,
     deleteConfirmModal,
-    overwriteConfirmModal
+    overwriteConfirmModal,
   } = usePaletteModals();
-  
+
   // Reference for pending AI theme
   const [pendingAITheme, setPendingAITheme] = React.useState<AITheme | null>(null);
-  
+
   // Get all palettes from context
   const palettes = getColors ? getColors() : [];
 
@@ -63,33 +70,12 @@ const PaletteManagementTab: React.FC = () => {
       e.preventDefault();
       e.stopPropagation();
     }
-    
+
     const colorKey = deleteConfirmModal.modalData?.colorKey;
-    
+
     if (colorKey) {
-      // Create a new theme object based on the current one
-      const newTheme = JSON.parse(JSON.stringify(themeValues));
-
-      // Remove the color palette
-      if (newTheme.colors && colorKey in newTheme.colors) {
-        const { [colorKey]: _, ...remainingColors } = newTheme.colors;
-        newTheme.colors = remainingColors;
-      }
-
-      // Update the theme
-      setThemeValues(newTheme);
-
-      // Track the delete action
-      trackColorAction("delete_palette", colorKey);
-
-      // Show success toast
-      toast({
-        title: "Palette deleted",
-        description: `The ${colorKey} palette has been removed`,
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
+      // Use the centralized palette operation
+      paletteOps.deletePalette(colorKey);
 
       // Close the dialog
       deleteConfirmModal.closeModal();
@@ -112,9 +98,9 @@ const PaletteManagementTab: React.FC = () => {
       // Store the selected theme for use after confirmation
       setPendingAITheme(theme);
       // Open the overwrite confirmation modal
-      overwriteConfirmModal.openModal({ 
-        action: 'applyAITheme',
-        data: theme 
+      overwriteConfirmModal.openModal({
+        action: "applyAITheme",
+        data: theme,
       });
     } else {
       // No conflicts, apply the theme directly
@@ -124,9 +110,6 @@ const PaletteManagementTab: React.FC = () => {
 
   // Apply AI theme function
   const applyAITheme = (theme: AITheme) => {
-    // Create a new theme object directly with all four palettes added
-    const newTheme = JSON.parse(JSON.stringify(themeValues));
-
     // Define the four palettes to add
     const palettes = [
       { name: "primary", value: theme.primary },
@@ -135,22 +118,23 @@ const PaletteManagementTab: React.FC = () => {
       { name: "background", value: theme.background },
     ];
 
+    // Start with current theme and add palettes one by one
+    let updatedTheme = { ...themeValues };
+
     // Process and add each palette to the theme
     palettes.forEach(palette => {
       // Generate color shades for this palette
       const colorPalette = generateColorPalette(palette.value);
 
       // Add the color palette to the theme
-      if (newTheme.colors) {
-        newTheme.colors[palette.name] = colorPalette;
-      }
+      updatedTheme = addPaletteToTheme(updatedTheme, palette.name, colorPalette);
 
       // Track the event
       trackEvent(EventCategory.COLOR, "add_ai_generated_palette", palette.name);
     });
 
     // Update the theme with all new palettes at once
-    setThemeValues(newTheme);
+    setThemeValues(updatedTheme);
 
     toast({
       title: `Added all palettes from theme`,
@@ -168,25 +152,30 @@ const PaletteManagementTab: React.FC = () => {
     }
 
     const action = overwriteConfirmModal.modalData?.action;
-    
-    if (action === 'applyAITheme' && pendingAITheme) {
+
+    if (action === "applyAITheme" && pendingAITheme) {
       applyAITheme(pendingAITheme);
       setPendingAITheme(null);
     }
-    
+
     overwriteConfirmModal.closeModal();
   };
 
+  // We already have updateColorValue from context at the top level
+
   // Handler for updating a color shade
   const handleUpdateShade = (colorKey: string, shade: string, value: string) => {
-    // Using context to update values
-    /* Implementation would go here */
+    if (colorKey && shade && value) {
+      updateColorValue(colorKey, shade, value);
+    }
   };
 
   // Handler for updating the base color of a palette
   const handleUpdateBaseColor = (colorKey: string, baseColor: string) => {
-    // Using context to update values
-    /* Implementation would go here */
+    // Using the centralized palette operation
+    if (colorKey && baseColor) {
+      paletteOps.updatePalette(colorKey, baseColor);
+    }
   };
 
   return (
@@ -202,9 +191,15 @@ const PaletteManagementTab: React.FC = () => {
           palettes={palettes}
           onRename={handleRenameClick}
           onDelete={handleDeleteClick}
-          onOpenAccessibility={(colorKey, colorShades) => accessibilityModal.openModal({ colorKey, colorShades })}
-          onOpenContrast={(colorKey, colorShades) => contrastModal.openModal({ colorKey, colorShades })}
-          onOpenHarmony={(colorKey, colorShades) => harmonyModal.openModal({ colorKey, colorShades })}
+          onOpenAccessibility={(colorKey, colorShades) =>
+            accessibilityModal.openModal({ colorKey, colorShades })
+          }
+          onOpenContrast={(colorKey, colorShades) =>
+            contrastModal.openModal({ colorKey, colorShades })
+          }
+          onOpenHarmony={(colorKey, colorShades) =>
+            harmonyModal.openModal({ colorKey, colorShades })
+          }
           onUpdateShade={handleUpdateShade}
           onUpdateBaseColor={handleUpdateBaseColor}
         />

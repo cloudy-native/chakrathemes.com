@@ -1,10 +1,8 @@
 import { useThemeContext } from "@/context/ThemeContext";
+import { RenamePaletteModalProps } from "@/types";
 import { panelBackground, borderLight } from "@/theme/themeConfiguration";
 import {
   Button,
-  FormControl,
-  FormLabel,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -15,12 +13,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
-
-interface RenamePaletteModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  currentName: string;
-}
+import { PaletteNameInput } from "./ui";
 
 export const RenamePaletteModal: React.FC<RenamePaletteModalProps> = ({
   isOpen,
@@ -39,9 +32,9 @@ export const RenamePaletteModal: React.FC<RenamePaletteModalProps> = ({
     }
   }, [isOpen, currentName]);
 
-  const handleRename = () => {
-    if (newName.trim() !== "") {
-      renameColorPalette(currentName, newName);
+  const handleRename = (paletteName: string) => {
+    if (paletteName.trim() !== "" && paletteName.trim() !== currentName) {
+      renameColorPalette(currentName, paletteName);
       onClose();
     }
   };
@@ -54,14 +47,15 @@ export const RenamePaletteModal: React.FC<RenamePaletteModalProps> = ({
         <ModalCloseButton />
 
         <ModalBody>
-          <FormControl>
-            <FormLabel>New Name</FormLabel>
-            <Input
-              value={newName}
-              onChange={e => setNewName(e.target.value)}
-              placeholder="Enter new palette name"
-            />
-          </FormControl>
+          <PaletteNameInput
+            label="New Name"
+            initialValue={newName}
+            placeholder="Enter new palette name"
+            buttonText="Rename"
+            showButton={false}
+            onChange={setNewName}
+            onSubmit={handleRename}
+          />
         </ModalBody>
 
         <ModalFooter>
@@ -69,9 +63,9 @@ export const RenamePaletteModal: React.FC<RenamePaletteModalProps> = ({
             Cancel
           </Button>
           <Button
-            onClick={handleRename}
-            // isDisabled={!newName || !newName.trim() || newName.trim() === currentName}
+            onClick={() => handleRename(newName)}
             colorScheme="primary"
+            isDisabled={!newName.trim() || newName.trim() === currentName}
           >
             Rename
           </Button>

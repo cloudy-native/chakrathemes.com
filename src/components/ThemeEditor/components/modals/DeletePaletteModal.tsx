@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { DeletePaletteModalProps } from "@/types";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -8,13 +9,6 @@ import {
   AlertDialogOverlay,
   Button,
 } from "@chakra-ui/react";
-
-interface DeletePaletteModalProps {
-  isOpen: boolean;
-  onClose: (e?: React.MouseEvent) => void;
-  onConfirm: (e?: React.MouseEvent) => void;
-  paletteName: string;
-}
 
 /**
  * Modal for confirming deletion of a color palette

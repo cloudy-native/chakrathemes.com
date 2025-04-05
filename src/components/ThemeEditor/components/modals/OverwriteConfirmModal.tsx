@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { OverwriteConfirmModalProps } from "@/types";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -8,14 +9,6 @@ import {
   AlertDialogOverlay,
   Button,
 } from "@chakra-ui/react";
-
-interface OverwriteConfirmModalProps {
-  isOpen: boolean;
-  onClose: (e?: React.MouseEvent) => void;
-  onConfirm: (e?: React.MouseEvent) => void;
-  title?: string;
-  description?: string;
-}
 
 /**
  * Modal for confirming overwrite of existing color palettes
@@ -30,7 +23,12 @@ const OverwriteConfirmModal: React.FC<OverwriteConfirmModalProps> = ({
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <AlertDialog isOpen={isOpen} onClose={onClose} leastDestructiveRef={cancelRef} isCentered={true}>
+    <AlertDialog
+      isOpen={isOpen}
+      onClose={onClose}
+      leastDestructiveRef={cancelRef}
+      isCentered={true}
+    >
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">

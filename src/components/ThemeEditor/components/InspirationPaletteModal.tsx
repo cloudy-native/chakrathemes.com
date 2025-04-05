@@ -1,7 +1,10 @@
 import React from "react";
 import { useThemeContext } from "@/context/ThemeContext";
 import { panelBackground, borderLight } from "@/theme/themeConfiguration";
-import { generateColorPalette } from "@/utils/colorUtils";
+import { generateColorPalette, isPaletteNameAvailable } from "@/utils/colorUtils";
+import { showError, showSuccess } from "@/utils/notificationUtils";
+import { addPaletteToTheme } from "@/utils/themeUtils";
+import { trackPaletteAction } from "@/utils/analytics";
 import {
   Box,
   Button,
@@ -17,6 +20,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import InspirationPalettes from "./InspirationPalettes";
 import PalettePreview from "./PalettePreview";
@@ -34,40 +38,54 @@ const InspirationPaletteModal: React.FC<InspirationPaletteModalProps> = ({ isOpe
     setBaseColor,
     addNewColorPalette,
     themeValues,
-    setThemeValues
+    setThemeValues,
   } = useThemeContext();
-  
+
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
   const border = useColorModeValue(borderLight.light, borderLight.dark);
 
-  const handleSelectColor = (name: string, color: string) => {
+  const toast = useToast();
+
+  const handleSelectColor = (paletteName: string, baseColor: string) => {
     try {
-      // Format the color name
-      const colorName = name.toLowerCase().replace(/\s+/g, "-");
-      
+      // Format the palette name
+      const formattedName = paletteName.toLowerCase().replace(/\s+/g, "-");
+
       // Make sure we have valid values before proceeding
-      if (!colorName || !color) {
-        throw new Error('Color name or value is missing');
+      if (!formattedName || !baseColor) {
+        showError(toast, "Invalid Input", "Palette name or color value is missing");
+        return;
       }
-      
-      // Create updated theme object
-      const updatedThemeValues = { ...themeValues };
-      
-      // Ensure colors object exists
-      if (!updatedThemeValues.colors) {
-        updatedThemeValues.colors = {};
+
+      // Check if the palette name is available
+      if (!isPaletteNameAvailable(formattedName, themeValues.colors, toast)) {
+        return;
       }
-      
+
       // Generate a full color palette with shades from the base color
-      updatedThemeValues.colors[colorName] = generateColorPalette(color);
-      
+      const palette = generateColorPalette(baseColor);
+
+      // Add the palette to the theme
+      const updatedTheme = addPaletteToTheme(themeValues, formattedName, palette);
+
       // Update the entire theme
-      setThemeValues(updatedThemeValues);
-      
+      setThemeValues(updatedTheme);
+
+      // Track the action
+      trackPaletteAction("add", formattedName);
+
+      // Show success notification
+      showSuccess(toast, `Added palette: ${formattedName}`);
+
       // Close the modal
       onClose();
     } catch (error: unknown) {
       console.error("Error adding color:", error instanceof Error ? error.message : String(error));
+      showError(
+        toast,
+        "Error Adding Palette",
+        error instanceof Error ? error.message : String(error)
+      );
     }
   };
 
