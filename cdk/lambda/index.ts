@@ -1,40 +1,16 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import axios from 'axios';
+import { Anthropic } from '@anthropic-ai/sdk';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
-
-// Define interfaces for type safety
-interface ClaudeMessage {
-  role: string;
-  content: string;
-}
-
-interface ClaudeRequest {
-  model: string;
-  max_tokens: number;
-  temperature?: number;
-  system?: string;
-  messages: ClaudeMessage[];
-}
-
-interface ClaudeResponse {
-  id: string;
-  type: string;
-  role: string;
-  content: { type: string; text: string }[];
-  model: string;
-  stop_reason: string;
-  stop_sequence: string | null;
-  usage: { input_tokens: number; output_tokens: number };
-}
 
 interface RequestBody {
   prompt: string;
 }
 
 // Claude API settings
-const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
 const CLAUDE_SECRET_NAME = process.env.CLAUDE_SECRET_NAME || 'claude-api';
 const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20240620';
+const CLAUDE_TEMPERATURE  = process.env.CLAUDE_TEMPERATURE || '0.8';
+const CLAUDE_MAX_TOKENS = process.env.CLAUDE_MAX_TOKENS || '1000';
 
 // Initialize Secrets Manager client
 const secretsManager = new SecretsManagerClient({
@@ -102,7 +78,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
   
   // Call Claude API
   try {
-    // Prepare the prompt for Claude API
+    // Prepare the system prompt for Claude API
     const systemPrompt = `Generate color themes as JSON only. Respond with an array of 6 theme objects:
 [
   {
@@ -123,21 +99,6 @@ Based on the user's input, generate appropriate, visually pleasing colors that w
 
 IMPORTANT: Your entire response must be ONLY the JSON object. No introduction, no explanation, no confirmation.`;
 
-    const claudeRequest: ClaudeRequest = {
-      model: CLAUDE_MODEL,
-      max_tokens: 1000,
-      temperature: 0.8,
-      system: systemPrompt,
-      messages: [
-        { 
-          role: "user", 
-          content: prompt
-        }
-      ]
-    };
-    
-    console.log('Claude request:', JSON.stringify(claudeRequest, null, 2));
-    
     // Retrieve the API key from Secrets Manager
     let apiKey: string;
     try {
@@ -163,27 +124,35 @@ IMPORTANT: Your entire response must be ONLY the JSON object. No introduction, n
       throw new Error('Failed to retrieve API credentials');
     }
     
-    // Create the request to Claude API
-    const response = await axios.post(CLAUDE_API_URL, claudeRequest, {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
-      }
+    // Initialize the Anthropic client with the API key
+    const anthropic = new Anthropic({
+      apiKey: apiKey
     });
     
-    console.log('Claude response status:', response.status);
+    console.log('Calling Claude with Anthropic SDK...');
     
-    // Extract the content from Claude's response
-    const claudeResponse: ClaudeResponse = response.data;
-    console.log('Claude response:', JSON.stringify(claudeResponse, null, 2));
+    // Create the message with the Anthropic SDK
+    const response = await anthropic.messages.create({
+      model: CLAUDE_MODEL,
+      max_tokens: Number(CLAUDE_MAX_TOKENS),
+      temperature: Number(CLAUDE_TEMPERATURE),
+      system: systemPrompt,
+      messages: [
+        { 
+          role: "user", 
+          content: prompt
+        }
+      ]
+    });
+    
+    console.log('Claude response:', JSON.stringify(response, null, 2));
     
     // Extract the content from Claude's response
     let content = '';
     
-    if (claudeResponse.content && claudeResponse.content.length > 0) {
+    if (response.content && response.content.length > 0) {
       // Combine all text content from the response
-      content = claudeResponse.content
+      content = response.content
         .filter(item => item.type === 'text')
         .map(item => item.text)
         .join('');

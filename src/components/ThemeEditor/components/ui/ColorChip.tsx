@@ -1,12 +1,16 @@
-import { Box, Tooltip } from "@chakra-ui/react";
 import React from "react";
+import { Box, Tooltip, useColorModeValue } from "@chakra-ui/react";
+import { borderLight } from "@/theme/themeConfiguration";
 
 export interface ColorChipProps {
   color: string;
   size?: string;
   label?: string;
-  onClick?: () => void;
   showTooltip?: boolean;
+  onClick?: () => void;
+  borderRadius?: string;
+  isSelected?: boolean;
+  flex?: number;
 }
 
 /**
@@ -15,38 +19,47 @@ export interface ColorChipProps {
  */
 export const ColorChip: React.FC<ColorChipProps> = ({
   color,
-  size = "80px",
+  size = "40px",
   label,
-  onClick,
   showTooltip = true,
+  onClick,
+  borderRadius = "sm",
+  isSelected = false,
+  flex,
 }) => {
+  const borderColor = useColorModeValue(borderLight.light, borderLight.dark);
+  const displayLabel = label || color;
+
   const colorBox = (
     <Box
       width={size}
       height={size}
+      flex={flex}
       bg={color}
-      borderWidth="1px"
-      borderColor="gray.300"
-      borderRadius="sm"
-      boxShadow="md"
+      borderWidth={isSelected ? "2px" : "1px"}
+      borderColor={isSelected ? "blue.500" : borderColor}
+      borderRadius={borderRadius}
+      boxShadow={isSelected ? "0 0 0 2px rgba(66, 153, 225, 0.6)" : "md"}
       cursor={onClick ? "pointer" : "default"}
-      transition="transform 0.2s"
-      _hover={onClick ? { transform: "scale(1.05)" } : undefined}
+      transition="all 0.2s"
+      _hover={{
+        transform: onClick ? "scale(1.05)" : "none",
+        boxShadow: onClick ? "lg" : "md",
+      }}
       onClick={onClick}
     />
   );
 
-  // If tooltip is disabled or no label provided, return just the color box
-  if (!showTooltip || !label) {
-    return colorBox;
+  // Wrap with tooltip if needed
+  if (showTooltip) {
+    return (
+      <Tooltip label={displayLabel} placement="top" hasArrow openDelay={300}>
+        {colorBox}
+      </Tooltip>
+    );
   }
 
-  // Return color box with tooltip
-  return (
-    <Tooltip label={label || color} placement="top">
-      {colorBox}
-    </Tooltip>
-  );
+  return colorBox;
 };
 
 export default ColorChip;

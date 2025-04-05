@@ -40,8 +40,8 @@ const Desktop = () => {
         <TabList>
           <Tab>Palettes</Tab>
           <Tab>Typography</Tab>
-          <Tab>Spacing</Tab>
-          <Tab>Borders & Shadows</Tab>
+          {/* <Tab>Spacing</Tab>
+          <Tab>Borders & Shadows</Tab> */}
           <Tab position="relative">
             Preview Theme
             <Box
@@ -58,7 +58,7 @@ const Desktop = () => {
               boxShadow="md"
               zIndex={1}
             >
-              NEW
+              Test your theme!
             </Box>
           </Tab>
         </TabList>
@@ -72,13 +72,13 @@ const Desktop = () => {
             <TypographyTab />
           </TabPanel>
 
-          <TabPanel>
+          {/* <TabPanel>
             <SpacingTab />
           </TabPanel>
 
           <TabPanel>
             <BordersAndShadowsTab />
-          </TabPanel>
+          </TabPanel> */}
 
           <TabPanel>
             <ComponentsPreviewTab />

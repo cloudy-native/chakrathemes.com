@@ -111,16 +111,13 @@ export const AIThemeGeneratorModal: React.FC<AIThemeGeneratorModalProps> = ({
     setGenerationError(null);
 
     try {
-      const response = await fetch(
-        "https://pnl3jv9t9f.execute-api.ap-southeast-1.amazonaws.com/prod/generate-theme",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ prompt: aiPrompt }),
-        }
-      );
+      const response = await fetch("https://api.chakrathemes.com/generate-theme", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: aiPrompt }),
+      });
 
       if (!response.ok) {
         throw new Error(`API error: ${response.status}`);
@@ -172,6 +169,11 @@ export const AIThemeGeneratorModal: React.FC<AIThemeGeneratorModalProps> = ({
                   value={aiPrompt}
                   onChange={e => setAIPrompt(e.target.value.slice(0, 500))}
                   maxLength={500}
+                  onKeyDown={e => {
+                    if (e.key === "Enter") {
+                      handleGenerate();
+                    }
+                  }}
                 />
                 <Text fontSize="xs" textAlign="right" color="gray.500" mt={1}>
                   {aiPrompt.length}/500 characters

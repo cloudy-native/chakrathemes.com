@@ -1,6 +1,6 @@
-# Commands for Claude
+# CLAUDE.md
 
-These are commands that Claude should know to run automatically.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Development Commands
 
@@ -22,24 +22,27 @@ npm run format
 
 # Type check TypeScript files
 npm run typecheck
-```
 
-## Deployment Commands
-
-```bash
 # Deploy to GitHub Pages
 npm run deploy
 ```
 
-## Project Structure Notes
+## Project Structure
 
-- The project is built with Gatsby and Chakra UI
-- Components are located in `src/components`
-- Pages are in `src/pages`
-- The theme configuration is in `src/theme`
-- The editor functionality is in `src/components/ThemeEditor`
+- Built with Gatsby and Chakra UI
+- Components: `src/components`
+- Pages: `src/pages`
+- Theme configuration: `src/theme`
+- Editor functionality: `src/components/ThemeEditor`
 
-## Coding conventions
+## Coding Conventions
 
+- Use TypeScript for type safety
 - Use lucide-react for all icons
-- 
+- Follow Prettier configuration (double quotes, semi: true, printWidth: 100)
+- Unused variables: prefix with `_` to suppress warnings
+- Error handling: use try/catch with explicit error typing
+- Component naming: PascalCase for components, camelCase for utils/hooks
+- Imports order: React > third-party libraries > project imports
+- Keep components focused and modular
+- Use Chakra UI for styling and components

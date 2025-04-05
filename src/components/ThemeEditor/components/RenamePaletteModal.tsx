@@ -70,7 +70,7 @@ export const RenamePaletteModal: React.FC<RenamePaletteModalProps> = ({
           </Button>
           <Button
             onClick={handleRename}
-            isDisabled={!newName.trim() || newName.trim() === currentName}
+            // isDisabled={!newName || !newName.trim() || newName.trim() === currentName}
             colorScheme="primary"
           >
             Rename
