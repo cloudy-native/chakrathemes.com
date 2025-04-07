@@ -66,7 +66,6 @@ export default theme;`;
       onClick={downloadTheme}
       colorScheme="primary"
       leftIcon={<ArrowRight size={16} />}
-      mb={4}
     >
       Download
     </Button>

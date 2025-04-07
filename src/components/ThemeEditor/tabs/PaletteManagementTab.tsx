@@ -1,12 +1,3 @@
-import React from "react";
-import { Box } from "@chakra-ui/react";
-import { useThemeContext } from "@/context/ThemeContext";
-import { EventCategory, trackEvent } from "@/utils/analytics";
-import { PaletteHeader, PaletteList } from "@/components/ThemeEditor/components/palette";
-import { useAnalytics } from "@/hooks/useAnalytics";
-import { usePaletteModals } from "@/hooks/usePaletteModals";
-import { usePaletteOperations } from "@/hooks/usePaletteOperations";
-import { useToast } from "@chakra-ui/react";
 import {
   AccessibilityAnalysisModal,
   ColorContrastModal,
@@ -17,10 +8,17 @@ import {
   DeletePaletteModal,
   OverwriteConfirmModal,
 } from "@/components/ThemeEditor/components/modals";
+import { PaletteHeader, PaletteList } from "@/components/ThemeEditor/components/palette";
+import { useThemeContext } from "@/context/ThemeContext";
+import { useAnalytics } from "@/hooks/useAnalytics";
+import { usePaletteModals } from "@/hooks/usePaletteModals";
+import { usePaletteOperations } from "@/hooks/usePaletteOperations";
 import { AITheme } from "@/types";
+import { EventCategory, trackEvent } from "@/utils/analytics";
 import { generateColorPalette } from "@/utils/colorUtils";
 import { addPaletteToTheme } from "@/utils/themeUtils";
-import { showSuccess } from "@/utils/notificationUtils";
+import { Box, useToast } from "@chakra-ui/react";
+import React from "react";
 
 /**
  * Tab component for managing color palettes
@@ -79,32 +77,6 @@ const PaletteManagementTab: React.FC = () => {
 
       // Close the dialog
       deleteConfirmModal.closeModal();
-    }
-  };
-
-  // Handler for AI theme selection
-  const handleSelectAITheme = (theme: AITheme) => {
-    // Check if any of the palettes already exist in the theme
-    const paletteNames = ["primary", "secondary", "accent", "background"];
-    const existingPalettes = paletteNames.filter(
-      name =>
-        themeValues.colors &&
-        themeValues.colors[name] &&
-        Object.keys(themeValues.colors[name]).length > 0
-    );
-
-    // If there are existing palettes, show confirmation dialog
-    if (existingPalettes.length > 0) {
-      // Store the selected theme for use after confirmation
-      setPendingAITheme(theme);
-      // Open the overwrite confirmation modal
-      overwriteConfirmModal.openModal({
-        action: "applyAITheme",
-        data: theme,
-      });
-    } else {
-      // No conflicts, apply the theme directly
-      applyAITheme(theme);
     }
   };
 

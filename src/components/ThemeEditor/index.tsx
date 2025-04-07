@@ -1,16 +1,12 @@
-import { accentColor } from "@/theme/themeConfiguration";
 import {
   Box,
-  Button,
   Divider,
   Flex,
-  Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
   useBreakpointValue,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { PaletteActionsContainer } from "./components/palette";
@@ -27,28 +23,11 @@ import { ThemeDownloader } from "./components/preview";
 // Import context provider and utils
 import { ThemeProvider, useThemeContext } from "@/context/ThemeContext";
 import { urlParamsToTheme } from "@/utils/urlThemeUtils";
-import { Palette, Type, Eye } from "lucide-react";
+import { Eye, Palette, Type } from "lucide-react";
 
 const Desktop = () => {
   const { themeValues } = useThemeContext();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-
-  // Consolidated color mode values
-  const colors = {
-    // Text colors
-    primaryText: useColorModeValue("gray.800", "gray.100"),
-    secondaryText: useColorModeValue("gray.600", "gray.400"),
-
-    // Background colors
-    containerBg: useColorModeValue("gray.50", "gray.800"),
-    hoverBg: useColorModeValue("gray.100", "gray.700"),
-
-    // Border colors
-    borderColor: useColorModeValue("gray.200", "gray.700"),
-
-    // Indicator colors
-    inactiveIndicator: useColorModeValue("gray.300", "gray.600"),
-  };
 
   return (
     <Box id="theme-editor-section">
@@ -102,14 +81,6 @@ const Desktop = () => {
             <TypographyTab />
           </TabPanel>
 
-          {/* <TabPanel>
-            <SpacingTab />
-          </TabPanel>
-
-          <TabPanel>
-            <BordersAndShadowsTab />
-          </TabPanel> */}
-
           <TabPanel>
             <ComponentsPreviewTab />
             <Flex justifyContent="flex-end" mt={6}>
@@ -123,8 +94,6 @@ const Desktop = () => {
 };
 
 const Mobile = () => {
-  const { themeValues } = useThemeContext();
-
   return (
     <Box>
       {/* Actions for mobile view - now managed by PaletteActionButtons */}

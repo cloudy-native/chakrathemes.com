@@ -1,5 +1,3 @@
-import { AITheme } from "./index";
-
 /**
  * Common interface for all modal data that operates on a color palette
  */

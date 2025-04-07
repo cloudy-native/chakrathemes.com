@@ -1,8 +1,6 @@
 import { useThemeContext } from "@/context/ThemeContext";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { ThemeValues } from "@/types";
-import { isPaletteNameAvailable } from "@/utils/colorUtils";
-import { addPaletteToTheme } from "@/utils/themeUtils";
+import { backgroundMedium, emptyStateBorder, panelBackground } from "@/theme/themeConfiguration";
 import {
   createColorScale,
   generateColorPalette,
@@ -10,7 +8,9 @@ import {
   getComplementaryColor,
   getMonochromaticColors,
   getTriadicColors,
+  isPaletteNameAvailable,
 } from "@/utils/colorUtils";
+import { addPaletteToTheme } from "@/utils/themeUtils";
 import {
   Box,
   Button,
@@ -45,7 +45,6 @@ import {
 import { Check, Plus } from "lucide-react";
 import React, { useCallback, useMemo, useState } from "react";
 import { ColorSwatch } from "./ColorSwatch";
-import { backgroundMedium, emptyStateBorder, panelBackground } from "@/theme/themeConfiguration";
 
 import { PaletteAnalysisModalProps } from "@/types";
 

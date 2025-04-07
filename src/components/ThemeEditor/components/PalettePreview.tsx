@@ -43,7 +43,7 @@ const PalettePreview: React.FC<PalettePreviewProps> = ({
         colorKey={colorKey}
         colorShades={palette}
         onClick={handleClick}
-        size="sm"
+        size="lg"
         selected={selected}
       />
     </Box>

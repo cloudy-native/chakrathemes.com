@@ -17,7 +17,7 @@ interface StepTabProps {
  * Displays a numbered step with title and description
  */
 export const StepTab: React.FC<StepTabProps> = ({
-  step,
+  step: _step,
   title,
   description,
   isActive,
@@ -25,98 +25,92 @@ export const StepTab: React.FC<StepTabProps> = ({
   icon,
   showArrow = false,
 }) => {
-  // Color mode values
-  const colors = {
-    activeText: useColorModeValue("gray.800", "gray.100"),
-    inactiveText: useColorModeValue("gray.600", "gray.400"),
-    lightBg: useColorModeValue("white", "gray.800"),
-    iconBg: useColorModeValue("primary.50", "primary.900"),
-    activeIconBg: useColorModeValue("primary.400", "primary.600"),
-    iconColor: useColorModeValue("primary.600", "primary.200"),
-    activeIconColor: useColorModeValue("gray.800", "gray.100"),
-  };
+  // Color mode values for text
+  const activeText = useColorModeValue("white", "white");
+  const inactiveText = useColorModeValue("gray.700", "gray.200");
+  // Color mode values for backgrounds
+  const activeBg = useColorModeValue("primary.500", "primary.600");
+  const inactiveBg = useColorModeValue("gray.100", "gray.700");
+  // Color mode values for icons
+  const activeIconColor = useColorModeValue("white", "white");
+  const inactiveIconColor = useColorModeValue("gray.600", "gray.300");
+  // Border colors
+  const activeBorderColor = useColorModeValue("primary.600", "primary.700");
+  const inactiveBorderColor = useColorModeValue("gray.200", "gray.600");
+  // Arrow colors
+  const arrowColor = useColorModeValue("gray.600", "gray.300");
 
   return (
     <Tab
       flex={1}
-      _selected={{ 
-        fontWeight: "bold", 
-        bg: "primary.500", 
-        color: colors.activeText, 
-        boxShadow: "lg", 
-        transform: "translateY(-3px)"
+      _selected={{
+        fontWeight: "bold",
+        color: activeText,
+        bg: activeBg,
+        borderColor: activeBorderColor,
+        boxShadow: "lg",
+        transform: "translateY(-3px)",
       }}
-      _hover={{ 
-        transform: "translateY(-4px)", 
-        boxShadow: "xl", 
+      _hover={{
+        transform: "translateY(-4px)",
+        boxShadow: "xl",
         transition: "all 0.2s ease",
-        zIndex: 10
+        zIndex: 10,
       }}
       borderRadius="lg"
       mx={2}
       py={5}
       position="relative"
       transition="all 0.2s ease"
-      bg={colors.lightBg}
       border="1px solid"
-      borderColor={useColorModeValue("gray.200", "gray.700")}
+      borderColor={isActive ? activeBorderColor : inactiveBorderColor}
+      bg={isActive ? activeBg : inactiveBg}
+      color={isActive ? activeText : inactiveText}
     >
       <Flex width="100%" height="100%">
         {/* Full-height icon on the left */}
-        <Flex 
-          alignItems="center" 
+        <Flex
+          alignItems="center"
           justifyContent="center"
-          backgroundColor={isActive ? colors.activeIconBg : useColorModeValue("gray.100", "gray.700")}
-          width="60px" 
+          width="60px"
           position="absolute"
           top={0}
           bottom={0}
           left={0}
           borderRightWidth="1px"
-          borderRightColor={isActive ? 
-            useColorModeValue("primary.600", "primary.700") : 
-            useColorModeValue("gray.200", "gray.600")
-          }
+          borderRightColor={isActive ? activeBorderColor : inactiveBorderColor}
           borderTopLeftRadius="lg"
           borderBottomLeftRadius="lg"
           transition="all 0.2s ease"
         >
-          <Icon 
-            as={icon} 
-            boxSize={8} 
-            color={isActive ? colors.activeText : useColorModeValue("gray.600", "gray.400")}
+          <Icon
+            as={icon}
+            boxSize={8}
+            color={isActive ? activeIconColor : inactiveIconColor}
             transition="all 0.2s ease"
           />
         </Flex>
-        
+
         {/* Text content with left padding to accommodate icon */}
-        <Flex 
-          alignItems="center" 
-          justifyContent="space-between" 
-          width="100%" 
-          pl="70px" 
-          pr={4}
-        >
+        <Flex alignItems="center" justifyContent="space-between" width="100%" pl="70px" pr={4}>
           <Box textAlign="left">
             <Box fontWeight="semibold" fontSize="lg">
               {title}
             </Box>
-            <Box fontSize="sm" opacity="0.8">
+            <Box fontSize="sm" opacity={isActive ? 0.9 : 0.8}>
               {description}
             </Box>
           </Box>
-          
+
           {showArrow && (
-            <Box 
-              ml={3} 
+            <Box
+              ml={3}
               opacity={isActive || isCompleted ? 1 : 0.6}
-              bg={isActive ? "primary.500" : useColorModeValue("gray.200", "gray.600")}
-              color={isActive ? colors.activeText : useColorModeValue("gray.600", "gray.400")}
               p={2}
               borderRadius="full"
               transition="all 0.2s ease"
             >
-              <Icon as={ArrowRight} boxSize={6} />
+              <Icon as={ArrowRight} boxSize={6} color={isActive ? activeIconColor : arrowColor} />
             </Box>
           )}
         </Flex>

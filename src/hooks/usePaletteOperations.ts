@@ -1,21 +1,16 @@
-import { useState, useCallback } from "react";
-import { useToast } from "@chakra-ui/react";
 import { ThemeValues } from "@/types";
-import {
-  formatPaletteName,
-  addNewPalette,
-  renamePalette,
-  deletePalette,
-} from "@/utils/paletteUtils";
-import { isPaletteNameAvailable } from "@/utils/colorUtils";
 import { trackPaletteAction } from "@/utils/analytics";
-import { showError, showSuccess } from "@/utils/notificationUtils";
 import { generateColorPalette } from "@/utils/colorUtils";
+import { showError, showSuccess } from "@/utils/notificationUtils";
 import {
-  addPaletteToTheme,
-  removePaletteFromTheme,
-  renamePaletteInTheme,
-} from "@/utils/themeUtils";
+  addNewPalette,
+  deletePalette,
+  formatPaletteName,
+  renamePalette,
+} from "@/utils/paletteUtils";
+import { addPaletteToTheme } from "@/utils/themeUtils";
+import { useToast } from "@chakra-ui/react";
+import { useCallback, useState } from "react";
 
 export interface PaletteOperationsHookProps {
   /**

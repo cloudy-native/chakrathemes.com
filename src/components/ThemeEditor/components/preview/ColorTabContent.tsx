@@ -1,17 +1,16 @@
-import React from "react";
-import { Tab, TabList, TabPanel, TabPanels, Tabs, Box, SimpleGrid } from "@chakra-ui/react";
-import { ThemeValues } from "@/types";
-import { ColorPalette } from ".";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import ButtonStyles from "./ButtonStyles";
-import BorderElements from "./BorderElements";
-import ShadowElements from "./ShadowElements";
+import { ThemeValues } from "@/types";
+import { Box, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import React from "react";
+import AlertElements from "./AlertElements";
+import AvatarElements from "./AvatarElements";
 import BasicElements from "./BasicElements";
+import BorderElements from "./BorderElements";
+import ButtonStyles from "./ButtonStyles";
 import InputElements from "./InputElements";
 import InteractiveElements from "./InteractiveElements";
-import AlertElements from "./AlertElements";
 import ProgressElements from "./ProgressElements";
-import AvatarElements from "./AvatarElements";
+import ShadowElements from "./ShadowElements";
 
 interface ColorTabContentProps {
   colorKey: string;
@@ -30,10 +29,6 @@ export const ColorTabContent: React.FC<ColorTabContentProps> = ({
   setComponentTabIndex,
 }) => {
   const { trackTab } = useAnalytics();
-
-  const handleCopyToClipboard = (value: string) => {
-    navigator.clipboard.writeText(value);
-  };
 
   return (
     <Tabs

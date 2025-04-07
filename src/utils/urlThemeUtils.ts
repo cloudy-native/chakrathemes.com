@@ -70,44 +70,53 @@ export const themeToUrlParams = (theme: ThemeValues): string => {
 export const urlParamsToTheme = (
   queryParams: Record<string, string | string[] | undefined>
 ): ThemeValues => {
-  // Start with the default theme structure
-  const newTheme = { ...defaultTheme };
+  // Start with a copy of the default theme structure with required objects
+  const newTheme: ThemeValues = {
+    ...defaultTheme,
+    colors: { ...(defaultTheme.colors || {}) },
+    fonts: {
+      heading: defaultTheme.fonts?.heading || "",
+      body: defaultTheme.fonts?.body || "",
+      mono: defaultTheme.fonts?.mono || "",
+    },
+    config: { ...(defaultTheme.config || {}) },
+  };
 
   // Process colors parameter
   const colorParam = queryParams.colors;
   if (colorParam && typeof colorParam === "string" && colorParam.trim() !== "") {
-    // Ensure colors object exists
-    if (!newTheme.colors) newTheme.colors = {};
-
     // Process each color palette
-    colorParam.split(",").forEach(pair => {
-      const [name, hexColor] = pair.split(":");
-      if (name && hexColor) {
-        try {
-          // Generate the full palette from the base color
-          const fullPalette = generateColorPalette(`#${hexColor}`);
-
-          // Add it to the theme with the original name
-          newTheme.colors[decodeURIComponent(name)] = fullPalette;
-        } catch (error) {
-          console.error(`Failed to generate palette for ${name}:${hexColor}`, error);
-        }
+    const colorPairs = colorParam.split(",");
+    for (const pair of colorPairs) {
+      const parts = pair.split(":");
+      if (parts.length !== 2) continue;
+      const [name, hexColor] = parts;
+      if (!name || !hexColor) continue;
+      try {
+        // Generate the full palette from the base color
+        const fullPalette = generateColorPalette(`#${hexColor}`);
+        // Add it to the theme with the original name
+        const decodedName = decodeURIComponent(name);
+        newTheme.colors[decodedName] = fullPalette;
+      } catch (error) {
+        console.error(`Failed to generate palette for ${name}:${hexColor}`, error);
       }
-    });
+    }
   }
 
   // Process font parameter
   const fontParam = queryParams.f;
   if (fontParam && typeof fontParam === "string") {
-    // Ensure fonts object exists
-    if (!newTheme.fonts) newTheme.fonts = {};
+    const fontParts = fontParam.split(",");
+    // Map font parts to heading, body, mono
+    const [heading, body, mono] = fontParts.map(font =>
+      font ? decodeURIComponent(font) : undefined
+    );
 
-    const [heading, body, mono] = fontParam
-      .split(",")
-      .map(font => (font ? decodeURIComponent(font) : undefined));
-    if (heading) newTheme.fonts.heading = heading;
-    if (body) newTheme.fonts.body = body;
-    if (mono) newTheme.fonts.mono = mono;
+    // Apply fonts only if they exist (fonts object is guaranteed to exist from our initialization)
+    if (heading) newTheme.fonts!.heading = heading;
+    if (body) newTheme.fonts!.body = body;
+    if (mono) newTheme.fonts!.mono = mono;
   }
 
   return newTheme;

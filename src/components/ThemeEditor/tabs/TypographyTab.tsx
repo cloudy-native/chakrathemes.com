@@ -2,7 +2,7 @@ import { useThemeContext } from "@/context/ThemeContext";
 import { EventCategory, trackEvent } from "@/utils/analytics";
 import { FontCombination } from "@/types";
 import { getBodyFonts, getHeadingFonts, getMonoFonts } from "@/utils/typographyUtils";
-import { FontSelector } from "../components";
+import { FontSelector } from "@/components/ThemeEditor/components/FontSelector";
 import {
   textMuted,
   primaryAccent,
@@ -32,8 +32,8 @@ import {
 } from "@chakra-ui/react";
 import { ChevronRight, ExternalLink } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import FontPreview from "../components/FontPreview";
-import GoogleFontsLoader from "../components/GoogleFontsLoader";
+import FontPreview from "@/components/ThemeEditor/components/FontPreview";
+import GoogleFontsLoader from "@/components/ThemeEditor/components/GoogleFontsLoader";
 import { fontCategories } from "@/utils/curatedFonts"; // Import the new data structure
 
 export const TypographyTab: React.FC = () => {

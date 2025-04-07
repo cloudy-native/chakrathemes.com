@@ -1,10 +1,7 @@
 import PalettePreview from "@/components/ThemeEditor/components/PalettePreview";
-import { useThemeContext } from "@/context/ThemeContext";
-import { ExtractedColor, ThemeValues } from "@/types";
-import { trackPaletteCreation } from "@/utils/analytics";
-import { generateColorPalette } from "@/utils/colorUtils";
-import { usePaletteOperations } from "@/hooks/usePaletteOperations";
 import { PaletteNameInput } from "@/components/ThemeEditor/components/ui";
+import { useThemeContext } from "@/context/ThemeContext";
+import { usePaletteOperations } from "@/hooks/usePaletteOperations";
 import {
   backgroundLight,
   backgroundMedium,
@@ -12,6 +9,9 @@ import {
   errorColor,
   primaryAccent,
 } from "@/theme/themeConfiguration";
+import { ExtractedColor } from "@/types";
+import { trackPaletteCreation } from "@/utils/analytics";
+import { generateColorPalette } from "@/utils/colorUtils";
 import {
   Box,
   Button,
@@ -31,7 +31,7 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import React, { useRef, useState, ChangeEvent } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 
 export const ImageColorTab: React.FC = () => {
   const { themeValues, setThemeValues } = useThemeContext();

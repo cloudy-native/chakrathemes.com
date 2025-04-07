@@ -2,7 +2,7 @@ import { primaryBackground, emptyStateBorder } from "@/theme/themeConfiguration"
 import { Box, Icon, Link, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { ExternalLink } from "lucide-react";
 import React from "react";
-import version from "../version.json";
+import version from "@/version.json";
 
 const Footer = () => {
   const bgColor = useColorModeValue(primaryBackground.light, primaryBackground.dark);

@@ -1,9 +1,7 @@
-import React from "react";
 import { useThemeContext } from "@/context/ThemeContext";
 import { usePaletteOperations } from "@/hooks/usePaletteOperations";
-import { panelBackground, borderLight } from "@/theme/themeConfiguration";
+import { borderLight, panelBackground } from "@/theme/themeConfiguration";
 import { generateColorPalette } from "@/utils/colorUtils";
-import { PaletteNameInput } from "./ui";
 import {
   Box,
   Button,
@@ -17,8 +15,10 @@ import {
   ModalOverlay,
   useColorModeValue,
 } from "@chakra-ui/react";
+import React from "react";
 import ImageColorExtractor from "./ImageColorExtractor";
 import PalettePreview from "./PalettePreview";
+import { PaletteNameInput } from "./ui";
 
 interface ImageColorPickerModalProps {
   isOpen: boolean;
@@ -27,15 +27,8 @@ interface ImageColorPickerModalProps {
 
 const ImageColorPickerModal: React.FC<ImageColorPickerModalProps> = ({ isOpen, onClose }) => {
   // Get context values
-  const {
-    newColorName,
-    setNewColorName,
-    baseColor,
-    setBaseColor,
-    addNewColorPalette,
-    themeValues,
-    setThemeValues,
-  } = useThemeContext();
+  const { newColorName, setNewColorName, baseColor, setBaseColor, themeValues, setThemeValues } =
+    useThemeContext();
 
   // Initialize palette operations hook
   const paletteOps = usePaletteOperations({
@@ -45,14 +38,6 @@ const ImageColorPickerModal: React.FC<ImageColorPickerModalProps> = ({ isOpen, o
 
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
   const border = useColorModeValue(borderLight.light, borderLight.dark);
-
-  const handleAddPalette = () => {
-    if (!newColorName.trim() || !baseColor) return;
-
-    // Use the context method for backward compatibility
-    addNewColorPalette();
-    onClose();
-  };
 
   // Alternative implementation using paletteOps
   const handleAddPaletteWithOps = () => {

@@ -1,20 +1,23 @@
 import { ThemeEditor } from "@/components";
 import Layout from "@/components/Layout";
 import { FeatureSection, HelpSection, HeroSection } from "@/components/home";
+import { featureHeading } from "@/theme/themeConfiguration";
 import {
   Box,
-  Container,
-  useBreakpointValue,
-  VStack,
   Button,
+  Container,
   Flex,
   Heading,
+  useBreakpointValue,
+  useColorModeValue,
+  VStack,
 } from "@chakra-ui/react";
 import { HeadFC, PageProps } from "gatsby";
 import * as React from "react";
 
 const IndexPage: React.FC<PageProps> = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const headingColor = useColorModeValue(featureHeading.light, featureHeading.dark);
 
   // For smooth scrolling to sections
   const scrollToSection = (id: string) => {
@@ -26,108 +29,71 @@ const IndexPage: React.FC<PageProps> = () => {
 
   return (
     <Layout>
-      <Box>
+      <VStack spacing={0} width="100%">
         {/* Hero section takes full width */}
-        <Container maxW="8xl" px={{ base: 4, md: 6 }}>
-          <HeroSection />
-        </Container>
+        <Box width="100%" py={{ base: 8, md: 16 }}>
+          <Container maxW="8xl" px={{ base: 4, md: 6 }}>
+            <HeroSection />
+          </Container>
+        </Box>
+
+        {/* Features Section */}
+        <Box
+          id="features-section"
+          width="100%"
+          py={{ base: 12, md: 16 }}
+          bg={useColorModeValue("gray.50", "gray.900")}
+        >
+          <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+            <VStack spacing={{ base: 8, md: 12 }}>
+              <FeatureSection />
+            </VStack>
+          </Container>
+        </Box>
 
         {/* Theme Editor Section */}
-        <Box py={{ base: 6, md: 10 }} id="theme-editor-section">
+        <Box py={{ base: 12, md: 16 }} width="100%" id="theme-editor-section">
           <Container maxW="7xl" px={{ base: 4, md: 6 }}>
-            <VStack spacing={4} align="stretch">
+            <VStack spacing={{ base: 8, md: 12 }}>
               <Heading
-                fontSize={{ base: "2xl", md: "3xl" }}
+                as="h2"
+                fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+                color={headingColor}
                 textAlign="center"
-                color="secondary.500"
-                mb={{ base: 0, md: 2 }}
+                mb={{ base: 4, md: 8 }}
               >
-                Design Your Perfect Theme
+                Explore the Theme Editor
               </Heading>
               <ThemeEditor />
             </VStack>
           </Container>
         </Box>
 
-        {/* Features Section */}
-        <Box py={{ base: 6, md: 12 }} id="features-section">
-          <Container maxW="7xl" px={{ base: 4, md: 6 }}>
-            <VStack spacing={{ base: 4, md: 8 }} align="stretch">
-              <Heading
-                fontSize={{ base: "2xl", md: "3xl" }}
-                textAlign="center"
-                color="secondary.500"
-                mb={{ base: 2, md: 4 }}
-              >
-                Powerful Features
-              </Heading>
-              <FeatureSection />
-            </VStack>
-          </Container>
-        </Box>
-
         {/* Help Section */}
-        <Box py={{ base: 6, md: 12 }} id="help-section">
+        <Box
+          py={{ base: 12, md: 16 }}
+          width="100%"
+          id="help-section"
+          bg={useColorModeValue("gray.50", "gray.900")}
+        >
           <Container maxW="7xl" px={{ base: 4, md: 6 }}>
-            <VStack spacing={{ base: 4, md: 8 }} align="stretch">
+            <VStack spacing={{ base: 8, md: 12 }}>
               <Heading
-                fontSize={{ base: "2xl", md: "3xl" }}
+                as="h2"
+                fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+                color={headingColor}
                 textAlign="center"
-                color="secondary.500"
-                mb={{ base: 2, md: 4 }}
+                mb={{ base: 4, md: 8 }}
               >
-                Guide for Designers
+                Guides for Designers
               </Heading>
               <HelpSection />
             </VStack>
           </Container>
         </Box>
 
-        {/* Quick Navigation on Mobile */}
-        {isMobile && (
-          <Box
-            position="fixed"
-            bottom={0}
-            left={0}
-            right={0}
-            bg="rgba(255,255,255,0.9)"
-            backdropFilter="blur(8px)"
-            boxShadow="0 -4px 6px -1px rgba(0, 0, 0, 0.1)"
-            zIndex={10}
-            py={2}
-            _dark={{
-              bg: "rgba(26,32,44,0.9)",
-            }}
-          >
-            <Flex justify="space-around">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => scrollToSection("theme-editor-section")}
-                fontWeight="medium"
-              >
-                Editor
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => scrollToSection("features-section")}
-                fontWeight="medium"
-              >
-                Features
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => scrollToSection("help-section")}
-                fontWeight="medium"
-              >
-                Guide
-              </Button>
-            </Flex>
-          </Box>
-        )}
-      </Box>
+        {/* Mobile navigation bar removed */}
+      </VStack>
     </Layout>
   );
 };

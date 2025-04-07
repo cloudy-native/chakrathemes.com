@@ -1,29 +1,21 @@
-import React from "react";
 import { useThemeContext } from "@/context/ThemeContext";
-import { panelBackground, borderLight } from "@/theme/themeConfiguration";
+import { borderLight, panelBackground } from "@/theme/themeConfiguration";
+import { trackPaletteAction } from "@/utils/analytics";
 import { generateColorPalette, isPaletteNameAvailable } from "@/utils/colorUtils";
 import { showError, showSuccess } from "@/utils/notificationUtils";
 import { addPaletteToTheme } from "@/utils/themeUtils";
-import { trackPaletteAction } from "@/utils/analytics";
 import {
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  FormLabel,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import React from "react";
 import InspirationPalettes from "./InspirationPalettes";
-import PalettePreview from "./PalettePreview";
 
 interface InspirationPaletteModalProps {
   isOpen: boolean;
@@ -31,15 +23,7 @@ interface InspirationPaletteModalProps {
 }
 
 const InspirationPaletteModal: React.FC<InspirationPaletteModalProps> = ({ isOpen, onClose }) => {
-  const {
-    newColorName,
-    setNewColorName,
-    baseColor,
-    setBaseColor,
-    addNewColorPalette,
-    themeValues,
-    setThemeValues,
-  } = useThemeContext();
+  const { themeValues, setThemeValues } = useThemeContext();
 
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
   const border = useColorModeValue(borderLight.light, borderLight.dark);

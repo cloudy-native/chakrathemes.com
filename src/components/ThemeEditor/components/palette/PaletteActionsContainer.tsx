@@ -1,24 +1,15 @@
-import React from "react";
-import { useDisclosure, useToast, useColorModeValue } from "@chakra-ui/react";
-import { EventCategory, trackEvent } from "@/utils/analytics";
-import PaletteActionButtons from "./PaletteActionButtons";
-import ColorPickerModal from "../../components/ColorPickerModal";
-import ImageColorPickerModal from "../../components/ImageColorPickerModal";
-import InspirationPaletteModal from "../../components/InspirationPaletteModal";
-import AIThemeGeneratorModal from "../../components/AIThemeGeneratorModal";
-import CuratedThemesModal from "../../components/CuratedThemesModal";
-import { AITheme } from "@/types";
+import AIThemeGeneratorModal from "@/components/ThemeEditor/components/AIThemeGeneratorModal";
+import ColorPickerModal from "@/components/ThemeEditor/components/ColorPickerModal";
+import CuratedThemesModal from "@/components/ThemeEditor/components/CuratedThemesModal";
+import ImageColorPickerModal from "@/components/ThemeEditor/components/ImageColorPickerModal";
+import InspirationPaletteModal from "@/components/ThemeEditor/components/InspirationPaletteModal";
 import { useThemeContext } from "@/context/ThemeContext";
-import { useAnalytics } from "@/hooks/useAnalytics";
+import { AITheme } from "@/types";
+import { EventCategory, trackEvent } from "@/utils/analytics";
 import { generateColorPalette } from "@/utils/colorUtils";
-import {
-  accentColor,
-  primaryAccent,
-  textSecondary,
-  textHeading,
-  borderLight,
-  backgroundLight,
-} from "@/theme/themeConfiguration";
+import { useDisclosure, useToast } from "@chakra-ui/react";
+import React from "react";
+import PaletteActionButtons from "./PaletteActionButtons";
 
 /**
  * Interface for components that respond to tab selection
@@ -32,11 +23,9 @@ interface NavigationProps {
  * Self-contained component that includes all the palette action buttons
  * and their associated modals and logic
  */
-const PaletteActionsContainer: React.FC<NavigationProps> = ({ onNavigateToPreview }) => {
-  const { addNewColorPalette, setThemeValues, themeValues, setNewColorName, setBaseColor } =
-    useThemeContext();
+const PaletteActionsContainer: React.FC<NavigationProps> = ({}) => {
+  const { setThemeValues, themeValues, setNewColorName } = useThemeContext();
   const toast = useToast();
-  const { trackColorAction } = useAnalytics();
 
   // Function to apply the AI-generated theme
   const applyAITheme = (theme: AITheme) => {
@@ -68,14 +57,6 @@ const PaletteActionsContainer: React.FC<NavigationProps> = ({ onNavigateToPrevie
     // Update the theme with all new palettes at once
     setThemeValues(newTheme);
   };
-
-  // Define color mode values at the top level to follow React Rules of Hooks
-  const accentColorValue = useColorModeValue(accentColor.light, accentColor.dark);
-  const primaryAccentColor = useColorModeValue(primaryAccent.light, primaryAccent.dark);
-  const textSecondaryColor = useColorModeValue(textSecondary.light, textSecondary.dark);
-  const textHeadingColor = useColorModeValue(textHeading.light, textHeading.dark);
-  const borderLightColor = useColorModeValue(borderLight.light, borderLight.dark);
-  const backgroundLightColor = useColorModeValue(backgroundLight.light, backgroundLight.dark);
 
   // Color picker modal state
   const {
@@ -179,20 +160,6 @@ const PaletteActionsContainer: React.FC<NavigationProps> = ({ onNavigateToPrevie
   const handleAIGenerator = () => {
     onAIModalOpen();
     trackEvent(EventCategory.COLOR, "open_ai_generator");
-  };
-
-  const handlePreview = () => {
-    if (onNavigateToPreview) {
-      onNavigateToPreview();
-    } else {
-      toast({
-        title: "Preview",
-        description: "Preview functionality not available in this view",
-        status: "info",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
   };
 
   // Handler for AI theme selection

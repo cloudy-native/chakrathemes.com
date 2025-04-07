@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from "react";
 import { useThemeContext } from "@/context/ThemeContext";
-import { panelBackground, borderLight, textPrimary } from "@/theme/themeConfiguration";
-import { themeGroups, ThemePalette } from "@/utils/curatedThemes";
+import { borderLight, panelBackground } from "@/theme/themeConfiguration";
 import { generateColorPalette } from "@/utils/colorUtils";
+import { themeGroups, ThemePalette } from "@/utils/curatedThemes";
 import {
   Box,
   Button,
@@ -22,6 +21,7 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import React, { useMemo, useState } from "react";
 
 interface CuratedThemesModalProps {
   isOpen: boolean;
@@ -42,7 +42,6 @@ const CuratedThemesModal: React.FC<CuratedThemesModalProps> = ({ isOpen, onClose
 
   const bg = useColorModeValue(panelBackground.light, panelBackground.dark);
   const border = useColorModeValue(borderLight.light, borderLight.dark);
-  const textColor = useColorModeValue(textPrimary.light, textPrimary.dark);
 
   // Get palettes from the selected group
   const themesInGroup = useMemo(() => {

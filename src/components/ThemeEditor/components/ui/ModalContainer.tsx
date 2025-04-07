@@ -46,27 +46,46 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   // Default footer if none provided
   const defaultFooter = (
     <>
-      <Button variant="ghost" mr={3} onClick={onClose}>
+      <Button variant="ghost" mr={3} onClick={handleClose}>
         Close
       </Button>
     </>
   );
 
+  // Custom close handler to prevent scroll jumps
+  const handleClose = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    // Store current scroll position
+    const scrollY = window.scrollY;
+    
+    // Close modal
+    onClose(e);
+    
+    // Restore scroll position after a short delay
+    setTimeout(() => {
+      window.scrollTo(0, scrollY);
+    }, 10);
+  };
+
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       size={size}
       isCentered={isCentered}
       scrollBehavior={scrollBehavior}
       initialFocusRef={initialFocusRef}
       finalFocusRef={finalFocusRef}
       closeOnOverlayClick={closeOnOverlayClick}
+      returnFocusOnClose={false}
     >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{title}</ModalHeader>
-        {closeButton && <ModalCloseButton />}
+        {closeButton && <ModalCloseButton onClick={handleClose} />}
         <ModalBody>{children}</ModalBody>
         <ModalFooter>{footer || defaultFooter}</ModalFooter>
       </ModalContent>
