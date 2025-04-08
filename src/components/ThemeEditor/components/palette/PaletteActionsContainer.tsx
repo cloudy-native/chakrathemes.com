@@ -15,7 +15,6 @@ import PaletteActionButtons from "./PaletteActionButtons";
  * Interface for components that respond to tab selection
  */
 interface NavigationProps {
-  onNavigateToPreview?: () => void;
   onApplyAITheme?: (theme: AITheme) => void;
 }
 
@@ -23,7 +22,7 @@ interface NavigationProps {
  * Self-contained component that includes all the palette action buttons
  * and their associated modals and logic
  */
-const PaletteActionsContainer: React.FC<NavigationProps> = ({}) => {
+const PaletteActionsContainer: React.FC<NavigationProps> = ({ onApplyAITheme }) => {
   const { setThemeValues, themeValues, setNewColorName } = useThemeContext();
   const toast = useToast();
 
@@ -166,6 +165,11 @@ const PaletteActionsContainer: React.FC<NavigationProps> = ({}) => {
   const handleSelectTheme = (theme: AITheme) => {
     // Apply the AI theme directly
     applyAITheme(theme);
+
+    // If onApplyAITheme is provided, call it with the theme
+    if (onApplyAITheme) {
+      onApplyAITheme(theme);
+    }
 
     toast({
       title: "Theme Applied",

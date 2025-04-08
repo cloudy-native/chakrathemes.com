@@ -253,7 +253,14 @@ const HeroSection: React.FC = () => {
         />
 
         {/* Indicator dots - hidden on mobile */}
-        <Flex position="absolute" bottom="4" justify="center" width="100%" zIndex={2} display={{ base: "none", md: "flex" }}>
+        <Flex
+          position="absolute"
+          bottom="4"
+          justify="center"
+          width="100%"
+          zIndex={2}
+          display={{ base: "none", md: "flex" }}
+        >
           {carouselImages.map((_, index) => (
             <Box
               key={index}

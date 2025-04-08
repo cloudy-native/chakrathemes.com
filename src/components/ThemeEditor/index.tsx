@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Divider,
   Flex,
@@ -7,6 +12,7 @@ import {
   TabPanels,
   Tabs,
   useBreakpointValue,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { PaletteActionsContainer } from "./components/palette";
@@ -23,7 +29,7 @@ import { ThemeDownloader } from "./components/preview";
 // Import context provider and utils
 import { ThemeProvider, useThemeContext } from "@/context/ThemeContext";
 import { urlParamsToTheme } from "@/utils/urlThemeUtils";
-import { Eye, Palette, Type } from "lucide-react";
+import { Palette, Type } from "lucide-react";
 
 const Desktop = () => {
   const { themeValues } = useThemeContext();
@@ -33,7 +39,7 @@ const Desktop = () => {
     <Box id="theme-editor-section">
       {/* All actions in one row now managed by PaletteActionButtons */}
       <Box mb={4}>
-        <PaletteActionsContainer onNavigateToPreview={() => setActiveTabIndex(2)} />
+        <PaletteActionsContainer />
       </Box>
       <Divider mb={4} />
 
@@ -58,16 +64,6 @@ const Desktop = () => {
               isActive={activeTabIndex === 1}
               isCompleted={activeTabIndex > 1}
               icon={Type}
-              showArrow={true}
-            />
-
-            <StepTab
-              step={3}
-              title="Preview your theme"
-              description="See it in action!"
-              isActive={activeTabIndex === 2}
-              icon={Eye}
-              isCompleted={activeTabIndex > 2}
             />
           </TabList>
         </Box>
@@ -75,17 +71,22 @@ const Desktop = () => {
         <TabPanels>
           <TabPanel>
             <PaletteManagementTab />
+            <Box mt={8}>
+              <ComponentsPreviewTab />
+              <Flex justifyContent="flex-end" mt={6}>
+                <ThemeDownloader themeValues={themeValues} size="lg" />
+              </Flex>
+            </Box>
           </TabPanel>
 
           <TabPanel>
             <TypographyTab />
-          </TabPanel>
-
-          <TabPanel>
-            <ComponentsPreviewTab />
-            <Flex justifyContent="flex-end" mt={6}>
-              <ThemeDownloader themeValues={themeValues} size="lg" />
-            </Flex>
+            <Box mt={8}>
+              <ComponentsPreviewTab />
+              <Flex justifyContent="flex-end" mt={6}>
+                <ThemeDownloader themeValues={themeValues} size="lg" />
+              </Flex>
+            </Box>
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -94,6 +95,21 @@ const Desktop = () => {
 };
 
 const Mobile = () => {
+  const { themeValues } = useThemeContext();
+  const [expandedIndex, setExpandedIndex] = useState<number[]>([0]);
+  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const panelBg = useColorModeValue("white", "gray.800");
+  const expandedBg = useColorModeValue("primary.50", "gray.700");
+  const hoverBg = useColorModeValue("gray.50", "gray.700");
+  const iconColor = useColorModeValue("gray.500", "gray.400");
+
+  const handleAccordionChange = (expandedIndices: number[]) => {
+    setExpandedIndex(expandedIndices);
+  };
+
+  // Function to check if a section is expanded
+  const isSectionExpanded = (index: number) => expandedIndex.includes(index);
+
   return (
     <Box>
       {/* Actions for mobile view - now managed by PaletteActionButtons */}
@@ -102,7 +118,98 @@ const Mobile = () => {
       </Box>
       <Divider mb={4} />
 
-      <PaletteManagementTab />
+      <Accordion
+        allowMultiple
+        index={expandedIndex}
+        onChange={handleAccordionChange}
+        borderRadius="lg"
+        boxShadow="sm"
+        variant="enclosed"
+      >
+        <AccordionItem
+          border="1px solid"
+          borderColor={borderColor}
+          mb={3}
+          borderRadius="lg"
+          boxShadow={isSectionExpanded(0) ? "md" : "none"}
+          transition="all 0.2s ease"
+        >
+          <AccordionButton
+            p={0}
+            borderRadius="lg"
+            _expanded={{ bg: expandedBg, boxShadow: "sm" }}
+            _hover={{ bg: hoverBg }}
+            width="100%"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <StepTab
+              step={1}
+              title="Palettes"
+              description="Choose colors"
+              isActive={isSectionExpanded(0)}
+              isCompleted={false}
+              icon={Palette}
+              showArrow={false}
+              isVertical={true}
+              isAccordion={true}
+            />
+            <AccordionIcon mr={4} boxSize={6} color={iconColor} />
+          </AccordionButton>
+          <AccordionPanel px={0} pb={4} bg={panelBg} borderBottomRadius="lg">
+            <PaletteManagementTab />
+            <Box mt={8}>
+              <ComponentsPreviewTab />
+              <Flex justifyContent="flex-end" mt={6}>
+                <ThemeDownloader themeValues={themeValues} size="md" />
+              </Flex>
+            </Box>
+          </AccordionPanel>
+        </AccordionItem>
+
+        <AccordionItem
+          border="1px solid"
+          borderColor={borderColor}
+          mb={3}
+          borderRadius="lg"
+          boxShadow={isSectionExpanded(1) ? "md" : "none"}
+          transition="all 0.2s ease"
+        >
+          <AccordionButton
+            p={0}
+            borderRadius="lg"
+            _expanded={{ bg: expandedBg, boxShadow: "sm" }}
+            _hover={{ bg: hoverBg }}
+            width="100%"
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <StepTab
+              step={2}
+              title="Typography"
+              description="Select fonts"
+              isActive={isSectionExpanded(1)}
+              isCompleted={false}
+              icon={Type}
+              showArrow={false}
+              isVertical={true}
+              isAccordion={true}
+            />
+            <AccordionIcon mr={4} boxSize={6} color={iconColor} />
+          </AccordionButton>
+          <AccordionPanel px={0} pb={4} bg={panelBg} borderBottomRadius="lg">
+            <TypographyTab />
+            <Box mt={8}>
+              <ComponentsPreviewTab />
+              <Flex justifyContent="flex-end" mt={6}>
+                <ThemeDownloader themeValues={themeValues} size="md" />
+              </Flex>
+            </Box>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
     </Box>
   );
 };

@@ -1,6 +1,14 @@
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ThemeValues } from "@/types";
-import { Box, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import {
+  Box,
+  SimpleGrid,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
 import React from "react";
 import AlertElements from "./AlertElements";
 import AvatarElements from "./AvatarElements";
@@ -41,13 +49,13 @@ export const ColorTabContent: React.FC<ColorTabContentProps> = ({
         trackTab(`component-${componentTypes[index]}`);
       }}
     >
-      <TabList>
+      <TabList flexWrap="wrap" fontSize={{ base: "xs", md: "md" }}>
         {/* <Tab>Color Palette</Tab> */}
-        <Tab>Visual Elements</Tab>
-        <Tab>User Controls</Tab>
-        <Tab>Feedback & Display</Tab>
+        <Tab py={{ base: 2, md: 3 }}>Visual Elements</Tab>
+        <Tab py={{ base: 2, md: 3 }}>User Controls</Tab>
+        <Tab py={{ base: 2, md: 3 }}>Feedback & Display</Tab>
       </TabList>
-      <TabPanels>
+      <TabPanels overflow="visible">
         {/* <TabPanel>
           <ColorPalette
             colorKey={colorKey}
@@ -55,7 +63,7 @@ export const ColorTabContent: React.FC<ColorTabContentProps> = ({
             onCopy={handleCopyToClipboard}
           />
         </TabPanel> */}
-        <TabPanel>
+        <TabPanel px={{ base: 1, md: 4 }} py={{ base: 3, md: 4 }}>
           <Box>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={6}>
               <ButtonStyles colorKey={colorKey} />
@@ -64,7 +72,7 @@ export const ColorTabContent: React.FC<ColorTabContentProps> = ({
             </SimpleGrid>
           </Box>
         </TabPanel>
-        <TabPanel>
+        <TabPanel px={{ base: 1, md: 4 }} py={{ base: 3, md: 4 }}>
           <Box>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={6}>
               <BasicElements colorKey={colorKey} />
@@ -73,7 +81,7 @@ export const ColorTabContent: React.FC<ColorTabContentProps> = ({
             </SimpleGrid>
           </Box>
         </TabPanel>
-        <TabPanel>
+        <TabPanel px={{ base: 1, md: 4 }} py={{ base: 3, md: 4 }}>
           <Box>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
               <AlertElements colorKey={colorKey} />

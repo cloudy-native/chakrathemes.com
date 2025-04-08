@@ -10,15 +10,17 @@ import {
 import {
   Box,
   ChakraProvider,
+  Divider,
+  Grid,
+  GridItem,
+  Heading,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  extendTheme,
   Text,
-  Grid,
-  GridItem,
+  extendTheme,
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -47,6 +49,10 @@ export const ComponentsPreviewTab: React.FC = () => {
 
   return (
     <Box>
+      <Divider mb={6} />
+      <Heading as="h3" size="md" mb={4}>
+        Live Theme Preview
+      </Heading>
       <Grid templateColumns="repeat(1, 1fr)" gap={4}>
         <GridItem>
           <Text mb={6} fontSize="sm" color={useColorModeValue(textPrimary.light, textPrimary.dark)}>
@@ -62,13 +68,14 @@ export const ComponentsPreviewTab: React.FC = () => {
       <ChakraProvider theme={previewTheme}>
         {/* Full-width Color Palette Cards Section */}
         <Box
-          p={5}
+          p={{ base: 3, md: 5 }}
           borderWidth="1px"
           borderColor={borderLightColor}
           borderRadius="lg"
           boxShadow="md"
           width="100%"
           bg={backgroundLightColor}
+          overflowX="hidden"
         >
           {colorKeys.length === 0 && (
             <Box
@@ -98,7 +105,7 @@ export const ComponentsPreviewTab: React.FC = () => {
             }}
           >
             {/* Color tabs */}
-            <TabList flexWrap="wrap">
+            <TabList flexWrap="wrap" maxW="100%" overflowX="auto">
               {colorKeys.map(colorKey => (
                 // Determine text color based on background color luminance
                 <Tab
@@ -119,9 +126,14 @@ export const ComponentsPreviewTab: React.FC = () => {
                     bg: themeValues.colors[colorKey][500] || `#666666`,
                     fontWeight: "extrabold",
                     transform: "translateY(-4px)",
+                    boxShadow: "md",
                   }}
                   mb={2}
                   mr={2}
+                  fontSize={{ base: "sm", md: "md" }}
+                  py={{ base: 1, md: 2 }}
+                  px={{ base: 2, md: 3 }}
+                  borderRadius="md"
                 >
                   {colorKey}
                 </Tab>

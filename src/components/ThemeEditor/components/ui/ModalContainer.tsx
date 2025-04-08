@@ -60,10 +60,10 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     }
     // Store current scroll position
     const scrollY = window.scrollY;
-    
+
     // Close modal
     onClose(e);
-    
+
     // Restore scroll position after a short delay
     setTimeout(() => {
       window.scrollTo(0, scrollY);

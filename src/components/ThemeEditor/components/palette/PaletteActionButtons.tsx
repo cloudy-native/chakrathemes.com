@@ -44,15 +44,22 @@ const PaletteActionButtons: React.FC<PaletteActionButtonsProps> = ({
       width="100%"
     >
       <Box border="1px" borderColor="gray.200" borderRadius="md" p={3} width="100%">
-        <Flex gap={2} flexWrap={{ base: "wrap", md: "nowrap" }} flex="1">
+        <Flex
+          gap={{ base: 3, md: 2 }}
+          flexWrap={{ base: "wrap", md: "nowrap" }}
+          flex="1"
+          justifyContent={{ base: "center", md: "flex-start" }}
+        >
           <Button
             size={{ base: "sm", md: "md" }}
             colorScheme="primary"
             leftIcon={<Icon as={Plus} boxSize={{ base: 4, md: 5 }} />}
             onClick={onOpenColorPicker}
             width="auto"
-            flex={{ base: 1, md: "initial" }}
-            minW={{ base: "initial", md: "120px" }}
+            flex={{ base: "auto", md: "initial" }}
+            minW={{ base: "105px", md: "120px" }}
+            fontSize={{ base: "xs", md: "md" }}
+            px={{ base: 2, md: 3 }}
           >
             From Color
           </Button>
@@ -63,8 +70,10 @@ const PaletteActionButtons: React.FC<PaletteActionButtonsProps> = ({
             leftIcon={<Icon as={Image} boxSize={{ base: 4, md: 5 }} />}
             onClick={onOpenImagePicker}
             width="auto"
-            flex={{ base: 1, md: "initial" }}
-            minW={{ base: "initial", md: "120px" }}
+            flex={{ base: "auto", md: "initial" }}
+            minW={{ base: "105px", md: "120px" }}
+            fontSize={{ base: "xs", md: "md" }}
+            px={{ base: 2, md: 3 }}
           >
             From Image
           </Button>
@@ -75,8 +84,10 @@ const PaletteActionButtons: React.FC<PaletteActionButtonsProps> = ({
             leftIcon={<Icon as={Palette} boxSize={{ base: 4, md: 5 }} />}
             onClick={onOpenInspirationPicker}
             width="auto"
-            flex={{ base: 1, md: "initial" }}
-            minW={{ base: "initial", md: "120px" }}
+            flex={{ base: "auto", md: "initial" }}
+            minW={{ base: "105px", md: "120px" }}
+            fontSize={{ base: "xs", md: "md" }}
+            px={{ base: 2, md: 3 }}
           >
             Inspiration
           </Button>
@@ -87,8 +98,10 @@ const PaletteActionButtons: React.FC<PaletteActionButtonsProps> = ({
             leftIcon={<Icon as={PanelBottomOpen} boxSize={{ base: 4, md: 5 }} />}
             onClick={onOpenCuratedThemes}
             width="auto"
-            flex={{ base: 1, md: "initial" }}
-            minW={{ base: "initial", md: "140px" }}
+            flex={{ base: "auto", md: "initial" }}
+            minW={{ base: "130px", md: "140px" }}
+            fontSize={{ base: "xs", md: "md" }}
+            px={{ base: 2, md: 3 }}
           >
             Curated Themes
           </Button>
@@ -97,7 +110,7 @@ const PaletteActionButtons: React.FC<PaletteActionButtonsProps> = ({
             position="relative"
             display="inline-block"
             width="auto"
-            flex={{ base: 1, md: "initial" }}
+            flex={{ base: "auto", md: "initial" }}
           >
             <Button
               size={{ base: "sm", md: "md" }}
@@ -105,7 +118,9 @@ const PaletteActionButtons: React.FC<PaletteActionButtonsProps> = ({
               leftIcon={<Icon as={BotMessageSquare} boxSize={{ base: 4, md: 5 }} />}
               onClick={onOpenAIGenerator}
               width="full"
-              minW={{ base: "initial", md: "160px" }}
+              minW={{ base: "120px", md: "160px" }}
+              fontSize={{ base: "xs", md: "md" }}
+              px={{ base: 2, md: 3 }}
               fontWeight="bold"
             >
               AI Generator

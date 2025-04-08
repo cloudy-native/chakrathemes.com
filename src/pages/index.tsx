@@ -4,11 +4,8 @@ import { FeatureSection, HelpSection, HeroSection } from "@/components/home";
 import { featureHeading } from "@/theme/themeConfiguration";
 import {
   Box,
-  Button,
   Container,
-  Flex,
   Heading,
-  useBreakpointValue,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
@@ -16,7 +13,6 @@ import { HeadFC, PageProps } from "gatsby";
 import * as React from "react";
 
 const IndexPage: React.FC<PageProps> = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
   const headingColor = useColorModeValue(featureHeading.light, featureHeading.dark);
 
   // For smooth scrolling to sections
@@ -30,9 +26,9 @@ const IndexPage: React.FC<PageProps> = () => {
   return (
     <Layout>
       <VStack spacing={0} width="100%">
-        {/* Hero section takes full width */}
+        {/* Hero section with same width as features */}
         <Box width="100%" py={{ base: 8, md: 16 }}>
-          <Container maxW="8xl" px={{ base: 4, md: 6 }}>
+          <Container maxW="7xl" px={{ base: 4, md: 6 }}>
             <HeroSection />
           </Container>
         </Box>
