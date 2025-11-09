@@ -193,6 +193,15 @@ const HeroSection: React.FC = () => {
 
             const image = getImage(imageNode.node);
 
+            // Safety check to ensure image is not undefined
+            if (!image) {
+              return (
+                <Box p={4} bg="gray.100" borderRadius="md" width="100%" textAlign="center">
+                  <Text>Failed to process image: {carouselImages[currentImageIndex]}</Text>
+                </Box>
+              );
+            }
+
             return (
               <Box width="100%" height="100%" textAlign="center">
                 <GatsbyImage

@@ -35,6 +35,7 @@ import React, { useEffect, useState } from "react";
 import FontPreview from "@/components/ThemeEditor/components/FontPreview";
 import GoogleFontsLoader from "@/components/ThemeEditor/components/GoogleFontsLoader";
 import { fontCategories } from "@/utils/curatedFonts"; // Import the new data structure
+import FontCombinationsAccordion from "@/components/ThemeEditor/components/FontCombinationsAccordion";
 
 export const TypographyTab: React.FC = () => {
   const { themeValues, updateFont, setFontCombination } = useThemeContext();
@@ -119,16 +120,11 @@ export const TypographyTab: React.FC = () => {
 
   return (
     <Box>
-      {/* Header section with intro text */}
-      <Grid templateColumns="repeat(5, 1fr)" gap={4} mb={6}>
-        <GridItem rowSpan={2} colSpan={4}>
-          <Text fontSize="sm">
+      <Box mb={{ base: 6, md: 8 }}>
+        <Flex direction="column" justify="space-between" align="center" gap={4}>
+          <Text fontSize={{ base: "xs", md: "sm" }} width="90%" lineHeight="1.5">
             Typography defines the reading experience in your theme. Choose font pairs for headings
-            and body text that complement each other and reflect your design style.
-          </Text>
-        </GridItem>
-        <GridItem>
-          <Flex justify="right" mb={2}>
+            and body text that complement each other and reflect your design style.{" "}
             <Link
               href="https://fonts.google.com"
               isExternal
@@ -137,9 +133,9 @@ export const TypographyTab: React.FC = () => {
             >
               Browse Google Fonts <Icon as={ExternalLink} boxSize={3} ml="1" />
             </Link>
-          </Flex>
-        </GridItem>
-      </Grid>
+          </Text>
+        </Flex>
+      </Box>
 
       {/* Load Google Fonts */}
       <GoogleFontsLoader headingFont={headingFont} bodyFont={bodyFont} monoFont={monoFont} />
@@ -179,44 +175,20 @@ export const TypographyTab: React.FC = () => {
           </Box>
 
           {customizationMode === "curated" ? (
-            /* Curated Font Combinations */
-            <VStack spacing={4} align="stretch">
-              {fontCategories.map(category => (
-                <Card key={category.name} variant="outline" mb={4}>
-                  <CardHeader pb={0}>
-                    <Heading size="sm">{category.name}</Heading>
-                  </CardHeader>
-                  <CardBody>
-                    <Text fontSize="sm" mb={4} color={subtleColor}>
-                      {category.description}
-                    </Text>
-                    <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={3}>
-                      {category.combinations.map(combo => {
-                        const isSelected = selectedCombination === combo.name;
-                        return (
-                          <Button
-                            key={combo.name}
-                            onClick={() => handleCombinationSelect(combo, category.name)}
-                            variant={isSelected ? "solid" : "outline"}
-                            bg={isSelected ? primaryAccentColor : "transparent"}
-                            color={isSelected ? "white" : textSecondaryColor}
-                            borderColor={borderLightColor}
-                            justifyContent="space-between"
-                            width="100%"
-                            p={3}
-                            rightIcon={isSelected ? <ChevronRight size={16} /> : undefined}
-                            fontWeight={isSelected ? "bold" : "normal"}
-                            size="sm"
-                          >
-                            {combo.name}
-                          </Button>
-                        );
-                      })}
-                    </SimpleGrid>
-                  </CardBody>
-                </Card>
-              ))}
-            </VStack>
+            /* Curated Font Combinations with Accordion */
+            <Card variant="outline">
+              <CardBody>
+                <FontCombinationsAccordion
+                  onSelect={combo => {
+                    const category = fontCategories.find(cat =>
+                      cat.combinations.some(c => c.name === combo.name)
+                    );
+                    handleCombinationSelect(combo, category?.name || "");
+                  }}
+                  selectedCombination={selectedCombination}
+                />
+              </CardBody>
+            </Card>
           ) : (
             /* Custom Font Selection */
             <Card variant="outline">

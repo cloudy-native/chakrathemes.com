@@ -38,14 +38,8 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon }) =
       borderRadius="xl"
       borderWidth="1px"
       borderColor={borderColor}
-      boxShadow="xl"
       height="100%"
       bg={bgColor}
-      transition="all 0.3s ease-in-out"
-      _hover={{
-        transform: "translateY(-8px)",
-        boxShadow: "2xl",
-      }}
       display="flex"
       flexDirection="column"
     >

@@ -43,15 +43,6 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   closeButton = true,
   closeOnOverlayClick = true,
 }) => {
-  // Default footer if none provided
-  const defaultFooter = (
-    <>
-      <Button variant="ghost" mr={3} onClick={handleClose}>
-        Close
-      </Button>
-    </>
-  );
-
   // Custom close handler to prevent scroll jumps
   const handleClose = (e?: React.MouseEvent) => {
     if (e) {
@@ -69,6 +60,15 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
       window.scrollTo(0, scrollY);
     }, 10);
   };
+
+  // Default footer if none provided
+  const defaultFooter = (
+    <>
+      <Button variant="ghost" mr={3} onClick={handleClose}>
+        Close
+      </Button>
+    </>
+  );
 
   return (
     <Modal

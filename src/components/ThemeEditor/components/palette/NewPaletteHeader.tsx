@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, useColorModeValue, Heading } from "@chakra-ui/react";
 import PaletteActionsContainer from "./PaletteActionsContainer";
 
 interface PaletteHeaderProps {
@@ -12,18 +12,41 @@ interface PaletteHeaderProps {
  * This version uses the self-contained PaletteActionsContainer.
  */
 const NewPaletteHeader: React.FC<PaletteHeaderProps> = ({ onNavigateToPreview }) => {
+  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const bgColor = useColorModeValue("gray.50", "gray.800");
+  
   return (
     <Box mb={{ base: 6, md: 8 }}>
-      <Flex direction="column" justify="space-between" align="flex-start" gap={4}>
-        <Text fontSize={{ base: "xs", md: "sm" }} width="full" lineHeight="1.5">
-          Use the "From Color", "From Image", "Inspiration", "Curated Themes", and "AI Generator"
-          above to add new palettes. Color palettes define your theme&apos;s identity. Use the names{" "}
-          <Text as={"strong"}>primary</Text>, <Text as={"strong"}>secondary</Text>,{" "}
-          <Text as={"strong"}>accent</Text>, and <Text as={"strong"}>background</Text> to see them
-          in the Preview Theme tab.
-        </Text>
+      <Flex direction="column" justify="space-between" align="flex-start" gap={5}>
+        <Box width="full">
+          <Text 
+            fontSize={{ base: "sm", md: "md" }} 
+            fontStyle="italic"
+            color="gray.600" 
+            _dark={{ color: "gray.400" }}
+            mb={3}
+            textAlign={{ base: "center", md: "left" }}
+          >
+            Color palettes define your theme's identity
+          </Text>
+          
+          <Box 
+            p={4} 
+            borderRadius="md" 
+            bg={bgColor}
+            borderWidth="1px"
+            borderColor={borderColor}
+            fontSize={{ base: "xs", md: "sm" }}
+            lineHeight="1.6"
+          >
+            Use the name <Text as="span" fontWeight="bold">primary</Text>,{" "}
+            <Text as="span" fontWeight="bold">secondary</Text>,{" "}
+            <Text as="span" fontWeight="bold">accent</Text>, and{" "}
+            <Text as="span" fontWeight="bold">background</Text> to see them in the Preview tab.
+          </Box>
+        </Box>
 
-        <PaletteActionsContainer onNavigateToPreview={onNavigateToPreview} />
+        <PaletteActionsContainer />
       </Flex>
     </Box>
   );

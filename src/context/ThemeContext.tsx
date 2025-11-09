@@ -2,14 +2,27 @@ import { defaultTheme } from "@/hooks/useThemeValues";
 import { usePaletteOperations } from "@/hooks/usePaletteOperations";
 import { ColorSwatch, FontCombination, ThemePath, ThemeValues, ThemeValueType } from "@/types";
 import { EventCategory, trackEvent } from "@/utils/analytics";
-import { useToast } from "@chakra-ui/react";
-import React, { createContext, useContext, useReducer, useState, useCallback } from "react";
+import { useToast, ChakraProvider, extendTheme } from "@chakra-ui/react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import { themeReducer } from "./ThemeReducer";
 
 interface ThemeContextType {
   // Theme state
   themeValues: ThemeValues;
   setThemeValues: (theme: ThemeValues) => void;
+
+  // Theme preview
+  previewTheme: Record<string, any>;
+  isPreviewMode: boolean;
+  setIsPreviewMode: (value: boolean) => void;
 
   // Core theme management
   updateThemeValue: (path: ThemePath, value: ThemeValueType) => void;
@@ -32,8 +45,6 @@ interface ThemeContextType {
   // UI state for theme preview
   themeString: string;
   setThemeString: (value: string) => void;
-  showThemePreview: boolean;
-  setShowThemePreview: (value: boolean) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -44,13 +55,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // UI state
   const [themeString, setThemeString] = useState("");
-  const [showThemePreview, setShowThemePreview] = useState(false);
+  const [isPreviewMode, setIsPreviewMode] = useState(false);
 
   // Color management state
   const [newColorName, setNewColorName] = useState("");
   const [baseColor, setBaseColor] = useState("#3182CE"); // Default blue color
 
   const toast = useToast();
+
+  // Memoize the theme to prevent unnecessary re-renders
+  const previewTheme = useMemo(() => extendTheme(themeValues), [themeValues]);
 
   // Wrapper function to set the entire theme
   const setThemeValues = (theme: ThemeValues) => {
@@ -159,6 +173,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const contextValue: ThemeContextType = {
     themeValues,
     setThemeValues,
+    previewTheme,
+    isPreviewMode,
+    setIsPreviewMode,
     updateThemeValue,
     newColorName,
     setNewColorName,
@@ -173,11 +190,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setFontCombination,
     themeString,
     setThemeString,
-    showThemePreview,
-    setShowThemePreview,
   };
 
-  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
+  // Apply the preview theme if in preview mode, otherwise just pass the children through
+  const content = isPreviewMode ? (
+    <ChakraProvider theme={previewTheme}>{children}</ChakraProvider>
+  ) : (
+    children
+  );
+
+  return <ThemeContext.Provider value={contextValue}>{content}</ThemeContext.Provider>;
 };
 
 export const useThemeContext = () => {

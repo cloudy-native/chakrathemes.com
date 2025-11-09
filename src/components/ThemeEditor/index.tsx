@@ -19,7 +19,6 @@ import { PaletteActionsContainer } from "./components/palette";
 import { StepTab } from "./components/ui";
 
 // Import tabs
-import ComponentsPreviewTab from "./tabs/ComponentsPreviewTab";
 import PaletteManagementTab from "./tabs/PaletteManagementTab";
 import TypographyTab from "./tabs/TypographyTab";
 
@@ -50,7 +49,7 @@ const Desktop = () => {
             <StepTab
               step={1}
               title="Palettes"
-              description="Choose colors"
+              description="Manage colors"
               isActive={activeTabIndex === 0}
               isCompleted={activeTabIndex > 0}
               icon={Palette}
@@ -71,22 +70,10 @@ const Desktop = () => {
         <TabPanels>
           <TabPanel>
             <PaletteManagementTab />
-            <Box mt={8}>
-              <ComponentsPreviewTab />
-              <Flex justifyContent="flex-end" mt={6}>
-                <ThemeDownloader themeValues={themeValues} size="lg" />
-              </Flex>
-            </Box>
           </TabPanel>
 
           <TabPanel>
             <TypographyTab />
-            <Box mt={8}>
-              <ComponentsPreviewTab />
-              <Flex justifyContent="flex-end" mt={6}>
-                <ThemeDownloader themeValues={themeValues} size="lg" />
-              </Flex>
-            </Box>
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -147,7 +134,7 @@ const Mobile = () => {
             <StepTab
               step={1}
               title="Palettes"
-              description="Choose colors"
+              description="Manage colors"
               isActive={isSectionExpanded(0)}
               isCompleted={false}
               icon={Palette}
@@ -159,12 +146,6 @@ const Mobile = () => {
           </AccordionButton>
           <AccordionPanel px={0} pb={4} bg={panelBg} borderBottomRadius="lg">
             <PaletteManagementTab />
-            <Box mt={8}>
-              <ComponentsPreviewTab />
-              <Flex justifyContent="flex-end" mt={6}>
-                <ThemeDownloader themeValues={themeValues} size="md" />
-              </Flex>
-            </Box>
           </AccordionPanel>
         </AccordionItem>
 
@@ -201,12 +182,6 @@ const Mobile = () => {
           </AccordionButton>
           <AccordionPanel px={0} pb={4} bg={panelBg} borderBottomRadius="lg">
             <TypographyTab />
-            <Box mt={8}>
-              <ComponentsPreviewTab />
-              <Flex justifyContent="flex-end" mt={6}>
-                <ThemeDownloader themeValues={themeValues} size="md" />
-              </Flex>
-            </Box>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>

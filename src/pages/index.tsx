@@ -2,13 +2,7 @@ import { ThemeEditor } from "@/components";
 import Layout from "@/components/Layout";
 import { FeatureSection, HelpSection, HeroSection } from "@/components/home";
 import { featureHeading } from "@/theme/themeConfiguration";
-import {
-  Box,
-  Container,
-  Heading,
-  useColorModeValue,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Container, Heading, useColorModeValue, VStack } from "@chakra-ui/react";
 import { HeadFC, PageProps } from "gatsby";
 import * as React from "react";
 
@@ -28,7 +22,7 @@ const IndexPage: React.FC<PageProps> = () => {
       <VStack spacing={0} width="100%">
         {/* Hero section with same width as features */}
         <Box width="100%" py={{ base: 8, md: 16 }}>
-          <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+          <Container maxW="6xl" px={{ base: 4, md: 6 }}>
             <HeroSection />
           </Container>
         </Box>
@@ -40,7 +34,7 @@ const IndexPage: React.FC<PageProps> = () => {
           py={{ base: 12, md: 16 }}
           bg={useColorModeValue("gray.50", "gray.900")}
         >
-          <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+          <Container maxW="6xl" px={{ base: 4, md: 6 }}>
             <VStack spacing={{ base: 8, md: 12 }}>
               <FeatureSection />
             </VStack>
@@ -49,17 +43,8 @@ const IndexPage: React.FC<PageProps> = () => {
 
         {/* Theme Editor Section */}
         <Box py={{ base: 12, md: 16 }} width="100%" id="theme-editor-section">
-          <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+          <Container maxW="6xl" px={{ base: 4, md: 6 }}>
             <VStack spacing={{ base: 8, md: 12 }}>
-              <Heading
-                as="h2"
-                fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
-                color={headingColor}
-                textAlign="center"
-                mb={{ base: 4, md: 8 }}
-              >
-                Explore the Theme Editor
-              </Heading>
               <ThemeEditor />
             </VStack>
           </Container>
@@ -72,17 +57,8 @@ const IndexPage: React.FC<PageProps> = () => {
           id="help-section"
           bg={useColorModeValue("gray.50", "gray.900")}
         >
-          <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+          <Container maxW="6xl" px={{ base: 4, md: 6 }}>
             <VStack spacing={{ base: 8, md: 12 }}>
-              <Heading
-                as="h2"
-                fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
-                color={headingColor}
-                textAlign="center"
-                mb={{ base: 4, md: 8 }}
-              >
-                Guides for Designers
-              </Heading>
               <HelpSection />
             </VStack>
           </Container>

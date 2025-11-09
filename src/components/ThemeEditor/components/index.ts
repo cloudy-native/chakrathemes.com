@@ -16,5 +16,6 @@ export { default as ColorContrastExplorer, PaletteColorContrast } from "./ColorC
 // Typography components
 export { default as FontSelector } from "./FontSelector";
 export { default as FontCombinationSelector } from "./FontCombinationSelector";
+export { default as FontCombinationsAccordion } from "./FontCombinationsAccordion";
 export { default as FontPreview } from "./FontPreview";
 export { default as GoogleFontsLoader } from "./GoogleFontsLoader";
